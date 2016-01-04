@@ -6,7 +6,7 @@ import javafx.util.Pair;
 
 public class Highscore {
 
-	private static final String SCORE_FILE_NAME = "highscore.txt";
+	private static final String SCORE_FILE_NAME = "highscore";
 	private static final SaveFileManager<ArrayList<Pair<String, Integer>>> SAVE_MANAGER = new SaveFileManager<ArrayList<Pair<String, Integer>>>("Highscore");
 
  	public static ArrayList<Pair<String, Integer>> getHighscores() {
