@@ -8,7 +8,7 @@ public class SaveFileManager<T> {
 	private String saveFileDirectory;
 
 	/**
-	 * The constructor creates the saveFiles folder if it does not already
+	 * The constructor creates the folder to save the files if it does not already
 	 * exists.
 	 */
 	public SaveFileManager(String saveFolder) {
@@ -19,17 +19,17 @@ public class SaveFileManager<T> {
 	}
 
 	/**
-	 * Saves the current state of the game engine as byte code in the saveFiles
+	 * Saves the current state of the given object as byte code in the corresponding
 	 * folder with the given name. Returns true if saving the state of the game
-	 * engine went successfully.
+	 * engine went successfully and returns false otherwise.
 	 */
 	public boolean save(String saveName, T ge) {
 		try {
-			// Create the file to contain game engine state.
+			// Create the file to contain the state of the object state.
 			try (FileOutputStream saveFileOut = new FileOutputStream(saveFileDirectory + "/" + saveName + ".ser")) {
 				try (ObjectOutputStream saveObjOut = new ObjectOutputStream(saveFileOut)) {
 
-					// Write the game engine state as byte code to the file
+					// Write the object state as byte code to the file
 					saveObjOut.writeObject(ge);
 				}
 			}
@@ -41,19 +41,18 @@ public class SaveFileManager<T> {
 	}
 
 	/**
-	 * Loads the state of the saved game engine state from byte code in the
-	 * saveFiles folder with the given name. Returns true if loading the state
-	 * of the game engine went successfully and returns false otherwise.
+	 * Loads the state of the saved object state from byte code in the
+	 * folder with the given name. Returns the object if reading from the
+	 * file went succesfully, and returns null otherwise.
 	 */
 	public T load(String loadName) {
-		// Deserializes game engine state and overwrites the given GameEngine
-		// returns true if loading went successfully
+		// Deserializes object state
 		try {
-			// Get file which contains the game engine state to be loaded.
+			// Get file which contains the object state to be loaded.
 			try (FileInputStream loadFileIn = new FileInputStream(saveFileDirectory + "/" + loadName + ".ser")) {
 				try (ObjectInputStream loadObjIn = new ObjectInputStream(loadFileIn)) {
 
-					// Read game engine state data
+					// Read object state data
 					return (T) loadObjIn.readObject();
 				}
 			}
