@@ -23,7 +23,7 @@ public class GameEngine {
 	{
 		return tilePlacements;
 	}
-
+	
 	public boolean moveVoidTile(Directions direction) {
 		if (direction == Directions.DOWN) {
 			if (voidTilePosition.getY() != size - 1) {
@@ -79,22 +79,15 @@ public class GameEngine {
 		return toMove;
 	}
 	
-	public Tile getTileAtPoisition(Point toFind)
-	{
-		for (Tile tile : tilePlacements) {
-			if (tile.position.getX() == toFind.getX() &&
-				tile.position.getY() == toFind.getY()) {
-				return tile;
-			}
-		}
-		//TODO if this eturn is ever hit then thee is an error in the game
-		//don't want ot fix now
-		return null;
+	public Tile getTileAtPoisition(Point p) {
+		//x + y * width (width = size)
+		return tilePlacements[p.x + p.y * size];
 	}
 
 	private Point getPosition(int number) {
-		int row = number % size;
-		int col = number / size;
+		int row = number / size;
+		int col = number % size;
+		
 		return new Point(row, col);
 	}
 
