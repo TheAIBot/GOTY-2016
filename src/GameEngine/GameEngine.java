@@ -17,11 +17,6 @@ public class GameEngine {
 		}
 		voidTilePosition = new Point(size - 1, size - 1);
 		randomizeGame();
-<<<<<<< HEAD
-		//ajdsjask
-=======
-		//Hej
->>>>>>> origin/Niklas
 	}
 	
 	public Tile[] getTiles()
