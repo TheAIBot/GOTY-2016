@@ -2,6 +2,8 @@ package GameEngine;
 
 import java.io.*;
 
+import Log.Log;
+
 public class SaveFileManager<T> {
 
 	// The directory which contains the save files.
@@ -15,7 +17,6 @@ public class SaveFileManager<T> {
 		saveFileDirectory = saveFolder;
 		File saveDir = new File(saveFileDirectory);
 		saveDir.mkdir();
-
 	}
 
 	/**
@@ -34,7 +35,7 @@ public class SaveFileManager<T> {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.writeError(e);
 			return false;
 		}
 		return true;
@@ -59,7 +60,7 @@ public class SaveFileManager<T> {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.writeError(e);
 			return null;
 		}
 	}
