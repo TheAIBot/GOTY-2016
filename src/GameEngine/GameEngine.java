@@ -17,6 +17,7 @@ public class GameEngine {
 		}
 		voidTilePosition = new Point(size - 1, size - 1);
 		randomizeGame();
+		//Hej
 	}
 	
 	public Tile[] getTiles()
