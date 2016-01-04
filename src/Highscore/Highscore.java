@@ -1,3 +1,4 @@
+package Highscore;
 import java.util.ArrayList;
 
 import GameEngine.SaveFileManager;
