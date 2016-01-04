@@ -2,6 +2,8 @@ package GameEngine;
 
 import java.io.*;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 import Log.Log;
 
 public class SaveFileManager<T> {
@@ -25,6 +27,7 @@ public class SaveFileManager<T> {
 	 * engine went successfully.
 	 */
 	public boolean save(String saveName, T ge) {
+
 		try {
 			// Create the file to contain game engine state.
 			try (FileOutputStream saveFileOut = new FileOutputStream(saveFileDirectory + "/" + saveName + ".ser")) {
@@ -39,6 +42,32 @@ public class SaveFileManager<T> {
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean deleteFile(String filename)
+	{
+		try{
+			File theFile = new File(saveFileDirectory + "/" + filename + ".ser");
+			return theFile.delete();
+		}
+		catch(Exception e)
+		{
+			Log.writeError(e);
+			return false;
+		}
+	}
+	
+	public static boolean deleteFile(String directory, String filename)
+	{
+		try{
+			File theFile = new File(directory + "/" + filename + ".ser");
+			return theFile.delete();
+		}
+		catch(Exception e)
+		{
+			Log.writeError(e);
+			return false;
+		}
 	}
 
 	/**
@@ -56,9 +85,8 @@ public class SaveFileManager<T> {
 
 					// Read game engine state data
 					return (T) loadObjIn.readObject();
-				}
+				}				
 			}
-
 		} catch (Exception e) {
 			Log.writeError(e);
 			return null;
