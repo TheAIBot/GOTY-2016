@@ -11,57 +11,56 @@ public class GameEngine implements java.io.Serializable {
 
 	public GameEngine(int startSize) {
 		size = startSize;
-		tilePlacements = new Tile[size * size - 1];
+		tilePlacements = new Tile[size * size];
 		for (int i = 0; i < tilePlacements.length; i++) {
 			tilePlacements[i] = new Tile(i + 1, Color.blue, getPosition(i));
 		}
 		voidTilePosition = new Point(size - 1, size - 1);
 		randomizeGame();
 	}
-	
-	public Tile[] getTiles()
-	{
+
+	public Tile[] getTiles() {
 		return tilePlacements;
 	}
-	
+
 	public boolean moveVoidTile(Directions direction) {
-		if (direction == Directions.DOWN) {
-			if (voidTilePosition.getY() != size - 1) {
-				moveWithDirection(voidTilePosition, direction);
-				moveWithDirection(getTileAtPoisition(voidTilePosition).position, Directions.UP);
-				return true;
-			} else {
-				return false;
-			}
-		} else if (direction == Directions.UP) {
-			if (voidTilePosition.getY() != 0) {
-				moveWithDirection(voidTilePosition, direction);
-				moveWithDirection(getTileAtPoisition(voidTilePosition).position, Directions.DOWN);
-				return true;
-			} else {
-				return false;
-			}
-		} else if (direction == Directions.LEFT) {
-			if (voidTilePosition.getX() != 0) {
-				moveWithDirection(voidTilePosition, direction);
-				moveWithDirection(getTileAtPoisition(voidTilePosition).position, Directions.RIGHT);
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if (voidTilePosition.getX() != size - 1) {
-				moveWithDirection(voidTilePosition, direction);
-				moveWithDirection(getTileAtPoisition(voidTilePosition).position, Directions.LEFT);
-				return true;
-			} else {
-				return false;
-			}
+		if (isMoveAllowed(direction)) {
+			moveTileVoid(direction);
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isMoveAllowed(Directions direction) {
+		switch (direction) {
+		case RIGHT:
+			return voidTilePosition.getX() != size - 1;
+		case LEFT:
+			return voidTilePosition.getX() != 0;
+		case UP:
+			return voidTilePosition.getY() != 0;
+		case DOWN:
+			return voidTilePosition.getY() != size - 1;
+		default:
+			throw new IllegalArgumentException();
 		}
 	}
+
+	private void moveTileVoid(Directions direction) {
+		moveWithDirection(voidTilePosition, direction);
+		Tile tileToMove = getTileAtPoisition(voidTilePosition);
+		moveWithDirection(tileToMove.position, getOppositeRDirection(direction));
+		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
+	}
 	
-	private Point moveWithDirection(Point toMove, Directions direction)
+	private void moveTileIndexes(int tileAIndex, int tileBIndex)
 	{
+		Tile tileA = tilePlacements[tileAIndex];
+		tilePlacements[tileAIndex] = tilePlacements[tileBIndex];
+		tilePlacements[tileBIndex] = tileA;
+	}
+
+	private Point moveWithDirection(Point toMove, Directions direction) {
 		switch (direction) {
 		case RIGHT:
 			toMove.translate(1, 0);
@@ -75,27 +74,34 @@ public class GameEngine implements java.io.Serializable {
 		case DOWN:
 			toMove.translate(0, 1);
 			break;
+		default:
+			throw new IllegalArgumentException();
 		}
 		return toMove;
 	}
-	
+
 	public Tile getTileAtPoisition(Point p) {
-		//x + y * width (width = size)
-		return tilePlacements[p.x + p.y * size];
+		return tilePlacements[getIndexFromPoint(p)];
+	}
+	
+	private int getIndexFromPoint(Point p)
+	{
+		// x + y * width (width = size)
+		return p.x + p.y * size;
 	}
 
 	private Point getPosition(int number) {
 		int row = number / size;
 		int col = number % size;
-		
+
 		return new Point(row, col);
 	}
 
-	public void randomizeGame() {
+	private void randomizeGame() {
 		final int RANDOM_MOVES = 1000000;
 		for (int i = 0; i < RANDOM_MOVES; i++) {
 
-			switch ((int)(Math.random() * 10 % 4)) {
+			switch ((int) (Math.random() * 10 % 4)) {
 			case 0:
 				moveVoidTile(Directions.LEFT);
 				break;
@@ -110,6 +116,20 @@ public class GameEngine implements java.io.Serializable {
 				break;
 			}
 		}
+	}
+
+	private Directions getOppositeRDirection(Directions direction) {
+		switch (direction) {
+		case RIGHT:
+			return Directions.LEFT;
+		case LEFT:
+			return Directions.RIGHT;
+		case UP:
+			return Directions.DOWN;
+		case DOWN:
+			return Directions.UP;
+		}
+		throw new IllegalArgumentException();
 	}
 
 	public enum Directions {
