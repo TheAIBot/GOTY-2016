@@ -11,7 +11,7 @@ public class GameEngine {
 
 	public GameEngine(int startSize) {
 		size = startSize;
-		tilePlacements = new Tile[size * size];
+		tilePlacements = new Tile[size * size - 1];
 		for (int i = 0; i < tilePlacements.length; i++) {
 			tilePlacements[i] = new Tile(i + 1, Color.blue, getPosition(i));
 		}
@@ -50,7 +50,7 @@ public class GameEngine {
 				return false;
 			}
 		} else {
-			if (voidTilePosition.getY() != size - 1) {
+			if (voidTilePosition.getX() != size - 1) {
 				moveWithDirection(voidTilePosition, direction);
 				moveWithDirection(getTileAtPoisition(voidTilePosition).position, Directions.LEFT);
 				return true;
@@ -99,7 +99,7 @@ public class GameEngine {
 	}
 
 	public void randomizeGame() {
-		final int RANDOM_MOVES = 1000;
+		final int RANDOM_MOVES = 1000000;
 		for (int i = 0; i < RANDOM_MOVES; i++) {
 
 			switch ((int)(Math.random() * 10 % 4)) {
