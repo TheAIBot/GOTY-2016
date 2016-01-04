@@ -3,7 +3,7 @@ package GameEngine;
 import java.awt.Color;
 import java.awt.Point;
 
-public class GameEngine {
+public class GameEngine implements java.io.Serializable {
 
 	private final Tile[] tilePlacements;
 	private Point voidTilePosition;
