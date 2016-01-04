@@ -1,8 +1,6 @@
 package GameEngine;
 import java.io.*;
 
-import javax.annotation.processing.FilerException;
-
 public class SaveFileManager {
 	
 	//The directory which contains the save files.
