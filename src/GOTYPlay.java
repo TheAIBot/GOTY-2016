@@ -47,7 +47,6 @@ public class GOTYPlay extends SuperPage{
 		    	printGame();
 		    }
 		});
-		page.requestFocusInWindow();
 		return page;
 	}
 
@@ -77,7 +76,6 @@ public class GOTYPlay extends SuperPage{
 					}
 					printGame();
 				}
-				
 			}
 		}*/
 	}
@@ -104,7 +102,7 @@ public class GOTYPlay extends SuperPage{
 
 	@Override
 	public void closePage() {
-		// TODO do something thatstops the game
+		// TODO do something that stops the game
 	}
 
 }
