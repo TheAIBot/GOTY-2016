@@ -6,6 +6,7 @@ import GameEngine.Tile;
 class ConsoleGraphics {
 	public static void printGame(GameEngine game)
 	{
+		final String emptyString = "";
 		final int boardSize = game.getBoardSize();
 		final int spacesBetweenTileNumbers = 2;
 		final int tileLength = (int)Math.log10((boardSize * boardSize) - 1) + 1 + spacesBetweenTileNumbers;
@@ -15,16 +16,16 @@ class ConsoleGraphics {
 			for (int x = 0; x < boardSize; x++) {
 				Tile tile = tiles[x + y * boardSize];
 				if (tile == null) {
-					System.out.print(String.format("%" + sTileLength + "s", ""));
+					System.out.print(String.format("%" + sTileLength + "s", emptyString));
 				}
 				else {
-					int tileNumber = tile.number;
+					final int tileNumber = tile.number;
 					System.out.print(String.format("%" + sTileLength + "d", tileNumber));
 				}
 			}
-			System.out.println("");			
+			System.out.println(emptyString);			
 		}
-		System.out.println("");
-		System.out.println("");
+		System.out.println(emptyString);
+		System.out.println(emptyString);
 	}
 }
