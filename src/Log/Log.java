@@ -1,6 +1,7 @@
+package Log;
 import java.io.PrintStream;
 
-class Log {
+public class Log {
 	public static void writeln(String logLine)
 	{
 		System.out.println(logLine);

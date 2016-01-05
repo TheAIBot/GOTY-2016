@@ -1,3 +1,4 @@
+package Menu;
 import javax.swing.*;
 
 public abstract class SuperPage {

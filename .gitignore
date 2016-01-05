@@ -62,3 +62,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /bin/
+*.ser
+*.ser
+saveFiles/save_test1.ser

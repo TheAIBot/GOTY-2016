@@ -1,3 +1,4 @@
+package Menu;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Highscore.Highscore;
 import javafx.util.Pair;
 
 public class GOTYHighscore extends SuperPage {
