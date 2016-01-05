@@ -12,7 +12,7 @@ public class SaveFileTest {
 		sfm.save("save_test1", ge);
 		
 		GameEngine ge_load = sfm.load("save_test1");
-		assert(ge.size == ge_load.size) : "størrelserne på de to gameEngines er ikke ens";
+		assert(ge.getBoardSize() == ge_load.getBoardSize()) : "størrelserne på de to gameEngines er ikke ens";
 		//TODO add mode checks
 		
 	}

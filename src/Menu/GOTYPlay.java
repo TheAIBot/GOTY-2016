@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import GameEngine.GameEngine;
-import GameEngine.GameEngine.Directions;
+import GameEngine.Directions;
 import GameEngine.Tile;
 
 public class GOTYPlay extends SuperPage{
@@ -84,8 +84,8 @@ public class GOTYPlay extends SuperPage{
 	public void printGame()
 	{
 		Point fisk = new Point(0,0);
-		for (int y = 0; y < game.size; y++) {
-			for (int x = 0; x < game.size; x++) {
+		for (int y = 0; y < game.getBoardSize(); y++) {
+			for (int x = 0; x < game.getBoardSize(); x++) {
 				fisk.move(x, y);
 				Tile tile = game.getTileAtPoisition(fisk);
 				if (tile == null) {
