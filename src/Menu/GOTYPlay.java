@@ -25,37 +25,39 @@ public class GOTYPlay extends SuperPage {
 
 	@Override
 	public JPanel createPage() {
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
-		page.getActionMap().put("up", new AbstractAction() {
+		gPanel = new GraphicsPanel(400,400);
+		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
+		
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
+		gPanel.getActionMap().put("up", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.UP);
 		    	printGame();
 		    	//TODO: move input handling to InputManager class (Model-View-Controller principle)
 		    }
 		});
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
-		page.getActionMap().put("down", new AbstractAction() {
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
+		gPanel.getActionMap().put("down", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.DOWN);
 		    	printGame();
 		    }
 		});
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "left");
-		page.getActionMap().put("left", new AbstractAction() {
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "left");
+		gPanel.getActionMap().put("left", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.LEFT);
 		    	printGame();
 		    }
 		});
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "right");
-		page.getActionMap().put("right", new AbstractAction() {
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "right");
+		gPanel.getActionMap().put("right", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.RIGHT);
 		    	printGame();
 		    }
 		});
-		gPanel = new GraphicsPanel(400,400);
-		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
+
 		
 		return gPanel;
 		//return page;
@@ -65,11 +67,11 @@ public class GOTYPlay extends SuperPage {
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
 		
-		game = new GameEngine(3, screen);
-		
+		game = new GameEngine(3, screen);		
 		printGame();
-		/*try (Scanner scan = new Scanner(System.in)) {
-			while (true) {
+		
+		try (Scanner scan = new Scanner(System.in)) {
+			/*while (true) {
 				String line = scan.nextLine();
 				if (line.length() == 1) {
 					char pressed = line.charAt(0);
@@ -89,8 +91,8 @@ public class GOTYPlay extends SuperPage {
 					}
 					printGame();
 				}
-			}
-		}*/
+			}*/
+		}
 	}
 	
 	public void printGame() {
@@ -110,6 +112,8 @@ public class GOTYPlay extends SuperPage {
 		}
 		System.out.println("");
 		System.out.println("");
+		game.render();
+		gPanel.repaint();
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class GameBoard {
 		voidTilePosition = new Point(size - 1, size - 1);
 		
 		//Testing: generate some sample tiles
-		Tile[] tiles = new Tile[9];
+		/*Tile[] tiles = new Tile[9];
 		
 		tiles[0] = new Tile(1, new Point(0,0), Color.RED);
 		tiles[1] = new Tile(2, new Point(1,0), Color.RED);
@@ -41,7 +41,8 @@ public class GameBoard {
 		
 		for (int i = 0; i < tiles.length; i++) {
 			tiles[i].render(screen);
-		}
+		}*/
+		
 	}
 	
 	public void makeRandom()
@@ -157,4 +158,5 @@ public class GameBoard {
 			}
 		}
 	}
+	
 }
