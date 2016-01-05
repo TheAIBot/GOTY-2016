@@ -15,7 +15,7 @@ public class GameBoard {
 	public void createGame()
 	{
 		tilePlacements = new Tile[size * size];
-		for (int i = 0; i < tilePlacements.length; i++) {
+		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			tilePlacements[i] = new Tile(i + 1, Color.blue, getPosition(i));
 		}
 		voidTilePosition = new Point(size - 1, size - 1);
@@ -39,6 +39,7 @@ public class GameBoard {
 	
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
+			System.out.println(direction.toString());
 			moveTileVoid(direction);
 			return true;
 		}
@@ -52,13 +53,13 @@ public class GameBoard {
 	private boolean isMoveAllowed(Directions direction) {
 		switch (direction) {
 		case RIGHT:
-			return voidTilePosition.getX() != size - 1;
+			return voidTilePosition.getX() < size - 1;
 		case LEFT:
-			return voidTilePosition.getX() != 0;
+			return voidTilePosition.getX() > 0;
 		case UP:
-			return voidTilePosition.getY() != 0;
+			return voidTilePosition.getY() > 0;
 		case DOWN:
-			return voidTilePosition.getY() != size - 1;
+			return voidTilePosition.getY() < size - 1;
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -73,6 +74,10 @@ public class GameBoard {
 	
 	private void moveTileIndexes(int tileAIndex, int tileBIndex)
 	{
+		if (tileAIndex >= size * size ||
+			tileBIndex >= size * size) {
+			System.out.print("asd");
+		}
 		Tile tileA = tilePlacements[tileAIndex];
 		tilePlacements[tileAIndex] = tilePlacements[tileBIndex];
 		tilePlacements[tileBIndex] = tileA;
@@ -114,8 +119,7 @@ public class GameBoard {
 	private void randomizeGame() {
 		final int RANDOM_MOVES = 1000000;
 		for (int i = 0; i < RANDOM_MOVES; i++) {
-
-			switch ((int) (Math.random() * 10 % 4)) {
+			switch ((((int)(Math.random() * 10)) % 4)) {
 			case 0:
 				moveVoidTile(Directions.LEFT);
 				break;
