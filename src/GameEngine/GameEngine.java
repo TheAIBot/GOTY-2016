@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public class GameEngine implements java.io.Serializable {
 
-	private final GameBoard game;
+	private final SuperGameBoard game;
 
 	public GameEngine(int startSize) {
 		game = new GameBoard(startSize);
