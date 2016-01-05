@@ -19,38 +19,42 @@ import GameEngine.GameEngine;
 import GameEngine.Directions;
 import GameEngine.Tile;
 
-public class GOTYPlay extends SuperPage{
+public class GOTYPlay extends SuperPage {
 	private GameEngine game;
+	private GraphicsPanel gPanel;
+	private Screen screen;
 
 	@Override
 	public JPanel createPage() {
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
-		page.getActionMap().put("up", new AbstractAction() {
+		gPanel = new GraphicsPanel(400,400);
+		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
+		
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
+		gPanel.getActionMap().put("up", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.UP);
-		    	//TODO: move input handling to KeyBoard class
+		    	//TODO: move input handling to InputManager class (Model-View-Controller principle)
 		    }
 		});
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
-		page.getActionMap().put("down", new AbstractAction() {
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
+		gPanel.getActionMap().put("down", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.DOWN);
 		    }
 		});
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "left");
-		page.getActionMap().put("left", new AbstractAction() {
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "left");
+		gPanel.getActionMap().put("left", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.LEFT);
 		    }
 		});
-		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "right");
-		page.getActionMap().put("right", new AbstractAction() {
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "right");
+		gPanel.getActionMap().put("right", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.RIGHT);
 		    }
 		});
-		GraphicsPanel gPanel = new GraphicsPanel(400,400);
-		Screen screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
+
 		
 		return gPanel;
 		//return page;
@@ -59,10 +63,9 @@ public class GOTYPlay extends SuperPage{
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(10);
-		ConsoleControl.startGameInConsole(10);
+		game = new GameEngine(10, screen);
+		//ConsoleControl.startGameInConsole(10);
 	}
-	
 
 	@Override
 	public void closePage() {

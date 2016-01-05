@@ -1,13 +1,15 @@
 package GameEngine;
 
+import graphics.Screen;
+
 import java.awt.Color;
 import java.awt.Point;
 
 public class GameBoard extends SuperGameBoard {
 	private Point voidTilePosition;
 	
-	public GameBoard(int startSize) {
-		super(startSize);
+	public GameBoard(int startSize, Screen screen) {
+		super(startSize, screen);
 	}
 	
 	@Override
@@ -15,9 +17,9 @@ public class GameBoard extends SuperGameBoard {
 	{
 		tilePlacements = new Tile[size * size];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
-			tilePlacements[i] = new Tile(i + 1, Color.blue, getPosition(i));
+			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue);
 		}
-		voidTilePosition = new Point(size - 1, size - 1);
+		voidTilePosition = new Point(size - 1, size - 1);		
 	}
 	
 	@Override
@@ -85,42 +87,6 @@ public class GameBoard extends SuperGameBoard {
 		tilePlacements[tileAIndex] = tilePlacements[tileBIndex];
 		tilePlacements[tileBIndex] = tileA;
 	}
-<<<<<<< HEAD
-=======
-
-	private Point moveWithDirection(Point toMove, Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			toMove.translate(1, 0);
-			break;
-		case LEFT:
-			toMove.translate(-1, 0);
-			break;
-		case UP:
-			toMove.translate(0, -1);
-			break;
-		case DOWN:
-			toMove.translate(0, 1);
-			break;
-		default:
-			throw new IllegalArgumentException();
-		}
-		return toMove;
-	}
-
-	private int getIndexFromPoint(Point p)
-	{
-		// x + y * width (width is the size)
-		return p.x + p.y * size;
-	}
-
-	private Point getPosition(int number) {
-		int row = number / size;
-		int col = number % size;
-
-		return new Point(col, row);
-	}
->>>>>>> dev
 	
 	private void randomizeGame() {
 		final int RANDOM_MOVES = 1000000;
@@ -141,6 +107,4 @@ public class GameBoard extends SuperGameBoard {
 			}
 		}
 	}
-
-
 }
