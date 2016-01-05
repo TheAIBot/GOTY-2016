@@ -3,15 +3,14 @@ package GameEngine;
 import java.awt.Color;
 import java.awt.Point;
 
-public class GameBoard {
-	private Tile[] tilePlacements;
+public class GameBoard extends SuperGameBoard {
 	private Point voidTilePosition;
-	public final int size;
 	
 	public GameBoard(int startSize) {
-		size = startSize;
+		super(startSize);
 	}
 	
+	@Override
 	public void createGame()
 	{
 		tilePlacements = new Tile[size * size];
@@ -21,22 +20,26 @@ public class GameBoard {
 		voidTilePosition = new Point(size - 1, size - 1);
 	}
 	
+	@Override
 	public void makeRandom()
 	{
 		randomizeGame();
 	}
 	
+	@Override
 	public void resetGame()
 	{
 		createGame();
 		randomizeGame();
 	}
 	
+	@Override
 	public Tile[] getTiles()
 	{
 		return tilePlacements;
 	}
 	
+	@Override
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			moveTileVoid(direction);
@@ -49,6 +52,11 @@ public class GameBoard {
 		return tilePlacements[getIndexFromPoint(p)];
 	}
 
+	@Override
+	public int getSize() {
+		return size;
+	}
+	
 	private boolean isMoveAllowed(Directions direction) {
 		switch (direction) {
 		case RIGHT:
@@ -73,46 +81,9 @@ public class GameBoard {
 	
 	private void moveTileIndexes(int tileAIndex, int tileBIndex)
 	{
-		if (tileAIndex >= size * size ||
-			tileBIndex >= size * size) {
-			System.out.print("asd");
-		}
 		Tile tileA = tilePlacements[tileAIndex];
 		tilePlacements[tileAIndex] = tilePlacements[tileBIndex];
 		tilePlacements[tileBIndex] = tileA;
-	}
-
-	private Point moveWithDirection(Point toMove, Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			toMove.translate(1, 0);
-			break;
-		case LEFT:
-			toMove.translate(-1, 0);
-			break;
-		case UP:
-			toMove.translate(0, -1);
-			break;
-		case DOWN:
-			toMove.translate(0, 1);
-			break;
-		default:
-			throw new IllegalArgumentException();
-		}
-		return toMove;
-	}
-
-	private int getIndexFromPoint(Point p)
-	{
-		// x + y * width (width = size)
-		return p.x + p.y * size;
-	}
-
-	private Point getPosition(int number) {
-		int row = number / size;
-		int col = number % size;
-
-		return new Point(col, row);
 	}
 	
 	private void randomizeGame() {
@@ -134,4 +105,6 @@ public class GameBoard {
 			}
 		}
 	}
+
+
 }
