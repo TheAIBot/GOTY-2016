@@ -8,15 +8,16 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 
-public class FakeTile implements Displayable{
+public class FakeTile implements Displayable {
 	
 	int number;
 	Point position;	
 	Color color;	
 	BufferedImage displayImage;
+	int size = 100;
 	
 	public FakeTile(int number, Point position, Color color) {
-		this.number = number;		
+		this.number = number;
 		this.position = position;
 		this.color = color;	
 		setCurrentImage("res/tempchest.png");
@@ -24,7 +25,7 @@ public class FakeTile implements Displayable{
 	}
 	
 	public void render(Screen screen){
-		screen.render(this);		
+		screen.renderTile(this);
 	}
 	
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
@@ -47,7 +48,7 @@ public class FakeTile implements Displayable{
 	}
 
 	public Point getImagePosition() {
-		return position;
+		return new Point(position.x * size, position.y * size);
 	}	
 	
 }

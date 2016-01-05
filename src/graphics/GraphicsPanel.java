@@ -18,14 +18,14 @@ public class GraphicsPanel extends JPanel{
 	private BufferedImage displayImage;
 	private Graphics2D gImage;
 	
-	public GraphicsPanel(int heigth, int width) {
+	public GraphicsPanel(int height, int width) {
 		//Basseret på bogen				
 		super();
 		this.setBackground(Color.WHITE);
 		label = new JLabel();
 		this.add(label);		
-		imageBounds = new Point(width, heigth);
-		displayImage = new BufferedImage(heigth, width, BufferedImage.TYPE_4BYTE_ABGR); //Er det den rigtige type? (*)
+		imageBounds = new Point(width, height);
+		displayImage = new BufferedImage(height, width, BufferedImage.TYPE_4BYTE_ABGR); //Er det den rigtige type? (*)
 		gImage = displayImage.createGraphics();	
 		displayImageIcon = new ImageIcon(displayImage);
 		label.setIcon(displayImageIcon);
