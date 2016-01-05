@@ -19,6 +19,10 @@ public class Highscore {
 	}
 
 	public static boolean newScore(String name, int newScore) {
+		if (name == null) {
+			throw new IllegalArgumentException("newScore name was null");
+		}
+		
 		ArrayList<Pair<String, Integer>> scores = getHighscores();
 		if (scores.size() == 0) {
 			scores.add(new Pair<String, Integer>(name, newScore));
@@ -44,7 +48,9 @@ public class Highscore {
 	}
 
 	public static boolean save(ArrayList<Pair<String, Integer>> scores) {
+		if (scores == null) {
+			throw new IllegalArgumentException("trying to save null");
+		}
 		return SAVE_MANAGER.save(SCORE_FILE_NAME, scores);
 	}
-
 }
