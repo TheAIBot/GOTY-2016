@@ -49,7 +49,7 @@ public class GameEngine implements java.io.Serializable {
 	private void moveTileVoid(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
 		Tile tileToMove = getTileAtPoisition(voidTilePosition);
-		moveWithDirection(tileToMove.position, getOppositeRDirection(direction));
+		moveWithDirection(tileToMove.position, direction.getOppositeDirection());
 		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
 	}
 	
@@ -118,21 +118,40 @@ public class GameEngine implements java.io.Serializable {
 		}
 	}
 
-	private Directions getOppositeRDirection(Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			return Directions.LEFT;
-		case LEFT:
-			return Directions.RIGHT;
-		case UP:
-			return Directions.DOWN;
-		case DOWN:
-			return Directions.UP;
-		}
-		throw new IllegalArgumentException();
-	}
-
 	public enum Directions {
-		LEFT, RIGHT, UP, DOWN
+		LEFT
+		{
+			@Override
+			public Directions getOppositeDirection()
+			{
+				return Directions.RIGHT;
+			}
+		}, 
+		RIGHT
+		{
+			@Override
+			public Directions getOppositeDirection()
+			{
+				return Directions.LEFT;
+			}
+		}, 
+		UP
+		{
+			@Override
+			public Directions getOppositeDirection()
+			{
+				return Directions.DOWN;
+			}
+		}, 
+		DOWN
+		{
+			@Override
+			public Directions getOppositeDirection()
+			{
+				return Directions.UP;
+			}
+		};
+		
+		public abstract Directions getOppositeDirection();
 	}
 }
