@@ -1,5 +1,7 @@
 package GameEngine;
 
+import graphics.Screen;
+
 import java.awt.Color;
 import java.awt.Point;
 
@@ -7,18 +9,39 @@ public class GameBoard {
 	private Tile[] tilePlacements;
 	private Point voidTilePosition;
 	public final int size;
+	private Screen screen;
 	
-	public GameBoard(int startSize) {
+	public GameBoard(int startSize, Screen screen) {
 		size = startSize;
+		this.screen = screen;
 	}
 	
 	public void createGame()
 	{
 		tilePlacements = new Tile[size * size];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
-			tilePlacements[i] = new Tile(i + 1, Color.blue, getPosition(i));
+			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue);
 		}
 		voidTilePosition = new Point(size - 1, size - 1);
+		
+		//Testing: generate some sample tiles
+		Tile[] tiles = new Tile[9];
+		
+		tiles[0] = new Tile(1, new Point(0,0), Color.RED);
+		tiles[1] = new Tile(2, new Point(1,0), Color.RED);
+		tiles[2] = new Tile(3, new Point(2,0), Color.RED);
+		
+		tiles[3] = new Tile(1, new Point(0,1), Color.RED);
+		tiles[4] = new Tile(2, new Point(1,1), Color.RED);
+		tiles[5] = new Tile(3, new Point(2,1), Color.RED);
+		
+		tiles[6] = new Tile(1, new Point(0,2), Color.RED);
+		tiles[7] = new Tile(2, new Point(1,2), Color.RED);
+		tiles[8] = new Tile(3, new Point(2,2), Color.RED);
+		
+		for (int i = 0; i < tiles.length; i++) {
+			tiles[i].render(screen);
+		}
 	}
 	
 	public void makeRandom()

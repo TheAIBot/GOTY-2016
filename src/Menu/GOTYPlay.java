@@ -18,8 +18,10 @@ import GameEngine.GameEngine;
 import GameEngine.Directions;
 import GameEngine.Tile;
 
-public class GOTYPlay extends SuperPage{
+public class GOTYPlay extends SuperPage {
 	private GameEngine game;
+	private GraphicsPanel gPanel;
+	private Screen screen;
 
 	@Override
 	public JPanel createPage() {
@@ -28,7 +30,7 @@ public class GOTYPlay extends SuperPage{
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.UP);
 		    	printGame();
-		    	//TODO: move input handling to KeyBoard class
+		    	//TODO: move input handling to InputManager class (Model-View-Controller principle)
 		    }
 		});
 		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
@@ -52,8 +54,8 @@ public class GOTYPlay extends SuperPage{
 		    	printGame();
 		    }
 		});
-		GraphicsPanel gPanel = new GraphicsPanel(400,400);
-		Screen screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
+		gPanel = new GraphicsPanel(400,400);
+		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
 		
 		return gPanel;
 		//return page;
@@ -62,7 +64,9 @@ public class GOTYPlay extends SuperPage{
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(10);
+		
+		game = new GameEngine(3, screen);
+		
 		printGame();
 		/*try (Scanner scan = new Scanner(System.in)) {
 			while (true) {

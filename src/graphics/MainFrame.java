@@ -18,13 +18,27 @@ public class MainFrame {
 	    zaFrame.setLocation(new Point(10, 50));
 		zaFrame.setVisible(true);
 		gPanel = new GraphicsPanel(400,400);
-		zaFrame.add(gPanel);		
+		zaFrame.add(gPanel);
 		Screen screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
 		
-		FakeTile zaTile = new FakeTile(7, new Point(0,0), Color.RED);
+		//Testing: generate some sample tiles
+		FakeTile[] tiles = new FakeTile[9];
 		
-		zaTile.render(screen);
-				
+		tiles[0] = new FakeTile(1, new Point(0,0), Color.RED);
+		tiles[1] = new FakeTile(2, new Point(1,0), Color.RED);
+		tiles[2] = new FakeTile(3, new Point(2,0), Color.RED);
+		
+		tiles[3] = new FakeTile(1, new Point(0,1), Color.RED);
+		tiles[4] = new FakeTile(2, new Point(1,1), Color.RED);
+		tiles[5] = new FakeTile(3, new Point(2,1), Color.RED);
+		
+		tiles[6] = new FakeTile(1, new Point(0,2), Color.RED);
+		tiles[7] = new FakeTile(2, new Point(1,2), Color.RED);
+		tiles[8] = new FakeTile(3, new Point(2,2), Color.RED);
+		
+		for (int i = 0; i < tiles.length; i++) {
+			tiles[i].render(screen);
+		}				
 		
 	}
 	

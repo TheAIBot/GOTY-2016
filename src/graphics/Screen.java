@@ -77,4 +77,18 @@ public class Screen {
 		gDisplay.setColor(currentColor);
 	}
 
+	//Duplicate of render()
+	public void renderTile(Displayable d) {
+		if (d == null) {
+			throw new Error();
+		}
+		BufferedImage currentImage = d.getDisplayImage();
+		if (currentImage == null || d.getImagePosition() == null) {
+			throw new Error();
+		} else {
+			Point imagePosition = d.getImagePosition();
+			gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
+		}
+	}
+
 }

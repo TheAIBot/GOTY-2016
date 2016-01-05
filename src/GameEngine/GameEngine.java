@@ -1,13 +1,15 @@
 package GameEngine;
 
+import graphics.Screen;
+
 import java.awt.Point;
 
 public class GameEngine implements java.io.Serializable {
 
 	private final GameBoard game;
 
-	public GameEngine(int startSize) {
-		game = new GameBoard(startSize);
+	public GameEngine(int startSize, Screen screen) {		
+		game = new GameBoard(startSize, screen);
 		game.createGame();
 		game.makeRandom();
 	}
