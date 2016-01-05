@@ -2,6 +2,10 @@ package GameEngine;
 
 import java.io.*;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
+import Log.Log;
+
 public class SaveFileManager<T> {
 
 	// The directory which contains the save files.
@@ -15,7 +19,6 @@ public class SaveFileManager<T> {
 		saveFileDirectory = saveFolder;
 		File saveDir = new File(saveFileDirectory);
 		saveDir.mkdir();
-
 	}
 
 	/**
@@ -24,6 +27,7 @@ public class SaveFileManager<T> {
 	 * engine went successfully and returns false otherwise.
 	 */
 	public boolean save(String saveName, T ge) {
+
 		try {
 			// Create the file to contain the state of the object state.
 			try (FileOutputStream saveFileOut = new FileOutputStream(saveFileDirectory + "/" + saveName + ".ser")) {
@@ -34,10 +38,36 @@ public class SaveFileManager<T> {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.writeError(e);
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean deleteFile(String filename)
+	{
+		try{
+			File theFile = new File(saveFileDirectory + "/" + filename + ".ser");
+			return theFile.delete();
+		}
+		catch(Exception e)
+		{
+			Log.writeError(e);
+			return false;
+		}
+	}
+	
+	public static boolean deleteFile(String directory, String filename)
+	{
+		try{
+			File theFile = new File(directory + "/" + filename + ".ser");
+			return theFile.delete();
+		}
+		catch(Exception e)
+		{
+			Log.writeError(e);
+			return false;
+		}
 	}
 
 	/**
@@ -54,11 +84,10 @@ public class SaveFileManager<T> {
 
 					// Read object state data
 					return (T) loadObjIn.readObject();
-				}
+				}				
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.writeError(e);
 			return null;
 		}
 	}
