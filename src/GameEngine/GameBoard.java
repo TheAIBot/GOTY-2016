@@ -29,7 +29,7 @@ public class GameBoard {
 	public void resetGame()
 	{
 		createGame();
-		randomizeGame();
+		//randomizeGame();
 	}
 	
 	public Tile[] getTiles()
@@ -39,7 +39,6 @@ public class GameBoard {
 	
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
-			System.out.println(direction.toString());
 			moveTileVoid(direction);
 			return true;
 		}
@@ -113,7 +112,7 @@ public class GameBoard {
 		int row = number / size;
 		int col = number % size;
 
-		return new Point(row, col);
+		return new Point(col, row);
 	}
 	
 	private void randomizeGame() {
