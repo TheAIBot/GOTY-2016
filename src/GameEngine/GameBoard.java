@@ -29,7 +29,7 @@ public class GameBoard {
 	public void resetGame()
 	{
 		createGame();
-		//randomizeGame();
+		randomizeGame();
 	}
 	
 	public Tile[] getTiles()
