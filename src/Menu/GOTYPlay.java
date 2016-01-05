@@ -1,4 +1,7 @@
 package Menu;
+import graphics.GraphicsPanel;
+import graphics.Screen;
+
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +28,7 @@ public class GOTYPlay extends SuperPage{
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.UP);
 		    	printGame();
+		    	//TODO: move input handling to KeyBoard class
 		    }
 		});
 		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
@@ -48,7 +52,11 @@ public class GOTYPlay extends SuperPage{
 		    	printGame();
 		    }
 		});
-		return page;
+		GraphicsPanel gPanel = new GraphicsPanel(400,400);
+		Screen screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
+		
+		return gPanel;
+		//return page;
 	}
 
 	@Override
@@ -81,8 +89,7 @@ public class GOTYPlay extends SuperPage{
 		}*/
 	}
 	
-	public void printGame()
-	{
+	public void printGame() {
 		Point fisk = new Point(0,0);
 		for (int y = 0; y < game.getBoardSize(); y++) {
 			for (int x = 0; x < game.getBoardSize(); x++) {
