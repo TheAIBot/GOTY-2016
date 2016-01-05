@@ -1,14 +1,18 @@
 package GameEngine;
 
+import graphics.Screen;
+
 import java.awt.Point;
 
 public abstract class SuperGameBoard {
 	protected Tile[] tilePlacements;
 	protected final int size;
+	protected final Screen screen;
 	
-	public SuperGameBoard(int startSize)
+	public SuperGameBoard(int startSize, Screen screen)
 	{
 		size = startSize;
+		this.screen = screen;
 	}
 	
 	public abstract void createGame();
@@ -59,4 +63,5 @@ public abstract class SuperGameBoard {
 
 		return new Point(col, row);
 	}
+
 }

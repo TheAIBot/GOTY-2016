@@ -33,12 +33,7 @@ public class GOTYPlay extends SuperPage {
 		gPanel.getActionMap().put("up", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.UP);
-<<<<<<< HEAD
-		    	//TODO: move input handling to KeyBoard class
-=======
-		    	printGame();
 		    	//TODO: move input handling to InputManager class (Model-View-Controller principle)
->>>>>>> Emil
 		    }
 		});
 		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
@@ -68,62 +63,9 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-<<<<<<< HEAD
-		game = new GameEngine(10);
-		ConsoleControl.startGameInConsole(10);
+		game = new GameEngine(10, screen);
+		//ConsoleControl.startGameInConsole(10);
 	}
-	
-=======
-		
-		game = new GameEngine(3, screen);		
-		printGame();
-		
-		try (Scanner scan = new Scanner(System.in)) {
-			/*while (true) {
-				String line = scan.nextLine();
-				if (line.length() == 1) {
-					char pressed = line.charAt(0);
-					switch (pressed) {
-					case 'h':
-						game.moveVoidTile(Directions.RIGHT);
-						break;
-					case 'v':
-						game.moveVoidTile(Directions.LEFT);
-						break;
-					case 'o':
-						game.moveVoidTile(Directions.UP);
-						break;
-					case 'n':
-						game.moveVoidTile(Directions.DOWN);
-						break;
-					}
-					printGame();
-				}
-			}*/
-		}
-	}
-	
-	public void printGame() {
-		Point fisk = new Point(0,0);
-		for (int y = 0; y < game.getBoardSize(); y++) {
-			for (int x = 0; x < game.getBoardSize(); x++) {
-				fisk.move(x, y);
-				Tile tile = game.getTileAtPoisition(fisk);
-				if (tile == null) {
-					System.out.print("   ");
-				}
-				else {
-					System.out.print(" " + String.valueOf(tile.number) + " ");
-				}
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-		System.out.println("");
-		game.render();
-		gPanel.repaint();
-	}
->>>>>>> Emil
 
 	@Override
 	public void closePage() {
