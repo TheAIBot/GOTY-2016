@@ -4,6 +4,10 @@ import GameEngine.GameEngine;
 import GameEngine.Tile;
 
 class ConsoleGraphics {
+	/**
+	 * Prints the game board to the console
+	 * @param game The game to print
+	 */
 	public static void printGame(GameEngine game)
 	{
 		final String emptyString = "";
