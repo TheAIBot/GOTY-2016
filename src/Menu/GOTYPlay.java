@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import ConsoleControl.ConsoleControl;
 import GameEngine.GameEngine;
 import GameEngine.Directions;
 import GameEngine.Tile;
@@ -27,29 +28,29 @@ public class GOTYPlay extends SuperPage{
 		page.getActionMap().put("up", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.UP);
+<<<<<<< HEAD
+=======
 		    	printGame();
 		    	//TODO: move input handling to KeyBoard class
+>>>>>>> dev
 		    }
 		});
 		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
 		page.getActionMap().put("down", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.DOWN);
-		    	printGame();
 		    }
 		});
 		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "left");
 		page.getActionMap().put("left", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.LEFT);
-		    	printGame();
 		    }
 		});
 		page.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "right");
 		page.getActionMap().put("right", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.RIGHT);
-		    	printGame();
 		    }
 		});
 		GraphicsPanel gPanel = new GraphicsPanel(400,400);
@@ -63,6 +64,9 @@ public class GOTYPlay extends SuperPage{
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
 		game = new GameEngine(10);
+<<<<<<< HEAD
+		ConsoleControl.startGameInConsole(10);
+=======
 		printGame();
 		/*try (Scanner scan = new Scanner(System.in)) {
 			while (true) {
@@ -106,6 +110,7 @@ public class GOTYPlay extends SuperPage{
 		}
 		System.out.println("");
 		System.out.println("");
+>>>>>>> dev
 	}
 
 	@Override
