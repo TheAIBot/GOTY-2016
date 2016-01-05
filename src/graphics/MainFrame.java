@@ -9,7 +9,7 @@ public class MainFrame {
 	GraphicsPanel gPanel;
 	JFrame zaFrame;
 	
-	public MainFrame() {		
+	public MainFrame() {
 		zaFrame = new JFrame();		
 		zaFrame.setSize(400,400);
 		zaFrame.getContentPane().setBackground(Color.BLACK);
