@@ -10,7 +10,7 @@ public class Log {
 	public static void writeError(Exception e)
 	{
 		if (e == null) {
-			throw new IllegalArgumentException("error is null");
+			throw new NullPointerException("Error is null");
 		}
 		writeln(e.getMessage());
 		e.printStackTrace(getLogStream());

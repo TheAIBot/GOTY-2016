@@ -9,6 +9,9 @@ public class GameEngine implements java.io.Serializable {
 	private Screen screen;
 
 	public GameEngine(int startSize, Screen screen) {	
+		if (screen == null) {
+			throw new NullPointerException("Screen provided is null");
+		}
 		this.screen = screen;
 		game = new GameBoard(startSize, screen);
 		game.createGame();
