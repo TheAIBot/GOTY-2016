@@ -7,18 +7,9 @@ import java.awt.Point;
 
 public class GameBoard extends SuperGameBoard {
 	private Point voidTilePosition;
-<<<<<<< HEAD
-	
-	public GameBoard(int startSize) {
-		super(startSize);
-=======
-	public final int size;
-	private Screen screen;
 	
 	public GameBoard(int startSize, Screen screen) {
-		size = startSize;
-		this.screen = screen;
->>>>>>> Emil
+		super(startSize, screen);
 	}
 	
 	@Override
@@ -28,27 +19,7 @@ public class GameBoard extends SuperGameBoard {
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue);
 		}
-		voidTilePosition = new Point(size - 1, size - 1);
-		
-		//Testing: generate some sample tiles
-		/*Tile[] tiles = new Tile[9];
-		
-		tiles[0] = new Tile(1, new Point(0,0), Color.RED);
-		tiles[1] = new Tile(2, new Point(1,0), Color.RED);
-		tiles[2] = new Tile(3, new Point(2,0), Color.RED);
-		
-		tiles[3] = new Tile(1, new Point(0,1), Color.RED);
-		tiles[4] = new Tile(2, new Point(1,1), Color.RED);
-		tiles[5] = new Tile(3, new Point(2,1), Color.RED);
-		
-		tiles[6] = new Tile(1, new Point(0,2), Color.RED);
-		tiles[7] = new Tile(2, new Point(1,2), Color.RED);
-		tiles[8] = new Tile(3, new Point(2,2), Color.RED);
-		
-		for (int i = 0; i < tiles.length; i++) {
-			tiles[i].render(screen);
-		}*/
-		
+		voidTilePosition = new Point(size - 1, size - 1);		
 	}
 	
 	@Override
@@ -116,42 +87,6 @@ public class GameBoard extends SuperGameBoard {
 		tilePlacements[tileAIndex] = tilePlacements[tileBIndex];
 		tilePlacements[tileBIndex] = tileA;
 	}
-<<<<<<< HEAD
-=======
-
-	private Point moveWithDirection(Point toMove, Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			toMove.translate(1, 0);
-			break;
-		case LEFT:
-			toMove.translate(-1, 0);
-			break;
-		case UP:
-			toMove.translate(0, -1);
-			break;
-		case DOWN:
-			toMove.translate(0, 1);
-			break;
-		default:
-			throw new IllegalArgumentException();
-		}
-		return toMove;
-	}
-
-	private int getIndexFromPoint(Point p)
-	{
-		// x + y * width (width is the size)
-		return p.x + p.y * size;
-	}
-
-	private Point getPosition(int number) {
-		int row = number / size;
-		int col = number % size;
-
-		return new Point(col, row);
-	}
->>>>>>> dev
 	
 	private void randomizeGame() {
 		final int RANDOM_MOVES = 1000000;
@@ -172,10 +107,4 @@ public class GameBoard extends SuperGameBoard {
 			}
 		}
 	}
-<<<<<<< HEAD
-
-
-=======
-	
->>>>>>> Emil
 }

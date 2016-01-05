@@ -5,16 +5,17 @@ import graphics.Screen;
 import java.awt.Point;
 
 public class GameEngine implements java.io.Serializable {
-
-<<<<<<< HEAD
 	private final SuperGameBoard game;
-=======
-	private final GameBoard game;
 	private Screen screen;
->>>>>>> Emil
 
 	public GameEngine(int startSize, Screen screen) {	
 		this.screen = screen;
+		game = new GameBoard(startSize, screen);
+		game.createGame();
+		game.makeRandom();
+	}
+	
+	public GameEngine(int startSize) {	
 		game = new GameBoard(startSize, screen);
 		game.createGame();
 		game.makeRandom();
@@ -47,7 +48,7 @@ public class GameEngine implements java.io.Serializable {
 		screen.clear();
 		for (int i = 0; i < getTiles().length; i++) {
 			if (getTiles()[i] != null) getTiles()[i].render(screen);
-		}		
+		}
 	}
 	
 
