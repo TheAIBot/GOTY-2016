@@ -104,7 +104,7 @@ public class GameBoard {
 
 	private int getIndexFromPoint(Point p)
 	{
-		// x + y * width (width = size)
+		// x + y * width (width is the size)
 		return p.x + p.y * size;
 	}
 

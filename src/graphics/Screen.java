@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-
 public class Screen {
 
 	private Point imageBounds;
@@ -15,9 +14,9 @@ public class Screen {
 		this.gDisplay = gDisplay;
 		this.imageBounds = imageBounds;
 	}
-	
+
 	public void render(Displayable d) {
-		if(d==null){
+		if (d == null) {
 			throw new Error();
 		}
 		BufferedImage currentImage = d.getDisplayImage();
@@ -27,13 +26,13 @@ public class Screen {
 			Point imagePosition = d.getImagePosition();
 			gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
 		}
-	}	
-	
+	}
+
 	public void clear() {
 		Color currentColor = gDisplay.getColor();
 		gDisplay.setColor(Color.WHITE);
-		gDisplay.fillRect(0,0, imageBounds.x,imageBounds.y);
+		gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
 		gDisplay.setColor(currentColor);
 	}
-	
+
 }
