@@ -2,12 +2,7 @@ package Menu;
 import graphics.GraphicsPanel;
 import graphics.Screen;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -17,7 +12,6 @@ import javax.swing.KeyStroke;
 import ConsoleControl.ConsoleControl;
 import GameEngine.GameEngine;
 import GameEngine.Directions;
-import GameEngine.Tile;
 
 public class GOTYPlay extends SuperPage {
 	private GameEngine game;

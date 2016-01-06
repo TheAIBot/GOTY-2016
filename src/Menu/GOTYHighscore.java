@@ -27,7 +27,7 @@ public class GOTYHighscore extends SuperPage {
 		JButton back = new JButton("Back");
 		back.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-		            Starter.switchPage(previousPage);
+	        	 	backPage();
 		         }
 		      });
 		page.setLayout(new GridLayout(3, 1));
