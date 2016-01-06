@@ -37,16 +37,29 @@ public class GameEngine implements java.io.Serializable {
 	{
 		return game.size;
 	}
-
-	public Tile getTileAtPoisition(Point p) {
-		return game.getTileAtPoisition(p);
-	}	
 	
-	public boolean isGameWon()
+	public GameState isGameWon()
 	{
 		return game.isGameWon();
 	}
 
+	public void createGame()
+	{
+		game.createGame();
+	}
+	
+	public void makeRandom()
+	{
+		game.makeRandom();
+	}
+	
+	public void resetGame()
+	{
+		game.resetGame();
+	}
+	
+	
+	
 	public void update() {
 		
 	}
