@@ -11,6 +11,9 @@ public class ScoreManager extends Thread{
 	private long startTime;
 	private long endTime;
 	private long timeElapsed;
+	//Getting temporary time difference in seconds to update time score
+	private int previousSeconds;
+	private int timeDiffSeconds;
 	
 	//Move parameter
 	private int numMoves;
@@ -30,13 +33,14 @@ public class ScoreManager extends Thread{
 		startTime = System.nanoTime();
 		endTime = startTime;
 		timeElapsed = 0;
+		previousSeconds = 0;
+		timeDiffSeconds = 0;
 		scorePerSecond = scoreSecond;
 		scorePerMove = scoreMove;
 		numMoves = 0;
-		
 		running = true;
 		
-		this.start();
+		start();
 	}
 	
 	/**
@@ -44,6 +48,7 @@ public class ScoreManager extends Thread{
 	 */
 	public void stopRunning()
 	{
+		//Reset time difference monitoring when continuing the ScoreManager.
 		running = false;
 		
 	}
@@ -53,12 +58,9 @@ public class ScoreManager extends Thread{
 	 */
 	public void continueRunning()
 	{
-		running = true;
-		
-		//Reset time difference monitoring when continuing the ScoreManager.
 		startTime = System.nanoTime();
 		endTime = startTime;
-		run();
+		running = true;
 	}
 	
 	/**
@@ -66,12 +68,18 @@ public class ScoreManager extends Thread{
 	 */
 	public void run()
 	{
-		while(running)
+		while(true)
 		{
-			updateTime();
-			
-			updateScore();
-			
+			while(running)
+			{
+				updateTime();
+				
+				updateScore();
+				try{
+					Thread.sleep(50);
+				}
+				catch(Exception e){}
+			}
 			try{
 				Thread.sleep(50);
 			}
@@ -84,9 +92,15 @@ public class ScoreManager extends Thread{
 	 */
 	private void updateTime()
 	{
+		if(timeDiffSeconds > 0)
+			previousSeconds = getTimeElapsedSeconds();
+		
 		endTime = System.nanoTime();
 		timeElapsed += endTime - startTime;
 		startTime = endTime;
+		
+		timeDiffSeconds = getTimeElapsedSeconds() - previousSeconds;
+		
 	}
 	
 	/**
@@ -94,10 +108,10 @@ public class ScoreManager extends Thread{
 	 */
 	private void updateScore()
 	{
-		int timeScore = getTimeElapsedSeconds() * scorePerSecond;
+		int timeScore = timeDiffSeconds * scorePerSecond;
 		int moveScore = numMoves * scorePerMove;
 		
-		totalScore = timeScore + moveScore;
+		addToScore(timeScore);;
 		
 	}
 	
@@ -110,10 +124,15 @@ public class ScoreManager extends Thread{
 		totalScore+= score;
 	}
 	
+	public void incrementScore()
+	{
+		totalScore+=1;
+	}
+	
 	//Get-methods
 	
 	/**
-	 * Returns the elapsed time en seconds
+	 * Returns the elapsed time in seconds
 	 */
 	public int getTimeElapsedSeconds()
 	{
@@ -135,6 +154,15 @@ public class ScoreManager extends Thread{
 	{
 		return scorePerSecond;
 	}
+	
+	/**
+	 * Returns number of moves.
+	 */
+	public int getNumMoves()
+	{
+		return numMoves;
+	}
+	
 	/**
 	 * Returns the current amount of score added per move.
 	 */
@@ -197,6 +225,8 @@ public class ScoreManager extends Thread{
 	{
 		int secToNano = 1000000000;
 		timeElapsed = (long)seconds * secToNano;
+		
+		previousSeconds = getTimeElapsedSeconds();
 	}
 	
 	/**
@@ -206,5 +236,21 @@ public class ScoreManager extends Thread{
 	public void setNumMoves(int moves)
 	{
 		numMoves = moves;
+	}
+	/**
+	 * Increments the number of moves by 1.
+	 */
+	
+	public void incrementMoves()
+	{
+		numMoves++;
+	}
+	/**
+	 * Adds the specified number of moves to the total number of moves.
+	 * @param moves
+	 */
+	public void addNumMoves(int moves)
+	{
+		numMoves+=moves;
 	}
 }
