@@ -1,7 +1,6 @@
 package Model;
 import javax.swing.*;
 
-import Log.Log;
 
 public abstract class SuperPage {
 	protected JPanel page;
@@ -33,7 +32,7 @@ public abstract class SuperPage {
 	protected void backPage()
 	{
 		if (previousPage != null) {
-			Starter.switchPage(previousPage);
+			MenuController.switchPage(previousPage);
 		}
 		else
 		{

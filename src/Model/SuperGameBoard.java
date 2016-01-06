@@ -2,19 +2,23 @@ package Model;
 
 
 import java.awt.Point;
+import java.util.ArrayList;
+
 import Control.Directions;
+import GameEngine.GameState;
 import Control.*;
 
 
 public abstract class SuperGameBoard {
+	private final ArrayList<BoardChangedListener> boardChangedListeners = new ArrayList<BoardChangedListener>();
+	private final ArrayList<GameStateChangedListener> gameStateChangedListeners;
 	protected Tile[] tilePlacements;
 	protected final int size;
-	protected final Screen screen;
 	
-	public SuperGameBoard(int startSize, Screen screen)
+	public SuperGameBoard(int startSize)
 	{
+		gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 		size = startSize;
-		this.screen = screen;
 	}
 	
 	public abstract void createGame();
@@ -30,9 +34,7 @@ public abstract class SuperGameBoard {
 	public abstract int getSize();
 	
 	public abstract GameState getGameState();
-	
-	
-	
+		
 	protected Point moveWithDirection(Point toMove, Directions direction) {
 		switch (direction) {
 		case RIGHT:
@@ -62,8 +64,22 @@ public abstract class SuperGameBoard {
 	protected Point getPosition(int number) {
 		int row = number / size;
 		int col = number % size;
-
+		
 		return new Point(col, row);
 	}
-
+	
+	protected void GameStateChanged(GameState newGameState) {
+		for (GameStateChangedListener listener : gameStateChangedListeners) {
+			listener.gameStateChanged(newGameState);
+		}
+	}
+	
+	protected void boardChanged()
+	{
+		for (BoardChangedListener listener : boardChangedListeners) {
+			listener.boardChanged();
+		}
+	}
+	
+	
 }
