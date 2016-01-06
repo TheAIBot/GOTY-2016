@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import Control.MenuController;
 import Model.SuperPage;
 
 public class GOTYMainPage extends SuperPage {
@@ -13,6 +14,7 @@ public class GOTYMainPage extends SuperPage {
 	
 	public JPanel createPage() {
 		page.setLayout(new GridLayout(3, 1));
+		addButtons();
 		return page;
 	}
 	

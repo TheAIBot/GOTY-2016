@@ -2,37 +2,35 @@ package Control.GameEngine;
 
 import View.*;
 import Model.*;
-import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import Control.Directions;
-import GameEngine.GameState;
 
-public class GameEngine implements java.io.Serializable, KeyPressListener {
+public class GameEngine implements java.io.Serializable, KeyPressListener, BoardChangedListener {
+	
+	private final GraphicsManeger graphics;
 	private final InputManager input;
 	private final SuperGameBoard game;
-	private Screen screen;
 
-	public GameEngine(int startSize, Screen screen) {	
+	public GameEngine(int startSize, Screen screen, GraphicsPanel panel) {	
 		if (screen == null) {
 			throw new NullPointerException("Screen provided is null");
 		}
-		this.screen = screen;
-		
+		this.graphics = new GraphicsManeger(screen, panel);		
 		input = new InputManager();	
-		game = new GameBoard(startSize, screen);
+		game = new GameBoard(startSize);
+		game.addBoardChangedListener(this);
 		game.createGame();
 		game.makeRandom();
+		boardChanged();
 	}
 	
-	/*
 	public GameEngine(int startSize) {	
-		game = new GameBoard(startSize, screen);
+		graphics = null;
+		input = null;	
+		game = new GameBoard(startSize);
 		game.createGame();
 		game.makeRandom();
 	}
-	*/
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -45,7 +43,7 @@ public class GameEngine implements java.io.Serializable, KeyPressListener {
 	
 	public int getBoardSize()
 	{
-		return 0; //game.size skal returneres (*)
+		return game.getSize();
 	}
 	
 	public GameState getGameState()
@@ -67,24 +65,28 @@ public class GameEngine implements java.io.Serializable, KeyPressListener {
 	{
 		game.resetGame();
 	}
-	
-	
-	
-	public void update() {
-		
-	}
-	
-	public void render() {
-		screen.clear();
-		for (int i = 0; i < getTiles().length; i++) {
-			if (getTiles()[i] != null) getTiles()[i].render();
+
+	@Override
+	public void KeyPressed(String keyPressed) {
+		switch (keyPressed) {
+		case "DOWN":
+			moveVoidTile(Directions.DOWN);
+			break;
+		case "UP":
+			moveVoidTile(Directions.UP);
+			break;
+		case "LEFT":
+			moveVoidTile(Directions.LEFT);
+			break;
+		case "RIGHT":
+			moveVoidTile(Directions.RIGHT);
+			break;
 		}
 	}
 
-
 	@Override
-	public void KeyPressed(String KeyPressed) {
-		
+	public void boardChanged() {
+		graphics.renderTiles(game.getTiles());
 	}
 	
 
