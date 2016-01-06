@@ -4,11 +4,11 @@ import Model.GraphicsPanel;
 import Model.Tile;
 import View.Screen;
 
-public class GraphicsManeger {
+public class GraphicsManager {
 	private Screen screen;
 	private GraphicsPanel panel;
 	
-	public GraphicsManeger(Screen screen, GraphicsPanel panel) {
+	public GraphicsManager(Screen screen, GraphicsPanel panel) {
 		this.panel = panel;
 		this.screen = screen;
 	}
