@@ -10,7 +10,8 @@ import javax.imageio.ImageIO;
 import Control.*;
 
 public class Tile implements java.io.Serializable, Displayable {
-	public int number;
+	
+	private int number;
 	Point position;	
 	Color color;	
 	BufferedImage displayImage;
@@ -26,9 +27,8 @@ public class Tile implements java.io.Serializable, Displayable {
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	
-	
-	public void render(Screen screen){
-		screen.renderTile(this);
+	public BufferedImage detDisplay(){
+		return displayImage;
 	}
 	
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
@@ -55,5 +55,9 @@ public class Tile implements java.io.Serializable, Displayable {
 	 */
 	public Point getImagePosition() {
 		return new Point(position.x * size, position.y * size);
+	}
+	
+	public int getNumber(){
+		return number;
 	}
 }
