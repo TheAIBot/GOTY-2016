@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import GameEngine.Directions;
 import GameEngine.GameEngine;
+import GameEngine.GameState;
 
 public class ConsoleControl {
 	/**
@@ -13,15 +14,26 @@ public class ConsoleControl {
 	 */
 	public static void startGameInConsole(int size) {
 		GameEngine game = new GameEngine(size);
-		ConsoleGraphics.printGame(game);
+
 		try (Scanner scan = new Scanner(System.in)) {
 			while (true) {
-				String line = scan.nextLine();
-				if (line.length() == 1) {
-					char keyPressed = line.charAt(0);
-					doGameMove(keyPressed, game);
+				do {
+					//print the game to the console every time a command is passed
+					// and at the start of the game so the user can the game
 					ConsoleGraphics.printGame(game);
-				}
+					String comand = scan.nextLine();
+					//only commands of the size 1 char is allowed as there is
+					//no command that uses more than 1 char and atleast 1 char
+					//is needed for it to be a valid command
+					if (comand.length() == 1) {
+						//the command will always be the first char as the
+						//string has the length 1
+						char keyPressed = comand.charAt(0);
+						doGameMove(keyPressed, game);
+					}
+					//The game win run until the the player either lost, won or tied
+				} while (game.getGameState() == GameState.NOT_DECIDED_YET);
+				game.resetGame();
 			}
 		}
 	}
