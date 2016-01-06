@@ -1,10 +1,12 @@
-package graphics;
+package View;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
+import Model.Displayable;
 
 public class Screen {
 
@@ -31,16 +33,17 @@ public class Screen {
 	public boolean render(Displayable d) {
 		//Checks if the displayable has the neccesary information required for displaying it on the screen.
 		if (d == null) {
-			throw new Error();
+			throw new NullPointerException();
 		}
 		BufferedImage currentImage = d.getDisplayImage();
 		Point imagePosition = d.getImagePosition();
 		if (currentImage == null || imagePosition == null) {
-			throw new Error();
+			throw new NullPointerException();
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			if (isInsideDisplay(currentImage, imagePosition)) { 
+			if (true) { 
+				//isInsideDisplay(currentImage, imagePosition)
 				gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
 				return true;				
 			} else {

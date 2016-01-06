@@ -1,4 +1,4 @@
-package graphics;
+package Model;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,6 +19,7 @@ public class GraphicsPanel extends JPanel{
 	private Graphics2D gImage;
 	
 	public GraphicsPanel(int height, int width) {
+		
 		//Basseret på bogen				
 		super();
 		this.setBackground(Color.WHITE);

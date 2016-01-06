@@ -1,4 +1,5 @@
-package GameEngine;
+
+package Control;
 
 public enum Directions {
 	LEFT
@@ -33,6 +34,5 @@ public enum Directions {
 			return Directions.UP;
 		}
 	};
-	
 	public abstract Directions getOppositeDirection();
 }

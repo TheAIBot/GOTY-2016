@@ -1,25 +1,22 @@
 package Menu;
-import graphics.GraphicsPanel;
-import graphics.Screen;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import ConsoleControl.ConsoleControl;
-import GameEngine.GameEngine;
-import GameEngine.Directions;
-import GameEngine.Tile;
+import Control.Directions;
+import Control.GameEngine.GameEngine;
+import Model.GraphicsPanel;
+import Model.SuperPage;
+import Model.Tile;
+import View.Screen;
+
 
 public class GOTYPlay extends SuperPage {
+	private static final SuperPage PLAY_GAME_SETTINGS = new GOTYPlayGameSettings();
 	private GameEngine game;
 	private GraphicsPanel gPanel;
 	private Screen screen;
@@ -55,7 +52,7 @@ public class GOTYPlay extends SuperPage {
 		    }
 		});
 
-		
+		page = gPanel;
 		return gPanel;
 		//return page;
 	}
@@ -63,7 +60,7 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(10, screen);
+		game = new GameEngine(3, screen, gPanel);
 		//ConsoleControl.startGameInConsole(10);
 	}
 
@@ -71,5 +68,4 @@ public class GOTYPlay extends SuperPage {
 	public void closePage() {
 		// TODO do something that stops the game
 	}
-
 }

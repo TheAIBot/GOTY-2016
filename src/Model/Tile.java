@@ -1,17 +1,17 @@
-package GameEngine;
+package Model;
 
-import graphics.Displayable;
-import graphics.Screen;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 
+import Control.*;
+
 public class Tile implements java.io.Serializable, Displayable {
-	public int number;
+	
+	private int number;
 	Point position;	
 	Color color;	
 	BufferedImage displayImage;
@@ -27,9 +27,8 @@ public class Tile implements java.io.Serializable, Displayable {
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	
-	
-	public void render(Screen screen){
-		screen.renderTile(this);
+	public BufferedImage getDisplay(){
+		return displayImage;
 	}
 	
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
@@ -50,11 +49,16 @@ public class Tile implements java.io.Serializable, Displayable {
 	public BufferedImage getDisplayImage() {
 		return displayImage;
 	}
-	
+
 	/**
 	 * tile precision
 	 */
+	
 	public Point getImagePosition() {
 		return new Point(position.x * size, position.y * size);
+	}
+	
+	public int getNumber(){
+		return number;
 	}
 }

@@ -1,7 +1,7 @@
 package Tests;
 
-import GameEngine.GameEngine;
-import GameEngine.SaveFileManager;
+import Control.GameEngine.GameEngine;
+import Control.GameEngine.SaveFileManager;
 
 public class SaveFileTest {
 	
@@ -12,7 +12,7 @@ public class SaveFileTest {
 		sfm.save("save_test1", ge);
 		
 		GameEngine ge_load = sfm.load("save_test1");
-		assert(ge.getBoardSize() == ge_load.getBoardSize()) : "størrelserne på de to gameEngines er ikke ens";
+		assert(ge.getBoardSize() == ge_load.getBoardSize()) : "stï¿½rrelserne pï¿½ de to gameEngines er ikke ens";
 		//TODO add mode checks
 		
 	}

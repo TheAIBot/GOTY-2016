@@ -1,15 +1,17 @@
-package GameEngine;
+package Model;
 
-import graphics.Screen;
 
 import java.awt.Color;
 import java.awt.Point;
+import Control.*;
+
 
 public class GameBoard extends SuperGameBoard {
 	private Point voidTilePosition;
 	
-	public GameBoard(int startSize, Screen screen) {
-		super(startSize, screen);
+	public GameBoard(int startSize) {
+		super(startSize);
+		currentGameState = GameState.NOT_DECIDED_YET;
 	}
 	
 	@Override
@@ -44,16 +46,21 @@ public class GameBoard extends SuperGameBoard {
 	@Override
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
-			moveTileVoid(direction);
+			swapVoidTile(direction);
+			boardChanged();
 			return true;
 		}
 		return false;
 	}
 	
-	public Tile getTileAtPoisition(Point p) {
-		return tilePlacements[getIndexFromPoint(p)];
+	public boolean moveVoidTileNoUpdate(Directions direction) {
+		if (isMoveAllowed(direction)) {
+			swapVoidTile(direction);
+			return true;
+		}
+		return false;
 	}
-
+	
 	@Override
 	public int getSize() {
 		return size;
@@ -74,9 +81,9 @@ public class GameBoard extends SuperGameBoard {
 		}
 	}
 
-	private void moveTileVoid(Directions direction) {
+	private void swapVoidTile(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
-		Tile tileToMove = getTileAtPoisition(voidTilePosition);
+		Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove.position, direction.getOppositeDirection());
 		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
 	}
@@ -93,18 +100,21 @@ public class GameBoard extends SuperGameBoard {
 		for (int i = 0; i < RANDOM_MOVES; i++) {
 			switch ((((int)(Math.random() * 10)) % 4)) {
 			case 0:
-				moveVoidTile(Directions.LEFT);
+				moveVoidTileNoUpdate(Directions.LEFT);
 				break;
 			case 1:
-				moveVoidTile(Directions.RIGHT);
+				moveVoidTileNoUpdate(Directions.RIGHT);
 				break;
 			case 2:
-				moveVoidTile(Directions.UP);
+				moveVoidTileNoUpdate(Directions.UP);
 				break;
 			case 3:
-				moveVoidTile(Directions.DOWN);
+				moveVoidTileNoUpdate(Directions.DOWN);
 				break;
 			}
 		}
+		boardChanged();
 	}
+
+	
 }
