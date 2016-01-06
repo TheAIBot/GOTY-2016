@@ -3,9 +3,13 @@ package Control.GameEngine;
 import View.*;
 import Model.*;
 import java.awt.Point;
-import Control.Directions;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class GameEngine implements java.io.Serializable {
+import Control.Directions;
+import GameEngine.GameState;
+
+public class GameEngine implements java.io.Serializable, KeyPressListener {
 	private final InputManager input;
 	private final SuperGameBoard game;
 	private Screen screen;
@@ -75,6 +79,12 @@ public class GameEngine implements java.io.Serializable {
 		for (int i = 0; i < getTiles().length; i++) {
 			if (getTiles()[i] != null) getTiles()[i].render();
 		}
+	}
+
+
+	@Override
+	public void KeyPressed(String KeyPressed) {
+		
 	}
 	
 
