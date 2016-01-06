@@ -5,6 +5,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+import Model.SuperPage;
+
 public class MenuController {
 	private static JFrame mainMenu;
 	

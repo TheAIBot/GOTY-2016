@@ -1,17 +1,17 @@
 package Control.GameModes;
 
 import java.util.Scanner;
+
+import com.sun.glass.ui.View;
+
 import View.*;
 import Model.*;
 
-<<<<<<< HEAD:src/Control/GameModes/ConsoleControl.java
 import Control.Directions;
 import Control.GameEngine.GameEngine;
-=======
-import GameEngine.Directions;
-import GameEngine.GameEngine;
 import GameEngine.GameState;
->>>>>>> 47dd71f3ef5f026d9d4b167e0285e75a6e90bfdd:src/ConsoleControl/ConsoleControl.java
+import View.ConsoleGraphics;
+
 
 public class ConsoleControl {
 	/**

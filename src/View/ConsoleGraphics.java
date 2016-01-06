@@ -3,15 +3,11 @@ package View;
 import Control.GameEngine.GameEngine;
 import Model.Tile;
 
-class ConsoleGraphics {
-<<<<<<< HEAD:src/View/ConsoleGraphics.java
-	
-=======
+public class ConsoleGraphics {
 	/**
 	 * Prints the game board to the console
 	 * @param game The game to print
 	 */
->>>>>>> 47dd71f3ef5f026d9d4b167e0285e75a6e90bfdd:src/ConsoleControl/ConsoleGraphics.java
 	public static void printGame(GameEngine game)
 	{
 		final String emptyString = "";

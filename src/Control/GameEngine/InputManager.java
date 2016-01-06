@@ -1,35 +1,36 @@
 package Control.GameEngine;
 
-import View.*;
-import Model.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.util.HashSet;
 
-public class InputManager implements KeyListener {
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+
+import View.Screen;
+
+public class InputManager {
 	
-	private boolean[] keys = new boolean[120]; //key map
-	public boolean up, down, left, right;
+	private final HashSet<KeyPressListener> listeners = new HashSet<KeyPressListener>();
 	
-	//update input key map
-	public void update() {
-		up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
-		down = keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S];
-		left = keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
-		right = keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D];
-		
-		//Exit program
-		if (keys[KeyEvent.VK_ESCAPE]) System.exit(0);
+	public void AttachListenerToKey(Screen screen, KeyPressListener listener, final String key)
+	{
+		listeners.add(listener);
+		//TODO when screen is fixed the below code has to subscribe to the graphics panel
+		JPanel gPanel = new JPanel();
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(key), key);
+		gPanel.getActionMap().put(key, new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) {
+		    	performEvent(key);
+		    }
+		});
 	}
 	
-	public void keyPressed(KeyEvent e) {
-		keys[e.getKeyCode()] = true;
-	}
-
-	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
-	}
-
-	public void keyTyped(KeyEvent e) {
-		
+	private void performEvent(String KeyPressed)
+	{
+		for (KeyPressListener keyPressListener : listeners) {
+			keyPressListener.KeyPressed(KeyPressed);
+		}
 	}
 }
