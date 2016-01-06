@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import Control.MenuController;
 import Model.SuperPage;
 
 public class GOTYMainPage extends SuperPage {

@@ -1,6 +1,9 @@
 package Model;
 import javax.swing.*;
 
+import Control.MenuController;
+import Control.GameEngine.Log;
+
 
 public abstract class SuperPage {
 	protected JPanel page;

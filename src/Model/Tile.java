@@ -27,7 +27,7 @@ public class Tile implements java.io.Serializable, Displayable {
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	
-	public BufferedImage detDisplay(){
+	public BufferedImage getDisplay(){
 		return displayImage;
 	}
 	
@@ -49,10 +49,11 @@ public class Tile implements java.io.Serializable, Displayable {
 	public BufferedImage getDisplayImage() {
 		return displayImage;
 	}
-	
+
 	/**
 	 * tile precision
 	 */
+	
 	public Point getImagePosition() {
 		return new Point(position.x * size, position.y * size);
 	}

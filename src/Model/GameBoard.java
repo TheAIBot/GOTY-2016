@@ -11,6 +11,7 @@ public class GameBoard extends SuperGameBoard {
 	
 	public GameBoard(int startSize) {
 		super(startSize);
+		currentGameState = GameState.NOT_DECIDED_YET;
 	}
 	
 	@Override
@@ -55,12 +56,6 @@ public class GameBoard extends SuperGameBoard {
 	@Override
 	public int getSize() {
 		return size;
-	}
-	
-	@Override
-	public GameState getGameState() {
-		//TODO add victory condition
-		return GameState.NOT_DECIDED_YET;
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
