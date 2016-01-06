@@ -1,7 +1,6 @@
 package Model;
 import javax.swing.*;
 
-import Log.Log;
 
 public abstract class SuperPage {
 	protected JPanel page;

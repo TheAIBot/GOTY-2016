@@ -1,4 +1,4 @@
-package GameEngine;
+package Model;
 
 public class GameSettings {
 	private int soundVolume;

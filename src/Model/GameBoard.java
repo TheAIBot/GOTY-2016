@@ -9,8 +9,8 @@ import Control.*;
 public class GameBoard extends SuperGameBoard {
 	private Point voidTilePosition;
 	
-	public GameBoard(int startSize, Screen screen) {
-		super(startSize, screen);
+	public GameBoard(int startSize) {
+		super(startSize);
 	}
 	
 	@Override
@@ -45,7 +45,8 @@ public class GameBoard extends SuperGameBoard {
 	@Override
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
-			moveTileVoid(direction);
+			swapVoidTile(direction);
+			boardChanged();
 			return true;
 		}
 		return false;
@@ -77,7 +78,7 @@ public class GameBoard extends SuperGameBoard {
 		}
 	}
 
-	private void moveTileVoid(Directions direction) {
+	private void swapVoidTile(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
 		Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove.position, direction.getOppositeDirection());
@@ -111,4 +112,5 @@ public class GameBoard extends SuperGameBoard {
 		}
 	}
 
+	
 }

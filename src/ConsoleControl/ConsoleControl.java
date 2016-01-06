@@ -2,11 +2,14 @@ package ConsoleControl;
 
 import java.util.Scanner;
 
-import GameEngine.Directions;
+import Control.Directions;
 import GameEngine.GameEngine;
-import GameEngine.GameState;
+import Model.GameState;
+import Model.GameStateChangedListener;
 
-public class ConsoleControl {
+public class ConsoleControl implements GameStateChangedListener {
+	private static boolean run = true;
+	
 	/**
 	 * Starts and shows the game in the console 
 	 * Controlled by using w, a, s, d as the controls
@@ -14,7 +17,7 @@ public class ConsoleControl {
 	 */
 	public static void startGameInConsole(int size) {
 		GameEngine game = new GameEngine(size);
-
+		run = true;
 		try (Scanner scan = new Scanner(System.in)) {
 			while (true) {
 				do {
@@ -32,7 +35,7 @@ public class ConsoleControl {
 						doGameMove(keyPressed, game);
 					}
 					//The game win run until the the player either lost, won or tied
-				} while (game.getGameState() == GameState.NOT_DECIDED_YET);
+				} while (run);
 				game.resetGame();
 			}
 		}
@@ -58,6 +61,12 @@ public class ConsoleControl {
 		case 's':
 			game.moveVoidTile(Directions.DOWN);
 			break;
+		}
+	}
+
+	public void gameStateChanged(GameState newGameState) {
+		if (newGameState != GameState.NOT_DECIDED_YET) {
+			run = false;
 		}
 	}
 }

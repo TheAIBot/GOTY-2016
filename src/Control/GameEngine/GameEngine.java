@@ -3,9 +3,12 @@ package Control.GameEngine;
 import View.*;
 import Model.*;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import Control.Directions;
 
-public class GameEngine implements java.io.Serializable {
+public class GameEngine implements java.io.Serializable, KeyPressListener {
 	private final InputManager input;
 	private final SuperGameBoard game;
 	private Screen screen;
@@ -22,13 +25,11 @@ public class GameEngine implements java.io.Serializable {
 		game.makeRandom();
 	}
 	
-	/*
 	public GameEngine(int startSize) {	
 		game = new GameBoard(startSize, screen);
 		game.createGame();
 		game.makeRandom();
 	}
-	*/
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -41,7 +42,7 @@ public class GameEngine implements java.io.Serializable {
 	
 	public int getBoardSize()
 	{
-		return 0; //game.size skal returneres (*)
+		return game.size;
 	}
 	
 	public GameState getGameState()
@@ -75,6 +76,12 @@ public class GameEngine implements java.io.Serializable {
 		for (int i = 0; i < getTiles().length; i++) {
 			if (getTiles()[i] != null) getTiles()[i].render();
 		}
+	}
+
+
+	@Override
+	public void KeyPressed(String KeyPressed) {
+		
 	}
 	
 
