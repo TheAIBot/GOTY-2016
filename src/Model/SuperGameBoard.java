@@ -3,6 +3,7 @@ package Model;
 
 import java.awt.Point;
 import Control.Directions;
+import GameEngine.GameState;
 import Control.*;
 
 

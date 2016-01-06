@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import Model.SuperPage;
+
 public class GOTYPlayGameSettings extends SuperPage {
 	private static final GOTYPlay PLAY_GAME = new GOTYPlay();
 	

@@ -1,8 +1,13 @@
 package GameEngine;
 
-import graphics.Screen;
+import View.Screen;
 
 import java.awt.Point;
+
+import Control.Directions;
+import Model.GameBoard;
+import Model.SuperGameBoard;
+import Model.Tile;
 
 public class GameEngine implements java.io.Serializable {
 	private final SuperGameBoard game;

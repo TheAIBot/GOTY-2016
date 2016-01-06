@@ -7,8 +7,6 @@ import Control.Directions;
 
 public class GameEngine implements java.io.Serializable {
 	private final InputManager input;
-	private final Log log;
-	private final SaveFileManager save;
 	private final SuperGameBoard game;
 	private Screen screen;
 
@@ -18,10 +16,8 @@ public class GameEngine implements java.io.Serializable {
 		}
 		this.screen = screen;
 		
-		input = new InputManager();
-		log = new Log();
-		save = new SaveFileManager(""); //Vælg type (*)		
-		game = new GameBoard(startSize);
+		input = new InputManager();	
+		game = new GameBoard(startSize, screen);
 		game.createGame();
 		game.makeRandom();
 	}

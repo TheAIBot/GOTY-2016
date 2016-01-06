@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import Menu.GOTYMainPage;
 import Model.SuperPage;
 
-public class Game {
+public class MenuController {
 	private static JFrame mainMenu;
 	private static final GOTYMainPage MAIN_PAGE = new GOTYMainPage();
 	private static SuperPage currentPage;
