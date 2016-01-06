@@ -53,6 +53,14 @@ public class GameBoard extends SuperGameBoard {
 		return false;
 	}
 	
+	public boolean moveVoidTileNoUpdate(Directions direction) {
+		if (isMoveAllowed(direction)) {
+			swapVoidTile(direction);
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public int getSize() {
 		return size;
@@ -92,16 +100,16 @@ public class GameBoard extends SuperGameBoard {
 		for (int i = 0; i < RANDOM_MOVES; i++) {
 			switch ((((int)(Math.random() * 10)) % 4)) {
 			case 0:
-				moveVoidTile(Directions.LEFT);
+				moveVoidTileNoUpdate(Directions.LEFT);
 				break;
 			case 1:
-				moveVoidTile(Directions.RIGHT);
+				moveVoidTileNoUpdate(Directions.RIGHT);
 				break;
 			case 2:
-				moveVoidTile(Directions.UP);
+				moveVoidTileNoUpdate(Directions.UP);
 				break;
 			case 3:
-				moveVoidTile(Directions.DOWN);
+				moveVoidTileNoUpdate(Directions.DOWN);
 				break;
 			}
 		}

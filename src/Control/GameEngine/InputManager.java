@@ -1,15 +1,11 @@
 package Control.GameEngine;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-
-import View.Screen;
 
 public class InputManager {
 	

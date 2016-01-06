@@ -14,6 +14,7 @@ public class GOTYMainPage extends SuperPage {
 	
 	public JPanel createPage() {
 		page.setLayout(new GridLayout(3, 1));
+		addButtons();
 		return page;
 	}
 	

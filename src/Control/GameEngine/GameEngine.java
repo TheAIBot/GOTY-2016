@@ -2,9 +2,6 @@ package Control.GameEngine;
 
 import View.*;
 import Model.*;
-import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import Control.Directions;
 
@@ -14,15 +11,17 @@ public class GameEngine implements java.io.Serializable, KeyPressListener, Board
 	private final InputManager input;
 	private final SuperGameBoard game;
 
-	public GameEngine(int startSize, Screen screen) {	
+	public GameEngine(int startSize, Screen screen, GraphicsPanel panel) {	
 		if (screen == null) {
 			throw new NullPointerException("Screen provided is null");
 		}
-		this.graphics = new GraphicsManeger(screen);		
+		this.graphics = new GraphicsManeger(screen, panel);		
 		input = new InputManager();	
 		game = new GameBoard(startSize);
+		game.addBoardChangedListener(this);
 		game.createGame();
 		game.makeRandom();
+		boardChanged();
 	}
 	
 	public GameEngine(int startSize) {	
