@@ -1,7 +1,4 @@
-package GameEngine;
-
-import graphics.Displayable;
-import graphics.Screen;
+package graphics;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -10,23 +7,22 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-public class Tile implements java.io.Serializable, Displayable {
-	public int number;
+
+public class FakeTile implements Displayable {
+	
+	int number;
 	Point position;	
 	Color color;	
 	BufferedImage displayImage;
 	int size = 100;
 	
-	public Tile(int number, Point position, Color color)
-	{
+	public FakeTile(int number, Point position, Color color) {
 		this.number = number;
 		this.position = position;
-		System.out.println(position.toString());
 		this.color = color;	
 		setCurrentImage("res/tempchest.png");
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
-	
 	
 	public void render(Screen screen){
 		screen.renderTile(this);
@@ -50,11 +46,9 @@ public class Tile implements java.io.Serializable, Displayable {
 	public BufferedImage getDisplayImage() {
 		return displayImage;
 	}
-	
-	/**
-	 * tile precision
-	 */
+
 	public Point getImagePosition() {
 		return new Point(position.x * size, position.y * size);
-	}
+	}	
+	
 }

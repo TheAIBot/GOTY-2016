@@ -1,6 +1,7 @@
+package Menu;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Currency;
 
 import javax.swing.JFrame;
 
@@ -31,8 +32,6 @@ public class Starter {
 	{
 		mainMenu.add(MAIN_PAGE.getPage());
 		currentPage = MAIN_PAGE;
-		mainMenu.repaint();
-		mainMenu.invalidate();
 		mainMenu.setVisible(true);
 	}
 	
