@@ -1,7 +1,9 @@
 package ConsoleControl;
 
-import GameEngine.GameEngine;
-import GameEngine.Tile;
+import Control.GameEngine.GameEngine;
+import Model.Tile;
+
+
 
 class ConsoleGraphics {
 	/**
@@ -32,7 +34,7 @@ class ConsoleGraphics {
 					System.out.print(String.format("%" + sTileLength + "s", emptyString));
 				}
 				else {
-					final int tileNumber = tile.number;
+					final int tileNumber = tile.getNumber();
 					//String-format makes sure each number uses the same amount of chars 
 					//so every number is aligned by column
 					System.out.print(String.format("%" + sTileLength + "d", tileNumber));

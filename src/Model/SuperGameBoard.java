@@ -4,7 +4,6 @@ package Model;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import Control.Directions;
 import Control.*;
 
 
@@ -12,6 +11,7 @@ public abstract class SuperGameBoard {
 	private final ArrayList<BoardChangedListener> boardChangedListeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners;
 	protected Tile[] tilePlacements;
+	protected GameState currentGameState;
 	protected final int size;
 	
 	public SuperGameBoard(int startSize)
@@ -32,7 +32,9 @@ public abstract class SuperGameBoard {
 	
 	public abstract int getSize();
 	
-	public abstract GameState getGameState();
+	public GameState getGameState(){
+		return currentGameState;
+	}
 		
 	protected Point moveWithDirection(Point toMove, Directions direction) {
 		switch (direction) {

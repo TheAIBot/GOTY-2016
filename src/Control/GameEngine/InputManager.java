@@ -1,5 +1,6 @@
 package Control.GameEngine;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
 
@@ -14,13 +15,11 @@ public class InputManager {
 	
 	private final HashSet<KeyPressListener> listeners = new HashSet<KeyPressListener>();
 	
-	public void AttachListenerToKey(Screen screen, KeyPressListener listener, final String key)
+	public void AttachListenerToKey(JComponent component, KeyPressListener listener, final String key)
 	{
 		listeners.add(listener);
-		//TODO when screen is fixed the below code has to subscribe to the graphics panel
-		JPanel gPanel = new JPanel();
-		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(key), key);
-		gPanel.getActionMap().put(key, new AbstractAction() {
+		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(key), key);
+		component.getActionMap().put(key, new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	performEvent(key);
 		    }
