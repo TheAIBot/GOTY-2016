@@ -7,7 +7,7 @@ import Control.Directions;
 
 public class GameEngine implements java.io.Serializable, KeyPressListener, BoardChangedListener {
 	
-	private final GraphicsManeger graphics;
+	private final GraphicsManager graphics;
 	private final InputManager input;
 	private final SuperGameBoard game;
 
@@ -15,13 +15,12 @@ public class GameEngine implements java.io.Serializable, KeyPressListener, Board
 		if (screen == null) {
 			throw new NullPointerException("Screen provided is null");
 		}
-		this.graphics = new GraphicsManeger(screen, panel);		
+		this.graphics = new GraphicsManager(screen, panel);		
 		input = new InputManager();	
 		game = new GameBoard(startSize);
 		game.addBoardChangedListener(this);
 		game.createGame();
 		game.makeRandom();
-		boardChanged();
 	}
 	
 	public GameEngine(int startSize) {	
