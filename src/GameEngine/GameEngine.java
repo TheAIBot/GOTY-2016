@@ -5,11 +5,12 @@ import View.Screen;
 import java.awt.Point;
 
 import Control.Directions;
+import Control.GameEngine.KeyPressListener;
 import Model.GameBoard;
 import Model.SuperGameBoard;
 import Model.Tile;
 
-public class GameEngine implements java.io.Serializable {
+public class GameEngine implements java.io.Serializable, KeyPressListener {
 	private final SuperGameBoard game;
 	private Screen screen;
 
@@ -74,6 +75,12 @@ public class GameEngine implements java.io.Serializable {
 		for (int i = 0; i < getTiles().length; i++) {
 			if (getTiles()[i] != null) getTiles()[i].render(screen);
 		}
+	}
+
+	@Override
+	public void KeyPressed(char KeyPressed) {
+		
+		
 	}
 	
 
