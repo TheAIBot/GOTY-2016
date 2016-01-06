@@ -4,7 +4,6 @@ package Model;
 import java.awt.Color;
 import java.awt.Point;
 import Control.*;
-import GameEngine.GameState;
 
 
 public class GameBoard extends SuperGameBoard {

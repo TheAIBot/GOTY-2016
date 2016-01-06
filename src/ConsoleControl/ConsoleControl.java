@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import Control.Directions;
 import GameEngine.GameEngine;
-import GameEngine.GameState;
+import Model.GameState;
 import Model.GameStateChangedListener;
 
 public class ConsoleControl implements GameStateChangedListener {

@@ -9,7 +9,6 @@ import Model.*;
 
 import Control.Directions;
 import Control.GameEngine.GameEngine;
-import GameEngine.GameState;
 import View.ConsoleGraphics;
 
 

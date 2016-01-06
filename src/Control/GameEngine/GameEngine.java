@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import Control.Directions;
-import GameEngine.GameState;
 
 public class GameEngine implements java.io.Serializable, KeyPressListener {
 	private final InputManager input;
@@ -26,13 +25,11 @@ public class GameEngine implements java.io.Serializable, KeyPressListener {
 		game.makeRandom();
 	}
 	
-	/*
 	public GameEngine(int startSize) {	
 		game = new GameBoard(startSize, screen);
 		game.createGame();
 		game.makeRandom();
 	}
-	*/
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -45,7 +42,7 @@ public class GameEngine implements java.io.Serializable, KeyPressListener {
 	
 	public int getBoardSize()
 	{
-		return 0; //game.size skal returneres (*)
+		return game.size;
 	}
 	
 	public GameState getGameState()
