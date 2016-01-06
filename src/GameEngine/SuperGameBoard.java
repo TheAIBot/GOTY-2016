@@ -27,7 +27,7 @@ public abstract class SuperGameBoard {
 	
 	public abstract int getSize();
 	
-	public abstract Tile getTileAtPoisition(Point p);
+	public abstract GameState getGameState();
 	
 	
 	
