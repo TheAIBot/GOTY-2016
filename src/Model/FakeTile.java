@@ -1,11 +1,12 @@
-package graphics;
+package Model;
+
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import javax.imageio.ImageIO;
+import Control.*;
 
 
 public class FakeTile implements Displayable {

@@ -1,9 +1,12 @@
-package input;
+package Control.GameEngine;
 
+import View.*;
+import Model.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class InputManager implements KeyListener {
+	
 	private boolean[] keys = new boolean[120]; //key map
 	public boolean up, down, left, right;
 	

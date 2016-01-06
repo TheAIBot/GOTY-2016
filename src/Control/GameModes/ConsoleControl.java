@@ -1,9 +1,11 @@
-package ConsoleControl;
+package Control.GameModes;
 
 import java.util.Scanner;
+import View.*;
+import Model.*;
 
-import GameEngine.Directions;
-import GameEngine.GameEngine;
+import Control.Directions;
+import Control.GameEngine.GameEngine;
 
 public class ConsoleControl {
 	public static void startGameInConsole(int size)

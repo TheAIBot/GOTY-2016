@@ -1,6 +1,4 @@
 package Menu;
-import graphics.GraphicsPanel;
-import graphics.Screen;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -14,10 +12,13 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import ConsoleControl.ConsoleControl;
-import GameEngine.GameEngine;
-import GameEngine.Directions;
-import GameEngine.Tile;
+import Control.Directions;
+import Control.GameEngine.GameEngine;
+import Control.GameModes.ConsoleControl;
+import Model.GraphicsPanel;
+import Model.SuperPage;
+import Model.Tile;
+import View.Screen;
 
 public class GOTYPlay extends SuperPage {
 	private GameEngine game;

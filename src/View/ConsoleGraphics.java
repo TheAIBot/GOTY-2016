@@ -1,9 +1,10 @@
-package ConsoleControl;
+package View;
 
-import GameEngine.GameEngine;
-import GameEngine.Tile;
+import Control.GameEngine.GameEngine;
+import Model.Tile;
 
 class ConsoleGraphics {
+	
 	public static void printGame(GameEngine game)
 	{
 		final int boardSize = game.getBoardSize();

@@ -1,4 +1,7 @@
-package Log;
+package Control.GameEngine;
+
+import View.*;
+import Model.*;
 import java.io.PrintStream;
 
 public class Log {

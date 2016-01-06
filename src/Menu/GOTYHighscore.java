@@ -10,7 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import Highscore.Highscore;
+import Control.Game;
+import Control.GameEngine.Highscore;
+import Model.SuperPage;
 import javafx.util.Pair;
 
 public class GOTYHighscore extends SuperPage {
@@ -27,7 +29,7 @@ public class GOTYHighscore extends SuperPage {
 		JButton back = new JButton("Back");
 		back.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-		            Starter.switchPage(previousPage);
+		            Game.switchPage(previousPage);
 		         }
 		      });
 		page.setLayout(new GridLayout(3, 1));

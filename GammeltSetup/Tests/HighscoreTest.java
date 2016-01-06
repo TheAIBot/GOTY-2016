@@ -2,8 +2,8 @@ package Tests;
 
 import java.util.ArrayList;
 
-import GameEngine.SaveFileManager;
-import Highscore.Highscore;
+import Control.GameEngine.Highscore;
+import Control.GameEngine.SaveFileManager;
 import javafx.util.Pair;;
 
 public class HighscoreTest {
