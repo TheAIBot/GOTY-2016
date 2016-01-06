@@ -38,9 +38,9 @@ public class GameEngine implements java.io.Serializable {
 		return game.size;
 	}
 	
-	public GameState isGameWon()
+	public GameState getGameState()
 	{
-		return game.isGameWon();
+		return game.getGameState();
 	}
 
 	public void createGame()

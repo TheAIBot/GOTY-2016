@@ -27,7 +27,7 @@ public abstract class SuperGameBoard {
 	
 	public abstract int getSize();
 	
-	public abstract GameState isGameWon();
+	public abstract GameState getGameState();
 	
 	
 	

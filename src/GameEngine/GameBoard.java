@@ -56,7 +56,7 @@ public class GameBoard extends SuperGameBoard {
 	}
 	
 	@Override
-	public GameState isGameWon() {
+	public GameState getGameState() {
 		//TODO add victory condition
 		return GameState.NOT_DECIDED_YET;
 	}
