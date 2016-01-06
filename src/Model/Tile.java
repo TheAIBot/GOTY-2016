@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
+import View.Screen;
+
 import Control.*;
 
 public class Tile implements java.io.Serializable, Displayable {
@@ -25,6 +27,10 @@ public class Tile implements java.io.Serializable, Displayable {
 		this.color = color;	
 		setCurrentImage("res/tempchest.png");
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
+	}
+	
+	public void render(Screen screen) {
+		screen.renderTile(this);
 	}
 	
 	public BufferedImage detDisplay(){

@@ -25,11 +25,11 @@ public class GameEngine implements java.io.Serializable, KeyPressListener {
 		game.makeRandom();
 	}
 	
-	public GameEngine(int startSize) {	
+	/*public GameEngine(int startSize) {	
 		game = new GameBoard(startSize, screen);
 		game.createGame();
 		game.makeRandom();
-	}
+	}*/
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -74,7 +74,7 @@ public class GameEngine implements java.io.Serializable, KeyPressListener {
 	public void render() {
 		screen.clear();
 		for (int i = 0; i < getTiles().length; i++) {
-			if (getTiles()[i] != null) getTiles()[i].render();
+			if (getTiles()[i] != null) getTiles()[i].render(screen);
 		}
 	}
 

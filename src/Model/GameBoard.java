@@ -3,14 +3,22 @@ package Model;
 
 import java.awt.Color;
 import java.awt.Point;
+
+import View.Screen;
 import Control.*;
 
 
 public class GameBoard extends SuperGameBoard {
 	private Point voidTilePosition;
+	private Screen screen;
 	
 	public GameBoard(int startSize) {
 		super(startSize);
+	}
+	
+	public GameBoard(int startSize, Screen screen) {
+		super(startSize);
+		this.screen = screen;
 	}
 	
 	@Override
@@ -111,6 +119,5 @@ public class GameBoard extends SuperGameBoard {
 			}
 		}
 	}
-
 	
 }

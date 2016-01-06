@@ -12,7 +12,7 @@ public abstract class SuperGameBoard {
 	private final ArrayList<BoardChangedListener> boardChangedListeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners;
 	protected Tile[] tilePlacements;
-	protected final int size;
+	public final int size;
 	
 	public SuperGameBoard(int startSize)
 	{

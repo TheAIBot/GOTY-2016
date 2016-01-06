@@ -61,8 +61,10 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(10, screen);
+		game = new GameEngine(3, screen);
 		//ConsoleControl.startGameInConsole(10);
+		game.render();
+		gPanel.repaint();
 	}
 
 	@Override

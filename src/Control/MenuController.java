@@ -26,7 +26,7 @@ public class MenuController {
 	{
 		mainMenu.add(MAIN_PAGE.getPage());
 		currentPage = MAIN_PAGE;
-		mainMenu.setVisible(true);
+		mainMenu.setVisible(true);	
 	}
 	
 	public static void switchPage(SuperPage toSwitchTo)
