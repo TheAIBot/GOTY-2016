@@ -29,6 +29,8 @@ public abstract class SuperGameBoard {
 	
 	public abstract Tile getTileAtPoisition(Point p);
 	
+	public abstract boolean isGameWon();
+	
 	
 	
 	protected Point moveWithDirection(Point toMove, Directions direction) {

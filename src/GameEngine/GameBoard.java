@@ -59,6 +59,12 @@ public class GameBoard extends SuperGameBoard {
 		return size;
 	}
 	
+	@Override
+	public boolean isGameWon() {
+		//TODO add victory condition
+		return false;
+	}
+	
 	private boolean isMoveAllowed(Directions direction) {
 		switch (direction) {
 		case RIGHT:
@@ -107,4 +113,5 @@ public class GameBoard extends SuperGameBoard {
 			}
 		}
 	}
+
 }

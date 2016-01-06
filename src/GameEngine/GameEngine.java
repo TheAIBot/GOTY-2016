@@ -42,6 +42,10 @@ public class GameEngine implements java.io.Serializable {
 		return game.getTileAtPoisition(p);
 	}	
 	
+	public boolean isGameWon()
+	{
+		return game.isGameWon();
+	}
 
 	public void update() {
 		
