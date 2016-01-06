@@ -1,4 +1,4 @@
-package GameEngine;
+package Model;
 
 public class PlayerSettings {
 	private char upKey;
