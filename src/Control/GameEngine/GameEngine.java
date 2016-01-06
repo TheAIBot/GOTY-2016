@@ -13,6 +13,9 @@ public class GameEngine implements java.io.Serializable {
 	private Screen screen;
 
 	public GameEngine(int startSize, Screen screen) {	
+		if (screen == null) {
+			throw new NullPointerException("Screen provided is null");
+		}
 		this.screen = screen;
 		
 		input = new InputManager();
@@ -44,12 +47,29 @@ public class GameEngine implements java.io.Serializable {
 	{
 		return 0; //game.size skal returneres (*)
 	}
-
-	public Tile getTileAtPoisition(Point p) {
-		return game.getTileAtPoisition(p);
-	}	
 	
+	public GameState getGameState()
+	{
+		return game.getGameState();
+	}
 
+	public void createGame()
+	{
+		game.createGame();
+	}
+	
+	public void makeRandom()
+	{
+		game.makeRandom();
+	}
+	
+	public void resetGame()
+	{
+		game.resetGame();
+	}
+	
+	
+	
 	public void update() {
 		
 	}

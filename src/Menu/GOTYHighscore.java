@@ -29,7 +29,11 @@ public class GOTYHighscore extends SuperPage {
 		JButton back = new JButton("Back");
 		back.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 		            Game.switchPage(previousPage);
+=======
+	        	 	backPage();
+>>>>>>> 47dd71f3ef5f026d9d4b167e0285e75a6e90bfdd
 		         }
 		      });
 		page.setLayout(new GridLayout(3, 1));

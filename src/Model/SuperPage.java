@@ -1,6 +1,8 @@
 package Model;
 import javax.swing.*;
 
+import Log.Log;
+
 public abstract class SuperPage {
 	protected JPanel page;
 	protected SuperPage previousPage;
@@ -26,5 +28,16 @@ public abstract class SuperPage {
 	private boolean isPageCreated()
 	{
 		return page != null;
+	}
+	
+	protected void backPage()
+	{
+		if (previousPage != null) {
+			Starter.switchPage(previousPage);
+		}
+		else
+		{
+			Log.writeln("tried to go back when previousPage was null");
+		}
 	}
 }

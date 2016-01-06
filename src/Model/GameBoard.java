@@ -51,13 +51,15 @@ public class GameBoard extends SuperGameBoard {
 		return false;
 	}
 	
-	public Tile getTileAtPoisition(Point p) {
-		return tilePlacements[getIndexFromPoint(p)];
-	}
-
 	@Override
 	public int getSize() {
 		return size;
+	}
+	
+	@Override
+	public GameState getGameState() {
+		//TODO add victory condition
+		return GameState.NOT_DECIDED_YET;
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
@@ -77,7 +79,7 @@ public class GameBoard extends SuperGameBoard {
 
 	private void moveTileVoid(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
-		Tile tileToMove = getTileAtPoisition(voidTilePosition);
+		Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove.position, direction.getOppositeDirection());
 		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
 	}
@@ -108,4 +110,5 @@ public class GameBoard extends SuperGameBoard {
 			}
 		}
 	}
+
 }
