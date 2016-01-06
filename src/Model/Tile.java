@@ -1,14 +1,13 @@
-package GameEngine;
+package Model;
 
-import graphics.Displayable;
-import graphics.Screen;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import javax.imageio.ImageIO;
+
+import Control.*;
 
 public class Tile implements java.io.Serializable, Displayable {
 	public int number;

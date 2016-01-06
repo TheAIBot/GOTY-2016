@@ -1,9 +1,13 @@
-package graphics;
+package View;
+
 
 import java.awt.Color;
 import java.awt.Point;
 
 import javax.swing.*;
+
+import Model.FakeTile;
+import Model.GraphicsPanel;
 public class MainFrame {
 	
 	GraphicsPanel gPanel;

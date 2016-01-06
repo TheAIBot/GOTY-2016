@@ -1,4 +1,4 @@
-package Menu;
+package Model;
 import javax.swing.*;
 
 import Log.Log;

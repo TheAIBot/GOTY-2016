@@ -1,9 +1,10 @@
-package GameEngine;
+package Model;
 
-import graphics.Screen;
 
 import java.awt.Color;
 import java.awt.Point;
+import Control.*;
+
 
 public class GameBoard extends SuperGameBoard {
 	private Point voidTilePosition;

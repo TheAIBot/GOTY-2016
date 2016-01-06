@@ -1,8 +1,9 @@
-package Highscore;
-import java.util.ArrayList;
+package Control.GameEngine;
 
-import GameEngine.SaveFileManager;
+import java.util.ArrayList;
 import javafx.util.Pair;
+import View.*;
+import Model.*;
 
 public class Highscore {
 

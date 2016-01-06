@@ -1,8 +1,10 @@
-package GameEngine;
+package Model;
 
-import graphics.Screen;
 
 import java.awt.Point;
+import Control.Directions;
+import Control.*;
+
 
 public abstract class SuperGameBoard {
 	protected Tile[] tilePlacements;
