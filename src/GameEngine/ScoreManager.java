@@ -1,118 +1,71 @@
 package GameEngine;
 
-public class ScoreManager extends Thread{
+import java.io.Serializable;
+import javax.swing.Timer;
+import java.awt.event.*;
 
+public class ScoreManager implements Serializable{
+	
+	int delay = 1000; //1000 ms = 1 s
+	
+	ActionListenerSerialize task = new ActionListenerSerialize();
+	
+	Timer clock = new Timer(delay, task);
+	
 	//Score parameters
 	private int totalScore;
 	private int scorePerSecond;
 	private int scorePerMove;
 	
-	//Time parameters
-	private long startTime;
-	private long endTime;
-	private long timeElapsed;
-	//Getting temporary time difference in seconds to update time score
-	private int previousSeconds;
-	private int timeDiffSeconds;
+	//Time elapsed in seconds
+	private int timeInSeconds;
 	
 	//Move parameter
 	private int numMoves;
+	//Wether or not to update the number of moves and the corresponding addition to the score.
+	boolean detectMoves;
 	
-	//Boolean value controlling if score manager should be running
-	private boolean running = false;
 	
-	/**
-	 * Use this method to begin (or restart) an instance of ScoreManager.
-	 * If you do not wish to restart the manager, use the continue() method.
-	 * @param scoreSecond
-	 * @param scoreMove
-	 */
-	public void begin(int scoreSecond, int scoreMove)
+	public ScoreManager(int scoreSecond, int scoreMove)
 	{
 		totalScore = 0;
-		startTime = System.nanoTime();
-		endTime = startTime;
-		timeElapsed = 0;
-		previousSeconds = 0;
-		timeDiffSeconds = 0;
 		scorePerSecond = scoreSecond;
 		scorePerMove = scoreMove;
 		numMoves = 0;
-		running = true;
-		
-		start();
-	}
-	
-	/**
-	 * Stops the manager from running.
-	 */
-	public void stopRunning()
-	{
-		//Reset time difference monitoring when continuing the ScoreManager.
-		running = false;
+		detectMoves = true;
+		timeInSeconds = 0;
 		
 	}
 	
 	/**
-	 * Lets the manager continue to run.
+	 * Starts the manager. Can also be used after calling stop().
+	 * @param scoreSecond
+	 * @param scoreMove
 	 */
-	public void continueRunning()
+	public void begin()
 	{
-		startTime = System.nanoTime();
-		endTime = startTime;
-		running = true;
-	}
-	
-	/**
-	 * The main loop of ScoreManager which updates the time and score.
-	 */
-	public void run()
-	{
-		while(true)
-		{
-			while(running)
-			{
-				updateTime();
-				
-				updateScore();
-				try{
-					Thread.sleep(50);
-				}
-				catch(Exception e){}
-			}
-			try{
-				Thread.sleep(50);
-			}
-			catch(Exception e){}
-		}
-	}
-	
-	/**
-	 * Updates the time elapsed
-	 */
-	private void updateTime()
-	{
-		if(timeDiffSeconds > 0)
-			previousSeconds = getTimeElapsedSeconds();
-		
-		endTime = System.nanoTime();
-		timeElapsed += endTime - startTime;
-		startTime = endTime;
-		
-		timeDiffSeconds = getTimeElapsedSeconds() - previousSeconds;
+		detectMoves = false;
+		clock.start();
 		
 	}
 	
 	/**
-	 * Updates the score corresponding the the time passed and moves made
+	 * Stops the ScoreManager from adding to the score when time passes and incrementMoves() or addNumMoves() are called.
 	 */
-	private void updateScore()
+	public void stop()
 	{
-		int timeScore = timeDiffSeconds * scorePerSecond;
-		int moveScore = numMoves * scorePerMove;
-		
-		addToScore(timeScore);;
-		
+		detectMoves = false;
+		clock.stop();
+	}
+	
+	
+	/**
+	 * Updates the score and increments the time count in seconds.
+	 */
+	private void updateTimeScore()
+	{
+		timeInSeconds++;
+		totalScore+=scorePerSecond;
 	}
 	
 	/**
@@ -129,16 +82,28 @@ public class ScoreManager extends Thread{
 		totalScore+=1;
 	}
 	
-	//Get-methods
+	public void incrementNumMoves()
+	{
+		if (detectMoves) {
+			numMoves++;
+			addToScore(scorePerMove);
+		}
+	}
 	
 	/**
-	 * Returns the elapsed time in seconds
+	 * Adds the specified number of moves to the total number of moves.
+	 * @param moves
 	 */
-	public int getTimeElapsedSeconds()
+	public void addNumMoves(int moves)
 	{
-		int nanotimeToSec = 1000000000;
-		return (int) (timeElapsed / nanotimeToSec);
+		if (detectMoves) {
+			numMoves += moves;
+			addToScore(moves * scorePerMove);
+		}
+		
 	}
+	
+	//Get-methods
 	
 	/**
 	 * Returns the total score earned.
@@ -155,6 +120,11 @@ public class ScoreManager extends Thread{
 		return scorePerSecond;
 	}
 	
+	public int getTimeElapsedSeconds()
+	{
+		return timeInSeconds;
+	}
+	
 	/**
 	 * Returns number of moves.
 	 */
@@ -169,25 +139,6 @@ public class ScoreManager extends Thread{
 	public int getScorePerMove()
 	{
 		return scorePerMove;
-	}
-	/**
-	 * Return the elapsed time in nanoseconds.
-	 */
-	public long getTimeElapsedNano()
-	{
-		return timeElapsed;
-	}
-	
-	//Set-methods
-	
-	/**
-	 * Sets the boolean value running. If false the loop stops and will only continue running 
-	 * afterwards if the method continue() is called.
-	 * @param isRunning
-	 */
-	public void setRunning(boolean isRunning)
-	{
-		running = isRunning;
 	}
 	
 	/**
@@ -223,34 +174,22 @@ public class ScoreManager extends Thread{
 	 */
 	public void setTimeElapsedInSeconds(int seconds)
 	{
-		int secToNano = 1000000000;
-		timeElapsed = (long)seconds * secToNano;
-		
-		previousSeconds = getTimeElapsedSeconds();
+		timeInSeconds = seconds;
 	}
 	
-	/**
-	 * Sets the number of moves.
-	 * @param moves
-	 */
-	public void setNumMoves(int moves)
-	{
-		numMoves = moves;
-	}
 	/**
 	 * Increments the number of moves by 1.
 	 */
-	
-	public void incrementMoves()
+
+	private class ActionListenerSerialize implements ActionListener, Serializable
 	{
-		numMoves++;
-	}
-	/**
-	 * Adds the specified number of moves to the total number of moves.
-	 * @param moves
-	 */
-	public void addNumMoves(int moves)
-	{
-		numMoves+=moves;
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			updateTimeScore();
+			
+		}
+		
 	}
 }
+

@@ -1,46 +1,29 @@
 package Tests;
 
+
 import GameEngine.*;
 
 public class ScoreManagerTest {
 	
 	public static void main(String[] args){
 		
-		boolean b = false;
+		SaveFileManager<ScoreManager> sfm = new SaveFileManager<ScoreManager>("sm_test");
+		ScoreManager sm = sfm.load("my_sm");
+		
+		
+		/*
 		ScoreManager sm = new ScoreManager();
-		sm.begin(1, 1);
-		while(true)
-		{
-			try{
-				Thread.sleep(100);
-			}
-			catch(Exception e){}
-			
-			System.out.println(sm.getTimeElapsedSeconds() + " - " + sm.getTotalScore());
-			
-			if(sm.getTimeElapsedSeconds() == 5 && b == false)
-			{
-				sm.setTotalScore(0);
-				sm.stopRunning();
-				break;
-			}
-			
-		}
+		sm.begin(3, 34);
 		try{
-			Thread.sleep(2000);
+			Thread.sleep(2300);
 		}catch(Exception e){}
-		sm.continueRunning();
-		while(true)
-		{
-			try{
-				Thread.sleep(100);
-			}
-			catch(Exception e2){}
-			
-			System.out.println(sm.getTimeElapsedSeconds() + " - " + sm.getTotalScore());
-			
-			
-		}
+		sm.stop();
+		
+		SaveFileManager<ScoreManager> sfm = new SaveFileManager<ScoreManager>("sm_test");
+		sfm.save("my_sm", sm);
+		System.out.println("Saved!");
+		System.out.println("time: " + sm.getTimeElapsedSeconds());
+		*/
 		
 	}
 	
