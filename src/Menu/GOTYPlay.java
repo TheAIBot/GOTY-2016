@@ -7,7 +7,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-<<<<<<< HEAD
 import Control.Directions;
 import Control.GameEngine.GameEngine;
 import Control.GameModes.ConsoleControl;
@@ -15,16 +14,10 @@ import Model.GraphicsPanel;
 import Model.SuperPage;
 import Model.Tile;
 import View.Screen;
-=======
-import ConsoleControl.ConsoleControl;
-import GameEngine.GameEngine;
-import GameEngine.Directions;
-<<<<<<< HEAD
->>>>>>> 47dd71f3ef5f026d9d4b167e0285e75a6e90bfdd
-=======
->>>>>>> origin/Emil
+
 
 public class GOTYPlay extends SuperPage {
+	private static final SuperPage PLAY_GAME_SETTINGS = new GOTYPlayGameSettings();
 	private GameEngine game;
 	private GraphicsPanel gPanel;
 	private Screen screen;
@@ -76,5 +69,4 @@ public class GOTYPlay extends SuperPage {
 	public void closePage() {
 		// TODO do something that stops the game
 	}
-
 }

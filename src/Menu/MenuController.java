@@ -1,14 +1,17 @@
-package Control;
+package Menu;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import Menu.GOTYMainPage;
 import Model.SuperPage;
 
-public class Game {
+public class MenuController {
 	private static JFrame mainMenu;
+	
 	private static final GOTYMainPage MAIN_PAGE = new GOTYMainPage();
+	
 	private static SuperPage currentPage;
 	
 	public static void main(String[] args) {
@@ -20,6 +23,11 @@ public class Game {
 	{
 		mainMenu = new JFrame("GOTY2016");
 		mainMenu.setSize(400, 600);
+		mainMenu.addWindowListener((new WindowAdapter() {
+	         public void windowClosing(WindowEvent windowEvent){
+	             System.exit(0);
+	         }        
+	    	}));
 	}
 	
 	private static void startFrame()
@@ -34,7 +42,7 @@ public class Game {
 		currentPage.closePage();
 		mainMenu.getContentPane().removeAll();
 		mainMenu.add(toSwitchTo.getPage());
-		toSwitchTo.startPage(currentPage);// mï¿½ske problemer med hvor pointeren fï¿½rer hen her
+		toSwitchTo.startPage(currentPage);// måske problemer med hvor pointeren fører hen her
 		currentPage = toSwitchTo;
 		mainMenu.repaint();
 		mainMenu.setVisible(true);
