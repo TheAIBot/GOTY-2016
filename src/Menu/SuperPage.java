@@ -33,7 +33,7 @@ public abstract class SuperPage {
 	protected void backPage()
 	{
 		if (previousPage != null) {
-			Starter.switchPage(previousPage);
+			MenuController.switchPage(previousPage);
 		}
 		else
 		{

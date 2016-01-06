@@ -6,21 +6,21 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class GOTYMainPage extends SuperPage {
-	private final GOTYHighscore HIGHSCORE_PAGE = new GOTYHighscore();
-	private final GOTYPlay PLAY = new GOTYPlay();
+	private final SuperPage HIGHSCORE_PAGE = new GOTYHighscore();
+	private final SuperPage PLAY_SETTINGS = new GOTYPlayGameSettings();
 	
 	public JPanel createPage() {
 		page.setLayout(new GridLayout(3, 1));
 		JButton playButton = new JButton("Play");
 		playButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	            Starter.switchPage(PLAY);
+	        	 MenuController.switchPage(PLAY_SETTINGS);
 	         }
 	      });
 		JButton highscoreButton = new JButton("Highscore");
 		highscoreButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	            Starter.switchPage(HIGHSCORE_PAGE);
+	        	 MenuController.switchPage(HIGHSCORE_PAGE);
 	         }
 	      });
 		JButton settingsButton = new JButton("Settings");

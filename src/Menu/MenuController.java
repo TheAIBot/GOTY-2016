@@ -5,7 +5,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-public class Starter {
+public class MenuController {
 	private static JFrame mainMenu;
 	
 	private static final GOTYMainPage MAIN_PAGE = new GOTYMainPage();

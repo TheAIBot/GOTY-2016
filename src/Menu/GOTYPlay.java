@@ -14,6 +14,7 @@ import GameEngine.GameEngine;
 import GameEngine.Directions;
 
 public class GOTYPlay extends SuperPage {
+	private static final SuperPage PLAY_GAME_SETTINGS = new GOTYPlayGameSettings();
 	private GameEngine game;
 	private GraphicsPanel gPanel;
 	private Screen screen;
@@ -65,5 +66,4 @@ public class GOTYPlay extends SuperPage {
 	public void closePage() {
 		// TODO do something that stops the game
 	}
-
 }
