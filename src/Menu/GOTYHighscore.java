@@ -30,10 +30,14 @@ public class GOTYHighscore extends SuperPage {
 		back.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		            Game.switchPage(previousPage);
 =======
 	        	 	backPage();
 >>>>>>> 47dd71f3ef5f026d9d4b167e0285e75a6e90bfdd
+=======
+	        	 	backPage();
+>>>>>>> origin/Emil
 		         }
 		      });
 		page.setLayout(new GridLayout(3, 1));

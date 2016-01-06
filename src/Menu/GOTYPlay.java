@@ -19,7 +19,10 @@ import View.Screen;
 import ConsoleControl.ConsoleControl;
 import GameEngine.GameEngine;
 import GameEngine.Directions;
+<<<<<<< HEAD
 >>>>>>> 47dd71f3ef5f026d9d4b167e0285e75a6e90bfdd
+=======
+>>>>>>> origin/Emil
 
 public class GOTYPlay extends SuperPage {
 	private GameEngine game;
