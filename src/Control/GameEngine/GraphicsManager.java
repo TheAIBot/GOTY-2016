@@ -5,6 +5,7 @@ import Model.Tile;
 import View.Screen;
 
 public class GraphicsManager {
+	//private ConsoleGraphics console;
 	private Screen screen;
 	private GraphicsPanel panel;
 	
@@ -21,5 +22,9 @@ public class GraphicsManager {
 			}
 		}
 		panel.repaint();
+	}
+	
+	public GraphicsPanel getGraphicsPanel(){
+		return this.panel;
 	}
 }

@@ -7,11 +7,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import Control.Directions;
 import Control.GameEngine.GameEngine;
-import Model.Directions;
 import Model.GraphicsPanel;
 import Model.SuperPage;
-import Model.Tile;
 import View.Screen;
 
 

@@ -1,4 +1,4 @@
-package ConsoleControl;
+package View;
 
 import Control.GameEngine.GameEngine;
 import Model.Tile;
@@ -16,8 +16,8 @@ class ConsoleGraphics {
 		final int boardSize = game.getBoardSize();
 		//Decides how many spaces there is between two numbers that represents two different tiles
 		final int spacesBetweenTileNumbers = 2;
-		//Because the size of the game can differ, the size of the idividual tile numbers differ from game to game
-		//so here the length of the biggeest tile number is calculated and the space between tiles is added
+		//Because the size of the game can differ, the size of the individual tile numbers differ from game to game
+		//so here the length of the biggest tile number is calculated and the space between tiles is added
 		//here so two tile numbers will always have spaces between them because the tileLength is 
 		//always bigger than the max tile number length
 		final int tileLength = (int)Math.log10((boardSize * boardSize) - 1) + 1 + spacesBetweenTileNumbers;
