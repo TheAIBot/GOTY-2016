@@ -7,7 +7,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-public class InputManager {
+public class InputManager implements java.io.Serializable {
 	
 	private final HashSet<KeyPressListener> listeners = new HashSet<KeyPressListener>();
 	

@@ -8,13 +8,11 @@ public class SaveFileTest {
 	public static void TestSaveFileManager()
 	{
 		GameEngine ge = new GameEngine(20);
-		SaveFileManager<GameEngine> sfm = new SaveFileManager<GameEngine>("saveFiles");
-		sfm.save("save_test1", ge);
+		ge.save();
 		
-		GameEngine ge_load = sfm.load("save_test1");
-		assert(ge.getBoardSize() == ge_load.getBoardSize()) : "stï¿½rrelserne pï¿½ de to gameEngines er ikke ens";
-		//TODO add mode checks
+		ge.load();
+		assert(ge.getBoardSize() == ge.getBoardSize()) : "størrelserne på de to gameEngines er ikke ens";
 		
+		System.out.println("SaveFileTest finished testing");
 	}
-	
 }

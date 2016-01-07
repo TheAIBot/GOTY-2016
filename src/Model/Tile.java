@@ -4,7 +4,14 @@ package Model;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Hashtable;
+
 import javax.imageio.ImageIO;
 
 import Control.*;
@@ -12,23 +19,32 @@ import Control.*;
 public class Tile implements java.io.Serializable, Displayable {
 	
 	private int number;
-	Point position;	
+	transient Point position;	
 	Color color;	
-	BufferedImage displayImage;
+	transient BufferedImage displayImage;
 	int size = 100;
 	
 	public Tile(int number, Point position, Color color)
 	{
 		this.number = number;
 		this.position = position;
-		System.out.println(position.toString());
 		this.color = color;	
-		setCurrentImage("res/tempchest.png");
-		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
+		createImage();
 	}
 	
 	public BufferedImage getDisplay(){
 		return displayImage;
+	}
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        createImage();
+    }
+	
+	private void createImage()
+	{
+		setCurrentImage("res/tempchest.png");
+		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
@@ -60,5 +76,10 @@ public class Tile implements java.io.Serializable, Displayable {
 	
 	public int getNumber(){
 		return number;
+	}
+
+	public Point getPosition()
+	{
+		return position;
 	}
 }

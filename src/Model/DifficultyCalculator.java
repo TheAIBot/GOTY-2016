@@ -5,19 +5,20 @@ import java.awt.Point;
 public class DifficultyCalculator {
 	public static DifficultyLevel getDifficultyLevel(Tile[] tiles, int size)
 	{
-		double difficulty = 0;
-		for (int i = 0; i < tiles.length; i++) {
-			if (tiles[i] != null) {
-				difficulty += CalculateDistance(size, convertIndexToPoint(i, size), tiles[i].position);
-			}
-		}
-		double difficultyPercentage = difficulty / getMaxDifficulty(size);
+		double difficultyPercentage = getDfficulty(tiles, size) / getMaxDifficulty(size);
 		return DifficultyLevel.getDifficultylevelFromPercentDifficult(difficultyPercentage);
 	}
 	
-	public double getDfficulty(Tile[] tiles, int size)
+	public static double getDfficulty(Tile[] tiles, int size)
 	{
-		
+		double difficulty = 0;
+		for (int i = 0; i < tiles.length; i++) {
+			if (tiles[i] != null) {
+				Point expectedPositionForThatNumber = convertIndexToPoint(i, size);
+				difficulty += CalculateDistance(size, expectedPositionForThatNumber, tiles[i].position);
+			}
+		}
+		return difficulty;
 	}
 	
 	private static double CalculateDistance(int size, Point a, Point b)

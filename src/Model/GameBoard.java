@@ -3,16 +3,98 @@ package Model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
 import Control.*;
+import Control.GameEngine.Log;
 
 
-public class GameBoard extends SuperGameBoard {
-	private Point voidTilePosition;
-	
+public class GameBoard implements GameBoardMode, java.io.Serializable {
+	private transient Point voidTilePosition;
+	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
+	private final ArrayList<GameStateChangedListener> gameStateChangedListeners;
+	protected Tile[] tilePlacements;
+	protected GameState currentGameState;
+	protected final int size;
+
 	public GameBoard(int startSize) {
-		super(startSize);
+		gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
+		size = startSize;
 		currentGameState = GameState.NOT_DECIDED_YET;
 	}
+
+	public GameState getGameState() {
+		return currentGameState;
+	}
+
+	public Point moveWithDirection(Point toMove, Directions direction) {
+		switch (direction) {
+		case RIGHT:
+			toMove.translate(1, 0);
+			break;
+		case LEFT:
+			toMove.translate(-1, 0);
+			break;
+		case UP:
+			toMove.translate(0, -1);
+			break;
+		case DOWN:
+			toMove.translate(0, 1);
+			break;
+		default:
+			throw new IllegalArgumentException();
+		}
+		return toMove;
+	}
+
+	public int getIndexFromPoint(Point p) {
+		// x + y * width (width = size)
+		return p.x + p.y * size;
+	}
+
+	public Point getPosition(int number) {
+		int row = number / size;
+		int col = number % size;
+
+		return new Point(col, row);
+	}
+
+	public void GameStateChanged(GameState newGameState) {
+		for (GameStateChangedListener listener : gameStateChangedListeners) {
+			listener.gameStateChanged(newGameState);
+		}
+	}
+
+	public void addBoardChangedListener(BoardChangedListener listener) {
+		listeners.add(listener);
+	}
+
+	public void boardChanged() {
+		for (BoardChangedListener listener : listeners) {
+			listener.boardChanged();
+		}
+	}
+
+    
+    private Point recreateTilePositions()
+    {
+    	Point voidPos = null;
+    	for (int i = 0; i < tilePlacements.length; i++) {
+    		if (tilePlacements[i] != null) {
+    			tilePlacements[i].position = getPosition(i);
+			}
+    		else
+    		{
+    			voidPos = getPosition(i);
+    		}
+		}
+    	return voidPos;
+    }
 	
 	@Override
 	public void createGame()
@@ -115,5 +197,8 @@ public class GameBoard extends SuperGameBoard {
 		}
 	}
 
-	
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound{
+        in.defaultReadObject();
+        voidTilePosition = recreateTilePositions();
+    }
 }
