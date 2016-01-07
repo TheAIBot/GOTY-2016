@@ -16,11 +16,11 @@ public class DifficultyCalculatorTest {
 			testStartDifficulty(i);
 		}
 		
-		testHighestDifficulty(2, 8);
-		testHighestDifficulty(10, 840);
-		testHighestDifficulty(35, 40532);
-		testHighestDifficulty(65, 266372);
-		testHighestDifficulty(100, 980400);
+		testHighestDifficulty(4);
+		testHighestDifficulty(10);
+		testHighestDifficulty(35);
+		testHighestDifficulty(65);
+		testHighestDifficulty(100);
 		
 		System.out.println("DifficultyCalculatorTest finished testing");
 	}
@@ -30,22 +30,23 @@ public class DifficultyCalculatorTest {
 		GameBoard game = new GameBoard(size);
 		game.createGame();
 		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);
-		assert(difficulty == 0) : "starter difficulty is incorrect for the size " + size + ", expected " + size + " and got " + difficulty;
+		assert(difficulty == 0) : "starter difficulty is incorrect for the size " + size + ", expected " + 0 + " and got " + difficulty;
 	}
 	
-	private static void testHighestDifficulty(int size, int expectedDifficulty)
+	private static void testHighestDifficulty(int size)
 	{
 		GameBoard game = new GameBoard(size);
 		game.createGame();
 		reverse(game.getTiles(), size);
 		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);
-		assert(difficulty == expectedDifficulty) : "starter difficulty is incorrect for the size " + size + ", expected " + expectedDifficulty + " and got " + difficulty;
+		double maxDifficulty = DifficultyCalculator.getMaxDifficulty(size);
+		assert(difficulty == maxDifficulty) : "max difficulty is incorrect for the size " + size + ", expected " + difficulty + " and got " + maxDifficulty;
 	}
 
 	private static Tile[] reverse(Tile[] tiles, int size){
 		Tile a = tiles[0];
 		tiles[0] = null;
-		tiles[tiles.length - 1] = new Tile(2, new Point(size - 1, size - 1), Color.BLACK);
+		tiles[tiles.length - 1] = new Tile(1, new Point(size - 1, size - 1), Color.BLACK);
 		int number = size * size;
 		for (int i = 0; i < tiles.length; i++) {
 			if (tiles[i] != null) {

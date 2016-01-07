@@ -14,18 +14,19 @@ public class DifficultyCalculator {
 		double difficulty = 0;
 		for (int i = 0; i < tiles.length; i++) {
 			if (tiles[i] != null) {
-				Point expectedPositionForThatNumber = convertIndexToPoint(i, size);
-				difficulty += CalculateDistance(size, expectedPositionForThatNumber, tiles[i].position);
+				Point expectedPositionForThatNumber = convertIndexToPoint(tiles[i].getNumber() - 1, size);
+				difficulty += calculateDistance(size, expectedPositionForThatNumber, convertIndexToPoint(i, size));
 			}
 		}
 		return difficulty;
 	}
 	
-	private static double CalculateDistance(int size, Point a, Point b)
+	private static double calculateDistance(int size, Point a, Point b)
 	{
-		Point ba = new Point((int)Math.abs(a.getX() - b.getX()),
-							 (int)Math.abs(a.getY() - b.getY()));
-		return ba.getX() + ba.getY();
+		Point ba = new Point((int)Math.abs(a.x - b.x),
+							 (int)Math.abs(a.y - b.y));
+		//System.out.println((ba.x + ba.y));
+		return ba.x + ba.y;
 	}
 	
 	private static Point convertIndexToPoint(int index, int size)
@@ -36,17 +37,18 @@ public class DifficultyCalculator {
 			return new Point(col, row);
 	}
 	
-	private static double getMaxDifficulty(int size)
+	public static double getMaxDifficulty(int size)
 	{
 		final int maxNumber = size * size;
 		int expectedNumber = maxNumber;
 		double difficulty = 0;
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
-				difficulty += CalculateDistance(size, convertIndexToPoint(maxNumber - expectedNumber, size), convertIndexToPoint(expectedNumber, size));
-				expectedNumber++;
+				difficulty += calculateDistance(size, convertIndexToPoint(maxNumber - expectedNumber, size), 
+													  convertIndexToPoint(expectedNumber - 1, size));
+				expectedNumber--;
 			}
 		}
-		return (double)difficulty;
+		return (double)difficulty - (size - 1) * 2;
 	}
 }
