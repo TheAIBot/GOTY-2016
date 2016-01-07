@@ -195,6 +195,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 				break;
 			}
 		}
+		boardChanged();
 	}
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound{

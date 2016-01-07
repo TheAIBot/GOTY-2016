@@ -7,7 +7,10 @@ import Control.Directions;
 
 public class GameEngine implements KeyPressListener, BoardChangedListener {
 	
+<<<<<<< HEAD
 	private final SaveFileManager<GameBoardMode> saver = new SaveFileManager<GameBoardMode>("saveFiles");
+=======
+>>>>>>> origin/Andreas
 	private final GraphicsManager graphics;
 	private final InputManager input;
 	private GameBoardMode game;
@@ -22,7 +25,6 @@ public class GameEngine implements KeyPressListener, BoardChangedListener {
 		game.addBoardChangedListener(this);
 		game.createGame();
 		game.makeRandom();
-		boardChanged();
 	}
 	
 	public GameEngine(int startSize) {	
