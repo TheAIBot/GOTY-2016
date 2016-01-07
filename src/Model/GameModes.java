@@ -1,5 +1,5 @@
 package Model;
 
 public enum GameModes {
-	NORMAL
+	NORMAL, TEST1, TEST2, TEST3
 }
