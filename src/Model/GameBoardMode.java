@@ -1,6 +1,6 @@
 package Model;
 
-import Control.Directions;
+import Model.Directions;
 import Control.GameEngine.GameEngine;
 
 public interface GameBoardMode {

@@ -3,18 +3,10 @@ package Control.GameEngine;
 import View.*;
 import Model.*;
 
-<<<<<<< HEAD
-import Control.Directions;
+import Model.Directions;
 
 public class GameEngine implements KeyPressListener, BoardChangedListener {
-=======
-public class GameEngine implements java.io.Serializable, KeyPressListener, BoardChangedListener {
->>>>>>> refs/remotes/origin/Dev
-	
-<<<<<<< HEAD
 	private final SaveFileManager<GameBoardMode> saver = new SaveFileManager<GameBoardMode>("saveFiles");
-=======
->>>>>>> origin/Andreas
 	private final GraphicsManager graphics;
 	private final InputManager input;
 	private GameBoardMode game;

@@ -1,7 +1,7 @@
 package Tests;
 
 
-import GameEngine.*;
+import Control.GameEngine.SaveFileManager;
 import Model.ScoreManager;
 
 public class ScoreManagerTest {

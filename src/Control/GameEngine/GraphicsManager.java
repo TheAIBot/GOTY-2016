@@ -4,11 +4,7 @@ import Model.GraphicsPanel;
 import Model.Tile;
 import View.Screen;
 
-<<<<<<< HEAD:src/Control/GameEngine/GraphicsManager.java
-public class GraphicsManager implements java.io.Serializable {
-=======
 public class GraphicsManager {
->>>>>>> origin/Andreas:src/Control/GameEngine/GraphicsManager.java
 	private Screen screen;
 	private GraphicsPanel panel;
 	
