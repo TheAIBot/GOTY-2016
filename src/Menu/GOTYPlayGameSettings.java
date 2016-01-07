@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import Control.MenuController;
 import Model.SuperPage;
 
 public class GOTYPlayGameSettings extends SuperPage {

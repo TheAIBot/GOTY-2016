@@ -2,8 +2,8 @@ package ConsoleControl;
 
 import java.util.Scanner;
 
-import Control.Directions;
-import GameEngine.GameEngine;
+import Control.GameEngine.GameEngine;
+import Model.Directions;
 import Model.GameState;
 import Model.GameStateChangedListener;
 
@@ -23,7 +23,7 @@ public class ConsoleControl implements GameStateChangedListener {
 				do {
 					//print the game to the console every time a command is passed
 					// and at the start of the game so the user can the game
-					ConsoleGraphics.printGame(game);
+					//ConsoleGraphics.printGame(game);
 					String comand = scan.nextLine();
 					//only commands of the size 1 char is allowed as there is
 					//no command that uses more than 1 char and atleast 1 char

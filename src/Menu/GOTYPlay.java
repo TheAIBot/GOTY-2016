@@ -7,9 +7,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import Control.Directions;
 import Control.GameEngine.GameEngine;
-import Control.GameModes.ConsoleControl;
+import Model.Directions;
 import Model.GraphicsPanel;
 import Model.SuperPage;
 import Model.Tile;
@@ -53,7 +52,7 @@ public class GOTYPlay extends SuperPage {
 		    }
 		});
 
-		
+		page = gPanel;
 		return gPanel;
 		//return page;
 	}
@@ -61,7 +60,11 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
+<<<<<<< HEAD
 		game = new GameEngine(3, screen);
+=======
+		game = new GameEngine(3, screen, gPanel);
+>>>>>>> refs/remotes/origin/Dev
 		//ConsoleControl.startGameInConsole(10);
 		game.render();
 		gPanel.repaint();

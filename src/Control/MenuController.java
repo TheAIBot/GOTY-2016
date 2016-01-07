@@ -34,7 +34,7 @@ public class MenuController {
 		currentPage.closePage();
 		mainMenu.getContentPane().removeAll();
 		mainMenu.add(toSwitchTo.getPage());
-		toSwitchTo.startPage(currentPage);// m�ske problemer med hvor pointeren f�rer hen her
+		toSwitchTo.startPage(currentPage);
 		currentPage = toSwitchTo;
 		mainMenu.repaint();
 		mainMenu.setVisible(true);

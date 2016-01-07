@@ -14,6 +14,7 @@ public class GameBoard extends SuperGameBoard {
 	
 	public GameBoard(int startSize) {
 		super(startSize);
+		currentGameState = GameState.NOT_DECIDED_YET;
 	}
 	
 	public GameBoard(int startSize, Screen screen) {
@@ -60,15 +61,17 @@ public class GameBoard extends SuperGameBoard {
 		return false;
 	}
 	
-	@Override
-	public int getSize() {
-		return size;
+	public boolean moveVoidTileNoUpdate(Directions direction) {
+		if (isMoveAllowed(direction)) {
+			swapVoidTile(direction);
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
-	public GameState getGameState() {
-		//TODO add victory condition
-		return GameState.NOT_DECIDED_YET;
+	public int getSize() {
+		return size;
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
@@ -105,19 +108,20 @@ public class GameBoard extends SuperGameBoard {
 		for (int i = 0; i < RANDOM_MOVES; i++) {
 			switch ((((int)(Math.random() * 10)) % 4)) {
 			case 0:
-				moveVoidTile(Directions.LEFT);
+				moveVoidTileNoUpdate(Directions.LEFT);
 				break;
 			case 1:
-				moveVoidTile(Directions.RIGHT);
+				moveVoidTileNoUpdate(Directions.RIGHT);
 				break;
 			case 2:
-				moveVoidTile(Directions.UP);
+				moveVoidTileNoUpdate(Directions.UP);
 				break;
 			case 3:
-				moveVoidTile(Directions.DOWN);
+				moveVoidTileNoUpdate(Directions.DOWN);
 				break;
 			}
 		}
+		boardChanged();
 	}
 	
 }
