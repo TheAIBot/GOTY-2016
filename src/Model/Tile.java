@@ -24,7 +24,8 @@ public class Tile implements java.io.Serializable, Displayable {
 		this.number = number;
 		this.position = position;
 		this.color = color;	
-		setCurrentImage("res/tempchest.png");
+		if (number % 2 == 0) setCurrentImage("res/tempchest.png");
+		else setCurrentImage("res/hveranden.png");
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	

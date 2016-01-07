@@ -23,7 +23,7 @@ public class GOTYPlay extends SuperPage {
 
 	@Override
 	public JPanel createPage() {
-		gPanel = new GraphicsPanel(1000,1000); //TODO: flyt
+		gPanel = new GraphicsPanel(500,500); //TODO: flyt
 		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
 		
 		
@@ -93,7 +93,7 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(10, screen, gPanel); //TODO: flyt
+		game = new GameEngine(5, screen, gPanel); //TODO: flyt
 		//ConsoleControl.startGameInConsole(10);
 		game.render();
 		//gPanel.repaint();
