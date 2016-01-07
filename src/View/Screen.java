@@ -46,15 +46,26 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			if (true || isInsideDisplay(currentImage, imagePosition)) { //!!!NB: note isInsideDisplay virker ikke helt korrekt endnu
-				//isInsideDisplay(currentImage, imagePosition)
-				//System.out.println(imagePosition.x + "," + imagePosition.y);
+			int imgSize = 100;
+			int screenSize = 500;
+			
+			Rectangle screenBounds = new Rectangle(xOffset * imgSize, yOffset * imgSize, screenSize, screenSize);
+			
+			Point p1 = new Point(imagePosition.x * imgSize, imagePosition.y * imgSize);
+			Point p2 = new Point((imagePosition.x + xOffset) * imgSize, imagePosition.y * imgSize);
+			Point p3 = new Point(imagePosition.x * imgSize, (imagePosition.y + yOffset) * imgSize);
+			Point p4 = new Point((imagePosition.x + xOffset) * imgSize, (imagePosition.y + xOffset) * imgSize);
+			
+			if (screenBounds.contains(p1) || screenBounds.contains(p2) || screenBounds.contains(p3) || screenBounds.contains(p4)) {
 				gDisplay.drawImage(currentImage, imagePosition.x + xOffset, imagePosition.y + yOffset, null);
+				System.out.println("---");
 				return true;
 			}
+			System.out.println("BBB");
 			return false;
 		}
 	}
+	
 	
 	/**
 	 * @param currentImage

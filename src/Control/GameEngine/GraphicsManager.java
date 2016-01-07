@@ -17,7 +17,7 @@ public class GraphicsManager {
 		clearScreen();
 		for (Tile tile : tiles) {
 			if (tile != null) {
-				screen.renderTile(tile);
+				screen.render(tile);
 			}
 		}
 		updateGraphics();
