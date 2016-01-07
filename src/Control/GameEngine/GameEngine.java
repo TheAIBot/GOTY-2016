@@ -11,13 +11,13 @@ public class GameEngine implements KeyPressListener, BoardChangedListener {
 	private final InputManager input;
 	private GameBoardMode game;
 
-	public GameEngine(int startSize, Screen screen, GraphicsPanel panel) {	
+	public GameEngine(GameSettings settings, Screen screen, GraphicsPanel panel) {	
 		if (screen == null) {
 			throw new NullPointerException("Screen provided is null");
 		}
 		this.graphics = new GraphicsManager(screen, panel);		
 		input = new InputManager();	
-		game = new GameBoard(startSize);
+		game = new GameBoard(settings.getGameSize());
 		game.addBoardChangedListener(this);
 		game.createGame();
 		game.makeRandom();
@@ -29,6 +29,11 @@ public class GameEngine implements KeyPressListener, BoardChangedListener {
 		game = new GameBoard(startSize);
 		game.createGame();
 		game.makeRandom();
+	}
+	
+	private void addKeyboardBindingsToPlayerControl(PlayerSettings player)
+	{
+		input.AttachListenerToKey(graphics, listener, key);
 	}
 	
 	public Tile[] getTiles() {
