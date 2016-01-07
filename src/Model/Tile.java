@@ -1,30 +1,34 @@
-package graphics;
+package Model;
+
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 
+import Control.*;
 
-public class FakeTile implements Displayable{
+public class Tile implements java.io.Serializable, Displayable {
 	
-	int number;
+	private int number;
 	Point position;	
 	Color color;	
 	BufferedImage displayImage;
+	int size = 100;
 	
-	public FakeTile(int number, Point position, Color color) {
-		this.number = number;		
+	public Tile(int number, Point position, Color color)
+	{
+		this.number = number;
 		this.position = position;
+		System.out.println(position.toString());
 		this.color = color;	
 		setCurrentImage("res/tempchest.png");
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	
-	public void render(Screen screen){
-		screen.render(this);		
+	public BufferedImage getDisplay(){
+		return displayImage;
 	}
 	
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
@@ -46,8 +50,15 @@ public class FakeTile implements Displayable{
 		return displayImage;
 	}
 
-	public Point getImagePosition() {
-		return position;
-	}	
+	/**
+	 * tile precision
+	 */
 	
+	public Point getImagePosition() {
+		return new Point(position.x * size, position.y * size);
+	}
+	
+	public int getNumber(){
+		return number;
+	}
 }

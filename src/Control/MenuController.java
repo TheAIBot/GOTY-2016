@@ -1,16 +1,14 @@
-package Menu;
+package Control;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Currency;
 
 import javax.swing.JFrame;
 
-public class Starter {
+import Menu.GOTYMainPage;
+import Model.SuperPage;
+
+public class MenuController {
 	private static JFrame mainMenu;
-	
 	private static final GOTYMainPage MAIN_PAGE = new GOTYMainPage();
-	
 	private static SuperPage currentPage;
 	
 	public static void main(String[] args) {
@@ -22,19 +20,12 @@ public class Starter {
 	{
 		mainMenu = new JFrame("GOTY2016");
 		mainMenu.setSize(400, 600);
-		mainMenu.addWindowListener((new WindowAdapter() {
-	         public void windowClosing(WindowEvent windowEvent){
-	             System.exit(0);
-	         }        
-	    	}));
 	}
 	
 	private static void startFrame()
 	{
 		mainMenu.add(MAIN_PAGE.getPage());
 		currentPage = MAIN_PAGE;
-		mainMenu.repaint();
-		mainMenu.invalidate();
 		mainMenu.setVisible(true);
 	}
 	
@@ -43,7 +34,7 @@ public class Starter {
 		currentPage.closePage();
 		mainMenu.getContentPane().removeAll();
 		mainMenu.add(toSwitchTo.getPage());
-		toSwitchTo.startPage(currentPage);// måske problemer med hvor pointeren fører hen her
+		toSwitchTo.startPage(currentPage);
 		currentPage = toSwitchTo;
 		mainMenu.repaint();
 		mainMenu.setVisible(true);
