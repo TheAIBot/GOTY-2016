@@ -15,11 +15,15 @@ public class Screen {
 	public Graphics2D gDisplay;
 	private Point vantagePoint;
 	
-	public final static int TILE_POSITION_TO_PIXEL_POSITION = 50;
+	private int xOffset, yOffset;
+	
+	public final static int TILE_POSITION_TO_PIXEL_POSITION = 100;
 
 	public Screen(Graphics2D gDisplay, Point imageBounds) {
 		this.gDisplay = gDisplay;
 		this.imageBounds = imageBounds;
+		xOffset = 0;
+		yOffset = 0;
 	}
 	
 	/**
@@ -44,11 +48,11 @@ public class Screen {
 			//If not, it dosen't render it (to increase performance), else it does.
 			if (true) { 
 				//isInsideDisplay(currentImage, imagePosition)
+				System.out.println(imagePosition.x + "," + imagePosition.y);
 				gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
-				return true;				
-			} else {
-				return false;
+				return true;
 			}
+			return false;
 		}
 	}
 	
@@ -90,8 +94,13 @@ public class Screen {
 			throw new Error();
 		} else {
 			Point imagePosition = d.getImagePosition();
-			gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
+			gDisplay.drawImage(currentImage, imagePosition.x + xOffset, imagePosition.y + yOffset, null);
 		}
+	}
+	
+	public void setOffset(int xOffset, int yOffset) {
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
 	}
 
 }

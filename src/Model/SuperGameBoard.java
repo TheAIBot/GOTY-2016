@@ -9,17 +9,10 @@ public abstract class SuperGameBoard {
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners;
 	protected Tile[] tilePlacements;
-<<<<<<< HEAD
-	public final int size;
-	
-	public SuperGameBoard(int startSize)
-	{
-=======
 	protected GameState currentGameState;
 	protected final int size;
 
 	public SuperGameBoard(int startSize) {
->>>>>>> refs/remotes/origin/Dev
 		gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 		size = startSize;
 	}

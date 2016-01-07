@@ -17,27 +17,19 @@ public class Tile implements java.io.Serializable, Displayable {
 	Point position;	
 	Color color;	
 	BufferedImage displayImage;
-	int size = 100;
+	int size = 100; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 	public Tile(int number, Point position, Color color)
 	{
 		this.number = number;
 		this.position = position;
-		System.out.println(position.toString());
 		this.color = color;	
 		setCurrentImage("res/tempchest.png");
 		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	
-<<<<<<< HEAD
-	public void render(Screen screen) {
-		screen.renderTile(this);
-	}
-	
-	public BufferedImage detDisplay(){
-=======
+
 	public BufferedImage getDisplay(){
->>>>>>> refs/remotes/origin/Dev
 		return displayImage;
 	}
 	

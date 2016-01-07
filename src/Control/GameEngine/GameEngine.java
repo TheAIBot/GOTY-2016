@@ -21,18 +21,13 @@ public class GameEngine implements java.io.Serializable, KeyPressListener, Board
 		game.makeRandom();
 	}
 	
-<<<<<<< HEAD
-	/*public GameEngine(int startSize) {	
-		game = new GameBoard(startSize, screen);
-=======
 	public GameEngine(int startSize) {	
 		graphics = null;
 		input = null;	
 		game = new GameBoard(startSize);
->>>>>>> refs/remotes/origin/Dev
 		game.createGame();
 		game.makeRandom();
-	}*/
+	}
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -67,19 +62,6 @@ public class GameEngine implements java.io.Serializable, KeyPressListener, Board
 	{
 		game.resetGame();
 	}
-<<<<<<< HEAD
-	
-	
-	
-	public void update() {
-		
-	}
-	
-	public void render() {
-		screen.clear();
-		for (int i = 0; i < getTiles().length; i++) {
-			if (getTiles()[i] != null) getTiles()[i].render(screen);
-=======
 
 	@Override
 	public void KeyPressed(String keyPressed) {
@@ -96,12 +78,15 @@ public class GameEngine implements java.io.Serializable, KeyPressListener, Board
 		case "RIGHT":
 			moveVoidTile(Directions.RIGHT);
 			break;
->>>>>>> refs/remotes/origin/Dev
 		}
 	}
 
 	@Override
 	public void boardChanged() {
+		graphics.renderTiles(game.getTiles());
+	}
+
+	public void render() {
 		graphics.renderTiles(game.getTiles());
 	}
 	

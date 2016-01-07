@@ -19,7 +19,7 @@ public class MenuController {
 	private static void createFrame()
 	{
 		mainMenu = new JFrame("GOTY2016");
-		mainMenu.setSize(400, 600);
+		mainMenu.setSize(510, 540); //TODO: flyt
 	}
 	
 	private static void startFrame()

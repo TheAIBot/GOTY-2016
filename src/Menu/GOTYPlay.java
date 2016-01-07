@@ -23,14 +23,13 @@ public class GOTYPlay extends SuperPage {
 
 	@Override
 	public JPanel createPage() {
-		gPanel = new GraphicsPanel(400,400);
+		gPanel = new GraphicsPanel(500,500); //TODO: flyt
 		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
 		
 		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
 		gPanel.getActionMap().put("up", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	game.moveVoidTile(Directions.UP);
-		    	//TODO: move input handling to InputManager class (Model-View-Controller principle)
 		    }
 		});
 		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
@@ -60,14 +59,10 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-<<<<<<< HEAD
-		game = new GameEngine(3, screen);
-=======
-		game = new GameEngine(3, screen, gPanel);
->>>>>>> refs/remotes/origin/Dev
+		game = new GameEngine(5, screen, gPanel); //TODO: flyt
 		//ConsoleControl.startGameInConsole(10);
 		game.render();
-		gPanel.repaint();
+		//gPanel.repaint();
 	}
 
 	@Override
