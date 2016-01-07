@@ -17,6 +17,8 @@ public class HighscoreTest {
 		checkScore(scores.get(0), "fisk", 12);
 		checkScore(scores.get(1), "kage", 11);
 		checkScore(scores.get(2), "derp", 10);
+		
+		System.out.println("HighscoreTest finished testing");
 	}
 	
 	private static void checkScore(Pair<String, Integer> score, String expectedName, int expectedScore)
