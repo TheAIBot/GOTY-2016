@@ -1,5 +1,5 @@
 
-package Control;
+package Model;
 
 public enum Directions {
 	LEFT
