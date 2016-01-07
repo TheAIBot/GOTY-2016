@@ -74,10 +74,11 @@ public class Screen {
 	 * Clears the display, coloring everything white.
 	 */
 	public void clear() {
-		Color currentColor = gDisplay.getColor();
-		gDisplay.setColor(Color.WHITE);
-		gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
-		gDisplay.setColor(currentColor);
+		//Color currentColor = gDisplay.getColor();
+		//gDisplay.setColor(Color.WHITE);
+		//gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
+		//gDisplay.setColor(currentColor);
+		gDisplay.clearRect(0, 0, imageBounds.x, imageBounds.y);
 	}
 
 	//Duplicate of render()
