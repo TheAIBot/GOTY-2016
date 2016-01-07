@@ -13,13 +13,23 @@ public class GraphicsManager {
 		this.screen = screen;
 	}
 	
-	public void renderTiles(Tile[] tiles){
-		screen.clear();
+	public void renderTiles(Tile[] tiles) {
+		clearScreen();
 		for (Tile tile : tiles) {
 			if (tile != null) {
 				screen.renderTile(tile);
 			}
 		}
+		updateGraphics();
+	}
+	
+	public void clearScreen(){
+		screen.clear();
+	}
+	
+	
+	public void updateGraphics(){
 		panel.repaint();
 	}
+	
 }

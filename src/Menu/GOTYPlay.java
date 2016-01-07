@@ -23,8 +23,9 @@ public class GOTYPlay extends SuperPage {
 
 	@Override
 	public JPanel createPage() {
-		gPanel = new GraphicsPanel(500,500); //TODO: flyt
+		gPanel = new GraphicsPanel(1000,1000); //TODO: flyt
 		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
+		
 		
 		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
 		gPanel.getActionMap().put("up", new AbstractAction() {
@@ -50,6 +51,39 @@ public class GOTYPlay extends SuperPage {
 		    	game.moveVoidTile(Directions.RIGHT);
 		    }
 		});
+		
+		//---
+		final int size = 100;
+		
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"), "w");
+		gPanel.getActionMap().put("w", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) {
+		    	screen.addOffset(0, 1 * size);
+		    	game.render();
+		    	
+		    }
+		});
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"), "s");
+		gPanel.getActionMap().put("s", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) {
+		    	screen.addOffset(0, -1 * size);
+		    	game.render();
+		    }
+		});
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"), "a");
+		gPanel.getActionMap().put("a", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) {
+		    	screen.addOffset(1 * size, 0);
+		    	game.render();
+		    }
+		});
+		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("D"), "d");
+		gPanel.getActionMap().put("d", new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) {
+		    	screen.addOffset(-1 * size, 0);
+		    	game.render();
+		    }
+		});
 
 		page = gPanel;
 		return gPanel;
@@ -59,7 +93,7 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(5, screen, gPanel); //TODO: flyt
+		game = new GameEngine(10, screen, gPanel); //TODO: flyt
 		//ConsoleControl.startGameInConsole(10);
 		game.render();
 		//gPanel.repaint();

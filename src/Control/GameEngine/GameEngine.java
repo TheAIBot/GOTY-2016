@@ -9,7 +9,7 @@ public class GameEngine implements java.io.Serializable, KeyPressListener, Board
 	private final InputManager input;
 	private final SuperGameBoard game;
 
-	public GameEngine(int startSize, Screen screen, GraphicsPanel panel) {	
+	public GameEngine(int startSize, Screen screen, GraphicsPanel panel) {
 		if (screen == null) {
 			throw new NullPointerException("Screen provided is null");
 		}
