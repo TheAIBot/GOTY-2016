@@ -1,7 +1,13 @@
 package Control.GameEngine;
 
-import View.*;
-import Model.*;
+import Control.Directions;
+import Model.BoardChangedListener;
+import Model.GameBoard;
+import Model.GameState;
+import Model.GraphicsPanel;
+import Model.SuperGameBoard;
+import Model.Tile;
+import View.Screen;
 
 public class GameEngine implements java.io.Serializable, KeyPressListener, BoardChangedListener {
 	

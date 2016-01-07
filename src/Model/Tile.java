@@ -5,9 +5,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.imageio.ImageIO;
 
-import Control.*;
+import javax.imageio.ImageIO;
 
 public class Tile implements java.io.Serializable, Displayable {
 	

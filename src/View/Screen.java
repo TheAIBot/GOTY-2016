@@ -17,9 +17,9 @@ public class Screen {
 	
 	public final static int TILE_POSITION_TO_PIXEL_POSITION = 50;
 
-	public Screen(Graphics2D gDisplay, Point imageBounds) {
+	public Screen(Graphics2D gDisplay, Rectangle imageBound) {
 		this.gDisplay = gDisplay;
-		this.imageBounds = imageBounds;
+		this.imageBound = imageBound;
 	}
 	
 	/**
