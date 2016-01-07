@@ -3,7 +3,7 @@ package Model;
 import java.awt.Point;
 
 public class DifficultyCalculator {
-	public static DifficultyLevel getDifficulty(Tile[] tiles, int size)
+	public static DifficultyLevel getDifficultyLevel(Tile[] tiles, int size)
 	{
 		double difficulty = 0;
 		for (int i = 0; i < tiles.length; i++) {
@@ -13,6 +13,11 @@ public class DifficultyCalculator {
 		}
 		double difficultyPercentage = difficulty / getMaxDifficulty(size);
 		return DifficultyLevel.getDifficultylevelFromPercentDifficult(difficultyPercentage);
+	}
+	
+	public double getDfficulty(Tile[] tiles, int size)
+	{
+		
 	}
 	
 	private static double CalculateDistance(int size, Point a, Point b)

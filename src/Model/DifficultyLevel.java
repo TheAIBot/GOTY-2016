@@ -5,6 +5,6 @@ public enum DifficultyLevel {
 	
 	public static DifficultyLevel getDifficultylevelFromPercentDifficult(double difficulty)
 	{
-		
+		return NORMAL;
 	}
 }

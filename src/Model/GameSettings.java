@@ -4,6 +4,7 @@ public class GameSettings {
 	private int soundVolume;
 	private int gameSize;
 	private GameModes gameMode;
+	private boolean randomize;
 	private PlayerSettings playerOne;
 	private PlayerSettings playerTwo;
 	
