@@ -1,72 +1,123 @@
 package Model;
 
+import java.awt.event.KeyEvent;
+
 public class PlayerSettings {
-	private char upKey;
-	private char downKey;
-	private char leftKey;
-	private char rightKey;
+	private int upKey;
+	private int downKey;
+	private int leftKey;
+	private int rightKey;
 	
 	private String name;
+	
+	/**
+	 * 
+	 * @param up
+	 * @param down
+	 * @param left
+	 * @param right
+	 * @param playerName
+	 */
+	public PlayerSettings(int up, int down, int left, int right, String playerName)
+	{
+		upKey = up;
+		downKey = down;
+		leftKey = left;
+		rightKey = right;
+		name = playerName;
+	}
 
 	/**
-	 * @return up key
+	 * @return The code for the key used to go up
 	 */
-	public char getUpKey() {
+	public int getUpKeyCode() {
 		return upKey;
 	}
-
+	
 	/**
-	 * @param up the key used to press up 
+	 * 
+	 * @return The name for the key used to go up
 	 */
-	public void setUpKey(char up) {
-		this.upKey = up;
+	public String getUpKeyName(){
+		return KeyEvent.getKeyText(upKey);
 	}
 
 	/**
-	 * @return down key
+	 * @param Sets the key code corresponding to the key used to go up
 	 */
-	public char getDownKey() {
+	public void setUpKeyCode(int up) {
+		upKey = up;
+	}
+
+	/**
+	 * @return The code for the key used to go down
+	 */
+	public int getDownKeyCode() {
 		return downKey;
 	}
-
+	
 	/**
-	 * @param down the key used to press down
+	 * 
+	 * @return The name for the key used to go down
 	 */
-	public void setDownKey(char down) {
-		this.downKey = down;
+	public String getDownKeyName(){
+		return KeyEvent.getKeyText(downKey);
 	}
 
 	/**
-	 * @return left key
+	 * @param Sets the key code corresponding to the key used to go down
 	 */
-	public char getLeftKey() {
+	public void setDownKeyCode(int down) {
+		downKey = down;
+	}
+
+	/**
+	 * @return The code for the key used to go left
+	 */
+	public int getLeftKeyCode() {
 		return leftKey;
 	}
-
+	
 	/**
-	 * @param left the key used to press left
+	 * 
+	 * @return The name for the key used to go left
 	 */
-	public void setLeftKey(char left) {
-		this.leftKey = left;
+	public String getLeftKeyName(){
+		return KeyEvent.getKeyText(leftKey);
 	}
 
 	/**
-	 * @return right key
+	 * @param Sets the key code corresponding to the key used to go left
 	 */
-	public char getRightKey() {
+	public void setLeftKeyCode(int left) {
+		leftKey = left;
+	}
+
+	/**
+	 * @return The code for the key used to go right
+	 */
+	public int getRightKeyCode() {
 		return rightKey;
 	}
 
 	/**
-	 * @param right the key used to press right
+	 * 
+	 * @return The name for the key used to go right
 	 */
-	public void setRightKey(char right) {
-		this.rightKey = right;
+	public String getRightKeyName() {
+		return KeyEvent.getKeyText(rightKey);
+	}
+	
+	/**
+	 * @param Sets the key code corresponding to the key used to go right
+	 */
+	public void setRightKeyCode(int right) {
+		rightKey = right;
 	}
 
 	
 	/**
-	 * @return the name
+	 * @return the name of the player
 	 */
 	public String getName() {
 		return name;
@@ -74,9 +125,14 @@ public class PlayerSettings {
 
 	
 	/**
-	 * @param name the name to set
+	 * @param name of the player
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String playerName) {
+		name = playerName;
+	}
+	
+	public boolean hasKeyCode(int key)
+	{
+		return (key == upKey || key == downKey || key == leftKey || key == rightKey);
 	}
 }
