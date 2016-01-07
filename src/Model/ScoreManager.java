@@ -1,4 +1,4 @@
-package GameEngine;
+package Model;
 
 import java.io.Serializable;
 import javax.swing.Timer;

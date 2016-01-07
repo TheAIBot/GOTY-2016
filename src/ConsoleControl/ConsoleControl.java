@@ -2,8 +2,8 @@ package ConsoleControl;
 
 import java.util.Scanner;
 
-import Control.Directions;
 import Control.GameEngine.GameEngine;
+import Model.Directions;
 import Model.GameState;
 import Model.GameStateChangedListener;
 

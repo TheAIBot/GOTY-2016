@@ -3,8 +3,6 @@ package Control.GameEngine;
 import View.*;
 import Model.*;
 
-import Control.Directions;
-
 public class GameEngine implements java.io.Serializable, KeyPressListener, BoardChangedListener {
 	
 	private final GraphicsManager graphics;

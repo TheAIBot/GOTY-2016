@@ -2,6 +2,7 @@ package Tests;
 
 
 import GameEngine.*;
+import Model.ScoreManager;
 
 public class ScoreManagerTest {
 	
