@@ -66,19 +66,10 @@ public class Sound {
 				
 				
 				//clip.open(streamOfSound);
-	            //clip.start();
-				
-				
-				
+	            //clip.start();				
 				volumeControl = (FloatControl) clip.getControl(FloatControl.Type.VOLUME);
-				muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);
-				 
-				 
-				
+				muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);				
 			}
-			
-			
-						
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
