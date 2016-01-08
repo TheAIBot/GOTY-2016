@@ -11,19 +11,22 @@ import Model.Displayable;
 public class Screen {
 
 	private Rectangle imageBound;
-	private Point imageBounds; //To delete, replaced with rectangel
-	public Graphics2D gDisplay;
+	private Graphics2D gDisplay;
 	private Point vantagePoint;
 	
 	public int xOffset, yOffset;
 	
 	public final static int TILE_POSITION_TO_PIXEL_POSITION = 100;
 
-	public Screen(Graphics2D gDisplay, Point imageBounds) {
+	public Screen(Graphics2D gDisplay, Rectangle imageBound) {
 		this.gDisplay = gDisplay;
+<<<<<<< HEAD
 		this.imageBounds = imageBounds;
 		xOffset = 0;
 		yOffset = 0;
+=======
+		this.imageBound = imageBound;
+>>>>>>> refs/remotes/origin/Dev
 	}
 	
 	/**
@@ -46,6 +49,7 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
+<<<<<<< HEAD
 			
 			int imgSize = 100;
 			int screenSize = 500;
@@ -66,6 +70,17 @@ public class Screen {
 				gDisplay.drawImage(currentImage, (imagePosition.x + xOffset) * imgSize, (imagePosition.y + yOffset) * imgSize, null);
 				System.out.println("---");
 				return true;
+=======
+			if (isInsideDisplay(currentImage, imagePosition)) { 
+				//isInsideDisplay(currentImage, imagePosition)
+				gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
+				gDisplay.drawString(String.valueOf(d.getNumber()),
+									imagePosition.x + currentImage.getHeight()/2, 
+									imagePosition.y + currentImage.getWidth()/4);
+				return true;				
+			} else {
+				return false;
+>>>>>>> refs/remotes/origin/Dev
 			}
 			System.out.println("BBB");
 			return false;
@@ -83,7 +98,11 @@ public class Screen {
 		//with the vantage point representing the middle of the display.
 		
 		//((*)Might be an error depending on the placement of the imageBound)
-		if (imageBound.contains(imagePosition.x - vantagePoint.x, 
+		if (imagePosition.x < imageBound.width &&
+			imagePosition.y < imageBound.height) {
+			return true;
+		}
+		/*if (imageBound.contains(imagePosition.x - vantagePoint.x, 
 				imagePosition.y - vantagePoint.y) ||
 			imageBound.contains(imagePosition.x - vantagePoint.x,
 					imagePosition.y - vantagePoint.y - currentImage.getHeight()) ||
@@ -92,7 +111,7 @@ public class Screen {
 			imageBound.contains(imagePosition.x - vantagePoint.x + currentImage.getWidth(),
 					imagePosition.y - vantagePoint.y - currentImage.getHeight())) {
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
@@ -100,12 +119,14 @@ public class Screen {
 	 * Clears the display, coloring everything white.
 	 */
 	public void clear() {
-		Color currentColor = gDisplay.getColor();
-		gDisplay.setColor(Color.WHITE);
-		gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
-		gDisplay.setColor(currentColor);
+		//Color currentColor = gDisplay.getColor();
+		//gDisplay.setColor(Color.WHITE);
+		//gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
+		//gDisplay.setColor(currentColor);
+		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
+<<<<<<< HEAD
 	//Duplicate of render()
 	public void renderTile(Displayable d) {
 		if (d == null) {
@@ -144,4 +165,11 @@ public class Screen {
 	
 
 
+=======
+	public void windowResized(Rectangle newSize, Graphics2D newGDisplay)
+	{
+		imageBound = newSize;
+		gDisplay = newGDisplay;
+	}
+>>>>>>> refs/remotes/origin/Dev
 }

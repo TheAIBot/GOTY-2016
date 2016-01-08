@@ -28,7 +28,7 @@ public class SaveFileManager<T> {
 
 		try {
 			// Create the file to contain the state of the object state.
-			try (FileOutputStream saveFileOut = new FileOutputStream(saveFileDirectory + "/" + saveName + ".ser")) {
+			try (FileOutputStream saveFileOut = new FileOutputStream(saveFileDirectory + File.separator + saveName + ".ser")) {
 				try (ObjectOutputStream saveObjOut = new ObjectOutputStream(saveFileOut)) {
 
 					// Write the object state as byte code to the file
@@ -45,7 +45,7 @@ public class SaveFileManager<T> {
 	public boolean deleteFile(String filename)
 	{
 		try{
-			File theFile = new File(saveFileDirectory + "/" + filename + ".ser");
+			File theFile = new File(saveFileDirectory + File.separator + filename + ".ser");
 			return theFile.delete();
 		}
 		catch(Exception e)
