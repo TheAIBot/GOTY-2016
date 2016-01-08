@@ -29,7 +29,7 @@ public class DifficultyCalculatorTest {
 	private static void testStartDifficulty(int size)
 	{
 		GameSettings settings = new GameSettings();
-		GameBoard game = new GameBoard(size, settings.getPlayerOne(), settings.getPlayerTwo());
+		GameBoard game = new GameBoard(settings);
 		game.createGame();
 		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);
 		assert(difficulty == 0) : "starter difficulty is incorrect for the size " + size + ", expected " + 0 + " and got " + difficulty;
@@ -38,7 +38,7 @@ public class DifficultyCalculatorTest {
 	private static void testHighestDifficulty(int size)
 	{
 		GameSettings settings = new GameSettings();
-		GameBoard game = new GameBoard(size, settings.getPlayerOne(), settings.getPlayerTwo());
+		GameBoard game = new GameBoard(settings);
 		game.createGame();
 		reverse(game.getTiles(), size);
 		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);

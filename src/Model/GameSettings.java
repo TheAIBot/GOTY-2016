@@ -5,21 +5,23 @@ public class GameSettings {
 	private float soundVolume;
 	private int gameSize;
 	private GameModes gameMode;
+	private DifficultyLevel difficultyLevel;
 	private boolean randomize;
 	private PlayerSettings playerOne;
 	private PlayerSettings playerTwo;
 	
-	public GameSettings(float vol, int size, GameModes mode, PlayerSettings p_one, PlayerSettings p_two)
+	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, PlayerSettings p_one, PlayerSettings p_two)
 	{
 		soundVolume = vol;
 		gameSize = size;
 		gameMode = mode;
+		setDifficultyLevel(difficulty);
 		playerOne = p_one;
 		playerTwo = p_two;
 	}
 	public GameSettings()
 	{
-		this(0.5f,4,GameModes.NORMAL,
+		this(0.5f,4,GameModes.NORMAL, DifficultyLevel.NORMAL,
 				new PlayerSettings(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, "Player 1"),
 				new PlayerSettings(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, "Player 2"));
 	}
@@ -92,5 +94,17 @@ public class GameSettings {
 	 */
 	public void setPlayerTwo(PlayerSettings playerTwo) {
 		this.playerTwo = playerTwo;
+	}
+	/**
+	 * @return the difficultyLevel
+	 */
+	public DifficultyLevel getDifficultyLevel() {
+		return difficultyLevel;
+	}
+	/**
+	 * @param difficultyLevel the difficultyLevel to set
+	 */
+	public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+		this.difficultyLevel = difficultyLevel;
 	}
 }
