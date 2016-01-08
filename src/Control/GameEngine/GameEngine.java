@@ -1,46 +1,67 @@
 package Control.GameEngine;
 
-import Control.Directions;
 import Model.BoardChangedListener;
 import Model.GameBoard;
+import Model.GameBoardMode;
+import Model.GameSettings;
 import Model.GameState;
 import Model.GraphicsPanel;
-import Model.SuperGameBoard;
+import Model.PlayerSettings;
 import Model.Tile;
 import View.Screen;
-
+import javafx.scene.image.Image;
 import Model.Directions;
 
-public class GameEngine implements KeyPressListener, BoardChangedListener {
+public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private final SaveFileManager<GameBoardMode> saver = new SaveFileManager<GameBoardMode>("saveFiles");
 	private final GraphicsManager graphics;
-	private final InputManager input;
+	private final InputManager input = new InputManager();
 	private GameBoardMode game;
+	private GameSettings settings;
 
 	public GameEngine(GameSettings settings, Screen screen, GraphicsPanel panel) {	
 		if (screen == null) {
 			throw new NullPointerException("Screen provided is null");
-		}
+		}//TODO add more null checks
+		this.settings = settings;
 		this.graphics = new GraphicsManager(screen, panel);		
-		input = new InputManager();	
-		game = new GameBoard(settings.getGameSize());
+		initGame(settings);
+	}
+	
+	public GameEngine(GameSettings settings) {	
+		
+		graphics = null;
+		initGame(settings);
+	}
+	
+	private void initGame(GameSettings settings)
+	{
+		game = new GameBoard(settings.getGameSize(), settings.getPlayerOne(), settings.getPlayerTwo());
 		game.addBoardChangedListener(this);
 		game.createGame();
 		game.makeRandom();
+		addKeyboardControls(settings);
 	}
 	
-	public GameEngine(int startSize) {	
-		graphics = null;
-		input = null;	
-		game = new GameBoard(startSize);
-		game.createGame();
-		game.makeRandom();
+	private void addKeyboardControls(GameSettings settings)
+	{
+		addKeyboardBindingsToPlayerControl(settings.getPlayerOne());
+		addKeyboardBindingsToPlayerControl(settings.getPlayerTwo());
 	}
 	
 	private void addKeyboardBindingsToPlayerControl(PlayerSettings player)
 	{
-		input.AttachListenerToKey(graphics, listener, key);
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getDownKeyName());
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getUpKeyName());
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getLeftKeyName());
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getRightKeyName());
 	}
+	
+	@Override
+	public void keyPressed(String keyPressed) {
+		game.keyPressed(keyPressed);
+	}
+
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -77,24 +98,6 @@ public class GameEngine implements KeyPressListener, BoardChangedListener {
 	}
 
 	@Override
-	public void KeyPressed(String keyPressed) {
-		switch (keyPressed) {
-		case "DOWN":
-			moveVoidTile(Directions.DOWN);
-			break;
-		case "UP":
-			moveVoidTile(Directions.UP);
-			break;
-		case "LEFT":
-			moveVoidTile(Directions.LEFT);
-			break;
-		case "RIGHT":
-			moveVoidTile(Directions.RIGHT);
-			break;
-		}
-	}
-
-	@Override
 	public void boardChanged() {
 		graphics.renderTiles(game.getTiles());
 	}
@@ -107,5 +110,15 @@ public class GameEngine implements KeyPressListener, BoardChangedListener {
 	public void load()
 	{
 		game = saver.load("game");
+	}
+
+	public void pauseGame()
+	{
+		game.pause();
+	}
+	
+	public void restartGame()
+	{
+		game.restart();
 	}
 }
