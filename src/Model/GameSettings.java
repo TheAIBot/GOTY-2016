@@ -1,23 +1,40 @@
 package Model;
+import java.awt.event.KeyEvent;
 
 public class GameSettings {
-	private int soundVolume;
+	private float soundVolume;
 	private int gameSize;
 	private GameModes gameMode;
+	private boolean randomize;
 	private PlayerSettings playerOne;
 	private PlayerSettings playerTwo;
+	
+	public GameSettings(float vol, int size, GameModes mode, PlayerSettings p_one, PlayerSettings p_two)
+	{
+		soundVolume = vol;
+		gameSize = size;
+		gameMode = mode;
+		playerOne = p_one;
+		playerTwo = p_two;
+	}
+	public GameSettings()
+	{
+		this(0.5f,4,GameModes.NORMAL,
+				new PlayerSettings(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, "Player 1"),
+				new PlayerSettings(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, "Player 2"));
+	}
 	
 	/**
 	 * @return the soundVolume
 	 */
-	public int getSoundVolume() {
+	public float getSoundVolume() {
 		return soundVolume;
 	}
 	
 	/**
 	 * @param soundVolume the soundVolume to set
 	 */
-	public void setSoundVolume(int soundVolume) {
+	public void setSoundVolume(float soundVolume) {
 		this.soundVolume = soundVolume;
 	}
 

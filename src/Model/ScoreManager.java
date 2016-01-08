@@ -25,7 +25,11 @@ public class ScoreManager implements Serializable{
 	//Wether or not to update the number of moves and the corresponding addition to the score.
 	boolean detectMoves;
 	
-	
+	/**
+	 * 
+	 * @param scoreSecond
+	 * @param scoreMove
+	 */
 	public ScoreManager(int scoreSecond, int scoreMove)
 	{
 		totalScore = 0;

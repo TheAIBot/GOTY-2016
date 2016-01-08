@@ -11,8 +11,7 @@ import Model.Displayable;
 public class Screen {
 
 	private Rectangle imageBound;
-	private Point imageBounds; //To delete, replaced with rectangel
-	public Graphics2D gDisplay;
+	private Graphics2D gDisplay;
 	private Point vantagePoint;
 	final int screenSize = 500;
 	private Rectangle screenBounds;
@@ -22,16 +21,14 @@ public class Screen {
 	
 	public final static int TILE_POSITION_TO_PIXEL_POSITION = 100;
 
-	public Screen(Graphics2D gDisplay, Point imageBounds) {
+	public Screen(Graphics2D gDisplay, Rectangle imageBound) {
 		this.gDisplay = gDisplay;
-		this.imageBounds = imageBounds;
-		xOffset = 0;
-		yOffset = 0;
-		screenBounds = new Rectangle(0, 0, screenSize, screenSize);
+
+		this.imageBound = imageBound;
 	}
 	
 	
-	public boolean render(Displayable d) {
+	/*public boolean render(Displayable d) {
 		//Checks if the displayable has the neccesary information required for displaying it on the screen.
 		if (d == null) {
 			throw new NullPointerException();
@@ -57,7 +54,7 @@ public class Screen {
 			//System.out.println("XXX");
 			return false;
 		}
-	}
+	}*/
 	
 	
 	/**
@@ -68,7 +65,7 @@ public class Screen {
 	 * ((*) Errors)
 	 * @param d
 	 */
-	/*public boolean render(Displayable d) {
+	public boolean render(Displayable d) {
 		//Checks if the displayable has the neccesary information required for displaying it on the screen.
 		if (d == null) {
 			throw new NullPointerException();
@@ -80,22 +77,19 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			double imgSize = 1;
-			
-			Point p1 = new Point((int) (imagePosition.x * imgSize), (int) (imagePosition.y * imgSize));
-			Point p2 = new Point((int) ((imagePosition.x + 1) * imgSize), (int) (imagePosition.y * imgSize));
-			Point p3 = new Point((int) (imagePosition.x * imgSize), (int) ((imagePosition.y + 1) * imgSize));
-			Point p4 = new Point((int) ((imagePosition.x + 1) * imgSize), (int) ((imagePosition.y + 1) * imgSize));
-			
-			if (screenBounds.contains(p1) || screenBounds.contains(p2) || screenBounds.contains(p3) || screenBounds.contains(p4)) {
-				gDisplay.drawImage(currentImage, (int) ((imagePosition.x + xOffset) * imgSize), (int) ((imagePosition.y + yOffset) * imgSize), null);
-				System.out.println("AAA");
-				return true;
+
+			if (isInsideDisplay(currentImage, imagePosition)) { 
+				//isInsideDisplay(currentImage, imagePosition)
+				gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
+				gDisplay.drawString(String.valueOf(d.getNumber()),
+									imagePosition.x + currentImage.getHeight()/2, 
+									imagePosition.y + currentImage.getWidth()/4);
+				return true;				
+			} else {
+				return false;
 			}
-			System.out.println("XXX");
-			return false;
 		}
-	}*/
+	}
 	
 	
 	/**
@@ -108,7 +102,11 @@ public class Screen {
 		//with the vantage point representing the middle of the display.
 		
 		//((*)Might be an error depending on the placement of the imageBound)
-		if (imageBound.contains(imagePosition.x - vantagePoint.x, 
+		if (imagePosition.x < imageBound.width &&
+			imagePosition.y < imageBound.height) {
+			return true;
+		}
+		/*if (imageBound.contains(imagePosition.x - vantagePoint.x, 
 				imagePosition.y - vantagePoint.y) ||
 			imageBound.contains(imagePosition.x - vantagePoint.x,
 					imagePosition.y - vantagePoint.y - currentImage.getHeight()) ||
@@ -117,7 +115,7 @@ public class Screen {
 			imageBound.contains(imagePosition.x - vantagePoint.x + currentImage.getWidth(),
 					imagePosition.y - vantagePoint.y - currentImage.getHeight())) {
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
@@ -125,53 +123,17 @@ public class Screen {
 	 * Clears the display, coloring everything white.
 	 */
 	public void clear() {
-		Color currentColor = gDisplay.getColor();
-		gDisplay.setColor(Color.WHITE);
-		gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
-		gDisplay.setColor(currentColor);
+		//Color currentColor = gDisplay.getColor();
+		//gDisplay.setColor(Color.WHITE);
+		//gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
+		//gDisplay.setColor(currentColor);
+		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
-	//Duplicate of render()
-	public void renderTile(Displayable d) {
-		if (d == null) {
-			throw new Error();
-		}
-		BufferedImage currentImage = d.getDisplayImage();
-		if (currentImage == null || d.getImagePosition() == null) {
-			throw new Error();
-		} else {
-			Point imagePosition = d.getImagePosition();
-			gDisplay.drawImage(currentImage, imagePosition.x + xOffset, imagePosition.y + yOffset, null);
-		}
-	}
-	
-	/**
-	 * @param xOffset
-	 * @param yOffset
-	 */
-	public void setOffset(int xOffset, int yOffset) {
-		this.xOffset = xOffset;
-		this.yOffset = yOffset;
-		
-		screenBounds = new Rectangle(this.xOffset, this.yOffset, screenSize, screenSize);
-		
-		//vantagePoint.translate(xOffset, yOffset);
-	}
-	
-	/**
-	 * @param xOffset
-	 * @param yOffset
-	 */
-	public void addOffset(int xOffset, int yOffset) {
-		this.xOffset += xOffset;
-		this.yOffset += yOffset;
-		
-		screenBounds = new Rectangle(this.xOffset, this.yOffset, screenSize, screenSize);
-		
-		String str = "";
-		//vantagePoint.translate(xOffset, yOffset);
-	}
-	
 
-
+	public void windowResized(Rectangle newSize, Graphics2D newGDisplay)
+	{
+		imageBound = newSize;
+		gDisplay = newGDisplay;
+	}
 }
