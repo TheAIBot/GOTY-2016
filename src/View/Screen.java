@@ -46,18 +46,24 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
+			
 			int imgSize = 100;
 			int screenSize = 500;
 			
 			Rectangle screenBounds = new Rectangle(xOffset * imgSize, yOffset * imgSize, screenSize, screenSize);
 			
 			Point p1 = new Point(imagePosition.x * imgSize, imagePosition.y * imgSize);
+			Point p2 = new Point((imagePosition.x + 1) * imgSize, imagePosition.y * imgSize);
+			Point p3 = new Point(imagePosition.x * imgSize, (imagePosition.y + 1) * imgSize);
+			Point p4 = new Point((imagePosition.x + 1) * imgSize, (imagePosition.y + 1) * imgSize);
+			
+			/*Point p1 = new Point(imagePosition.x * imgSize, imagePosition.y * imgSize);
 			Point p2 = new Point((imagePosition.x + xOffset) * imgSize, imagePosition.y * imgSize);
 			Point p3 = new Point(imagePosition.x * imgSize, (imagePosition.y + yOffset) * imgSize);
-			Point p4 = new Point((imagePosition.x + xOffset) * imgSize, (imagePosition.y + xOffset) * imgSize);
+			Point p4 = new Point((imagePosition.x + xOffset) * imgSize, (imagePosition.y + yOffset) * imgSize);*/
 			
 			if (screenBounds.contains(p1) || screenBounds.contains(p2) || screenBounds.contains(p3) || screenBounds.contains(p4)) {
-				gDisplay.drawImage(currentImage, imagePosition.x + xOffset, imagePosition.y + yOffset, null);
+				gDisplay.drawImage(currentImage, (imagePosition.x + xOffset) * imgSize, (imagePosition.y + yOffset) * imgSize, null);
 				System.out.println("---");
 				return true;
 			}
