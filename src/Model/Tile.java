@@ -17,7 +17,7 @@ public class Tile implements java.io.Serializable, Displayable {
 	transient Point position;	
 	Color color;	
 	private static transient BufferedImage displayImage;
-	int size = 100;
+	private int size = 100;
 	
 	public Tile(int number, Point position, Color color)
 	{
@@ -35,7 +35,6 @@ public class Tile implements java.io.Serializable, Displayable {
 	private void createImage()
 	{
 		setCurrentImage("res/tempchest.png");
-		displayImage.createGraphics().drawString("" + number, displayImage.getHeight()/2, displayImage.getWidth()/4);
 	}
 	
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse

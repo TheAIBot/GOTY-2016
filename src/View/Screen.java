@@ -11,8 +11,7 @@ import Model.Displayable;
 public class Screen {
 
 	private Rectangle imageBound;
-	private Point imageBounds; //To delete, replaced with rectangel
-	public Graphics2D gDisplay;
+	private Graphics2D gDisplay;
 	private Point vantagePoint;
 	
 	public final static int TILE_POSITION_TO_PIXEL_POSITION = 50;
@@ -42,9 +41,12 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			if (true) { 
+			if (isInsideDisplay(currentImage, imagePosition)) { 
 				//isInsideDisplay(currentImage, imagePosition)
 				gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
+				gDisplay.drawString(String.valueOf(d.getNumber()),
+									imagePosition.x + currentImage.getHeight()/2, 
+									imagePosition.y + currentImage.getWidth()/4);
 				return true;				
 			} else {
 				return false;
@@ -57,7 +59,11 @@ public class Screen {
 		//with the vantage point representing the middle of the display.
 		
 		//((*)Might be an error depending on the placement of the imageBound)
-		if (imageBound.contains(imagePosition.x - vantagePoint.x, 
+		if (imagePosition.x < imageBound.width &&
+			imagePosition.y < imageBound.height) {
+			return true;
+		}
+		/*if (imageBound.contains(imagePosition.x - vantagePoint.x, 
 				imagePosition.y - vantagePoint.y) ||
 			imageBound.contains(imagePosition.x - vantagePoint.x,
 					imagePosition.y - vantagePoint.y - currentImage.getHeight()) ||
@@ -66,7 +72,7 @@ public class Screen {
 			imageBound.contains(imagePosition.x - vantagePoint.x + currentImage.getWidth(),
 					imagePosition.y - vantagePoint.y - currentImage.getHeight())) {
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
@@ -76,23 +82,14 @@ public class Screen {
 	public void clear() {
 		//Color currentColor = gDisplay.getColor();
 		//gDisplay.setColor(Color.WHITE);
-		//gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
+		//gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
 		//gDisplay.setColor(currentColor);
 		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
-	//Duplicate of render()
-	public void renderTile(Displayable d) {
-		if (d == null) {
-			throw new Error();
-		}
-		BufferedImage currentImage = d.getDisplayImage();
-		if (currentImage == null || d.getImagePosition() == null) {
-			throw new Error();
-		} else {
-			Point imagePosition = d.getImagePosition();
-			gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
-		}
+	public void windowResized(Rectangle newSize, Graphics2D newGDisplay)
+	{
+		imageBound = newSize;
+		gDisplay = newGDisplay;
 	}
-
 }
