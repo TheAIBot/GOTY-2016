@@ -25,7 +25,7 @@ public class InputManager implements java.io.Serializable {
 	private void performEvent(String KeyPressed)
 	{
 		for (KeyPressListener keyPressListener : listeners) {
-			keyPressListener.KeyPressed(KeyPressed);
+			keyPressListener.keyPressed(KeyPressed);
 		}
 	}
 }
