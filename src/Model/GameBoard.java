@@ -181,10 +181,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	private void randomizeGame() {
 		while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
-				DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) / 
-				DifficultyCalculator.getMaxDifficulty(settings.getGameSize()) == 0) {
-		double highest = 0;
-		//while (true) {
+				DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0) {
 			for (int i = 0; i < settings.getGameSize() * 1000; i++) {
 				switch ((((int) (Math.random() * 10)) % 4)) {
 				case 0:
@@ -201,30 +198,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 					break;
 				}
 			}
-			double newDifficulty = (DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) / 
-					DifficultyCalculator.getMaxDifficulty(settings.getGameSize()) * 100);
-			if (newDifficulty > highest) {
-				System.out.println(newDifficulty);
-				//highest = newDifficulty;
-			}
 		}
-		/*final int RANDOM_MOVES = 1000000;
-		for (int i = 0; i < RANDOM_MOVES; i++) {
-			switch ((((int) (Math.random() * 10)) % 4)) {
-			case 0:
-				moveVoidTileNoUpdate(Directions.LEFT);
-				break;
-			case 1:
-				moveVoidTileNoUpdate(Directions.RIGHT);
-				break;
-			case 2:
-				moveVoidTileNoUpdate(Directions.UP);
-				break;
-			case 3:
-				moveVoidTileNoUpdate(Directions.DOWN);
-				break;
-			}
-		}*/
 		boardChanged();
 	}
 
