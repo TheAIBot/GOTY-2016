@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
 
 import Control.GameEngine.GameEngine;
+import Model.DifficultyLevel;
 import Model.GameSettings;
 import Model.GraphicsPanel;
 import Model.SuperPage;
@@ -37,8 +38,8 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-
-		settings.setGameSize(5);
+		settings.setGameSize(100);
+		settings.setDifficultyLevel(DifficultyLevel.HARD);
 		game = new GameEngine(settings, screen, gPanel);
 		gPanel.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {

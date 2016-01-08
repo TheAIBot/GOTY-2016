@@ -20,13 +20,11 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
-	protected final int size;
-	protected final PlayerSettings player1;
+	protected final GameSettings settings;
 
-	public GameBoard(int startSize, PlayerSettings player1, PlayerSettings player2) {
-		this.size = startSize;
+	public GameBoard(GameSettings settings) {
 		this.currentGameState = GameState.NOT_DECIDED_YET;
-		this.player1 = player1;
+		this.settings = settings;
 	}
 
 	public GameState getGameState() {
@@ -55,12 +53,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	public int getIndexFromPoint(Point p) {
 		// x + y * width (width = size)
-		return p.x + p.y * size;
+		return p.x + p.y * settings.getGameSize();
 	}
 
 	public Point getPosition(int number) {
-		int row = number / size;
-		int col = number % size;
+		int row = number / settings.getGameSize();
+		int col = number % settings.getGameSize();
 
 		return new Point(col, row);
 	}
@@ -95,11 +93,11 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	@Override
 	public void createGame() {
-		tilePlacements = new Tile[size * size];
+		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue);
 		}
-		voidTilePosition = new Point(size - 1, size - 1);
+		voidTilePosition = new Point(settings.getGameSize() - 1, settings.getGameSize() - 1);
 	}
 
 	@Override
@@ -120,14 +118,13 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	@Override
 	public void keyPressed(String key) {
-		Log.writeln(key + " " + player1.getDownKeyName());
-		if (key.equals(player1.getDownKeyName())) {
+		if (key.equals(settings.getPlayerOne().getDownKeyName())) {
 			moveVoidTile(Directions.DOWN);
-		} else if (key.equals(player1.getLeftKeyName())) {
+		} else if (key.equals(settings.getPlayerOne().getLeftKeyName())) {
 			moveVoidTile(Directions.LEFT);
-		} else if (key.equals(player1.getRightKeyName())) {
+		} else if (key.equals(settings.getPlayerOne().getRightKeyName())) {
 			moveVoidTile(Directions.RIGHT);
-		} else if (key.equals(player1.getUpKeyName())) {
+		} else if (key.equals(settings.getPlayerOne().getUpKeyName())) {
 			moveVoidTile(Directions.UP);
 		}
 	}
@@ -152,19 +149,19 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	@Override
 	public int getSize() {
-		return size;
+		return settings.getGameSize();
 	}
 
 	private boolean isMoveAllowed(Directions direction) {
 		switch (direction) {
 		case RIGHT:
-			return voidTilePosition.getX() < size - 1;
+			return voidTilePosition.getX() < settings.getGameSize() - 1;
 		case LEFT:
 			return voidTilePosition.getX() > 0;
 		case UP:
 			return voidTilePosition.getY() > 0;
 		case DOWN:
-			return voidTilePosition.getY() < size - 1;
+			return voidTilePosition.getY() < settings.getGameSize() - 1;
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -184,21 +181,24 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	}
 
 	private void randomizeGame() {
-		final int RANDOM_MOVES = 0;
-		for (int i = 0; i < RANDOM_MOVES; i++) {
-			switch ((((int) (Math.random() * 10)) % 4)) {
-			case 0:
-				moveVoidTileNoUpdate(Directions.LEFT);
-				break;
-			case 1:
-				moveVoidTileNoUpdate(Directions.RIGHT);
-				break;
-			case 2:
-				moveVoidTileNoUpdate(Directions.UP);
-				break;
-			case 3:
-				moveVoidTileNoUpdate(Directions.DOWN);
-				break;
+
+		while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
+				DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0) {
+			for (int i = 0; i < settings.getGameSize() * 1000; i++) {
+				switch ((((int) (Math.random() * 10)) % 4)) {
+				case 0:
+					moveVoidTileNoUpdate(Directions.LEFT);
+					break;
+				case 1:
+					moveVoidTileNoUpdate(Directions.RIGHT);
+					break;
+				case 2:
+					moveVoidTileNoUpdate(Directions.UP);
+					break;
+				case 3:
+					moveVoidTileNoUpdate(Directions.DOWN);
+					break;
+				}
 			}
 		}
 		boardChanged();

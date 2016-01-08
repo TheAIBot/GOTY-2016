@@ -2,10 +2,6 @@ package Control.GameEngine;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
-import com.sun.javafx.scene.control.skin.TitledPaneSkin;
 
 import Model.GraphicsPanel;
 import Model.Tile;
