@@ -23,11 +23,15 @@ public class GraphicsManager {
 	
 	public void renderTiles(Tile[] tiles){
 		screen.clear();
+		int drawn = 0;
 		for (Tile tile : tiles) {
 			if (tile != null) {
-				screen.render(tile);
+				if (screen.render(tile)) {
+					drawn++;
+				}
 			}
 		}
+		System.out.println(drawn);
 		panel.repaint();
 	}
 	

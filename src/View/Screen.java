@@ -18,7 +18,6 @@ public class Screen {
 
 	public Screen(Graphics2D gDisplay, Rectangle imageBound) {
 		this.gDisplay = gDisplay;
-		gDisplay.setBackground(Color.WHITE);
 		this.imageBound = imageBound;
 	}
 	
@@ -42,7 +41,7 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			if (true) { 
+			if (isInsideDisplay(currentImage, imagePosition)) { 
 				//isInsideDisplay(currentImage, imagePosition)
 				gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
 				gDisplay.drawString(String.valueOf(d.getNumber()),
@@ -60,7 +59,11 @@ public class Screen {
 		//with the vantage point representing the middle of the display.
 		
 		//((*)Might be an error depending on the placement of the imageBound)
-		if (imageBound.contains(imagePosition.x - vantagePoint.x, 
+		if (imagePosition.x < imageBound.width &&
+			imagePosition.y < imageBound.height) {
+			return true;
+		}
+		/*if (imageBound.contains(imagePosition.x - vantagePoint.x, 
 				imagePosition.y - vantagePoint.y) ||
 			imageBound.contains(imagePosition.x - vantagePoint.x,
 					imagePosition.y - vantagePoint.y - currentImage.getHeight()) ||
@@ -69,7 +72,7 @@ public class Screen {
 			imageBound.contains(imagePosition.x - vantagePoint.x + currentImage.getWidth(),
 					imagePosition.y - vantagePoint.y - currentImage.getHeight())) {
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
