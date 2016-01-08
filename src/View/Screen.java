@@ -70,7 +70,11 @@ public class Screen {
 	 * Clears the display, coloring everything white.
 	 */
 	public void clear() {
-		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
+		Color currentColor = gDisplay.getColor();
+  		gDisplay.setColor(Color.WHITE);		  		
+ 		gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
+  		gDisplay.setColor(currentColor);
+		//gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
 	public void windowResized(Rectangle newSize, Graphics2D newGDisplay)

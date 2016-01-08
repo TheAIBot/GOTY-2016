@@ -1,6 +1,5 @@
 package Control.GameEngine;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 
 import Model.BoardChangedListener;
@@ -12,7 +11,6 @@ import Model.GraphicsPanel;
 import Model.PlayerSettings;
 import Model.Tile;
 import View.Screen;
-import javafx.scene.image.Image;
 import Model.Directions;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener {
