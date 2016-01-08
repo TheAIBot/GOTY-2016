@@ -85,18 +85,5 @@ public class Screen {
 		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
-	//Duplicate of render()
-	public void renderTile(Displayable d) {
-		if (d == null) {
-			throw new Error();
-		}
-		BufferedImage currentImage = d.getDisplayImage();
-		if (currentImage == null || d.getImagePosition() == null) {
-			throw new NullPointerException();
-		} else {
-			Point imagePosition = d.getImagePosition();
-			gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
-		}
-	}
 
 }
