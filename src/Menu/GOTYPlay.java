@@ -1,11 +1,8 @@
 package Menu;
 
-import java.awt.event.ActionEvent;
+import java.awt.Rectangle;
 
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 import Control.GameEngine.GameEngine;
 import Model.GameSettings;
@@ -15,7 +12,6 @@ import View.Screen;
 
 
 public class GOTYPlay extends SuperPage {
-	private static final SuperPage PLAY_GAME_SETTINGS = new GOTYPlayGameSettings();
 	private GameEngine game;
 	private GraphicsPanel gPanel;
 	private Screen screen;
@@ -24,7 +20,7 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public JPanel createPage() {
 		gPanel = new GraphicsPanel(400,400);
-		screen = new Screen(gPanel.getGImage(), gPanel.getBounds());
+		screen = new Screen(gPanel.getGImage(), new Rectangle(gPanel.getImageBounds()));
 		page = gPanel;
 		return gPanel;
 		//return page;
