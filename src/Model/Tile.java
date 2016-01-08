@@ -56,8 +56,11 @@ public class Tile implements java.io.Serializable, Displayable {
 	/**
 	 * tile precision
 	 */
-	
 	public Point getImagePosition() {
+		return new Point(position.x, position.y);
+	}
+	
+	public Point getImagePositionPixelPrecision() {
 		return new Point(position.x * size, position.y * size);
 	}
 	

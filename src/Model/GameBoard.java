@@ -104,7 +104,7 @@ public class GameBoard extends SuperGameBoard {
 	}
 	
 	private void randomizeGame() {
-		final int RANDOM_MOVES = 100;
+		final int RANDOM_MOVES = 0;
 		for (int i = 0; i < RANDOM_MOVES; i++) {
 			switch ((((int)(Math.random() * 10)) % 4)) {
 			case 0:

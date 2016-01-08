@@ -53,12 +53,12 @@ public class GOTYPlay extends SuperPage {
 		});
 		
 		//---
-		final int size = 100;
+		final int size = 1; //!!!
 		
 		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"), "w");
 		gPanel.getActionMap().put("w", new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
-		    	screen.addOffset(0, 1 * size);
+		    	screen.addOffset(0, 1 * size); //!!!
 		    	game.render();
 		    	
 		    }
@@ -93,7 +93,7 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(5, screen, gPanel); //TODO: flyt
+		game = new GameEngine(7, screen, gPanel); //TODO: flyt
 		//ConsoleControl.startGameInConsole(10);
 		game.render();
 		//gPanel.repaint();
