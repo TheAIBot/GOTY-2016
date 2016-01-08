@@ -2,6 +2,7 @@ package Model;
 
 import java.awt.Color;
 import java.awt.Point;
+
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -180,6 +181,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	}
 
 	private void randomizeGame() {
+
 		while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
 				DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0) {
 			for (int i = 0; i < settings.getGameSize() * 1000; i++) {

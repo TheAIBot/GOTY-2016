@@ -11,4 +11,6 @@ public interface Displayable {
 	
 	public int getNumber();
 	
+	public Point[] getCorners();
+	
 }

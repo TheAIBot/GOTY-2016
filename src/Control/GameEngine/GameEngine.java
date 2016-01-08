@@ -102,6 +102,10 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	public void boardChanged() {
 		graphics.renderTiles(game.getTiles());
 	}
+
+	public void render() {
+		graphics.renderTiles(game.getTiles());
+	}
 	
 	public void save()
 	{

@@ -19,14 +19,14 @@ public class MenuController {
 	private static void createFrame()
 	{
 		mainMenu = new JFrame("GOTY2016");
-		mainMenu.setSize(400, 600);
+		mainMenu.setSize(510, 540); //TODO: flyt
 	}
 	
 	private static void startFrame()
 	{
 		mainMenu.add(MAIN_PAGE.getPage());
 		currentPage = MAIN_PAGE;
-		mainMenu.setVisible(true);
+		mainMenu.setVisible(true);	
 	}
 	
 	public static void switchPage(SuperPage toSwitchTo)
