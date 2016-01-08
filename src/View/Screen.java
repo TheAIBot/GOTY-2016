@@ -19,6 +19,7 @@ public class Screen {
 
 	public Screen(Graphics2D gDisplay, Rectangle imageBound) {
 		this.gDisplay = gDisplay;
+		gDisplay.setBackground(Color.WHITE);
 		this.imageBound = imageBound;
 	}
 	
@@ -76,7 +77,7 @@ public class Screen {
 	public void clear() {
 		//Color currentColor = gDisplay.getColor();
 		//gDisplay.setColor(Color.WHITE);
-		//gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
+		//gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
 		//gDisplay.setColor(currentColor);
 		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
