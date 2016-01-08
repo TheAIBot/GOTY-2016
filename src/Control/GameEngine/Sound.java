@@ -51,11 +51,11 @@ public class Sound {
 			
 			
 		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
+			Log.writeError(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.writeError(e);
 		} catch (LineUnavailableException e) {
-			e.printStackTrace();
+			Log.writeError(e);
 		} 
 	}
 	
