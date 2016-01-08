@@ -1,18 +1,12 @@
 package Menu;
 
-<<<<<<< HEAD
-=======
-import java.awt.Component;
 import java.awt.GridLayout;
->>>>>>> refs/remotes/origin/Niklas
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,6 +34,7 @@ public class GOTYPlayGameSettings extends SuperPage {
 		JButton playButton = new JButton("Play");
 		playButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
+	        	 PLAY_GAME.setGameSettings(theGameSettings);
 	        	 MenuController.switchPage(PLAY_GAME);
 	         }
 	      });
