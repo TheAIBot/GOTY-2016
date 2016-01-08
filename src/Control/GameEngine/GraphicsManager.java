@@ -17,6 +17,7 @@ public class GraphicsManager {
 		this.screen = screen;
 	}
 	
+
 	public void renderTiles(Tile[] tiles){
 		screen.clear();
 		int drawn = 0;

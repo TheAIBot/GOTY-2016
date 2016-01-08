@@ -22,8 +22,10 @@ public class GOTYPlay extends SuperPage {
 
 	@Override
 	public JPanel createPage() {
+
 		gPanel = new GraphicsPanel(400,400);
 		screen = new Screen(gPanel.getGImage(), new Rectangle(gPanel.getImageBounds()));
+
 		page = gPanel;
 		return gPanel;
 		//return page;
