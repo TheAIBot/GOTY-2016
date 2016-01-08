@@ -9,8 +9,6 @@ public interface Displayable {
 	
 	public Point getImagePosition();
 	
-	public int getNumber();
-	
 	public Point[] getCorners();
 	
 }
