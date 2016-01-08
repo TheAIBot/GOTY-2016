@@ -62,16 +62,6 @@ public class Screen {
 			imagePosition.y < imageBound.height) {
 			return true;
 		}
-		/*if (imageBound.contains(imagePosition.x - vantagePoint.x, 
-				imagePosition.y - vantagePoint.y) ||
-			imageBound.contains(imagePosition.x - vantagePoint.x,
-					imagePosition.y - vantagePoint.y - currentImage.getHeight()) ||
-			imageBound.contains(imagePosition.x - vantagePoint.x + currentImage.getWidth(), 
-					imagePosition.y - vantagePoint.y) ||
-			imageBound.contains(imagePosition.x - vantagePoint.x + currentImage.getWidth(),
-					imagePosition.y - vantagePoint.y - currentImage.getHeight())) {
-			return true;
-		}*/
 		return false;
 	}
 	
@@ -79,11 +69,11 @@ public class Screen {
 	 * Clears the display, coloring everything white.
 	 */
 	public void clear() {
-		//Color currentColor = gDisplay.getColor();
-		//gDisplay.setColor(Color.WHITE);
-		//gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
-		//gDisplay.setColor(currentColor);
-		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
+		Color currentColor = gDisplay.getColor();
+  		gDisplay.setColor(Color.WHITE);		  		
+ 		gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
+  		gDisplay.setColor(currentColor);
+		//gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
 	public void windowResized(Rectangle newSize, Graphics2D newGDisplay)
