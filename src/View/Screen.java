@@ -11,8 +11,7 @@ import Model.Displayable;
 public class Screen {
 
 	private Rectangle imageBound;
-	private Point imageBounds; //To delete, replaced with rectangel
-	public Graphics2D gDisplay;
+	private Graphics2D gDisplay;
 	private Point vantagePoint;
 	
 	public final static int TILE_POSITION_TO_PIXEL_POSITION = 50;
@@ -85,5 +84,9 @@ public class Screen {
 		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
-
+	public void windowResized(Rectangle newSize, Graphics2D newGDisplay)
+	{
+		imageBound = newSize;
+		gDisplay = newGDisplay;
+	}
 }

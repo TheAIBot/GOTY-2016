@@ -1,5 +1,8 @@
 package Control.GameEngine;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import Model.BoardChangedListener;
 import Model.GameBoard;
 import Model.GameBoardMode;
@@ -120,5 +123,10 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	public void restartGame()
 	{
 		game.restart();
+	}
+	
+	public void windowResized(Rectangle newSize)
+	{
+		graphics.windowResized(newSize, game.getTiles());
 	}
 }

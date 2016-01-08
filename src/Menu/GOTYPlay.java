@@ -1,6 +1,8 @@
 package Menu;
 
 import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
 
@@ -33,8 +35,13 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
+		settings.setGameSize(100);
 		game = new GameEngine(settings, screen, gPanel);
-		//ConsoleControl.startGameInConsole(10);
+		gPanel.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+            	game.windowResized(gPanel.getBounds());
+            }
+        });
 	}
 
 	@Override
