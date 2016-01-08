@@ -1,6 +1,5 @@
 package Model;
 
-
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -11,21 +10,22 @@ import java.util.ArrayList;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Control.*;
+import Control.GameEngine.KeyPressListener;
 import Control.GameEngine.Log;
-
 
 public class GameBoard implements GameBoardMode, java.io.Serializable {
 	private transient Point voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
-	private final ArrayList<GameStateChangedListener> gameStateChangedListeners;
+	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final int size;
+	protected final PlayerSettings player1;
 
-	public GameBoard(int startSize) {
-		gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
-		size = startSize;
-		currentGameState = GameState.NOT_DECIDED_YET;
+	public GameBoard(int startSize, PlayerSettings player1, PlayerSettings player2) {
+		this.size = startSize;
+		this.currentGameState = GameState.NOT_DECIDED_YET;
+		this.player1 = player1;
 	}
 
 	public GameState getGameState() {
@@ -80,51 +80,57 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		}
 	}
 
-    
-    private Point recreateTilePositions()
-    {
-    	Point voidPos = null;
-    	for (int i = 0; i < tilePlacements.length; i++) {
-    		if (tilePlacements[i] != null) {
-    			tilePlacements[i].position = getPosition(i);
+	private Point recreateTilePositions() {
+		Point voidPos = null;
+		for (int i = 0; i < tilePlacements.length; i++) {
+			if (tilePlacements[i] != null) {
+				tilePlacements[i].position = getPosition(i);
+			} else {
+				voidPos = getPosition(i);
 			}
-    		else
-    		{
-    			voidPos = getPosition(i);
-    		}
 		}
-    	return voidPos;
-    }
-	
+		return voidPos;
+	}
+
 	@Override
-	public void createGame()
-	{
+	public void createGame() {
 		tilePlacements = new Tile[size * size];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue);
 		}
-		voidTilePosition = new Point(size - 1, size - 1);		
+		voidTilePosition = new Point(size - 1, size - 1);
 	}
-	
+
 	@Override
-	public void makeRandom()
-	{
+	public void makeRandom() {
 		randomizeGame();
 	}
-	
+
 	@Override
-	public void resetGame()
-	{
+	public void resetGame() {
 		createGame();
 		randomizeGame();
 	}
-	
+
 	@Override
-	public Tile[] getTiles()
-	{
+	public Tile[] getTiles() {
 		return tilePlacements;
 	}
-	
+
+	@Override
+	public void keyPressed(String key) {
+		Log.writeln(key + " " + player1.getDownKeyName());
+		if (key.equals(player1.getDownKeyName())) {
+			moveVoidTile(Directions.DOWN);
+		} else if (key.equals(player1.getLeftKeyName())) {
+			moveVoidTile(Directions.LEFT);
+		} else if (key.equals(player1.getRightKeyName())) {
+			moveVoidTile(Directions.RIGHT);
+		} else if (key.equals(player1.getUpKeyName())) {
+			moveVoidTile(Directions.UP);
+		}
+	}
+
 	@Override
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
@@ -134,7 +140,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean moveVoidTileNoUpdate(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			swapVoidTile(direction);
@@ -142,12 +148,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int getSize() {
 		return size;
 	}
-	
+
 	private boolean isMoveAllowed(Directions direction) {
 		switch (direction) {
 		case RIGHT:
@@ -169,18 +175,17 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		moveWithDirection(tileToMove.position, direction.getOppositeDirection());
 		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
 	}
-	
-	private void moveTileIndexes(int tileAIndex, int tileBIndex)
-	{
+
+	private void moveTileIndexes(int tileAIndex, int tileBIndex) {
 		Tile tileA = tilePlacements[tileAIndex];
 		tilePlacements[tileAIndex] = tilePlacements[tileBIndex];
 		tilePlacements[tileBIndex] = tileA;
 	}
-	
+
 	private void randomizeGame() {
 		final int RANDOM_MOVES = 1000000;
 		for (int i = 0; i < RANDOM_MOVES; i++) {
-			switch ((((int)(Math.random() * 10)) % 4)) {
+			switch ((((int) (Math.random() * 10)) % 4)) {
 			case 0:
 				moveVoidTileNoUpdate(Directions.LEFT);
 				break;
@@ -198,8 +203,21 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		boardChanged();
 	}
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound{
-        in.defaultReadObject();
-        voidTilePosition = recreateTilePositions();
-    }
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
+		in.defaultReadObject();
+		voidTilePosition = recreateTilePositions();
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void restart() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

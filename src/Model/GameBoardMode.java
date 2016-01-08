@@ -2,6 +2,7 @@ package Model;
 
 import Model.Directions;
 import Control.GameEngine.GameEngine;
+import Control.GameEngine.KeyPressListener;
 
 public interface GameBoardMode {
 
@@ -20,4 +21,10 @@ public interface GameBoardMode {
 	public abstract GameState getGameState();
 
 	public abstract void addBoardChangedListener(BoardChangedListener gameEngine);
+	
+	public abstract void keyPressed(String key);
+	
+	public abstract void pause();
+	
+	public abstract void restart();
 }

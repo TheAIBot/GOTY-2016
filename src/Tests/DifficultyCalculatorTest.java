@@ -7,6 +7,7 @@ import com.sun.javafx.scene.control.skin.TitledPaneSkin;
 
 import Model.DifficultyCalculator;
 import Model.GameBoard;
+import Model.GameSettings;
 import Model.Tile;
 
 public class DifficultyCalculatorTest {
@@ -27,7 +28,8 @@ public class DifficultyCalculatorTest {
 	
 	private static void testStartDifficulty(int size)
 	{
-		GameBoard game = new GameBoard(size);
+		GameSettings settings = new GameSettings();
+		GameBoard game = new GameBoard(size, settings.getPlayerOne(), settings.getPlayerTwo());
 		game.createGame();
 		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);
 		assert(difficulty == 0) : "starter difficulty is incorrect for the size " + size + ", expected " + 0 + " and got " + difficulty;
@@ -35,7 +37,8 @@ public class DifficultyCalculatorTest {
 	
 	private static void testHighestDifficulty(int size)
 	{
-		GameBoard game = new GameBoard(size);
+		GameSettings settings = new GameSettings();
+		GameBoard game = new GameBoard(size, settings.getPlayerOne(), settings.getPlayerTwo());
 		game.createGame();
 		reverse(game.getTiles(), size);
 		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);

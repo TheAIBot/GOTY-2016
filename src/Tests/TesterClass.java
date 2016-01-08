@@ -6,5 +6,6 @@ public class TesterClass {
 		SaveFileTest.TestSaveFileManager();
 		HighscoreTest.TestHighscore();
 		DifficultyCalculatorTest.TestDifficultyCalculator();
+		ScoreManagerTest.TestScoreMangerSaveability();
 	}
 }

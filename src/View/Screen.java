@@ -78,7 +78,7 @@ public class Screen {
 		//gDisplay.setColor(Color.WHITE);
 		//gDisplay.fillRect(0, 0, imageBounds.x, imageBounds.y);
 		//gDisplay.setColor(currentColor);
-		gDisplay.clearRect(0, 0, imageBounds.x, imageBounds.y);
+		gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
 	//Duplicate of render()

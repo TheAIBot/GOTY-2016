@@ -4,27 +4,19 @@ package Model;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 import java.io.File;
-<<<<<<< HEAD
-=======
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Hashtable;
-
 import javax.imageio.ImageIO;
->>>>>>> refs/remotes/origin/Andreas
 
-import javax.imageio.ImageIO;
+import Control.GameEngine.Log;
 
 public class Tile implements java.io.Serializable, Displayable {
 	
 	private int number;
 	transient Point position;	
 	Color color;	
-	transient BufferedImage displayImage;
+	private static transient BufferedImage displayImage;
 	int size = 100;
 	
 	public Tile(int number, Point position, Color color)
@@ -33,10 +25,6 @@ public class Tile implements java.io.Serializable, Displayable {
 		this.position = position;
 		this.color = color;	
 		createImage();
-	}
-	
-	public BufferedImage getDisplay(){
-		return displayImage;
 	}
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
@@ -51,16 +39,19 @@ public class Tile implements java.io.Serializable, Displayable {
 	}
 	
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
-		File imageFile = new File(filePath);
-		if (imageFile.exists() && imageFile.isFile()) {
-			try {
-				displayImage = ImageIO.read(imageFile);
-				return true;
-			} catch (Exception e) {
-				System.out.println("Something went wrong with the image loading process");
+		if (displayImage == null) {
+			File imageFile = new File(filePath);
+			if (imageFile.exists() && imageFile.isFile()) {
+				try {
+					displayImage = ImageIO.read(imageFile);
+					return true;
+				} catch (Exception e) {
+					Log.writeln("Something went wrong with the image loading process");
+					Log.writeError(e);
+				}
+			} else {
+				Log.writeln("file doesn't exist or is not a file");
 			}
-		} else {
-			System.out.println("Something went wrong with the image loading process");
 		}	
 		return false;
 	}
