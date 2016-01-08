@@ -46,6 +46,9 @@ public class Screen {
 			if (true) { 
 				//isInsideDisplay(currentImage, imagePosition)
 				gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
+				gDisplay.drawString(String.valueOf(d.getNumber()),
+									imagePosition.x + currentImage.getHeight()/2, 
+									imagePosition.y + currentImage.getWidth()/4);
 				return true;				
 			} else {
 				return false;
@@ -89,7 +92,7 @@ public class Screen {
 		}
 		BufferedImage currentImage = d.getDisplayImage();
 		if (currentImage == null || d.getImagePosition() == null) {
-			throw new Error();
+			throw new NullPointerException();
 		} else {
 			Point imagePosition = d.getImagePosition();
 			gDisplay.drawImage(currentImage, imagePosition.x, imagePosition.y, null);
