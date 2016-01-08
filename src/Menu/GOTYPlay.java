@@ -7,8 +7,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import Control.Directions;
 import Control.GameEngine.GameEngine;
+import Model.GameSettings;
 import Model.GraphicsPanel;
 import Model.SuperPage;
 import View.Screen;
@@ -19,47 +19,25 @@ public class GOTYPlay extends SuperPage {
 	private GameEngine game;
 	private GraphicsPanel gPanel;
 	private Screen screen;
+	private GameSettings settings;
 
 	@Override
 	public JPanel createPage() {
 		gPanel = new GraphicsPanel(400,400);
-		screen = new Screen(gPanel.getGImage(), gPanel.getImageBounds());
-		
-		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
-		gPanel.getActionMap().put("up", new AbstractAction() {
-		    public void actionPerformed(ActionEvent e) {
-		    	game.moveVoidTile(Directions.UP);
-		    	//TODO: move input handling to InputManager class (Model-View-Controller principle)
-		    }
-		});
-		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
-		gPanel.getActionMap().put("down", new AbstractAction() {
-		    public void actionPerformed(ActionEvent e) {
-		    	game.moveVoidTile(Directions.DOWN);
-		    }
-		});
-		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "left");
-		gPanel.getActionMap().put("left", new AbstractAction() {
-		    public void actionPerformed(ActionEvent e) {
-		    	game.moveVoidTile(Directions.LEFT);
-		    }
-		});
-		gPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "right");
-		gPanel.getActionMap().put("right", new AbstractAction() {
-		    public void actionPerformed(ActionEvent e) {
-		    	game.moveVoidTile(Directions.RIGHT);
-		    }
-		});
-
+		screen = new Screen(gPanel.getGImage(), gPanel.getBounds());
 		page = gPanel;
 		return gPanel;
 		//return page;
+	}
+	
+	public void setGameSettings(GameSettings settings){
+		this.settings = settings;
 	}
 
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		game = new GameEngine(3, screen, gPanel);
+		game = new GameEngine(settings, screen, gPanel);
 		//ConsoleControl.startGameInConsole(10);
 	}
 
