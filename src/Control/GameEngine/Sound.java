@@ -1,7 +1,10 @@
 package Control.GameEngine;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -10,6 +13,7 @@ import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -34,28 +38,40 @@ public class Sound {
 	
 	public Sound(String path) {
 		try {
-			//Laver et clip som tager input fra en lydfil.
 			
+			/*			
+			AudioClip audioClip = Applet.newAudioClip(new File(path).toURI().toURL()); 
+			audioClip.play(); 			
+			*/
 			
-			clip = AudioSystem.getClip();
-			if(new File(path).exists()){
-
-				AudioInputStream streamOfSound = AudioSystem.getAudioInputStream(new File(path));
-				System.out.println(streamOfSound.getFormat().toString());
-				clip.open(streamOfSound);
+			//Laver et clip som tager input fra en lydfil.			
+			//http://www.erpgreat.com/java/coding-for-playing-a-wav-file.htm
+			//http://stackoverflow.com/questions/4560291/what-clip-and-dataline-info-represents
+			//			
+			
+			File audioFile = new File(path);
+			System.out.println(audioFile.getAbsolutePath());
+			
+			if(audioFile.exists()){
 				
+				clip = AudioSystem.getClip();
+				System.out.println(clip.getFormat().toString());;
+						
+				
+				AudioInputStream streamOfSound = AudioSystem.getAudioInputStream(audioFile);
+				clip = (Clip) AudioSystem.getLine(new DataLine.Info(Clip.class, streamOfSound.getFormat()));
+				System.out.println(clip.getFormat().toString());
+				clip.open(streamOfSound);				
+				clip.start();			
+				
+				
+				//clip.open(streamOfSound);
+	            //clip.start();				
 				volumeControl = (FloatControl) clip.getControl(FloatControl.Type.VOLUME);
-				muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);
-				
+				muteControl = (BooleanControl) clip.getControl(BooleanControl.Type.MUTE);				
 			}
-			
-			
-		} catch (UnsupportedAudioFileException e) {
-			Log.writeError(e);
-		} catch (IOException e) {
-			Log.writeError(e);
-		} catch (LineUnavailableException e) {
-			Log.writeError(e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} 
 	}
 	
