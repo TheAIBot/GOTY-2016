@@ -16,6 +16,8 @@ import Control.GameEngine.Log;
 public class ResourceImages {
 	private static final String DIRECTORY_PATH = "res" + File.separator + "images";
 	public static final String ACCEPTED_EXTENSION = "png";
+	
+	public static final String KONAMI_CODE_PATH = "res" + File.separator + "images" + File.separator + "special" + File.separator + "KonamiCode.png";
 
 	public static ArrayList<BufferedImage> getAllAvailableImagePaths() {
 		File resourceFolder = new File(DIRECTORY_PATH);

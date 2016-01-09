@@ -122,7 +122,6 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	@Override
 	public void keyPressed(String key) {
-		System.out.println(key);
 		if (key.equals(settings.getPlayerOne().getDownKeyName())) {
 			moveVoidTile(Directions.DOWN);
 		} else if (key.equals(settings.getPlayerOne().getLeftKeyName())) {

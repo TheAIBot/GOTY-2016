@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
 
 import Control.GameEngine.GameEngine;
+import Model.CheatActivatedListener;
 import Model.DifficultyLevel;
 import Model.GameSettings;
 import Model.GraphicsPanel;
