@@ -47,7 +47,7 @@ public class Tile implements java.io.Serializable, Displayable {
 	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
 		if (displayImage == null) {
 			File imageFile = new File(filePath);
-			if (imageFile.exists() && imageFile.isFile()) {
+			if (imageFile.exists() && imageFile.isFile() && imageFile.canRead()) {
 				try {
 					displayImage = ImageIO.read(imageFile);
 					return true;
@@ -56,7 +56,7 @@ public class Tile implements java.io.Serializable, Displayable {
 					Log.writeError(e);
 				}
 			} else {
-				Log.writeln("file doesn't exist or is not a file");
+				Log.writeln("file doesn't exist or is not a file or can't read the file");
 			}
 		}	
 		return false;
