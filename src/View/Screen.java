@@ -43,7 +43,7 @@ public class Screen {
 			throw new NullPointerException();
 		}
 		BufferedImage currentImage = d.getDisplayImage();
-		Point imagePosition = d.getImagePosition();
+		Point imagePosition = d.getPosition();
 		if (currentImage == null || imagePosition == null) {
 			throw new NullPointerException();
 		} else {
@@ -79,7 +79,7 @@ public class Screen {
 		//Checks if any of the points along the image bounds of image to be displayed is inside the bounds of the display,
 		//with the vantage point representing the middle of the display.
 		BufferedImage dImage = d.getDisplayImage();
-		Point imagePosition =  d.getImagePosition();
+		Point imagePosition =  d.getPosition();
 		Point[] corners = d.getCorners();
 		for (Point corner : corners) {
 			if ((corner.x + imagePosition.x) * dImage.getWidth() * imageScaling <= imageBound.getWidth() &&
