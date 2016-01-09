@@ -179,7 +179,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		diffSlider.setLabelTable(diffLabels);
 		diffSlider.setPaintLabels(true);
 		
-		tileImages = ResourceImages.getAllAvailableImagePaths();
+		tileImages = ResourceImages.getDefaultImages();
 		showtileImage = new JLabel();
 		showTileImage();
 		JButton prevImage = new JButton("<-");
@@ -242,7 +242,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				"RIGHT",
 				"B",
 				"A"
-		}, CheatCodes.KONAMI_CODE);
+		}, CheatCodes.KONAMI_CODE, false);
 	}
 	
 	private void showTileImage()
@@ -274,13 +274,12 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	@Override
 	public void cheatActivated(String cheatName) {
 		if (cheatName.equals(CheatCodes.KONAMI_CODE)) {
-			BufferedImage konamiImage = ResourceImages.loadImage(ResourceImages.KONAMI_CODE_PATH);
-			if (konamiImage != null) {
-				tileImages.add(konamiImage);
+			ArrayList<BufferedImage> konamiImages = ResourceImages.getAllImagesFromDirectory(ResourceImages.ANIME_DIRECTORY_PATH);
+			if (konamiImages != null) {
+				tileImages = konamiImages;
 				selectedtileImageIndex = tileImages.size() - 1;
 				showTileImage();
 			}
-			cheats.removeCheat(CheatCodes.KONAMI_CODE);
 		}
 	}
 
