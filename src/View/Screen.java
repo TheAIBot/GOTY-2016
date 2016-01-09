@@ -49,7 +49,7 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			if (isInsideDisplay(d,currentImage, imagePosition)) {
+			if (isInsideDisplay(d)) {
 				gDisplay.drawImage(currentImage, (int) (imagePosition.x * imageScaling * currentImage.getWidth()),
 						(int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
 				//gDisplay.drawString(String.valueOf(d.getNumber()), (imagePosition.x + currentImage.getHeight() / 2) * imgSize, (imagePosition.y + currentImage.getWidth() / 4) * imgSize);

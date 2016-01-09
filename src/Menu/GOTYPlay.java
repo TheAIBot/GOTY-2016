@@ -38,8 +38,8 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void startPage(SuperPage prevPage) {
 		super.startPage(prevPage);
-		settings.setGameSize(100);
-		settings.setDifficultyLevel(DifficultyLevel.HARD);
+		settings.setGameSize(5);
+		settings.setDifficultyLevel(DifficultyLevel.NORMAL);
 		game = new GameEngine(settings, screen, gPanel);
 		gPanel.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
