@@ -1,16 +1,11 @@
 package Control.GameEngine;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashSet;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-
-import Model.GraphicsPanel;
 
 public class InputManager implements java.io.Serializable {
 	
