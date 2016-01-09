@@ -9,7 +9,7 @@ import Control.MenuController;
 import Model.SuperPage;
 
 public class GOTYMainPage extends SuperPage {
-	private final SuperPage HIGHSCORE_PAGE = new GOTYHighscore();
+	//private final SuperPage HIGHSCORE_PAGE = new GOTYHighscore();
 	private final SuperPage PLAY_SETTINGS = new GOTYPlayGameSettings();
 	
 	public JPanel createPage() {
@@ -30,7 +30,7 @@ public class GOTYMainPage extends SuperPage {
 		JButton highscoreButton = new JButton("Highscore");
 		highscoreButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	 MenuController.switchPage(HIGHSCORE_PAGE);
+	        	 //MenuController.switchPage(HIGHSCORE_PAGE);
 	         }
 	      });
 		

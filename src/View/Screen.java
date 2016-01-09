@@ -23,7 +23,6 @@ public class Screen {
 
 	public Screen(Graphics2D gDisplay, Rectangle imageBound) {
 		this.gDisplay = gDisplay;
-
 		this.imageBound = imageBound;
 	}
 
@@ -49,7 +48,7 @@ public class Screen {
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			if (isInsideDisplay(d)) {
+			if (true) { //isInsideDisplay(d)
 				gDisplay.drawImage(currentImage, (int) (imagePosition.x * imageScaling * currentImage.getWidth()),
 												 (int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
 				gDisplay.drawString(String.valueOf(d.getNumber()), (int) (imagePosition.x * imageScaling * currentImage.getWidth() + currentImage.getWidth() / 2),
@@ -105,14 +104,14 @@ public class Screen {
 	 */
 	public void clear() {
 		Color currentColor = gDisplay.getColor();
-  		gDisplay.setColor(Color.WHITE);		  		
- 		gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
+  		gDisplay.setColor(Color.WHITE);		
+ 		gDisplay.fillRect(0, 0, imageBound.width, imageBound.height);
   		gDisplay.setColor(currentColor);
 		//gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
 	public void windowResized(Rectangle newSize, Graphics2D newGDisplay) {
-		imageBound = newSize;
-		gDisplay = newGDisplay;
+		this.imageBound = newSize;
+		this.gDisplay = newGDisplay;
 	}
 }

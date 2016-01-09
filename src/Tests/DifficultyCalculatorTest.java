@@ -3,8 +3,6 @@ package Tests;
 import java.awt.Color;
 import java.awt.Point;
 
-import com.sun.javafx.scene.control.skin.TitledPaneSkin;
-
 import Model.DifficultyCalculator;
 import Model.GameBoard;
 import Model.GameSettings;

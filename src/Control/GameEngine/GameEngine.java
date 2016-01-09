@@ -39,8 +39,8 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	{
 		game = new GameBoard(settings);
 		game.addBoardChangedListener(this);
-		game.createGame();
-		game.makeRandom();
+		createGame();
+		makeRandom();
 		addKeyboardControls(settings);
 	}
 	
@@ -62,7 +62,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	public void keyPressed(String keyPressed) {
 		game.keyPressed(keyPressed);
 	}
-
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -100,7 +99,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
-		graphics.renderTiles(game.getTiles());
+		render();
 	}
 
 	public void render() {
