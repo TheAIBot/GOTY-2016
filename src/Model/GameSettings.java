@@ -24,8 +24,8 @@ public class GameSettings {
 	public GameSettings()
 	{
 		this(0.5f,4,GameModes.NORMAL, DifficultyLevel.NORMAL,
-				new PlayerSettings(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, "Player 1"),
-				new PlayerSettings(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, "Player 2"));
+				new PlayerSettings(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_Q, "Player 1"),
+				new PlayerSettings(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_PERIOD, "Player 2"));
 	}
 	
 	/**

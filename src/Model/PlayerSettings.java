@@ -7,6 +7,7 @@ public class PlayerSettings {
 	private int downKey;
 	private int leftKey;
 	private int rightKey;
+	private int toggleColorKey;
 	
 	private String name;
 	
@@ -18,12 +19,13 @@ public class PlayerSettings {
 	 * @param right
 	 * @param playerName
 	 */
-	public PlayerSettings(int up, int down, int left, int right, String playerName)
+	public PlayerSettings(int up, int down, int left, int right, int toggleColor, String playerName)
 	{
 		upKey = up;
 		downKey = down;
 		leftKey = left;
 		rightKey = right;
+		setToggleColorKey(toggleColor);
 		name = playerName;
 	}
 
@@ -134,5 +136,29 @@ public class PlayerSettings {
 	public boolean hasKeyCode(int key)
 	{
 		return (key == upKey || key == downKey || key == leftKey || key == rightKey);
+	}
+
+
+	/**
+	 * @param toggleColorKey the toggleColorKey to set
+	 */
+	public void setToggleColorKey(int toggleColorKey) {
+		this.toggleColorKey = toggleColorKey;
+	}
+	
+	/**
+	 * @return the toggleColorKey
+	 */
+	public int getToggleColorKey() {
+		return toggleColorKey;
+	}
+
+	/**
+	 * 
+	 * @return The name for the key used to toggle color render
+	 */
+	public String getToggleColorKeyName()
+	{
+		return KeyEvent.getKeyText(toggleColorKey);
 	}
 }

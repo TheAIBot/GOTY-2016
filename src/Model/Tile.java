@@ -77,4 +77,9 @@ public class Tile implements java.io.Serializable, Displayable {
 	public Point[] getCorners() {
 		return corners;
 	}
+
+	@Override
+	public Color getColor() {
+		return color;
+	}
 }

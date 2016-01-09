@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
@@ -52,5 +53,10 @@ public class GraphicsPanel extends JPanel{
 		gImage = displayImage.createGraphics();
 		gImage.setBackground(Color.WHITE);
 		label.setIcon(displayImageIcon);
+	}
+
+	public void addKeyListener(KeyListener listener)
+	{
+		label.addKeyListener(listener);
 	}
 }

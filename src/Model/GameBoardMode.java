@@ -27,4 +27,8 @@ public interface GameBoardMode {
 	public abstract void pause();
 	
 	public abstract void restart();
+	
+	public abstract String[] getKeysToSubscribeTo();
+	
+	public abstract RenderInfo getRenderInfo();
 }
