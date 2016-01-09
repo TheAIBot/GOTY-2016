@@ -14,6 +14,7 @@ import Control.GameEngine.Log;
 
 public class Tile implements java.io.Serializable, Displayable {
 	
+	private Point[] corners;
 	private int number;
 	transient Point position;	
 	Color color;
@@ -26,8 +27,11 @@ public class Tile implements java.io.Serializable, Displayable {
 		this.number = number;
 		this.position = position;
 		this.color = color;	
-
 		createImage();
+		corners = new Point[]{new Point(position.x, position.y),
+				  new Point((position.x + 1), position.y),
+				  new Point(position.x, (position.y + 1)), 
+				  new Point((position.x + 1), (position.y + 1))};
 	}
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -79,12 +83,11 @@ public class Tile implements java.io.Serializable, Displayable {
 		return position;
 	}
 	
+	/**
+	 * Returns the corners of the tiles. This is from the top left corner of the rectangle/square that holds the tile,
+	 * and is in percents (as in a corner being in the middle of the square has the x coordinate 0.5, and the y coordinate 0.5 ).
+	 */
 	public Point[] getCorners() {
-		Point[] points = new Point[4];
-		points[0] = new Point(position.x, position.y);
-		points[1] = new Point((position.x + 1), position.y);
-		points[2] = new Point(position.x, (position.y + 1));
-		points[3] = new Point((position.x + 1), (position.y + 1));
-		return points;
+		return corners;
 	}
 }
