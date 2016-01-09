@@ -21,6 +21,8 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
+	protected RenderInfo renderInfo = new RenderInfo(false);
+	private final String toggleColorKey = "ALT";
 
 	public GameBoard(GameSettings settings) {
 		this.currentGameState = GameState.NOT_DECIDED_YET;
@@ -95,7 +97,9 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	public void createGame() {
 		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
-			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue, settings.getTileImage());
+			int red = 		  (255 / (tilePlacements.length - 1)) * (i + 1);
+			int green = 255 - (255 / (tilePlacements.length - 1)) * (i + 1);
+			tilePlacements[i] = new Tile(i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
 		}
 		voidTilePosition = new Point(settings.getGameSize() - 1, settings.getGameSize() - 1);
 	}
@@ -118,6 +122,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	@Override
 	public void keyPressed(String key) {
+		System.out.println(key);
 		if (key.equals(settings.getPlayerOne().getDownKeyName())) {
 			moveVoidTile(Directions.DOWN);
 		} else if (key.equals(settings.getPlayerOne().getLeftKeyName())) {
@@ -126,6 +131,9 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 			moveVoidTile(Directions.RIGHT);
 		} else if (key.equals(settings.getPlayerOne().getUpKeyName())) {
 			moveVoidTile(Directions.UP);
+		} else if (key.equals(settings.getPlayerOne().getToggleColorKeyName())) {
+			renderInfo.toggleRenderColor();
+			boardChanged();
 		}
 	}
 
@@ -226,4 +234,20 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		
 	}
 
+	@Override
+	public String[] getKeysToSubscribeTo() {
+		return new String[] {
+			settings.getPlayerOne().getUpKeyName(),
+			settings.getPlayerOne().getDownKeyName(),
+			settings.getPlayerOne().getLeftKeyName(),
+			settings.getPlayerOne().getRightKeyName(),
+			settings.getPlayerOne().getToggleColorKeyName()
+		};
+	}
+
+	@Override
+	public RenderInfo getRenderInfo()
+	{
+		return renderInfo;
+	}
 }

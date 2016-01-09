@@ -41,21 +41,15 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		game.addBoardChangedListener(this);
 		game.createGame();
 		game.makeRandom();
-		addKeyboardControls(settings);
+		addKeyboardControls();
 	}
 	
-	private void addKeyboardControls(GameSettings settings)
+	private void addKeyboardControls()
 	{
-		addKeyboardBindingsToPlayerControl(settings.getPlayerOne());
-		addKeyboardBindingsToPlayerControl(settings.getPlayerTwo());
-	}
-	
-	private void addKeyboardBindingsToPlayerControl(PlayerSettings player)
-	{
-		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getDownKeyName());
-		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getUpKeyName());
-		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getLeftKeyName());
-		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, player.getRightKeyName());
+		String[] subscribeKeys = game.getKeysToSubscribeTo();
+		for (String subKey : subscribeKeys) {
+			input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
+		}
 	}
 	
 	@Override
@@ -100,11 +94,11 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
-		graphics.renderTiles(game.getTiles());
+		graphics.renderTiles(game.getTiles(), game.getRenderInfo());
 	}
 
 	public void render() {
-		graphics.renderTiles(game.getTiles());
+		graphics.renderTiles(game.getTiles(), game.getRenderInfo());
 	}
 	
 	public void save()
@@ -129,6 +123,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	
 	public void windowResized(Rectangle newSize)
 	{
-		graphics.windowResized(newSize, game.getTiles());
+		graphics.windowResized(newSize, game.getTiles(), game.getRenderInfo());
 	}
 }
