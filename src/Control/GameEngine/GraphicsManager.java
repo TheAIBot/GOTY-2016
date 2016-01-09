@@ -22,8 +22,10 @@ public class GraphicsManager {
 		screen.clear();
 		int drawn = 0;
 		for (Tile tile : tiles) {
-			if (tile != null && screen.isInsideDisplay(tile)) {
-				
+			if (tile != null) {
+				if (screen.render(tile)) {
+					drawn++;
+				}
 			}
 		}
 		System.out.println(drawn);

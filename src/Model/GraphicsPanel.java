@@ -1,6 +1,7 @@
 package Model;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ public class GraphicsPanel extends JPanel{
 	private BufferedImage displayImage;
 	private Graphics2D gImage;
 	
-	public GraphicsPanel(int height, int width) {
+	public GraphicsPanel(int width, int height) {
 		
 		//Basseret pÃ¥ bogen				
 		super();
@@ -44,6 +45,7 @@ public class GraphicsPanel extends JPanel{
 	public void windowResized(Point newSize)
 	{
 		imageBounds = newSize;
+		//displayImage.flush(); skaal måske tilføjes
 		displayImage = new BufferedImage(newSize.x, newSize.y, BufferedImage.TYPE_4BYTE_ABGR);
 		displayImageIcon = new ImageIcon(displayImage);
 		label.setIcon(displayImageIcon);

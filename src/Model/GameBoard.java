@@ -169,23 +169,22 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 
 	private void swapVoidTile(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
-		Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
+		final Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove.position, direction.getOppositeDirection());
 		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
 	}
 
 	private void moveTileIndexes(int tileAIndex, int tileBIndex) {
-		Tile tileA = tilePlacements[tileAIndex];
+		final Tile tileA = tilePlacements[tileAIndex];
 		tilePlacements[tileAIndex] = tilePlacements[tileBIndex];
 		tilePlacements[tileBIndex] = tileA;
 	}
 
 	private void randomizeGame() {
 
-		while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
-				DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0) {
+		do {
 			for (int i = 0; i < settings.getGameSize() * 1000; i++) {
-				switch ((((int) (Math.random() * 10)) % 4)) {
+				switch (getRandomNumber(4)) {
 				case 0:
 					moveVoidTileNoUpdate(Directions.LEFT);
 					break;
@@ -200,8 +199,14 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 					break;
 				}
 			}
-		}
+		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
+				   DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
 		boardChanged();
+	}
+	
+	private int getRandomNumber(int maxNumber)
+	{
+		return ((int) (Math.random() * 1000000)) % maxNumber;
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
