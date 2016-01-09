@@ -242,7 +242,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				"RIGHT",
 				"B",
 				"A"
-		}, CheatCodes.KONAMI_CODE);
+		}, CheatCodes.KONAMI_CODE, false);
 	}
 	
 	private void showTileImage()
@@ -280,7 +280,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				selectedtileImageIndex = tileImages.size() - 1;
 				showTileImage();
 			}
-			cheats.removeCheat(CheatCodes.KONAMI_CODE);
 		}
 	}
 
