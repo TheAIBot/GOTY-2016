@@ -95,7 +95,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	public void createGame() {
 		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
-			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue);
+			tilePlacements[i] = new Tile(i + 1, getPosition(i), Color.blue, settings.getTileImage());
 		}
 		voidTilePosition = new Point(settings.getGameSize() - 1, settings.getGameSize() - 1);
 	}

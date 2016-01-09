@@ -1,5 +1,6 @@
 package Model;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class GameSettings {
 	private float soundVolume;
@@ -9,6 +10,7 @@ public class GameSettings {
 	private boolean randomize;
 	private PlayerSettings playerOne;
 	private PlayerSettings playerTwo;
+	private BufferedImage tileImage;
 	
 	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, PlayerSettings p_one, PlayerSettings p_two)
 	{
@@ -106,5 +108,17 @@ public class GameSettings {
 	 */
 	public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
 		this.difficultyLevel = difficultyLevel;
+	}
+	/**
+	 * @return the tileImage
+	 */
+	public BufferedImage getTileImage() {
+		return tileImage;
+	}
+	/**
+	 * @param tileImage the tileImage to set
+	 */
+	public void setTileImage(BufferedImage tileImage) {
+		this.tileImage = tileImage;
 	}
 }
