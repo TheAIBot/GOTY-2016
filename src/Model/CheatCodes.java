@@ -90,14 +90,12 @@ public class CheatCodes implements KeyPressListener {
 					index = 0;
 					return true;
 				}
-				System.out.println("yes");
 				return false;
 			} else {
 				if (index != 0) {
 					index = 0;
 					return keyPressed(key);
 				}
-				System.out.println("no");
 				return false;
 			}
 		}
