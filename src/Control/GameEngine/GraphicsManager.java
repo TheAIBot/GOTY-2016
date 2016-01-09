@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import Model.GraphicsPanel;
+import Model.RenderInfo;
 import Model.Tile;
 import View.Screen;
 
@@ -18,12 +19,12 @@ public class GraphicsManager {
 	}
 	
 
-	public void renderTiles(Tile[] tiles){
+	public void renderTiles(Tile[] tiles, RenderInfo renderInfo){
 		screen.clear();
 		int drawn = 0;
 		for (Tile tile : tiles) {
 			if (tile != null) {
-				if (screen.render(tile)) {
+				if (screen.render(tile, renderInfo)) {
 					drawn++;
 				}
 			}
@@ -36,10 +37,10 @@ public class GraphicsManager {
 		return this.panel;
 	}
 	
-	public void windowResized(Rectangle newSize, Tile[] tiles)
+	public void windowResized(Rectangle newSize, Tile[] tiles, RenderInfo renderInfo)
 	{
     	panel.windowResized(new Point((int)panel.getBounds().getWidth(), (int)panel.getBounds().getHeight()));
     	screen.windowResized(panel.getBounds(), panel.getGImage());
-    	renderTiles(tiles);
+    	renderTiles(tiles, renderInfo);
 	}
 }

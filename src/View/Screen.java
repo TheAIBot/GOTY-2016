@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import Model.Displayable;
+import Model.RenderInfo;
 import Model.Tile;
 
 public class Screen {
@@ -37,7 +38,7 @@ public class Screen {
 	 * 
 	 * @param d
 	 */
-	public boolean render(Displayable d) {
+	public boolean render(Displayable d, RenderInfo renderInfo) {
 		//Checks if the displayable has the neccesary information required for displaying it on the screen.
 		if (d == null) {
 			throw new NullPointerException();
@@ -50,8 +51,17 @@ public class Screen {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
 			if (isInsideDisplay(d)) {
-				gDisplay.drawImage(currentImage, (int) (imagePosition.x * imageScaling * currentImage.getWidth()),
-												 (int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
+				if (!renderInfo.renderColor) {
+					gDisplay.drawImage(currentImage, (int) (imagePosition.x * imageScaling * currentImage.getWidth()),
+													 (int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
+				} else {
+					gDisplay.setColor(d.getColor());
+					gDisplay.fillRect((int) (imagePosition.x * imageScaling * currentImage.getWidth()),
+									  (int) (imagePosition.y * imageScaling * currentImage.getHeight()), 
+									  currentImage.getWidth(), 
+									  currentImage.getHeight());
+				}
+				gDisplay.setColor(Color.WHITE);
 				gDisplay.drawString(String.valueOf(d.getNumber()), (int) (imagePosition.x * imageScaling * currentImage.getWidth() + currentImage.getWidth() / 2),
 											     				   (int) (imagePosition.y * imageScaling * currentImage.getHeight() + currentImage.getHeight() / 4));
 				return true;

@@ -18,6 +18,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
+
+import com.sun.org.apache.regexp.internal.recompile;
 
 import Control.MenuController;
 import Model.SuperPage;
@@ -105,7 +108,6 @@ public class GOTYPlayGameSettings extends SuperPage {
 			
 			public void keyReleased(KeyEvent e) {
 				int key = e.getKeyCode();
-
 				if (!(theGameSettings.getPlayerOne().hasKeyCode(key) || theGameSettings.getPlayerTwo().hasKeyCode(key))) 
 				{
 					//Determine which button is selected and map the corresponding key.
