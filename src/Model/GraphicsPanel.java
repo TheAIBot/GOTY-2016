@@ -46,13 +46,13 @@ public class GraphicsPanel extends JPanel{
 	public void windowResized(Point newSize)
 	{
 		imageBounds = newSize;
-		//displayImage.flush(); skaal måske tilføjes
+		//displayImage.; //skaal mï¿½ske tilfï¿½jes
 		displayImage = new BufferedImage(newSize.x, newSize.y, BufferedImage.TYPE_4BYTE_ABGR);
-		displayImageIcon = new ImageIcon(displayImage);
-		label.setIcon(displayImageIcon);
-		gImage.dispose();
+		displayImageIcon.setImage(displayImage);
+		//gImage.dispose();
 		gImage = displayImage.createGraphics();
 		gImage.setBackground(Color.WHITE);
+		label.setIcon(displayImageIcon);
 	}
 
 	public void addKeyListener(KeyListener listener)

@@ -24,7 +24,6 @@ public class Screen {
 
 	public Screen(Graphics2D gDisplay, Rectangle imageBound) {
 		this.gDisplay = gDisplay;
-
 		this.imageBound = imageBound;
 	}
 
@@ -115,14 +114,14 @@ public class Screen {
 	 */
 	public void clear() {
 		Color currentColor = gDisplay.getColor();
-  		gDisplay.setColor(Color.WHITE);		  		
- 		gDisplay.fillRect(0, 0, imageBound.x, imageBound.y);
+  		gDisplay.setColor(Color.WHITE);		
+ 		gDisplay.fillRect(0, 0, imageBound.width, imageBound.height);
   		gDisplay.setColor(currentColor);
 		//gDisplay.clearRect(0, 0, imageBound.x, imageBound.y);
 	}
 
 	public void windowResized(Rectangle newSize, Graphics2D newGDisplay) {
-		imageBound = newSize;
-		gDisplay = newGDisplay;
+		this.imageBound = newSize;
+		this.gDisplay = newGDisplay;
 	}
 }

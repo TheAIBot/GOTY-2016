@@ -27,7 +27,7 @@ public class GraphicsManager {
 				if (screen.render(tile, renderInfo)) {
 					drawn++;
 				}
-			}
+			} 
 		}
 		System.out.println(drawn);
 		panel.repaint();
@@ -39,7 +39,7 @@ public class GraphicsManager {
 	
 	public void windowResized(Rectangle newSize, Tile[] tiles, RenderInfo renderInfo)
 	{
-    	panel.windowResized(new Point((int)panel.getBounds().getWidth(), (int)panel.getBounds().getHeight()));
+    	panel.windowResized(new Point(newSize.width, newSize.width));
     	screen.windowResized(panel.getBounds(), panel.getGImage());
     	renderTiles(tiles, renderInfo);
 	}

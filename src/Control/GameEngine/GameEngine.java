@@ -46,7 +46,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	
 	private void addKeyboardControls()
 	{
-		String[] subscribeKeys = game.getKeysToSubscribeTo();
+		String[] subscribeKeys = game.getKeysToSubscribeTo(); //Violation of MVC (*)
 		for (String subKey : subscribeKeys) {
 			//System.out.println(subKey);
 			input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
@@ -57,7 +57,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	public void keyPressed(String keyPressed) {
 		game.keyPressed(keyPressed);
 	}
-
 	
 	public Tile[] getTiles() {
 		return game.getTiles();
@@ -95,7 +94,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
-		graphics.renderTiles(game.getTiles(), game.getRenderInfo());
+		render();		
 	}
 
 	public void render() {
