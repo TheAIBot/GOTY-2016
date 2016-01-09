@@ -28,16 +28,16 @@ public class CheatCodes implements KeyPressListener {
 		listenerComponent = cheatComponent;
 	}
 	
-	public void addNewCheatCode(String[] sequence, String cheatName)
+	public void addNewCheatCode(String[] sequence, String cheatName, boolean isRepeatCheat)
 	{
-		CheatCode newCheatCode = new CheatCode(sequence, cheatName);
+		CheatCode newCheatCode = new CheatCode(sequence, cheatName, isRepeatCheat);
 		cheatCodes.add(newCheatCode);
 		for (String cheatCodePart : sequence) {
 			input.AttachListenerToKey(listenerComponent, this, cheatCodePart);
 		}
 	}
 	
-	public void removeCheat(String cheatName)
+	private void removeCheat(String cheatName)
 	{
 		for (int i = 0; i < cheatCodes.size(); i++) {
 			if (cheatCodes.get(i).getCheatName().equals(cheatName)) {
@@ -53,24 +53,28 @@ public class CheatCodes implements KeyPressListener {
 		for (int i = 0; i < cheatCodes.size(); i++) {
 			CheatCode cheatCode = cheatCodes.get(i);
 			if (cheatCode.keyPressed(key)) {
-				cheatActivated(cheatCode.getCheatName());
+				cheatActivated(cheatCode);
 			}
 		}
 	}
 	
-	private void cheatActivated(String cheatName)
+	private void cheatActivated(CheatCode cheatCode)
 	{
-		listener.cheatActivated(cheatName);
+		listener.cheatActivated(cheatCode.getCheatName());
+		if (!cheatCode.isRepeatCheat) {
+			removeCheat(cheatCode.getCheatName());
+		}
 	}
 
 	
 	private class CheatCode
 	{
-		public final String cheatName;
+		private final String cheatName;
+		public final boolean isRepeatCheat;
 		private final String[] keySequence;
 		private int index = 0;
 		
-		public CheatCode(String[] sequence, String name)
+		public CheatCode(String[] sequence, String name, boolean isRepeatCheat)
 		{
 			if (sequence == null) {
 				throw new NullPointerException();
@@ -78,8 +82,9 @@ public class CheatCodes implements KeyPressListener {
 			if (sequence.length < 2) {
 				throw new IllegalArgumentException("key sequence needs to be atleast 2 or more key presses");
 			}
-			cheatName = name;
-			keySequence = sequence;
+			this.cheatName = name;
+			this.isRepeatCheat = isRepeatCheat;
+			this.keySequence = sequence;
 		}
 		
 		public boolean keyPressed(String key)
@@ -104,6 +109,6 @@ public class CheatCodes implements KeyPressListener {
 		{
 			return cheatName;
 		}
-	}
+		}
 
 }
