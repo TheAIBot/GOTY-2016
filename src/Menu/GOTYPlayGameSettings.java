@@ -18,23 +18,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
-import javax.swing.KeyStroke;
-
-import com.sun.org.apache.regexp.internal.recompile;
 
 import Control.MenuController;
 import Model.SuperPage;
+import Model.CheatActivatedListener;
+import Model.CheatCodes;
 import Model.GameModes;
 import Model.GameSettings;
 import Model.ResourceImages;
 
-public class GOTYPlayGameSettings extends SuperPage {
+public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
 	private static final GOTYPlay PLAY_GAME = new GOTYPlay();
 	private GameSettings theGameSettings = new GameSettings();
 	private static final int SOUND_MAX = 100;
 	private static final int SOUND_MIN = 0;
 	private static final int DIFF_MIN = 0;
 	private static final int DIFF_MAX = 3;
+	private CheatCodes cheats;
 	
 	private JLabel showtileImage;
 	private ArrayList<BufferedImage> tileImages;
@@ -43,6 +43,7 @@ public class GOTYPlayGameSettings extends SuperPage {
 	//The play button
 	@Override
 	public JPanel createPage() {
+		addCheats();
 		JButton playButton = new JButton("Play");
 		playButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -227,6 +228,23 @@ public class GOTYPlayGameSettings extends SuperPage {
 		return page;
 	}
 	
+	private void addCheats()
+	{
+		cheats = new CheatCodes(this, page);
+		cheats.addNewCheatCode(new String[] {
+				"UP",
+				"UP",
+				"DOWN",
+				"DOWN",
+				"LEFT",
+				"RIGHT",
+				"LEFT",
+				"RIGHT",
+				"B",
+				"A"
+		}, CheatCodes.KONAMI_CODE);
+	}
+	
 	private void showTileImage()
 	{
 		ImageIcon tileImage = new ImageIcon(tileImages.get(selectedtileImageIndex));
@@ -251,6 +269,19 @@ public class GOTYPlayGameSettings extends SuperPage {
 
 	@Override
 	public void closePage() {
+	}
+	
+	@Override
+	public void cheatActivated(String cheatName) {
+		if (cheatName.equals(CheatCodes.KONAMI_CODE)) {
+			BufferedImage konamiImage = ResourceImages.loadImage(ResourceImages.KONAMI_CODE_PATH);
+			if (konamiImage != null) {
+				tileImages.add(konamiImage);
+				selectedtileImageIndex = tileImages.size() - 1;
+				showTileImage();
+			}
+			cheats.removeCheat(CheatCodes.KONAMI_CODE);
+		}
 	}
 
 }

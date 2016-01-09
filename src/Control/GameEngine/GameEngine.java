@@ -48,6 +48,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	{
 		String[] subscribeKeys = game.getKeysToSubscribeTo();
 		for (String subKey : subscribeKeys) {
+			//System.out.println(subKey);
 			input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
 		}
 	}
