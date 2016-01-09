@@ -1,13 +1,17 @@
 package Menu;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,6 +23,7 @@ import Control.MenuController;
 import Model.SuperPage;
 import Model.GameModes;
 import Model.GameSettings;
+import Model.ResourceImages;
 
 public class GOTYPlayGameSettings extends SuperPage {
 	private static final GOTYPlay PLAY_GAME = new GOTYPlay();
@@ -27,6 +32,10 @@ public class GOTYPlayGameSettings extends SuperPage {
 	private static final int SOUND_MIN = 0;
 	private static final int DIFF_MIN = 0;
 	private static final int DIFF_MAX = 3;
+	
+	private JLabel showtileImage;
+	private ArrayList<BufferedImage> tileImages;
+	private int selectedtileImageIndex = 0;
 	
 	//The play button
 	@Override
@@ -167,6 +176,33 @@ public class GOTYPlayGameSettings extends SuperPage {
 		diffSlider.setLabelTable(diffLabels);
 		diffSlider.setPaintLabels(true);
 		
+		tileImages = ResourceImages.getAllAvailableImagePaths();
+		showtileImage = new JLabel();
+		showTileImage();
+		JButton prevImage = new JButton("<-");
+		prevImage.setPreferredSize(new Dimension(30, 100));
+		prevImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				moveSelectedImageIndex(-1);
+				showTileImage();				
+			}
+		});
+		JButton nextImage = new JButton("->");
+		nextImage.setPreferredSize(new Dimension(30, 100));
+		nextImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				moveSelectedImageIndex(1);
+				showTileImage();				
+			}
+		});
+		JPanel setTileImagePanel = new JPanel();
+		setTileImagePanel.setLayout(new GridLayout(1, 3));
+		setTileImagePanel.add(prevImage);
+		setTileImagePanel.add(showtileImage);
+		setTileImagePanel.add(nextImage);
+		
+		
+		
 		//Add the components the the page
 		page.add(playButton);
 		page.add(gameModeList);
@@ -184,7 +220,31 @@ public class GOTYPlayGameSettings extends SuperPage {
 		page.add(soundLevelSlider);
 		page.add(diffSlider);
 		
+		page.add(setTileImagePanel);
+		
 		return page;
+	}
+	
+	private void showTileImage()
+	{
+		ImageIcon tileImage = new ImageIcon(tileImages.get(selectedtileImageIndex));
+		showtileImage.setIcon(tileImage);
+		theGameSettings.setTileImage(tileImages.get(selectedtileImageIndex));
+	}
+	
+	private void moveSelectedImageIndex(int move)
+	{
+		selectedtileImageIndex += move;
+		if (selectedtileImageIndex < 0) {
+			selectedtileImageIndex = tileImages.size() - 1;
+		}else if (selectedtileImageIndex == tileImages.size()) {
+			selectedtileImageIndex = 0;
+		}
+	}
+	
+	@Override
+	public void startPage(SuperPage prevPage) {
+		super.startPage(prevPage);
 	}
 
 	@Override

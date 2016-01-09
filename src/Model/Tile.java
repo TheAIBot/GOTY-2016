@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import javax.imageio.ImageIO;
 
 
@@ -19,14 +21,19 @@ public class Tile implements java.io.Serializable, Displayable {
 	transient Point position;	
 	private Color color;
 	private static transient BufferedImage displayImage;
-	//private int size = 100;
+	
+	
+	public Tile(int number, Point position, Color color, BufferedImage displayImage)
+	{
+		this(number, position, color);
+		Tile.displayImage = displayImage;
+	}
 	
 	public Tile(int number, Point position, Color color)
 	{
 		this.number = number;
 		this.position = position;
 		this.color = color;	
-		createImage();
 		corners = new Point[]{new Point(0, 0),
 				  			  new Point(1, 0),
 				  			  new Point(0, 1), 
@@ -35,32 +42,13 @@ public class Tile implements java.io.Serializable, Displayable {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        createImage();
+        displayImage = ImageIO.read(in);
     }
-	
-
-	private void createImage()
-	{
-		setCurrentImage("res/tempchest.png");
-	}
-	
-	private boolean setCurrentImage(String filePath) { //Basseret på oracles beskrivelse
-		if (displayImage == null) {
-			File imageFile = new File(filePath);
-			if (imageFile.exists() && imageFile.isFile() && imageFile.canRead()) {
-				try {
-					displayImage = ImageIO.read(imageFile);
-					return true;
-				} catch (Exception e) {
-					Log.writeln("Something went wrong with the image loading process");
-					Log.writeError(e);
-				}
-			} else {
-				Log.writeln("file doesn't exist or is not a file or can't read the file");
-			}
-		}	
-		return false;
-	}
+    
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        ImageIO.write(displayImage, ResourceImages.ACCEPTED_EXTENSION, out);
+    }
 
 	public BufferedImage getDisplayImage() {
 		return displayImage;
