@@ -17,8 +17,7 @@ public class Tile implements java.io.Serializable, Displayable {
 	private Point[] corners;
 	private int number;
 	transient Point position;	
-	Color color;
-
+	private Color color;
 	private static transient BufferedImage displayImage;
 	//private int size = 100;
 	
@@ -28,10 +27,10 @@ public class Tile implements java.io.Serializable, Displayable {
 		this.position = position;
 		this.color = color;	
 		createImage();
-		corners = new Point[]{new Point(position.x, position.y),
-				  new Point((position.x + 1), position.y),
-				  new Point(position.x, (position.y + 1)), 
-				  new Point((position.x + 1), (position.y + 1))};
+		corners = new Point[]{new Point(0, 0),
+				  			  new Point(1, 0),
+				  			  new Point(0, 1), 
+				  			  new Point(1, 1)};
 	}
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {

@@ -14,8 +14,8 @@ public class Screen {
 	private Rectangle imageBound;
 	private Graphics2D gDisplay;
 	private Point vantagePoint;
-	final int screenSize = 500;
-	private double imageScaling;
+	//final int screenSize = 500;
+	private double imageScaling = 1;
 
 	public int xOffset, yOffset;
 
@@ -51,8 +51,9 @@ public class Screen {
 			//If not, it dosen't render it (to increase performance), else it does.
 			if (isInsideDisplay(d)) {
 				gDisplay.drawImage(currentImage, (int) (imagePosition.x * imageScaling * currentImage.getWidth()),
-						(int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
-				//gDisplay.drawString(String.valueOf(d.getNumber()), (imagePosition.x + currentImage.getHeight() / 2) * imgSize, (imagePosition.y + currentImage.getWidth() / 4) * imgSize);
+												 (int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
+				gDisplay.drawString(String.valueOf(d.getNumber()), (int) (imagePosition.x * imageScaling * currentImage.getWidth() + currentImage.getWidth() / 2),
+											     				   (int) (imagePosition.y * imageScaling * currentImage.getHeight() + currentImage.getHeight() / 4));
 				return true;
 			} else {
 				return false;
@@ -72,14 +73,21 @@ public class Screen {
 		Point imagePosition =  d.getImagePosition();
 		Point[] corners = d.getCorners();
 		for (Point corner : corners) {
+			if ((corner.x + imagePosition.x) * dImage.getWidth() * imageScaling <= imageBound.getWidth() &&
+				(corner.y + imagePosition.y) * dImage.getHeight() * imageScaling <= imageBound.getHeight()) {
+				return true;
+			}
+		}
+		return false;
+		/*for (Point corner : corners) {
 			corner.translate( (int) (dImage.getWidth()*(corner.x + imagePosition.x)*imageScaling), 
 					(int) (dImage.getHeight()*(corner.y + imagePosition.y)*imageScaling));
 			if (!imageBound.contains(corner)) {
 				return false;
 			}
 			corner.translate( (int) -(dImage.getWidth()*corner.x*imageScaling), (int) -(dImage.getHeight()*corner.y*imageScaling));
-		}
-		return true;	
+		}*/
+		//return true;	
 		
 		
 
