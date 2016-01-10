@@ -11,10 +11,16 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Control.GameEngine.Highscore;
+import Model.PageRequestsListener;
 import Model.SuperPage;
 import javafx.util.Pair;
 
 public class GOTYHighscore extends SuperPage {
+	
+	public GOTYHighscore(PageRequestsListener listener)
+	{
+		super(listener);
+	}
 	
 	public JPanel createPage()
 	{
@@ -40,9 +46,8 @@ public class GOTYHighscore extends SuperPage {
 		return page;
 	}
 	
-	public void startPage(SuperPage prevPage)
+	public void startPage()
 	{
-		super.startPage(prevPage);
 		showHighScores(Highscore.getHighscores());
 	}
 	

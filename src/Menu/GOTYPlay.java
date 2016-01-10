@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import Control.GameEngine.GameEngine;
 import Model.DifficultyLevel;
 import Model.GameSettings;
+import Model.PageRequestsListener;
 import Model.SuperPage;
 
 
@@ -11,6 +12,11 @@ public class GOTYPlay extends SuperPage {
 	private GameEngine game;
 	private GameSettings settings;
 
+	public GOTYPlay(PageRequestsListener listener)
+	{
+		super(listener);
+	}
+	
 	@Override
 	public JPanel createPage() {
 		settings.setGameSize(8);
@@ -27,5 +33,11 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public void closePage() {
 		// TODO do something that stops the game
+	}
+
+	@Override
+	public void startPage() {
+		// TODO Auto-generated method stub
+		
 	}
 }

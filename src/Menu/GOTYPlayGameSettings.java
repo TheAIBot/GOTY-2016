@@ -19,16 +19,19 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 
+import com.sun.javafx.property.adapter.PropertyDescriptor.Listener;
+
 import Control.MenuController;
 import Model.SuperPage;
 import Model.CheatActivatedListener;
 import Model.CheatCodes;
 import Model.GameModes;
 import Model.GameSettings;
+import Model.PageRequestsListener;
 import Model.ResourceImages;
 
 public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
-	private static final GOTYPlay PLAY_GAME = new GOTYPlay();
+	private final GOTYPlay playGame;
 	private GameSettings theGameSettings = new GameSettings();
 	private static final int SOUND_MAX = 100;
 	private static final int SOUND_MIN = 0;
@@ -40,6 +43,12 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	private ArrayList<BufferedImage> tileImages;
 	private int selectedtileImageIndex = 0;
 	
+	public GOTYPlayGameSettings(PageRequestsListener listener)
+	{
+		super(listener);
+		playGame = new GOTYPlay(listener);
+	}
+	
 	//The play button
 	@Override
 	public JPanel createPage() {
@@ -47,8 +56,8 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		JButton playButton = new JButton("Play");
 		playButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	 PLAY_GAME.setGameSettings(theGameSettings);
-	        	 MenuController.switchPage(PLAY_GAME);
+	        	 playGame.setGameSettings(theGameSettings);
+	        	 switchPage(playGame);
 	         }
 	      });
 		
@@ -263,8 +272,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	}
 	
 	@Override
-	public void startPage(SuperPage prevPage) {
-		super.startPage(prevPage);
+	public void startPage() {
 	}
 
 	@Override
@@ -282,5 +290,4 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			}
 		}
 	}
-
 }

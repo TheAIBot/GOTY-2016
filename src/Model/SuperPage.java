@@ -8,6 +8,12 @@ import Control.GameEngine.Log;
 public abstract class SuperPage {
 	protected JPanel page;
 	protected SuperPage previousPage;
+	private PageRequestsListener listener;
+	
+	public SuperPage(PageRequestsListener listener)
+	{
+		this.listener = listener;
+	}
 	
 	public JPanel getPage()
 	{
@@ -20,10 +26,7 @@ public abstract class SuperPage {
 	
 	public abstract JPanel createPage();
 	
-	public void startPage(SuperPage prevPage)
-	{
-		previousPage = prevPage;
-	}
+	public abstract void startPage();
 	
 	public abstract void closePage();
 	
@@ -34,12 +37,17 @@ public abstract class SuperPage {
 	
 	protected void backPage()
 	{
-		if (previousPage != null) {
-			MenuController.switchPage(previousPage);
+		if (listener != null) {
+			listener.back();
 		}
 		else
 		{
-			Log.writeln("tried to go back when previousPage was null");
+			Log.writeln("PageRequestsListener is null");
 		}
+	}
+
+	protected void switchPage(SuperPage switchTo)
+	{
+		listener.switchPage(switchTo);
 	}
 }
