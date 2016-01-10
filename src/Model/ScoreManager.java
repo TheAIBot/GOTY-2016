@@ -6,39 +6,31 @@ import java.awt.event.*;
 
 public class ScoreManager implements Serializable{
 	
-	int delay = 1000; //1000 ms = 1 s
+	private final int delay = 1000; //1000 = 1 s
+	private transient Timer clock = new Timer(delay, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			updateTimeScore();
+		}
+	});
 	
-	ActionListenerSerialize task = new ActionListenerSerialize();
-	
-	Timer clock = new Timer(delay, task);
-	
-	//Score parameters
-	private int totalScore;
+	private int totalScore = 0;
 	private int scorePerSecond;
 	private int scorePerMove;
-	
-	//Time elapsed in seconds
-	private int timeInSeconds;
-	
-	//Move parameter
-	private int numMoves;
+	private int timeElapsedInSeconds = 0;
+	private int numMoves = 0;
 	//Wether or not to update the number of moves and the corresponding addition to the score.
-	boolean detectMoves;
+	private final boolean detectMoves;
 	
 	/**
-	 * 
 	 * @param scoreSecond
 	 * @param scoreMove
 	 */
-	public ScoreManager(int scoreSecond, int scoreMove)
+	public ScoreManager(int scoreSecond, int scoreMove, boolean detectMoves)
 	{
-		totalScore = 0;
-		scorePerSecond = scoreSecond;
-		scorePerMove = scoreMove;
-		numMoves = 0;
-		detectMoves = true;
-		timeInSeconds = 0;
-		
+		this.scorePerSecond = scoreSecond;
+		this.scorePerMove = scoreMove;
+		this.detectMoves = detectMoves;		
 	}
 	
 	/**
@@ -46,19 +38,16 @@ public class ScoreManager implements Serializable{
 	 * @param scoreSecond
 	 * @param scoreMove
 	 */
-	public void begin()
+	public void startClock()
 	{
-		detectMoves = false;
 		clock.start();
-		
 	}
 	
 	/**
 	 * Stops the ScoreManager from adding to the score when time passes and incrementMoves() or addNumMoves() are called.
 	 */
-	public void stop()
+	public void stopClock()
 	{
-		detectMoves = false;
 		clock.stop();
 	}
 	
@@ -68,8 +57,8 @@ public class ScoreManager implements Serializable{
 	 */
 	private void updateTimeScore()
 	{
-		timeInSeconds++;
-		totalScore+=scorePerSecond;
+		timeElapsedInSeconds++;
+		totalScore += scorePerSecond;
 	}
 	
 	/**
@@ -78,12 +67,12 @@ public class ScoreManager implements Serializable{
 	 */
 	public void addToScore(int score)
 	{
-		totalScore+= score;
+		totalScore += score;
 	}
 	
 	public void incrementScore()
 	{
-		totalScore+=1;
+		totalScore += 1;
 	}
 	
 	public void incrementNumMoves()
@@ -104,7 +93,6 @@ public class ScoreManager implements Serializable{
 			numMoves += moves;
 			addToScore(moves * scorePerMove);
 		}
-		
 	}
 	
 	//Get-methods
@@ -116,6 +104,7 @@ public class ScoreManager implements Serializable{
 	{
 		return totalScore;
 	}
+	
 	/**
 	 * Returns the current amount of score added per second.
 	 */
@@ -126,7 +115,7 @@ public class ScoreManager implements Serializable{
 	
 	public int getTimeElapsedSeconds()
 	{
-		return timeInSeconds;
+		return timeElapsedInSeconds;
 	}
 	
 	/**
@@ -178,22 +167,7 @@ public class ScoreManager implements Serializable{
 	 */
 	public void setTimeElapsedInSeconds(int seconds)
 	{
-		timeInSeconds = seconds;
-	}
-	
-	/**
-	 * Increments the number of moves by 1.
-	 */
-
-	private class ActionListenerSerialize implements ActionListener, Serializable
-	{
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			updateTimeScore();
-			
-		}
-		
+		timeElapsedInSeconds = seconds;
 	}
 }
 
