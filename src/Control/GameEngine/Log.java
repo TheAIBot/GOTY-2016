@@ -11,7 +11,7 @@ public class Log {
 	public static void writeError(Exception e)
 	{
 		if (e == null) {
-			throw new NullPointerException("Error is null");
+			Log.writeln("Log could not write error as it was null");
 		}
 		writeln(e.getMessage());
 		e.printStackTrace(getLogStream());

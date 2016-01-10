@@ -10,6 +10,7 @@ import View.GraphicsPanel;
 import Model.Directions;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener {
+	private static final String SAVE_FILE_NAME = "game";
 	private final SaveFileManager<GameBoardMode> saver = new SaveFileManager<GameBoardMode>("saveFiles");
 	private final GraphicsManager graphics;
 	private final InputManager input = new InputManager();
@@ -38,7 +39,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	{
 		String[] subscribeKeys = game.getKeysToSubscribeTo(); //Violation of MVC (*)
 		for (String subKey : subscribeKeys) {
-			//System.out.println(subKey);
 			input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
 		}
 	}
@@ -93,12 +93,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	
 	public void save()
 	{
-		saver.save("game", game);
+		saver.save(SAVE_FILE_NAME, game);
 	}
 	
 	public void load()
 	{
-		game = saver.load("game");
+		game = saver.load(SAVE_FILE_NAME);
 	}
 
 	public void pauseGame()
