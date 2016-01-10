@@ -17,12 +17,20 @@ public class ResourceImages {
 	private static final String DIRECTORY_PATH = "res" + File.separator + "images";
 	public static final String ACCEPTED_EXTENSION = "png";
 	
-	public static final String KONAMI_CODE_PATH = "res" + File.separator + "images" + File.separator + "special" + File.separator + "KonamiCode.png";
+	public static final String DEFAULT_IMAGE_DIRECTORY_NAME = "default";
+	public static final String ANIME_DIRECTORY_PATH = "res" + File.separator + "images" + File.separator + "special";
 
-	public static ArrayList<BufferedImage> getAllAvailableImagePaths() {
-		File resourceFolder = new File(DIRECTORY_PATH);
+
+	public static ArrayList<BufferedImage> getDefaultImages() {
+		return getAllImagesFromDirectory(DIRECTORY_PATH + File.separator + DEFAULT_IMAGE_DIRECTORY_NAME);
+	}
+	
+	public static ArrayList<BufferedImage> getAllImagesFromDirectory(String path)
+	{
+		File resourceFolder = new File(path);
 		if (!resourceFolder.isDirectory() || !resourceFolder.exists()) {
-			resourceFolder.mkdirs();
+			Log.writeln("could not find: " + path);
+			return new ArrayList<BufferedImage>();
 		}
 		List<File> allImageFiles = Arrays.asList(resourceFolder.listFiles());
 		ArrayList<BufferedImage> allImages = new ArrayList<BufferedImage>();
@@ -39,7 +47,7 @@ public class ResourceImages {
 			}
 		}
 		if (allImages.size() == 0) {
-			throw new FileSystemNotFoundException();
+			Log.writeln("Found no images at: " + path);
 		}
 		return allImages;
 	}

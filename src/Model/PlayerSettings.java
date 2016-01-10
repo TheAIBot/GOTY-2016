@@ -8,7 +8,6 @@ public class PlayerSettings {
 	private int leftKey;
 	private int rightKey;
 	private int toggleColorKey;
-	
 	private String name;
 	
 	/**
@@ -21,12 +20,12 @@ public class PlayerSettings {
 	 */
 	public PlayerSettings(int up, int down, int left, int right, int toggleColor, String playerName)
 	{
-		upKey = up;
-		downKey = down;
-		leftKey = left;
-		rightKey = right;
-		setToggleColorKey(toggleColor);
-		name = playerName;
+		this.upKey = up;
+		this.downKey = down;
+		this.leftKey = left;
+		this.rightKey = right;
+		this.toggleColorKey = toggleColor;
+		this.name = playerName;
 	}
 
 	/**
@@ -135,7 +134,11 @@ public class PlayerSettings {
 	
 	public boolean hasKeyCode(int key)
 	{
-		return (key == upKey || key == downKey || key == leftKey || key == rightKey);
+		return (key == upKey || 
+				key == downKey || 
+				key == leftKey || 
+				key == rightKey || 
+				key == toggleColorKey);
 	}
 
 

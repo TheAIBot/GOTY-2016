@@ -1,37 +1,28 @@
 package Control.GameEngine;
 
-import java.awt.Rectangle;
-
 import Model.BoardChangedListener;
 import Model.GameBoard;
 import Model.GameBoardMode;
 import Model.GameSettings;
 import Model.GameState;
-import Model.GraphicsPanel;
-import Model.PlayerSettings;
 import Model.Tile;
-import View.Screen;
+import View.GraphicsPanel;
 import Model.Directions;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener {
+	private static final String SAVE_FILE_NAME = "game";
 	private final SaveFileManager<GameBoardMode> saver = new SaveFileManager<GameBoardMode>("saveFiles");
 	private final GraphicsManager graphics;
 	private final InputManager input = new InputManager();
+	private final GameSettings settings;
 	private GameBoardMode game;
-	private GameSettings settings;
 
-	public GameEngine(GameSettings settings, Screen screen, GraphicsPanel panel) {	
-		if (screen == null) {
-			throw new NullPointerException("Screen provided is null");
-		}//TODO add more null checks
-		this.settings = settings;
-		this.graphics = new GraphicsManager(screen, panel);		
-		initGame(settings);
-	}
-	
 	public GameEngine(GameSettings settings) {	
-		
-		graphics = null;
+		//if (screen == null) {
+			//throw new NullPointerException("Screen provided is null");
+		//}//TODO add more null checks
+		this.settings = settings;
+		this.graphics = new GraphicsManager();		
 		initGame(settings);
 	}
 	
@@ -48,7 +39,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	{
 		String[] subscribeKeys = game.getKeysToSubscribeTo(); //Violation of MVC (*)
 		for (String subKey : subscribeKeys) {
-			//System.out.println(subKey);
 			input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
 		}
 	}
@@ -103,12 +93,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	
 	public void save()
 	{
-		saver.save("game", game);
+		saver.save(SAVE_FILE_NAME, game);
 	}
 	
 	public void load()
 	{
-		game = saver.load("game");
+		game = saver.load(SAVE_FILE_NAME);
 	}
 
 	public void pauseGame()
@@ -120,9 +110,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	{
 		game.restart();
 	}
-	
-	public void windowResized(Rectangle newSize)
+
+	public GraphicsPanel getScreen()
 	{
-		graphics.windowResized(newSize, game.getTiles(), game.getRenderInfo());
+		return graphics.getGraphicsPanel();
 	}
 }
