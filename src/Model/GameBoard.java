@@ -190,7 +190,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	private void randomizeGame() {
 
 		do {
-			for (int i = 0; i < settings.getGameSize() * 1000; i++) {
+			for (int i = 0; i < settings.getGameSize() * 100; i++) {
 				switch (getRandomNumber(4)) {
 				case 0:
 					moveVoidTileNoUpdate(Directions.LEFT);
