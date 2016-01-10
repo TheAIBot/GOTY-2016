@@ -55,7 +55,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 
 		
 		//For setting the difficulty settings
-		JComboBox gameModeList = new JComboBox(GameModes.values());
+		final JComboBox gameModeList = new JComboBox(GameModes.values());
 		gameModeList.setSelectedItem(GameModes.NORMAL);
 		gameModeList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
@@ -66,16 +66,16 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		//The code below describes the buttons for mapping the key bindings
 		
 		//Key binding buttons for player 1
-		JToggleButton p1Up = new JToggleButton("Up key: " + theGameSettings.getPlayerOne().getUpKeyName());
-		JToggleButton p1Down = new JToggleButton("Down key: " + theGameSettings.getPlayerOne().getDownKeyName());
-		JToggleButton p1Left = new JToggleButton("Left key: " + theGameSettings.getPlayerOne().getLeftKeyName());
-		JToggleButton p1Right = new JToggleButton("Righ key: " + theGameSettings.getPlayerOne().getRightKeyName());
+		final JToggleButton p1Up = new JToggleButton("Up key: " + theGameSettings.getPlayerOne().getUpKeyName());
+		final JToggleButton p1Down = new JToggleButton("Down key: " + theGameSettings.getPlayerOne().getDownKeyName());
+		final JToggleButton p1Left = new JToggleButton("Left key: " + theGameSettings.getPlayerOne().getLeftKeyName());
+		final JToggleButton p1Right = new JToggleButton("Righ key: " + theGameSettings.getPlayerOne().getRightKeyName());
 		
 		//Key binding buttons for player 1
-		JToggleButton p2Up = new JToggleButton("Up key: " + theGameSettings.getPlayerTwo().getUpKeyName());
-		JToggleButton p2Down = new JToggleButton("Down key: " + theGameSettings.getPlayerTwo().getDownKeyName());
-		JToggleButton p2Left = new JToggleButton("Left key: " + theGameSettings.getPlayerTwo().getLeftKeyName());
-		JToggleButton p2Right = new JToggleButton("Right key: " + theGameSettings.getPlayerTwo().getRightKeyName());
+		final JToggleButton p2Up = new JToggleButton("Up key: " + theGameSettings.getPlayerTwo().getUpKeyName());
+		final JToggleButton p2Down = new JToggleButton("Down key: " + theGameSettings.getPlayerTwo().getDownKeyName());
+		final JToggleButton p2Left = new JToggleButton("Left key: " + theGameSettings.getPlayerTwo().getLeftKeyName());
+		final JToggleButton p2Right = new JToggleButton("Right key: " + theGameSettings.getPlayerTwo().getRightKeyName());
 		
 		JPanel p1 = new JPanel();
 		p1.setLayout(new GridLayout(2,3));
@@ -89,7 +89,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		
 		//All buttons are added into a ButtonGroup to ensure only one button is selected at a time
-		ButtonGroup keyBindingButtons = new ButtonGroup();
+		final ButtonGroup keyBindingButtons = new ButtonGroup();
 		keyBindingButtons.add(p1Up);
 		keyBindingButtons.add(p1Down);
 		keyBindingButtons.add(p1Left);

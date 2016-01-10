@@ -4,13 +4,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
-
-import com.sun.glass.ui.TouchInputSupport;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import Control.MenuController;
-import Model.CheatActivatedListener;
-import Model.CheatCodes;
 import Model.SuperPage;
 
 public class GOTYMainPage extends SuperPage {

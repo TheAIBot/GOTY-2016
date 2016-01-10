@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
-
-import com.sun.javafx.collections.ArrayListenerHelper;
-
 import Control.GameEngine.InputManager;
 import Control.GameEngine.KeyPressListener;
 import Control.GameEngine.Log;
@@ -20,7 +16,6 @@ public class CheatCodes implements KeyPressListener {
 	private JComponent listenerComponent;
 	
 	public static final String KONAMI_CODE = "Konami Code";
-	
 	
 	public CheatCodes(CheatActivatedListener cheatListener, JComponent cheatComponent)
 	{
