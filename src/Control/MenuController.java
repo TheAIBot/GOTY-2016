@@ -7,29 +7,24 @@ import Menu.GOTYMainPage;
 import Model.SuperPage;
 
 public class MenuController {
-	private static JFrame mainMenu;
-	private static final GOTYMainPage MAIN_PAGE = new GOTYMainPage();
-	private static SuperPage currentPage;
+	private final JFrame mainMenu;
+	private final GOTYMainPage MAIN_PAGE = new GOTYMainPage();
+	private SuperPage currentPage;
 	
-	public static void main(String[] args) {
-		createFrame();
-		startFrame();
-	}
-	
-	private static void createFrame()
+	public MenuController(String windowName, int startWidth, int startHeight)
 	{
-		mainMenu = new JFrame("GOTY2016");
-		mainMenu.setSize(510, 540); //TODO: flyt
+		mainMenu = new JFrame(windowName);
+		mainMenu.setSize(startWidth, startHeight);
 	}
 	
-	private static void startFrame()
+	public void startWindow()
 	{
 		mainMenu.add(MAIN_PAGE.getPage());
 		currentPage = MAIN_PAGE;
 		mainMenu.setVisible(true);	
 	}
 	
-	public static void switchPage(SuperPage toSwitchTo)
+	private void switchPage(SuperPage toSwitchTo)
 	{
 		currentPage.closePage();
 		mainMenu.getContentPane().removeAll();
