@@ -1,4 +1,4 @@
-package Control.GameEngine;
+package Tests;
 
 public class TestSound {
 	
