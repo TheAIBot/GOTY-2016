@@ -1,4 +1,4 @@
-package Game.Board;
+package Game.Model.Board;
 
 public class RenderInfo {
 	public boolean renderColor;

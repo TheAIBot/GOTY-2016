@@ -4,15 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-<<<<<<< HEAD:src/Menu/GOTYMainPage.java
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import Control.MenuController;
-import Model.SuperPage;
-=======
-import javax.swing.*;
->>>>>>> refs/remotes/origin/Andreas:src/Menu/Pages/GOTYMainPage.java
 
 public class GOTYMainPage extends SuperPage {
 	private final SuperPage highscores;

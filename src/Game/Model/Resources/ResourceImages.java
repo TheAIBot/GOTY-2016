@@ -1,17 +1,15 @@
-package Game.Resources;
+package Game.Model.Resources;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import Control.GameEngine.Log;
+import Game.Control.GameEngine.Log;
 
 public class ResourceImages {
 	private static final String DIRECTORY_PATH = "res" + File.separator + "images";

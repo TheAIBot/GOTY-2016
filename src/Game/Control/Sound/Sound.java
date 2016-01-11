@@ -1,4 +1,4 @@
-package Control.Sound;
+package Game.Control.Sound;
 
 import java.io.File;
 import java.util.ArrayList;

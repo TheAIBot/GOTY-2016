@@ -1,4 +1,4 @@
-package Game.Settings;
+package Game.Model.Settings;
 
 import java.awt.event.KeyEvent;
 

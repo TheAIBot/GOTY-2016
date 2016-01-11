@@ -1,8 +1,8 @@
-package Game.Difficulty;
+package Game.Model.Difficulty;
 
 import java.awt.Point;
 
-import Game.Board.Tile;
+import Game.Model.Board.Tile;
 
 public class DifficultyCalculator {
 	public static DifficultyLevel getDifficultyLevel(Tile[] tiles, int size)

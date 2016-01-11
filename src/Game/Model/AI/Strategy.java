@@ -1,6 +1,6 @@
-package Game.AI;
+package Game.Model.AI;
 
-import Game.Board.Tile;
+import Game.Model.Board.Tile;
 
 public interface Strategy {
 	public boolean canUse(Tile[] tiles);

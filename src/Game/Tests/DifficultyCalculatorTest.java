@@ -1,12 +1,12 @@
-package Tests;
+package Game.Tests;
 
 import java.awt.Color;
 import java.awt.Point;
 
-import Game.Board.GameBoard;
-import Game.Board.Tile;
-import Game.Difficulty.DifficultyCalculator;
-import Game.Settings.GameSettings;
+import Game.Model.Board.GameBoard;
+import Game.Model.Board.Tile;
+import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Settings.GameSettings;
 
 public class DifficultyCalculatorTest {
 	public static void TestDifficultyCalculator()
