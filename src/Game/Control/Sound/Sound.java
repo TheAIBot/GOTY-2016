@@ -14,6 +14,7 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.Mixer.Info;
+import javax.swing.SwingUtilities;
 
 import Game.Control.GameEngine.Log;
 
@@ -22,12 +23,12 @@ public class Sound implements LineListener{
 	
 	//public static Sound tileMovedSound = new Sound("res/bossdeath.wav");
 	
-	//Tager ikke højde for at loops skal fortsætte efter
+	//Tager ikke hï¿½jde for at loops skal fortsï¿½tte efter
 	
-	//Alle tråde bliver måske ikke fjernet når programmet lukker?
+	//Alle trï¿½de bliver mï¿½ske ikke fjernet nï¿½r programmet lukker?
 	
 	/*
-	 * Baseret på:
+	 * Baseret pï¿½:
 	 * Notch ludom dare.
 	 * Oracles sound artikler: https://docs.oracle.com/javase/tutorial/sound/
 	 * 		Herunder specielt disse artikler: 
@@ -58,6 +59,7 @@ public class Sound implements LineListener{
 				AudioInputStream streamOfSound = AudioSystem.getAudioInputStream(audioFile);
 				clip = (Clip) AudioSystem.getLine(new DataLine.Info(Clip.class, streamOfSound.getFormat()));
 				clip.open(streamOfSound);
+				streamOfSound.close();
 			}
 			else {
 				Log.writeln("Sound file not available: " + path);
@@ -102,7 +104,7 @@ public class Sound implements LineListener{
 	 */
 	public void playSound(){
 		try {
-			//Allerede ny tråd?(*)
+			//Allerede ny trï¿½d?(*)
 			clip.addLineListener(this);
 			clip.start();
 		} catch (Exception e) {
@@ -167,14 +169,24 @@ public class Sound implements LineListener{
 	@Override
 	public void update(LineEvent event) {
 		if (LineEvent.Type.STOP == event.getType()) {
+			SwingUtilities.invokeLater(new Runnable() {			
+				@Override
+				public void run() {
+					closeClip();			
+					System.out.println("It has closed!");
+				}
+			});
 			for (SoundFinishedListener listener : soundFinishedListeners) {
 				listener.soundClosed(this);
-			}	
-			clip.close();
+			}
 			System.out.println("closeStart");
 		} else if (LineEvent.Type.CLOSE == event.getType()) {
 			System.out.println("closeEnd");
 		}
+	}
+	
+	public void closeClip(){
+		clip.close();
 	}
 	
 	public void addSoundFinishedListener(SoundFinishedListener listener) {
