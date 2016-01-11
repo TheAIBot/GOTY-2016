@@ -63,6 +63,7 @@ public class AudioManager implements SoundFinishedListener {
 	
 	
 	public void soundClosed(Sound sound) {
+		System.out.println("sounds size = " + sounds.size());
 		for (int i = 0; i < sounds.size(); i++) {
 			if (sounds.get(i).equals(sound)) {
 				sounds.remove(i);
