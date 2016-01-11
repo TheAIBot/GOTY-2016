@@ -1,9 +1,10 @@
-package Game.Settings;
+package Game.Model.Settings;
+
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
-import Game.Board.GameModes;
-import Game.Difficulty.DifficultyLevel;
+import Game.Model.Board.GameModes;
+import Game.Model.Difficulty.DifficultyLevel;
 
 public class GameSettings {
 	private float soundVolume;

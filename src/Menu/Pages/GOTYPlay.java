@@ -2,9 +2,9 @@ package Menu.Pages;
 
 import javax.swing.JPanel;
 
-import Control.GameEngine.GameEngine;
-import Game.Difficulty.DifficultyLevel;
-import Game.Settings.GameSettings;
+import Game.Control.GameEngine.GameEngine;
+import Game.Model.Difficulty.DifficultyLevel;
+import Game.Model.Settings.GameSettings;
 
 
 public class GOTYPlay extends SuperPage {

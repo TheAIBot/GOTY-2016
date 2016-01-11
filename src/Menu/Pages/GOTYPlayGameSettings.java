@@ -19,13 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 
-import com.sun.javafx.property.adapter.PropertyDescriptor.Listener;
-
-import Game.Board.GameModes;
-import Game.Cheat.CheatActivatedListener;
-import Game.Cheat.CheatCodes;
-import Game.Resources.ResourceImages;
-import Game.Settings.GameSettings;
+import Game.Model.Board.GameModes;
+import Game.Model.Cheat.CheatActivatedListener;
+import Game.Model.Cheat.CheatCodes;
+import Game.Model.Resources.ResourceImages;
+import Game.Model.Settings.GameSettings;
 
 public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
 	private final GOTYPlay playGame;

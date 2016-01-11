@@ -1,8 +1,7 @@
-package Tests;
+package Game.Tests;
 
-import Control.GameEngine.GameEngine;
-import Control.GameEngine.SaveFileManager;
-import Game.Settings.GameSettings;
+import Game.Control.GameEngine.GameEngine;
+import Game.Model.Settings.GameSettings;
 
 public class SaveFileTest {
 	

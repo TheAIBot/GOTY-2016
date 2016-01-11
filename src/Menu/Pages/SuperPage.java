@@ -1,7 +1,7 @@
 package Menu.Pages;
-import javax.swing.*;
+import javax.swing.JPanel;
 
-import Control.GameEngine.Log;
+import Game.Control.GameEngine.Log;
 
 
 public abstract class SuperPage {

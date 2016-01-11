@@ -1,4 +1,4 @@
-package Model;
+package Game.View;
 
 import java.awt.Point;
 

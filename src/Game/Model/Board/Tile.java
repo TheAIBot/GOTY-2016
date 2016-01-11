@@ -1,20 +1,18 @@
-package Game.Board;
+package Game.Model.Board;
 
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 
-
-import Control.GameEngine.Log;
-import Game.Resources.ResourceImages;
-import View.Displayable;
+import Game.Model.Resources.ResourceImages;
+import Game.View.Displayable;
+import Game.View.Numreable;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable {
 	
@@ -60,6 +58,11 @@ public class Tile implements java.io.Serializable, Displayable, Numreable {
 		return number;
 	}
 
+	public Point getPosition()
+	{
+		return position;
+	}
+	
 	public Point getDisplayPosition()
 	{
 		return position;

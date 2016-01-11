@@ -1,4 +1,4 @@
-package Game.Difficulty;
+package Game.Model.Difficulty;
 
 public enum DifficultyLevel {
 	EASY

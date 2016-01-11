@@ -1,20 +1,15 @@
-package Game.Board;
+package Game.Model.Board;
 
 import java.awt.Color;
 import java.awt.Point;
-
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import Control.*;
-import Control.GameEngine.Log;
-import Control.Input.KeyPressListener;
-import Game.Difficulty.DifficultyCalculator;
-import Game.Settings.GameSettings;
+import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Settings.GameSettings;
 
 public class GameBoard implements GameBoardMode, java.io.Serializable {
 	private transient Point voidTilePosition;

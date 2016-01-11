@@ -1,4 +1,4 @@
-package Control.GameEngine;
+package Game.Control.GameEngine;
 
 import java.io.PrintStream;
 

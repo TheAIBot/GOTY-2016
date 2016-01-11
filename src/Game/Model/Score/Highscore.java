@@ -1,11 +1,9 @@
-package Game.Score;
+package Game.Model.Score;
 
 import java.util.ArrayList;
 
-import Control.GameEngine.SaveFileManager;
-import Game.*;
+import Game.Control.GameEngine.SaveFileManager;
 import javafx.util.Pair;
-import View.*;
 
 public class Highscore {
 

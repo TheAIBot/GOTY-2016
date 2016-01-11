@@ -5,7 +5,7 @@ import java.util.Stack;
 
 import javax.swing.JFrame;
 
-import Control.GameEngine.Log;
+import Game.Control.GameEngine.Log;
 import Menu.Pages.GOTYMainPage;
 import Menu.Pages.PageRequestsListener;
 import Menu.Pages.SuperPage;

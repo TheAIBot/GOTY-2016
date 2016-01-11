@@ -1,8 +1,8 @@
-package Tests;
+package Game.Tests;
 
 
-import Control.GameEngine.SaveFileManager;
-import Game.Score.ScoreManager;
+import Game.Control.GameEngine.SaveFileManager;
+import Game.Model.Score.ScoreManager;
 
 public class ScoreManagerTest {
 	
