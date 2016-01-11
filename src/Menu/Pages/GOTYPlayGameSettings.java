@@ -1,25 +1,57 @@
 package Menu.Pages;
 
+<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 import java.awt.Dimension;
+=======
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+>>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+=======
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+>>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 import java.util.Hashtable;
+import java.util.Locale;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.PlainDocument;
 
+import com.sun.glass.ui.Pixels.Format;
+import com.sun.media.jfxmedia.events.NewFrameEvent;
+import com.sun.xml.internal.txw2.Document;
+
+<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 import com.sun.javafx.property.adapter.PropertyDescriptor.Listener;
+=======
+import Control.MenuController;
+import Model.GameModes;
+import Model.GameSettings;
+import Model.SuperPage;
+import javafx.util.converter.NumberStringConverter;
+>>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 
 import Game.Board.GameModes;
 import Game.Cheat.CheatActivatedListener;
@@ -30,6 +62,7 @@ import Game.Settings.GameSettings;
 public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
 	private final GOTYPlay playGame;
 	private GameSettings theGameSettings = new GameSettings();
+<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 	private static final int SOUND_MAX = 100;
 	private static final int SOUND_MIN = 0;
 	private static final int DIFF_MIN = 0;
@@ -45,6 +78,8 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		super(listener);
 		playGame = new GOTYPlay(listener);
 	}
+=======
+>>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 	
 	//The play button
 	@Override
@@ -91,7 +126,21 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p1.add(p1Left);
 		p1.add(p1Down);
 		p1.add(p1Right);
-		page.add(p1);
+		
+		JPanel p2 = new JPanel();
+		p2.setLayout(new GridLayout(2,3));
+		p2.add(new JPanel());
+		p2.add(p2Up);
+		p2.add(new JPanel());
+		p2.add(p2Left);
+		p2.add(p2Down);
+		p2.add(p2Right);
+		
+		JPanel playerControls = new JPanel();
+		playerControls.setLayout(new BorderLayout());
+		playerControls.add(p1, BorderLayout.WEST);
+		playerControls.add(p2, BorderLayout.EAST);
+		playerControls.add(playButton, BorderLayout.CENTER);
 		
 		
 		//All buttons are added into a ButtonGroup to ensure only one button is selected at a time
@@ -123,7 +172,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 						theGameSettings.getPlayerOne().setUpKeyCode(key);
 						//Update the text in the corresponding button.
 						p1Up.setText("Up key: " + theGameSettings.getPlayerOne().getUpKeyName());
-
 					} else if (p1Down.isSelected()) {
 						theGameSettings.getPlayerOne().setDownKeyCode(key);
 						p1Down.setText("Down key: " + theGameSettings.getPlayerOne().getDownKeyName());
@@ -165,13 +213,71 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p2Right.addKeyListener(keyBindingsListener);
 		
 		
+		//The text field which adjusts the size of the map
+		JTextField sizeField = new JTextField(10);
+		sizeField.setText("" + theGameSettings.getGameSize());
+		sizeField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int previousSize = theGameSettings.getGameSize();
+				int nextSize;
+				try {
+					nextSize = Integer.parseInt(sizeField.getText());
+					if(nextSize > GameSettings.SIZE_MAX || nextSize < GameSettings.SIZE_MIN)
+						throw new Exception();
+					theGameSettings.setGameSize(nextSize);
+				} catch (Exception e2) {
+					sizeField.setText("" + previousSize);
+				}
+			}
+		});
+		
+		
+		//The panel which contains the size slider and the corresponding label
+		JPanel sizeFieldPanel = new JPanel();
+		sizeFieldPanel.setLayout(new GridBagLayout());
+		JLabel sizeFieldLabel = new JLabel("Game size from 3 to 100 (press enter to confirm)");
+		
+		GridBagConstraints gcSizePanel = new GridBagConstraints();
+		
+		gcSizePanel.gridx=0;
+		gcSizePanel.gridy=0;
+		sizeFieldPanel.add(sizeFieldLabel, gcSizePanel);
+		
+		gcSizePanel.gridx=0;
+		gcSizePanel.gridy=1;
+		sizeFieldPanel.add(sizeField, gcSizePanel);
+		
+		
 		//The slider which adjusts the sound level
-		JSlider soundLevelSlider = new JSlider(JSlider.HORIZONTAL, SOUND_MIN, SOUND_MAX, (int)(theGameSettings.getSoundVolume()*100));
+		JSlider soundLevelSlider = new JSlider(JSlider.HORIZONTAL, GameSettings.SOUND_MIN, GameSettings.SOUND_MAX, (int)(theGameSettings.getSoundVolume()*100));
 		soundLevelSlider.setMajorTickSpacing(10);
 		soundLevelSlider.setMinorTickSpacing(1);
 		
+		
+		soundLevelSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				JSlider slider = (JSlider)e.getSource();
+				float theVolume = (float)slider.getValue()/100.0f;
+				theGameSettings.setSoundVolume(theVolume);
+				System.out.println(theGameSettings.getSoundVolume());
+			}
+		});
+		
+		JPanel soundSliderPanel = new JPanel();
+		JLabel soundLevelSliderLabel = new JLabel("Sound level");
+		
+		soundSliderPanel.setLayout(new GridBagLayout());
+		GridBagConstraints gcSoundPanel = new GridBagConstraints();
+		
+		gcSoundPanel.gridx=0;
+		gcSoundPanel.gridy=0;
+		soundSliderPanel.add(soundLevelSliderLabel,gcSoundPanel);
+		gcSoundPanel.gridx=0;
+		gcSoundPanel.gridy=1;
+		soundSliderPanel.add(soundLevelSlider,gcSoundPanel);
+		
 		//The slider which adjusts the difficulty settings
-		JSlider diffSlider = new JSlider(JSlider.HORIZONTAL, DIFF_MIN, DIFF_MAX, DIFF_MIN);
+		JSlider diffSlider = new JSlider(JSlider.HORIZONTAL, GameSettings.DIFF_MIN, GameSettings.DIFF_MAX, GameSettings.DIFF_MIN);
 		diffSlider.setMajorTickSpacing(1);
 		diffSlider.setMinorTickSpacing(1);
 		diffSlider.setPaintTicks(true);
@@ -185,6 +291,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		diffSlider.setLabelTable(diffLabels);
 		diffSlider.setPaintLabels(true);
 		
+<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 		tileImages = ResourceImages.getDefaultImages();
 		showtileImage = new JLabel();
 		showTileImage();
@@ -215,19 +322,59 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		//Add the components the the page
 		page.add(playButton);
 		page.add(gameModeList);
+=======
+		JPanel diffSliderPanel = new JPanel();
+		JLabel diffSliderLabel = new JLabel("Difficulty");
 		
-		//page.add(p1Up);
-		//page.add(p1Down);
-		//page.add(p1Left);
-		//page.add(p1Right);
+		diffSliderPanel.setLayout(new GridBagLayout());
+		GridBagConstraints gcDiffPanel = new GridBagConstraints();
 		
-		page.add(p2Up);
-		page.add(p2Down);
-		page.add(p2Left);
-		page.add(p2Right);
+		gcDiffPanel.gridx=0;
+		gcDiffPanel.gridy=0;
+		diffSliderPanel.add(diffSliderLabel,gcDiffPanel);
+		gcDiffPanel.gridx=0;
+		gcDiffPanel.gridy=1;
+		diffSliderPanel.add(diffSlider,gcDiffPanel);
 		
-		page.add(soundLevelSlider);
-		page.add(diffSlider);
+		
+		page.setLayout(new GridBagLayout());
+>>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
+		
+		GridBagConstraints gcMenu = new GridBagConstraints();
+		gcMenu.insets = new Insets(20,20,20,20);
+		
+		gcMenu.gridx = 0;
+		gcMenu.gridy = 0;
+		page.add(playButton,gcMenu);
+		
+		gcMenu.gridx = 0;
+		gcMenu.gridy = 1;
+		page.add(gameModeList,gcMenu);
+		
+		gcMenu.gridx = 0;
+		gcMenu.gridy = 2;
+		gcMenu.ipadx = 200;
+		page.add(sizeFieldPanel,gcMenu);
+		
+		gcMenu.gridx = 0;
+		gcMenu.gridy = 3;
+		gcMenu.ipadx = 200;
+		page.add(diffSliderPanel,gcMenu);
+		
+		gcMenu.gridx = 0;
+		gcMenu.gridy = 4;
+		page.add(soundSliderPanel,gcMenu);
+		
+		gcMenu.gridx = 0;
+		gcMenu.gridy = 5;
+		gcMenu.fill = gcMenu.ipadx = 0;
+		page.add(p1,gcMenu);
+		
+		gcMenu.gridx = 0;
+		gcMenu.gridy = 6;
+		page.add(p2,gcMenu);
+		
+		
 		
 		page.add(setTileImagePanel);
 		
@@ -274,6 +421,8 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 
 	@Override
 	public void closePage() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
