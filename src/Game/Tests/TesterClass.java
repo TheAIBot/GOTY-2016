@@ -1,4 +1,4 @@
-package Tests;
+package Game.Tests;
 
 public class TesterClass {
 

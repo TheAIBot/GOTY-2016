@@ -1,15 +1,15 @@
-package Control.GameEngine;
+package Game.Control.GameEngine;
 
-import Control.Input.InputManager;
-import Control.Input.KeyPressListener;
-import Game.Board.BoardChangedListener;
-import Game.Board.Directions;
-import Game.Board.GameBoard;
-import Game.Board.GameBoardMode;
-import Game.Board.GameState;
-import Game.Board.Tile;
-import Game.Settings.GameSettings;
-import View.GraphicsPanel;
+import Game.Control.Input.InputManager;
+import Game.Control.Input.KeyPressListener;
+import Game.Model.Board.BoardChangedListener;
+import Game.Model.Board.Directions;
+import Game.Model.Board.GameBoard;
+import Game.Model.Board.GameBoardMode;
+import Game.Model.Board.GameState;
+import Game.Model.Board.Tile;
+import Game.Model.Settings.GameSettings;
+import Game.View.GraphicsPanel;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private static final String SAVE_FILE_NAME = "game";
@@ -18,13 +18,15 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private final InputManager input = new InputManager();
 	private final GameSettings settings;
 	private GameBoardMode game;
+	private final AudioManager audio;
 
 	public GameEngine(GameSettings settings) {	
 		//if (screen == null) {
 			//throw new NullPointerException("Screen provided is null");
 		//}//TODO add more null checks
 		this.settings = settings;
-		this.graphics = new GraphicsManager();		
+		this.graphics = new GraphicsManager();
+		audio = new AudioManager(settings.getSoundVolume());
 		initGame(settings);
 	}
 	
@@ -86,6 +88,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
+		audio.makeSwooshSound();
 		render();		
 	}
 

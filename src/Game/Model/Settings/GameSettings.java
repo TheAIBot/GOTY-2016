@@ -1,11 +1,19 @@
-package Game.Settings;
+package Game.Model.Settings;
+
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
-import Game.Board.GameModes;
-import Game.Difficulty.DifficultyLevel;
+import Game.Model.Board.GameModes;
+import Game.Model.Difficulty.DifficultyLevel;
 
 public class GameSettings {
+	public static final int SOUND_MAX = 100;
+	public static final int SOUND_MIN = 0;
+	public static final int DIFF_MIN = 0;
+	public static final int DIFF_MAX = 3;
+	public static final int SIZE_MIN = 3;
+	public static final int SIZE_MAX = 100;
+	
 	private float soundVolume;
 	private int gameSize;
 	private GameModes gameMode;
@@ -36,7 +44,12 @@ public class GameSettings {
 								   KeyEvent.VK_S, 
 								   KeyEvent.VK_A, 
 								   KeyEvent.VK_D, 
-								   KeyEvent.VK_Q, 
+								   KeyEvent.VK_Q,
+								   
+								   KeyEvent.VK_Y, 
+								   KeyEvent.VK_G, 
+								   KeyEvent.VK_H, 
+								   KeyEvent.VK_J,
 								   "Player 1"),
 				new PlayerSettings(KeyEvent.VK_UP, 
 								   KeyEvent.VK_DOWN, 

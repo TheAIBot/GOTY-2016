@@ -1,4 +1,4 @@
-package Game.Board;
+package Game.Model.Board;
 
 public interface GameStateChangedListener extends  java.io.Serializable {
 	

@@ -1,20 +1,15 @@
-package Game.Board;
+package Game.Model.Board;
 
 import java.awt.Color;
 import java.awt.Point;
-
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import Control.*;
-import Control.GameEngine.Log;
-import Control.Input.KeyPressListener;
-import Game.Difficulty.DifficultyCalculator;
-import Game.Settings.GameSettings;
+import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Settings.GameSettings;
 
 public class GameBoard implements GameBoardMode, java.io.Serializable {
 	private transient Point voidTilePosition;
@@ -135,6 +130,18 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		} else if (key.equals(settings.getPlayerOne().getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
 			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraUpKeyName())) {
+			renderInfo.addOffset(0, 1);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraDownKeyName())) {
+			renderInfo.addOffset(1, 0);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraLeftKeyName())) {
+			renderInfo.addOffset(0, -1);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraRightKeyName())) {
+			renderInfo.addOffset(-1, 0);
+			boardChanged();
 		}
 	}
 
@@ -242,7 +249,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 			settings.getPlayerOne().getDownKeyName(),
 			settings.getPlayerOne().getLeftKeyName(),
 			settings.getPlayerOne().getRightKeyName(),
-			settings.getPlayerOne().getToggleColorKeyName()
+			settings.getPlayerOne().getToggleColorKeyName(),
+			
+			settings.getPlayerOne().getCameraUpKeyName(),
+			settings.getPlayerOne().getCameraDownKeyName(),
+			settings.getPlayerOne().getCameraLeftKeyName(),
+			settings.getPlayerOne().getCameraRightKeyName()
 		};
 	}
 

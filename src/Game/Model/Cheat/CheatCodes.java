@@ -1,16 +1,12 @@
-package Game.Cheat;
+package Game.Model.Cheat;
 
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
-
-import com.sun.javafx.collections.ArrayListenerHelper;
-
-import Control.GameEngine.Log;
-import Control.Input.InputManager;
-import Control.Input.KeyPressListener;
+import Game.Control.GameEngine.Log;
+import Game.Control.Input.InputManager;
+import Game.Control.Input.KeyPressListener;
 
 public class CheatCodes implements KeyPressListener {
 	
@@ -20,7 +16,6 @@ public class CheatCodes implements KeyPressListener {
 	private JComponent listenerComponent;
 	
 	public static final String KONAMI_CODE = "Konami Code";
-	
 	
 	public CheatCodes(CheatActivatedListener cheatListener, JComponent cheatComponent)
 	{

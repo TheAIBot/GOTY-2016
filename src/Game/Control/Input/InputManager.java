@@ -1,4 +1,4 @@
-package Control.Input;
+package Game.Control.Input;
 
 import java.awt.event.ActionEvent;
 import java.util.HashSet;

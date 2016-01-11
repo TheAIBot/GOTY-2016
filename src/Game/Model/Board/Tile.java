@@ -1,22 +1,20 @@
-package Game.Board;
+package Game.Model.Board;
 
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 
+import Game.Model.Resources.ResourceImages;
+import Game.View.Displayable;
+import Game.View.Numreable;
 
-import Control.GameEngine.Log;
-import Game.Resources.ResourceImages;
-import View.Displayable;
-
-public class Tile implements java.io.Serializable, Displayable {
+public class Tile implements java.io.Serializable, Displayable, Numreable {
 	
 	private Point[] corners;
 	private int number;
@@ -65,6 +63,11 @@ public class Tile implements java.io.Serializable, Displayable {
 		return position;
 	}
 	
+	public Point getDisplayPosition()
+	{
+		return position;
+	}
+	
 	/**
 	 * Returns the corners of the tiles. This is from the top left corner of the rectangle/square that holds the tile,
 	 * and is in percents (as in a corner being in the middle of the square has the x coordinate 0.5, and the y coordinate 0.5 ).
@@ -76,5 +79,11 @@ public class Tile implements java.io.Serializable, Displayable {
 	@Override
 	public Color getColor() {
 		return color;
+	}
+
+	@Override
+	public Point getNumberPosition() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

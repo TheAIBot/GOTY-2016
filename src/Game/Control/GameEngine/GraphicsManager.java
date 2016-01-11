@@ -1,8 +1,8 @@
-package Control.GameEngine;
+package Game.Control.GameEngine;
 
-import Game.Board.RenderInfo;
-import Game.Board.Tile;
-import View.GraphicsPanel;
+import Game.Model.Board.RenderInfo;
+import Game.Model.Board.Tile;
+import Game.View.GraphicsPanel;
 
 public class GraphicsManager {
 	//private ConsoleGraphics console;
@@ -10,7 +10,7 @@ public class GraphicsManager {
 	
 	public void renderTiles(Tile[] tiles, RenderInfo renderInfo){
 		panel.setRenderInfo(tiles, renderInfo);
-		panel.repaint();	
+		panel.repaint();
 	}
 	
 	public GraphicsPanel getGraphicsPanel(){

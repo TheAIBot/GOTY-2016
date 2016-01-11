@@ -1,4 +1,4 @@
-package View;
+package Game.View;
 
 import java.awt.Color;
 import java.awt.Point;

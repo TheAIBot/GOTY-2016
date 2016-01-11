@@ -1,4 +1,4 @@
-package Game.AI;
+package Game.Model.AI;
 
 public class AIBrain {
 
