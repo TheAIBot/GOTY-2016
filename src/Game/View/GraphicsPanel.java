@@ -48,7 +48,7 @@ public class GraphicsPanel extends JPanel{
 			throw new NullPointerException();
 		}
 		BufferedImage currentImage = d.getDisplayImage();
-		Point imagePosition = d.getDisplayPosition();
+		Point imagePosition = d.getPosition();
 		if (currentImage == null || imagePosition == null) {
 			throw new NullPointerException();
 		} else {
@@ -81,10 +81,10 @@ public class GraphicsPanel extends JPanel{
 	 * @return
 	 */
 	public boolean isInsideDisplay(Displayable d) { //Rename? (*)
-		//Checks if anya of the points along the image bounds of image to be displayed is inside the bounds of the display,
+		//Checks if any of the points along the image bounds of image to be displayed is inside the bounds of the display,
 		//with the vantage point representing the middle of the display.
 		BufferedImage dImage = d.getDisplayImage();
-		Point imagePosition =  d.getDisplayPosition();
+		Point imagePosition =  d.getPosition();
 		Point[] corners = d.getCorners();
 		for (Point corner : corners) {
 			if ((corner.x + imagePosition.x) * dImage.getWidth() * imageScaling <= this.getWidth() &&

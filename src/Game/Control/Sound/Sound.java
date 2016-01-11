@@ -8,18 +8,13 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
 
 
-public class Sound implements LineListener{
+public class Sound{
 	
 	//public static Sound tileMovedSound = new Sound("res/bossdeath.wav");
 	
 	//Tager ikke højde for at loops skal fortsætte efter
-	
-	//Alle tråde bliver måske ikke fjernet når programmet lukker?
 	
 	/*
 	 * Baseret på:
@@ -44,23 +39,20 @@ public class Sound implements LineListener{
 		try {					
 			soundID = globalCurrentSoundID;
 			globalCurrentSoundID++;
-			soundFinishedListeners = new ArrayList<SoundFinishedListener>();
 			File audioFile = new File(path);			
 			if(audioFile.exists()){				
 				AudioInputStream streamOfSound = AudioSystem.getAudioInputStream(audioFile);
 				clip = (Clip) AudioSystem.getLine(new DataLine.Info(Clip.class, streamOfSound.getFormat()));
-				System.out.println(streamOfSound.getFormat());
 				System.out.println(clip.getFormat());
-				clip.open(streamOfSound);		
+				clip.open(streamOfSound);				
 				volumeControl = (FloatControl) clip.getControl(FloatControl.Type.VOLUME);				
-			}			
+			}
+			
 			soundFinishedListeners = new ArrayList<SoundFinishedListener>();
-		}catch (LineUnavailableException e) {
-			System.out.println("Line unavailable, sound = " + path);
-			//Tilføj hertil og fiks problemmet
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+		clip.flush();
 	}
 	
 	/**
@@ -69,16 +61,19 @@ public class Sound implements LineListener{
 	 */
 	public void playSound(){
 		try {
-			//Allerede ny tråd?(*)
-			clip.addLineListener(this);
 			new Thread(){
-				@Override
-				public void run() {
-					clip.start();
-				}
+				public void run(){
+					//Starts the clip, and when it has finished running, it terminates it.
+					clip.start();					
+					clip.close();					
+				}				
 			}.start();
+			//When it is done playing, and the sound closes, it announces the to the listeners, with itself:
+			for (SoundFinishedListener listener : soundFinishedListeners) {
+				listener.soundClosed(this);
+			}
+			
 		} catch (Exception e) {
-			e.printStackTrace();
 			// TODO: handle exception
 		}
 	}
@@ -107,16 +102,7 @@ public class Sound implements LineListener{
 	/** Sets the volume that the sound is played at, to a given percentage of the maximum volume
 	 */
 	public void setVolume(float newVolumeInPercents){
-		try {
-			if (clip != null && volumeControl != null) {
-				volumeControl.setValue(volumeControl.getMaximum() * newVolumeInPercents);
-			} else {
-				System.out.println("TheFuck?!");
-			}			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		volumeControl.setValue(volumeControl.getMaximum() * newVolumeInPercents);
 	}
 	
 	public boolean equals(Sound sound){
@@ -133,25 +119,5 @@ public class Sound implements LineListener{
 			return equals((Sound) o);
 		} else return false;
 	}
-
-	@Override
-	public void update(LineEvent event) {
-		if (LineEvent.Type.STOP == event.getType()) {
-			for (SoundFinishedListener listener : soundFinishedListeners) {
-				listener.soundClosed(this);
-			}
-			new Thread(){
-				public void run() {
-					clip.close();
-					System.out.println("closeStart");
-				}
-			}.start();
-		} else if (LineEvent.Type.CLOSE == event.getType()) {
-			System.out.println("closeEnd");
-		}
-	}
 	
-	public void addSoundFinishedListener(SoundFinishedListener listener) {
-		soundFinishedListeners.add(listener);
-	}
 }
