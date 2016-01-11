@@ -14,7 +14,7 @@ import Game.Model.Resources.ResourceImages;
 import Game.View.Displayable;
 import Game.View.Numreable;
 
-public class Tile implements java.io.Serializable, Displayable {
+public class Tile implements java.io.Serializable, Displayable, Numreable {
 	
 	private Point[] corners;
 	private int number;
@@ -59,14 +59,11 @@ public class Tile implements java.io.Serializable, Displayable {
 	}
 
 	public Point getPosition()
-<<<<<<< HEAD
 	{
 		return position;
 	}
 	
 	public Point getDisplayPosition()
-=======
->>>>>>> origin/Dev
 	{
 		return position;
 	}
@@ -82,5 +79,11 @@ public class Tile implements java.io.Serializable, Displayable {
 	@Override
 	public Color getColor() {
 		return color;
+	}
+
+	@Override
+	public Point getNumberPosition() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,35 +1,23 @@
 package Menu.Pages;
 
-<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
-import java.awt.Dimension;
-=======
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
->>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-=======
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
->>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 import java.util.Hashtable;
-import java.util.Locale;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -37,40 +25,16 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.PlainDocument;
 
-import com.sun.glass.ui.Pixels.Format;
-import com.sun.media.jfxmedia.events.NewFrameEvent;
-import com.sun.xml.internal.txw2.Document;
-
-<<<<<<< HEAD
 import Game.Model.Board.GameModes;
 import Game.Model.Cheat.CheatActivatedListener;
 import Game.Model.Cheat.CheatCodes;
 import Game.Model.Resources.ResourceImages;
 import Game.Model.Settings.GameSettings;
-=======
-<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
-import com.sun.javafx.property.adapter.PropertyDescriptor.Listener;
-=======
-import Control.MenuController;
-import Model.GameModes;
-import Model.GameSettings;
-import Model.SuperPage;
-import javafx.util.converter.NumberStringConverter;
->>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
-
-import Game.Board.GameModes;
-import Game.Cheat.CheatActivatedListener;
-import Game.Cheat.CheatCodes;
-import Game.Resources.ResourceImages;
-import Game.Settings.GameSettings;
->>>>>>> origin/Dev
 
 public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
 	private final GOTYPlay playGame;
 	private GameSettings theGameSettings = new GameSettings();
-<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 	private static final int SOUND_MAX = 100;
 	private static final int SOUND_MIN = 0;
 	private static final int DIFF_MIN = 0;
@@ -86,8 +50,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		super(listener);
 		playGame = new GOTYPlay(listener);
 	}
-=======
->>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 	
 	//The play button
 	@Override
@@ -299,7 +261,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		diffSlider.setLabelTable(diffLabels);
 		diffSlider.setPaintLabels(true);
 		
-<<<<<<< HEAD:src/Menu/Pages/GOTYPlayGameSettings.java
 		tileImages = ResourceImages.getDefaultImages();
 		showtileImage = new JLabel();
 		showTileImage();
@@ -330,7 +291,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		//Add the components the the page
 		page.add(playButton);
 		page.add(gameModeList);
-=======
+
 		JPanel diffSliderPanel = new JPanel();
 		JLabel diffSliderLabel = new JLabel("Difficulty");
 		
@@ -346,7 +307,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		
 		page.setLayout(new GridBagLayout());
->>>>>>> refs/remotes/origin/Niklas:src/Menu/GOTYPlayGameSettings.java
 		
 		GridBagConstraints gcMenu = new GridBagConstraints();
 		gcMenu.insets = new Insets(20,20,20,20);
