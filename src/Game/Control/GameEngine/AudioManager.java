@@ -7,6 +7,7 @@ import Game.Control.Sound.SoundFinishedListener;
 
 public class AudioManager implements SoundFinishedListener {
 	
+	private static int MAX_PARALLEL_SOUNDS = 6;
 	private boolean paused = false;
 	private float currentVolumeInPercents = 0.3F;
 	ArrayList<Sound> sounds;
@@ -16,7 +17,7 @@ public class AudioManager implements SoundFinishedListener {
 	}
 	
 	private void makeSound(String path) {
-		if (sounds.size() <= 6) {
+		if (sounds.size() <= MAX_PARALLEL_SOUNDS) {
 			Sound sound = new Sound(path);
 			sound.addSoundFinishedListener(this);
 			sounds.add(sound);
@@ -40,6 +41,7 @@ public class AudioManager implements SoundFinishedListener {
 				sound.pauseSound();
 			}
 		}
+		paused = true;
 	}
 	
 	public void unPause() {
@@ -48,6 +50,7 @@ public class AudioManager implements SoundFinishedListener {
 				sound.playSound();
 			}
 		}
+		paused = false;
 	}
 	
 	public void setVolumeInPercents(float newVolumeInPercents){
