@@ -18,6 +18,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private final InputManager input = new InputManager();
 	private final GameSettings settings;
 	private GameBoardMode game;
+	private final AudioManager audio = new AudioManager();
 
 	public GameEngine(GameSettings settings) {	
 		//if (screen == null) {
@@ -86,6 +87,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
+		audio.makeSwooshSound();
 		render();		
 	}
 

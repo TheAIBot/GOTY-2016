@@ -1,7 +1,6 @@
 package Game.Control.GameEngine;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import Game.Control.Sound.Sound;
 import Game.Control.Sound.SoundFinishedListener;
@@ -9,7 +8,7 @@ import Game.Control.Sound.SoundFinishedListener;
 public class AudioManager implements SoundFinishedListener {
 	
 	private boolean paused = false;
-	private float currentVolumeInPercents = 1F;
+	private float currentVolumeInPercents = 0.3F;
 	ArrayList<Sound> sounds;
 	
 	public AudioManager() {
@@ -17,16 +16,22 @@ public class AudioManager implements SoundFinishedListener {
 	}
 	
 	private void makeSound(String path) {
-		Sound sound = new Sound(path);
-		sounds.add(sound);
-		sound.setVolume(currentVolumeInPercents);
-		if (!paused) {
-			sound.pauseSound();
-		}
+		if (sounds.size() <= 6) {
+			Sound sound = new Sound(path);
+			sound.addSoundFinishedListener(this);
+			sounds.add(sound);
+			sound.setVolume(currentVolumeInPercents);
+			if (paused) {
+				sound.pauseSound();
+			} else {
+				sound.playSound();
+			}			
+		} 
 	}
 	
 	public void makeSwooshSound(){
-		makeSound("res/Swoosh");
+		makeSound("res/bossdeath.wav");
+		//makeSound("res/01 The Vampire From Nazareth.wav");
 	}
 	
 	public void pause(){
@@ -54,7 +59,6 @@ public class AudioManager implements SoundFinishedListener {
 	
 	
 	public void soundClosed(Sound sound) {
-		System.out.println("sounds size = " + sounds.size());
 		for (int i = 0; i < sounds.size(); i++) {
 			if (sounds.get(i).equals(sound)) {
 				sounds.remove(i);
