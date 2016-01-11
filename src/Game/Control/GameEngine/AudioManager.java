@@ -1,16 +1,10 @@
-package Control.GameEngine;
+package Game.Control.GameEngine;
 
-import java.io.InvalidObjectException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-
-import Control.Sound.Sound;
-import Control.Sound.SoundFinishedListener;
+import Game.Control.Sound.Sound;
+import Game.Control.Sound.SoundFinishedListener;
 
 public class AudioManager implements SoundFinishedListener {
 	
@@ -60,7 +54,18 @@ public class AudioManager implements SoundFinishedListener {
 	
 	
 	public void soundClosed(Sound sound) {
+<<<<<<< HEAD:src/Control/GameEngine/AudioManager.java
+		System.out.println("sounds size = " + sounds.size());
+		for (int i = 0; i < sounds.size(); i++) {
+			if (sounds.get(i).equals(sound)) {
+				sounds.remove(i);
+				i--;
+			}
+		}
+		//sounds.removeAll(Collections.singletonList(sound));
+=======
 		sounds.removeAll(Collections.singletonList(sound));
+>>>>>>> 4c5c6838b65622434c625728c9f598f3c916b18c:src/Game/Control/GameEngine/AudioManager.java
 	}
 
 

@@ -1,4 +1,4 @@
-package Control.Input;
+package Game.Control.Input;
 
 public interface KeyPressListener {
 	

@@ -1,7 +1,4 @@
-package Game.Board;
-
-import Control.GameEngine.GameEngine;
-import Control.Input.KeyPressListener;
+package Game.Model.Board;
 
 public interface GameBoardMode {
 

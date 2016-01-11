@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import Game.Score.Highscore;
+import Game.Model.Score.Highscore;
 import javafx.util.Pair;
 
 public class GOTYHighscore extends SuperPage {

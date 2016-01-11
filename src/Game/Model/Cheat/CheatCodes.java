@@ -1,21 +1,12 @@
-package Game.Cheat;
+package Game.Model.Cheat;
 
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-<<<<<<< HEAD:src/Model/CheatCodes.java
-import Control.GameEngine.InputManager;
-import Control.GameEngine.KeyPressListener;
-=======
-import org.omg.CORBA.PRIVATE_MEMBER;
-
-import com.sun.javafx.collections.ArrayListenerHelper;
-
->>>>>>> refs/remotes/origin/Andreas:src/Game/Model/Cheat/CheatCodes.java
-import Control.GameEngine.Log;
-import Control.Input.InputManager;
-import Control.Input.KeyPressListener;
+import Game.Control.GameEngine.Log;
+import Game.Control.Input.InputManager;
+import Game.Control.Input.KeyPressListener;
 
 public class CheatCodes implements KeyPressListener {
 	

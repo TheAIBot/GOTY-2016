@@ -1,8 +1,10 @@
-package Game.Score;
+package Game.Model.Score;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.Serializable;
+
 import javax.swing.Timer;
-import java.awt.event.*;
 
 public class ScoreManager implements Serializable{
 	

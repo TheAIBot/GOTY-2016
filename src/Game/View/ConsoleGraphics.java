@@ -1,7 +1,7 @@
-package View;
+package Game.View;
 
-import Control.GameEngine.GameEngine;
-import Game.Board.Tile;
+import Game.Control.GameEngine.GameEngine;
+import Game.Model.Board.Tile;
 
 
 

@@ -1,9 +1,9 @@
-package Tests;
+package Game.Tests;
 
 import java.util.ArrayList;
 
-import Control.GameEngine.SaveFileManager;
-import Game.Score.Highscore;
+import Game.Control.GameEngine.SaveFileManager;
+import Game.Model.Score.Highscore;
 import javafx.util.Pair;;
 
 public class HighscoreTest {

@@ -1,12 +1,11 @@
-package Control.Input;
+package Game.Control.Input;
 
 import java.util.Scanner;
 
-import Control.GameEngine.GameEngine;
-import Game.Board.Directions;
-import Game.Board.GameState;
-import Game.Board.GameStateChangedListener;
-import Game.Settings.GameSettings;
+import Game.Control.GameEngine.GameEngine;
+import Game.Model.Board.GameState;
+import Game.Model.Board.GameStateChangedListener;
+import Game.Model.Settings.GameSettings;
 
 public class ConsoleControl implements GameStateChangedListener {
 	private static boolean run = true;
