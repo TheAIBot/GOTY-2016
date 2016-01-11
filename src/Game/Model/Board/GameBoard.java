@@ -254,7 +254,10 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 			settings.getPlayerOne().getCameraUpKeyName(),
 			settings.getPlayerOne().getCameraDownKeyName(),
 			settings.getPlayerOne().getCameraLeftKeyName(),
-			settings.getPlayerOne().getCameraRightKeyName()
+			settings.getPlayerOne().getCameraRightKeyName(),
+			
+			settings.getPlayerOne().getZoomInKeyName(),
+			settings.getPlayerOne().getZoomOutKeyName()
 		};
 	}
 
