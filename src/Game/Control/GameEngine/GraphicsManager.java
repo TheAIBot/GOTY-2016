@@ -10,7 +10,7 @@ public class GraphicsManager {
 	
 	public void renderTiles(Tile[] tiles, RenderInfo renderInfo){
 		panel.setRenderInfo(tiles, renderInfo);
-		panel.repaint();	
+		panel.repaint();
 	}
 	
 	public GraphicsPanel getGraphicsPanel(){
