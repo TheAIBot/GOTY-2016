@@ -9,11 +9,12 @@ public class AudioManager implements SoundFinishedListener {
 	
 	private static int MAX_PARALLEL_SOUNDS = 6;
 	private boolean paused = false;
-	private float currentVolumeInPercents = 0.3F;
+	private float currentVolumeInPercents;
 	ArrayList<Sound> sounds;
 	
-	public AudioManager() {
+	public AudioManager(float volumeInPercent) {
 		sounds = new ArrayList<Sound>();
+		currentVolumeInPercents = volumeInPercent;
 	}
 	
 	private void makeSound(String path) {
@@ -54,8 +55,9 @@ public class AudioManager implements SoundFinishedListener {
 	}
 	
 	public void setVolumeInPercents(float newVolumeInPercents){
+		currentVolumeInPercents = newVolumeInPercents;
 		for (Sound sound : sounds) {
-			sound.setVolume(newVolumeInPercents);
+			sound.setVolume(currentVolumeInPercents);
 		}
 	}
 

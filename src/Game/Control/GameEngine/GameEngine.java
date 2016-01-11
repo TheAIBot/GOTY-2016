@@ -18,14 +18,15 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private final InputManager input = new InputManager();
 	private final GameSettings settings;
 	private GameBoardMode game;
-	private final AudioManager audio = new AudioManager();
+	private final AudioManager audio;
 
 	public GameEngine(GameSettings settings) {	
 		//if (screen == null) {
 			//throw new NullPointerException("Screen provided is null");
 		//}//TODO add more null checks
 		this.settings = settings;
-		this.graphics = new GraphicsManager();		
+		this.graphics = new GraphicsManager();
+		audio = new AudioManager(settings.getSoundVolume());
 		initGame(settings);
 	}
 	
