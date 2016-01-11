@@ -2,6 +2,9 @@ package Game.Control.GameEngine;
 
 import java.util.ArrayList;
 
+import javax.sound.sampled.Clip;
+import javax.swing.SwingUtilities;
+
 import Game.Control.Sound.Sound;
 import Game.Control.Sound.SoundFinishedListener;
 
