@@ -60,7 +60,8 @@ public class GraphicsPanel extends JPanel {
 					//gDisplay.drawImage(currentImage, (int) ((imagePosition.x + renderInfo.xOffset) * imageScaling * currentImage.getWidth()), (int) ((imagePosition.y + renderInfo.yOffset) * imageScaling * currentImage.getHeight()), null);
 				} else {
 					gDisplay.setColor(d.getColor());
-					gDisplay.fillRect((int) (imagePosition.x * imageScaling * currentImage.getWidth()), (int) (imagePosition.y * imageScaling * currentImage.getHeight()), currentImage.getWidth(), currentImage.getHeight());
+					gDisplay.fillRect((int) ((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() * imageScaling), (int) ((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() * imageScaling), (int) (currentImage.getWidth() * imageScaling), (int) (currentImage.getHeight() * imageScaling));
+					//gDisplay.fillRect((int) (imagePosition.x * imageScaling * currentImage.getWidth()), (int) (imagePosition.y * imageScaling * currentImage.getHeight()), currentImage.getWidth(), currentImage.getHeight());
 				}
 				gDisplay.setColor(Color.WHITE);
 				gDisplay.drawString(String.valueOf(d.getNumber()), (int) (((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() + currentImage.getWidth() / 2) * imageScaling), (int) (((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() + currentImage.getHeight() / 2) * imageScaling));
