@@ -86,8 +86,13 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
-		render();		
+		render();
 	}
+	
+	/*public void boardChanged(int xOffset, int yOffset) {
+		game.getRenderInfo().addOffset(xOffset, yOffset);
+		render();
+	}*/
 
 	public void render() {
 		graphics.renderTiles(game.getTiles(), game.getRenderInfo());

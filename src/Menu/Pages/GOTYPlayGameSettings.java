@@ -132,6 +132,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			public void keyTyped(KeyEvent e) {}
 			
 			
+			//TODO UPDATE METHOD to handle camera controls
 			public void keyReleased(KeyEvent e) {
 				int key = e.getKeyCode();
 				if (!(theGameSettings.getPlayerOne().hasKeyCode(key) || theGameSettings.getPlayerTwo().hasKeyCode(key))) 
@@ -184,7 +185,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		
 		//The text field which adjusts the size of the map
-		JTextField sizeField = new JTextField(10);
+		final JTextField sizeField = new JTextField(10);
 		sizeField.setText("" + theGameSettings.getGameSize());
 		sizeField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

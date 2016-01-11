@@ -3,11 +3,9 @@ package Game.Model.Settings;
 import java.awt.event.KeyEvent;
 
 public class PlayerSettings {
-	private int upKey;
-	private int downKey;
-	private int leftKey;
-	private int rightKey;
+	private int upKey, downKey, leftKey, rightKey;
 	private int toggleColorKey;
+	private int cameraUpKey, cameraDownKey, cameraLeftKey, cameraRightKey;
 	private String name;
 	
 	/**
@@ -25,6 +23,19 @@ public class PlayerSettings {
 		this.leftKey = left;
 		this.rightKey = right;
 		this.toggleColorKey = toggleColor;
+		this.name = playerName;
+	}
+	
+	public PlayerSettings(int up, int down, int left, int right, int toggleColor, int cup, int cdown, int cleft, int cright, String playerName) {
+		this.upKey = up;
+		this.downKey = down;
+		this.leftKey = left;
+		this.rightKey = right;
+		this.toggleColorKey = toggleColor;
+		cameraUpKey = cup;
+		cameraDownKey = cdown;
+		cameraLeftKey = cleft;
+		cameraRightKey = cright;
 		this.name = playerName;
 	}
 
@@ -138,6 +149,10 @@ public class PlayerSettings {
 				key == downKey || 
 				key == leftKey || 
 				key == rightKey || 
+				key == cameraUpKey ||
+				key == cameraDownKey || 
+				key == cameraLeftKey || 
+				key == cameraRightKey ||
 				key == toggleColorKey);
 	}
 
@@ -163,5 +178,21 @@ public class PlayerSettings {
 	public String getToggleColorKeyName()
 	{
 		return KeyEvent.getKeyText(toggleColorKey);
+	}
+
+	public String getCameraUpKeyName() {
+		return KeyEvent.getKeyText(cameraUpKey);
+	}
+	
+	public String getCameraDownKeyName() {
+		return KeyEvent.getKeyText(cameraDownKey);
+	}
+	
+	public String getCameraLeftKeyName() {
+		return KeyEvent.getKeyText(cameraLeftKey);
+	}
+	
+	public String getCameraRightKeyName() {
+		return KeyEvent.getKeyText(cameraRightKey);
 	}
 }
