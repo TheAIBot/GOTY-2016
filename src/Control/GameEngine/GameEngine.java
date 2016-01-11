@@ -15,6 +15,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private final GraphicsManager graphics;
 	private final InputManager input = new InputManager();
 	private final GameSettings settings;
+	private final AudioManager audio;
 	private GameBoardMode game;
 
 	public GameEngine(GameSettings settings) {	
@@ -22,7 +23,8 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 			//throw new NullPointerException("Screen provided is null");
 		//}//TODO add more null checks
 		this.settings = settings;
-		this.graphics = new GraphicsManager();		
+		this.graphics = new GraphicsManager();	
+		this.audio = new AudioManager();
 		initGame(settings);
 	}
 	
@@ -84,7 +86,8 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
-		render();		
+		render();
+		audio.makeSwooshSound();
 	}
 
 	public void render() {

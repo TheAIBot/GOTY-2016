@@ -8,7 +8,7 @@ public interface Displayable {
 	
 	public BufferedImage getDisplayImage();
 	
-	public Point getPosition();
+	public Point getDisplayPosition();
 	
 	public Point[] getCorners();
 	

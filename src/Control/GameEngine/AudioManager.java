@@ -20,16 +20,22 @@ public class AudioManager implements SoundFinishedListener {
 	}
 	
 	private void makeSound(String path) {
-		Sound sound = new Sound(path);
-		sounds.add(sound);
-		sound.setVolume(currentVolumeInPercents);
-		if (!paused) {
-			sound.pauseSound();
-		}
+		if (sounds.size() <= 6) {
+			Sound sound = new Sound(path);
+			sound.addSoundFinishedListener(this);
+			sounds.add(sound);
+			sound.setVolume(currentVolumeInPercents);
+			if (paused) {
+				sound.pauseSound();
+			} else {
+				sound.playSound();
+			}			
+		} 
 	}
 	
 	public void makeSwooshSound(){
-		makeSound("res/Swoosh");
+		makeSound("res/bossdeath.wav");
+		//makeSound("res/01 The Vampire From Nazareth.wav");
 	}
 	
 	public void pause(){
@@ -57,7 +63,13 @@ public class AudioManager implements SoundFinishedListener {
 	
 	
 	public void soundClosed(Sound sound) {
-		sounds.removeAll(Collections.singletonList(sound));
+		for (int i = 0; i < sounds.size(); i++) {
+			if (sounds.get(i).equals(sound)) {
+				sounds.remove(i);
+				i--;
+			}
+		}
+		//sounds.removeAll(Collections.singletonList(sound));
 	}
 
 
