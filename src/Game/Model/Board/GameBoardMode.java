@@ -16,7 +16,7 @@ public interface GameBoardMode {
 
 	public abstract GameState getGameState(int playerIndex);
 
-	public abstract void addBoardChangedListener(BoardChangedListener gameEngine);
+	public abstract void addBoardChangedListener(BoardChangedListener listener);
 	
 	public abstract void keyPressed(String key);
 	

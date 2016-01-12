@@ -1,5 +1,9 @@
 package Game.Control.GameEngine;
 
+import javax.swing.JPanel;
+
+import com.sun.security.auth.NTDomainPrincipal;
+
 import Game.Control.Input.InputManager;
 import Game.Control.Input.KeyPressListener;
 import Game.Model.Board.BoardChangedListener;
@@ -27,23 +31,15 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		//}//TODO add more null checks
 		this.settings = settings;
 		this.audio = new AudioManager(settings.getSoundVolume());
-		this.graphics = new GraphicsManager(this);
 		initGame(settings);
+		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers());
 	}
 	
 	private void initGame(GameSettings settings)
 	{
-		switch (settings.getGameMode()) {
-		case SINGLE_PLAYER:
-			
-			break;
-
-		default:
-			break;
-		}
 		game = createGameType(settings);
-		game.addBoardChangedListener(this);
 		game.createGame();
+		game.addBoardChangedListener(this);
 		new Thread(() -> 
 		{
 			try {
@@ -63,7 +59,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		case SINGLE_PLAYER:
 			return new SinglePlayerBoard(settings, 0);
 		case MULTI_PLAYER:
-			return new TwoPlayerBoard();
+			return new TwoPlayerBoard(settings);
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -93,9 +89,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		return game.getSize();
 	}
 	
-	public GameState getGameState()
+	public GameState getGameState(int playerIndex)
 	{
-		return game.getGameState();
+		return game.getGameState(playerIndex);
 	}
 
 	public void createGame()
@@ -120,7 +116,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	}
 
 	public void render(int playerIndex) {
-		graphics.renderTiles(game.getTiles(playerIndex), game.getRenderInfo(playerIndex));
+		graphics.renderTiles(game.getTiles(playerIndex), game.getRenderInfo(playerIndex), playerIndex);
 	}
 	
 	public void save()
@@ -143,7 +139,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		game.restart();
 	}
 
-	public GraphicsPanel getScreen()
+	public JPanel getScreen()
 	{
 		return graphics.getGraphicsPanel();
 	}

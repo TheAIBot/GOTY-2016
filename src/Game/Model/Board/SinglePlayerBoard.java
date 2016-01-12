@@ -11,6 +11,7 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Settings.GameSettings;
+import Game.Model.Settings.PlayerSettings;
 import Game.Control.GameEngine.Log;
 import Game.Model.Board.GameModes;
 import Game.View.RenderInfo;
@@ -24,26 +25,15 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
-<<<<<<< HEAD
-	protected final RenderInfo renderInfo;
-<<<<<<< HEAD:src/Game/Model/Board/SinglePlayerBoard.java
+	protected RenderInfo renderInfo;
 	protected final int playerIndex;
 	
 	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
-=======
-=======
-	protected RenderInfo renderInfo = new RenderInfo(false);
-	
-	
->>>>>>> refs/remotes/origin/Niklas
-
-	public GameBoard(GameSettings settings) {
->>>>>>> refs/remotes/origin/Dev:src/Game/Model/Board/GameBoard.java
-		this.currentGameState = GameState.NOT_DECIDED_YET;
 		this.settings = settings;
-		renderInfo = new RenderInfo(false, this.settings.getGameSize());	}
-
+		this.renderInfo = new RenderInfo(false, settings.getGameSize());
+	}
+	
 	public GameState getGameState(int playerIndex) {
 		return currentGameState;
 	}
@@ -157,27 +147,28 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void keyPressed(String key) {
-		if (key.equals(settings.getPlayerOne().getDownKeyName())) {
+		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
+		if (key.equals(playerSettings.getDownKeyName())) {
 			moveVoidTile(Directions.DOWN);
-		} else if (key.equals(settings.getPlayerOne().getLeftKeyName())) {
+		} else if (key.equals(playerSettings.getLeftKeyName())) {
 			moveVoidTile(Directions.LEFT);
-		} else if (key.equals(settings.getPlayerOne().getRightKeyName())) {
+		} else if (key.equals(playerSettings.getRightKeyName())) {
 			moveVoidTile(Directions.RIGHT);
-		} else if (key.equals(settings.getPlayerOne().getUpKeyName())) {
+		} else if (key.equals(playerSettings.getUpKeyName())) {
 			moveVoidTile(Directions.UP);
-		} else if (key.equals(settings.getPlayerOne().getToggleColorKeyName())) {
+		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
-		} else if (key.equals(settings.getPlayerOne().getCameraUpKeyName())) {
+		} else if (key.equals(playerSettings.getCameraUpKeyName())) {
 			renderInfo.addOffset(0, 1);
-		} else if (key.equals(settings.getPlayerOne().getCameraDownKeyName())) {
+		} else if (key.equals(playerSettings.getCameraDownKeyName())) {
 			renderInfo.addOffset(1, 0);
-		} else if (key.equals(settings.getPlayerOne().getCameraLeftKeyName())) {
+		} else if (key.equals(playerSettings.getCameraLeftKeyName())) {
 			renderInfo.addOffset(0, -1);
-		} else if (key.equals(settings.getPlayerOne().getCameraRightKeyName())) {
+		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
-		} else if (key.equals(settings.getPlayerOne().getZoomInKeyName())) {
+		} else if (key.equals(playerSettings.getZoomInKeyName())) {
 			renderInfo.addImageScale(0.1);
-		} else if (key.equals(settings.getPlayerOne().getZoomOutKeyName())) {
+		} else if (key.equals(playerSettings.getZoomOutKeyName())) {
 			renderInfo.addImageScale(-0.1);
 		}
 		boardChanged();
@@ -272,43 +263,22 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public String[] getKeysToSubscribeTo(int playerIndex) {
-		switch (playerIndex) {
-		case 1:
-			return new String[] {
-					settings.getPlayerOne().getUpKeyName(),
-					settings.getPlayerOne().getDownKeyName(),
-					settings.getPlayerOne().getLeftKeyName(),
-					settings.getPlayerOne().getRightKeyName(),
-					settings.getPlayerOne().getToggleColorKeyName(),
-					
-					settings.getPlayerOne().getCameraUpKeyName(),
-					settings.getPlayerOne().getCameraDownKeyName(),
-					settings.getPlayerOne().getCameraLeftKeyName(),
-					settings.getPlayerOne().getCameraRightKeyName(),
-					
-					settings.getPlayerOne().getZoomInKeyName(),
-					settings.getPlayerOne().getZoomOutKeyName()
-				};
-		case 2:
-			return new String[] {
-					settings.getPlayerTwo().getUpKeyName(),
-					settings.getPlayerTwo().getDownKeyName(),
-					settings.getPlayerTwo().getLeftKeyName(),
-					settings.getPlayerTwo().getRightKeyName(),
-					settings.getPlayerTwo().getToggleColorKeyName(),
-					
-					settings.getPlayerTwo().getCameraUpKeyName(),
-					settings.getPlayerTwo().getCameraDownKeyName(),
-					settings.getPlayerTwo().getCameraLeftKeyName(),
-					settings.getPlayerTwo().getCameraRightKeyName(),
-					
-					settings.getPlayerTwo().getZoomInKeyName(),
-					settings.getPlayerTwo().getZoomOutKeyName()
-				};
-		default:
-			throw new IllegalArgumentException();
-		}
-		
+		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
+		return new String[] {
+			playerSettings.getUpKeyName(),
+			playerSettings.getDownKeyName(),
+			playerSettings.getLeftKeyName(),
+			playerSettings.getRightKeyName(),
+			playerSettings.getToggleColorKeyName(),
+			
+			playerSettings.getCameraUpKeyName(),
+			playerSettings.getCameraDownKeyName(),
+			playerSettings.getCameraLeftKeyName(),
+			playerSettings.getCameraRightKeyName(),
+			
+			playerSettings.getZoomInKeyName(),
+			playerSettings.getZoomOutKeyName()
+		};		
 	}
 
 	@Override

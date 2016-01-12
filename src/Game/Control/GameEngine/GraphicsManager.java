@@ -20,7 +20,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	private Animator animator = new Animator(this);
 	private CreateGamePanel gamePanelCreater = new CreateGamePanel();
 	private JPanel gamePanel;
-	RenderInfo renderInfo;
+	RenderInfo[] renderInfos;
 	
 	public GraphicsManager(GameEngine gEngine, int numberOfScreens) {
 		this.gEngine = gEngine;
@@ -28,11 +28,12 @@ public class GraphicsManager implements AnimateUpdateListener {
 		for (int i = 0; i < gPanels.length; i++) {
 			gPanels[i] = new GraphicsPanel(this, i);
 		}
+		renderInfos = new RenderInfo[numberOfScreens];
 	}
 	
 	public void renderTiles(Tile[] tiles, RenderInfo renderInfo, int screenIndex){
 		gPanels[screenIndex].setRenderInfo(tiles, renderInfo);
-		this.renderInfo = renderInfo;
+		this.renderInfos[screenIndex] = renderInfo;
 		checkForNewAnimations(renderInfo);
 		gPanels[screenIndex].repaint();	
 	}
@@ -48,13 +49,13 @@ public class GraphicsManager implements AnimateUpdateListener {
 		return gamePanel;
 	}
 	
-	private void animate(){
-		animator.startAnimation(renderInfo.toAnimate);
+	private void animate(int screenIndex){
+		animator.startAnimation(renderInfos[screenIndex].toAnimate);
 	}
 	
 	public Displayable[] getDisplayablesToRender(int screenIndex){
-		if (!renderInfo.renderColor) {
-			animate();
+		if (renderInfos[screenIndex] != null && !renderInfos[screenIndex].renderColor) {
+			animate(screenIndex);
 			return gEngine.getTiles(screenIndex);
 		} else return null;
 	}
@@ -64,9 +65,9 @@ public class GraphicsManager implements AnimateUpdateListener {
 	}
 	
 	public Colorfull[] getColorfullsToRender(int screenIndex){
-		if (renderInfo.renderColor) {
-			animate();
-			animator.startAnimation(renderInfo.toAnimate);
+		if (renderInfos[screenIndex] != null && renderInfos[screenIndex].renderColor) {
+			animate(screenIndex);
+			animator.startAnimation(renderInfos[screenIndex].toAnimate);
 			return gEngine.getTiles(screenIndex);
 		} else return null;
 	}

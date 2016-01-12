@@ -1,9 +1,17 @@
 package Game.Model.Board;
 
+import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
 public class TwoPlayerBoard implements GameBoardMode {
-	private final SinglePlayerBoard[] boards = new SinglePlayerBoard[2];
+	private final SinglePlayerBoard[] boards;
+	
+	public TwoPlayerBoard(GameSettings settings) {
+		boards = new SinglePlayerBoard[settings.getPlayers().length];
+		for (int i = 0; i < boards.length; i++) {
+			boards[i] = new SinglePlayerBoard(settings, i);
+		}
+	}
 	
 	@Override
 	public void createGame() {

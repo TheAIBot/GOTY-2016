@@ -53,7 +53,7 @@ public class GraphicsPanel extends JPanel {
 				} else {
 					//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 					//If not, it dosen't render it (to increase performance), else it does.
-					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), currentImage.getWidth(), currentImage.getHeight())) {
+					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), tileSize, tileSize)) {
 						
 						Rectangle destRect = new Rectangle((int) ((imagePosition.x + renderInfo.xOffset) * tileSize * renderInfo.imageScale), 
 		  						   (int) ((imagePosition.y + renderInfo.yOffset) * tileSize * renderInfo.imageScale), (int) (tileSize * renderInfo.imageScale), 
@@ -81,12 +81,12 @@ public class GraphicsPanel extends JPanel {
 				if (numreable != null) {
 					Point2D.Double[] point = new Point2D.Double[]{numreable.getNumberPosition()};
 					if (isInsideDisplay(point, new Point2D.Double(0, 0), 
-							numreable.getNumberDisplayScallingX(), numreable.getNumberDisplayScallingY())) {
+							tileSize, tileSize)) {
 						gDisplay.setColor(Color.WHITE);
 						gDisplay.setFont(new Font("Verdana", 0, (int) (15 * renderInfo.imageScale)));
 						gDisplay.drawString(String.valueOf(numreable.getNumber()), 
-								(int) (((numreable.getNumberPosition().x + renderInfo.xOffset) * numreable.getNumberDisplayScallingX() + numreable.getNumberDisplayScallingX() / 2) * renderInfo.imageScale),
-								(int) (((numreable.getNumberPosition().y + renderInfo.yOffset) * numreable.getNumberDisplayScallingY() + numreable.getNumberDisplayScallingY() / 2) * renderInfo.imageScale));
+								(int) (((numreable.getNumberPosition().x + renderInfo.xOffset) * tileSize + (tileSize / 2)) * renderInfo.imageScale),
+								(int) (((numreable.getNumberPosition().y + renderInfo.yOffset) * tileSize + (tileSize / 2)) * renderInfo.imageScale));
 					}
 				}
 			}
@@ -96,16 +96,16 @@ public class GraphicsPanel extends JPanel {
 	private void renderColorfull(Colorfull[] colored, Graphics gDisplay){
 		if (colored != null) {
 			for (Colorfull colorfull : colored) {
-				if (colorfull != null && isInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), 1, 1)) {	
+				if (colorfull != null && isInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), tileSize, tileSize)) {	
 					gDisplay.setColor(colorfull.getColor());
 					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) { //Kan værer en fejl her, med skiftet frem og tilbage imellem int og double (*)
-						colorfull.getColorPolygon().xpoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * colorfull.getColorPolygonScallingX() * renderInfo.imageScale);
-						colorfull.getColorPolygon().ypoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * colorfull.getColorPolygonScallingY() * renderInfo.imageScale);						
+						colorfull.getColorPolygon().xpoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * tileSize * renderInfo.imageScale);
+						colorfull.getColorPolygon().ypoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * tileSize * renderInfo.imageScale);						
 					}
 					gDisplay.fillPolygon(colorfull.getColorPolygon());
 					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) {
-						colorfull.getColorPolygon().xpoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] - colorfull.getColorPolygonScallingX() * (colorfull.getColorPosition().x + renderInfo.xOffset) * renderInfo.imageScale) / colorfull.getColorPolygonScallingX());
-						colorfull.getColorPolygon().ypoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] - colorfull.getColorPolygonScallingY() * (colorfull.getColorPosition().y + renderInfo.yOffset) * renderInfo.imageScale) / colorfull.getColorPolygonScallingY());
+						colorfull.getColorPolygon().xpoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] - tileSize * (colorfull.getColorPosition().x + renderInfo.xOffset) * renderInfo.imageScale) / tileSize);
+						colorfull.getColorPolygon().ypoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] - tileSize * (colorfull.getColorPosition().y + renderInfo.yOffset) * renderInfo.imageScale) / tileSize);
 					}
 				}
 			}

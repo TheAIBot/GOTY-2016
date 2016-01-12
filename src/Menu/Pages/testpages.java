@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionEvent;
-import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.Color;

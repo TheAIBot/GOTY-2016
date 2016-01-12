@@ -27,70 +27,55 @@ public class GameSettings implements Serializable{
 	private GameModes gameMode;
 	private DifficultyLevel difficultyLevel;
 	private boolean randomize;
-	private PlayerSettings playerOne;
-	private PlayerSettings playerTwo;
+	private PlayerSettings[] players;
 	private transient BufferedImage tileImage;
 	private boolean isRandomized;
 	private static transient SaveFileManager<GameSettings> gameSettingsSaver = new SaveFileManager<GameSettings>("Game_settings");
 	
-	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings p_one, PlayerSettings p_two, boolean isRandom)
+	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings[] players, boolean isRandom)
 	{
 		this.soundVolume = vol;
 		this.gameSize = size;
 		this.gameMode = mode;
 		this.difficultyLevel = difficulty;
 		this.randomize = randomize;
-		this.playerOne = p_one;
-		this.playerTwo = p_two;
-		isRandomized = isRandom;
+		this.players = players;
+		this.isRandomized = isRandom;
 	}
+	
 	public GameSettings()
 	{
 		this(0.5f,
 				4,
-<<<<<<< HEAD
 				GameModes.SINGLE_PLAYER, 
-=======
-				GameModes.SINGLEPLAYER, 
->>>>>>> refs/remotes/origin/Dev
 				DifficultyLevel.NORMAL, 
 				true,
-				new PlayerSettings(KeyEvent.VK_W, 
-								   KeyEvent.VK_S, 
-								   KeyEvent.VK_A, 
-								   KeyEvent.VK_D, 
-<<<<<<< HEAD
-								   KeyEvent.VK_Q,
-								   
-								   KeyEvent.VK_Y, 
-								   KeyEvent.VK_G, 
-								   KeyEvent.VK_H, 
-								   KeyEvent.VK_J,
-								   
-								   KeyEvent.VK_9,
-								   KeyEvent.VK_0,
-=======
-								   KeyEvent.VK_T,
-								   KeyEvent.VK_G,
-								   KeyEvent.VK_F,
-								   KeyEvent.VK_H,
-								   KeyEvent.VK_Q,
-								   KeyEvent.VK_E,
-								   KeyEvent.VK_R,
->>>>>>> refs/remotes/origin/Niklas
-								   "Player 1"),
-				new PlayerSettings(KeyEvent.VK_UP, 
-								   KeyEvent.VK_DOWN, 
-								   KeyEvent.VK_LEFT, 
-								   KeyEvent.VK_RIGHT, 
-								   KeyEvent.VK_I,
-								   KeyEvent.VK_K,
-								   KeyEvent.VK_J,
-								   KeyEvent.VK_L,
-								   KeyEvent.VK_U,
-								   KeyEvent.VK_O,
-								   KeyEvent.VK_P,
-								   "Player 2"),
+				new PlayerSettings[] {
+					new PlayerSettings(KeyEvent.VK_W, 
+									   KeyEvent.VK_S, 
+									   KeyEvent.VK_A, 
+									   KeyEvent.VK_D, 
+									   KeyEvent.VK_T,
+									   KeyEvent.VK_G,
+									   KeyEvent.VK_F,
+									   KeyEvent.VK_H,
+									   KeyEvent.VK_Q,
+									   KeyEvent.VK_E,
+									   KeyEvent.VK_R,
+									   "Player 1"),
+					new PlayerSettings(KeyEvent.VK_UP, 
+									   KeyEvent.VK_DOWN, 
+									   KeyEvent.VK_LEFT, 
+									   KeyEvent.VK_RIGHT, 
+									   KeyEvent.VK_I,
+									   KeyEvent.VK_K,
+									   KeyEvent.VK_J,
+									   KeyEvent.VK_L,
+									   KeyEvent.VK_U,
+									   KeyEvent.VK_O,
+									   KeyEvent.VK_P,
+									   "Player 2"),
+		},
 									false);
 	}
 	
@@ -113,6 +98,11 @@ public class GameSettings implements Serializable{
 	 */
 	public int getGameSize() {
 		return gameSize;
+	}
+	
+	public PlayerSettings[] getPlayers()
+	{
+		return players;
 	}
 	
 	/**
@@ -140,28 +130,28 @@ public class GameSettings implements Serializable{
 	 * @return the playerOne
 	 */
 	public PlayerSettings getPlayerOne() {
-		return playerOne;
+		return players[0];
 	}
 	
 	/**
 	 * @param playerOne the playerOne to set
 	 */
 	public void setPlayerOne(PlayerSettings playerOne) {
-		this.playerOne = playerOne;
+		this.players[0] = playerOne;
 	}
 	
 	/**
 	 * @return the playerTwo
 	 */
 	public PlayerSettings getPlayerTwo() {
-		return playerTwo;
+		return players[1];
 	}
 	
 	/**
 	 * @param playerTwo the playerTwo to set
 	 */
 	public void setPlayerTwo(PlayerSettings playerTwo) {
-		this.playerTwo = playerTwo;
+		this.players[1] = playerTwo;
 	}
 	/**
 	 * @return the difficultyLevel
