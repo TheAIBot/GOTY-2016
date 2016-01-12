@@ -6,6 +6,7 @@ public class PlayerSettings {
 	private int upKey, downKey, leftKey, rightKey;
 	private int toggleColorKey;
 	private int cameraUpKey, cameraDownKey, cameraLeftKey, cameraRightKey;
+	private int zoomInKey, zoomOutKey;
 	private String name;
 	
 	/**
@@ -26,7 +27,7 @@ public class PlayerSettings {
 		this.name = playerName;
 	}
 	
-	public PlayerSettings(int up, int down, int left, int right, int toggleColor, int cup, int cdown, int cleft, int cright, String playerName) {
+	public PlayerSettings(int up, int down, int left, int right, int toggleColor, int cup, int cdown, int cleft, int cright, int zoomIn, int zoomOut, String playerName) {
 		this.upKey = up;
 		this.downKey = down;
 		this.leftKey = left;
@@ -36,6 +37,8 @@ public class PlayerSettings {
 		cameraDownKey = cdown;
 		cameraLeftKey = cleft;
 		cameraRightKey = cright;
+		zoomInKey = zoomIn;
+		zoomOutKey = zoomOut;
 		this.name = playerName;
 	}
 
@@ -153,6 +156,8 @@ public class PlayerSettings {
 				key == cameraDownKey || 
 				key == cameraLeftKey || 
 				key == cameraRightKey ||
+				key == zoomInKey || 
+				key == zoomOutKey ||
 				key == toggleColorKey);
 	}
 
@@ -179,6 +184,8 @@ public class PlayerSettings {
 	{
 		return KeyEvent.getKeyText(toggleColorKey);
 	}
+	
+	//--- Camera control
 
 	public String getCameraUpKeyName() {
 		return KeyEvent.getKeyText(cameraUpKey);
@@ -194,5 +201,15 @@ public class PlayerSettings {
 	
 	public String getCameraRightKeyName() {
 		return KeyEvent.getKeyText(cameraRightKey);
+	}
+	
+	//--- Zoom
+	
+	public String getZoomInKeyName() {
+		return KeyEvent.getKeyText(zoomInKey);
+	}
+	
+	public String getZoomOutKeyName() {
+		return KeyEvent.getKeyText(zoomOutKey);
 	}
 }

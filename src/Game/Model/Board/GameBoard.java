@@ -22,11 +22,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
-	protected RenderInfo renderInfo = new RenderInfo(false);
+	protected final RenderInfo renderInfo;
 
 	public GameBoard(GameSettings settings) {
 		this.currentGameState = GameState.NOT_DECIDED_YET;
 		this.settings = settings;
+		renderInfo = new RenderInfo(false, settings.getGameSize());
 	}
 
 	public GameState getGameState() {
@@ -165,6 +166,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 		} else if (key.equals(settings.getPlayerOne().getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
 			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getZoomInKeyName())) {
+			renderInfo.addImageScale(0.1);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getZoomOutKeyName())) {
+			renderInfo.addImageScale(-0.1);
+			boardChanged();
 		}
 	}
 
@@ -277,7 +284,10 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 			settings.getPlayerOne().getCameraUpKeyName(),
 			settings.getPlayerOne().getCameraDownKeyName(),
 			settings.getPlayerOne().getCameraLeftKeyName(),
-			settings.getPlayerOne().getCameraRightKeyName()
+			settings.getPlayerOne().getCameraRightKeyName(),
+			
+			settings.getPlayerOne().getZoomInKeyName(),
+			settings.getPlayerOne().getZoomOutKeyName()
 		};
 	}
 
