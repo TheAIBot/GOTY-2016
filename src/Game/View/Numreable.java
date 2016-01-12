@@ -9,4 +9,8 @@ public interface Numreable {
 	
 	public int getNumber();
 	
+	public int getNumberDisplayScallingX();
+	
+	public int getNumberDisplayScallingY();
+	
 }
