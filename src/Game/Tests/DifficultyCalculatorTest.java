@@ -2,6 +2,7 @@ package Game.Tests;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 import Game.Model.Board.GameBoard;
 import Game.Model.Board.Tile;
@@ -47,7 +48,7 @@ public class DifficultyCalculatorTest {
 	private static Tile[] reverse(Tile[] tiles, int size){
 		Tile a = tiles[0];
 		tiles[0] = null;
-		tiles[tiles.length - 1] = new Tile(1, new Point(size - 1, size - 1), Color.BLACK);
+		tiles[tiles.length - 1] = new Tile(1, new Point2D.Double(size - 1, size - 1), Color.BLACK);
 		int number = size * size;
 		for (int i = 0; i < tiles.length; i++) {
 			if (tiles[i] != null) {
