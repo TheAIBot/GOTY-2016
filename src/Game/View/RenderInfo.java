@@ -1,8 +1,12 @@
-package Game.Model.Board;
+package Game.View;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class RenderInfo {
 	public boolean renderColor;
 	public int xOffset, yOffset;
+	public HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 
 	public RenderInfo(boolean renderColor) {
 		this.renderColor = renderColor;
