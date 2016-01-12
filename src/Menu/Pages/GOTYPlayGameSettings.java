@@ -480,8 +480,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				int nextSize;
 				try {
 					nextSize = Integer.parseInt(sizeField.getText());
-					if(nextSize > GameSettings.SIZE_MAX || nextSize < GameSettings.SIZE_MIN)
+					if(nextSize > GameSettings.SIZE_MAX || nextSize < GameSettings.SIZE_MIN){
 						throw new Exception();
+					}
 					theGameSettings.setGameSize(nextSize);
 				} catch (Exception e2) {
 					sizeField.setText("" + previousSize);
