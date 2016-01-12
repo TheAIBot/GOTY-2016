@@ -8,6 +8,7 @@ import Game.View.Numreable;
 import Game.View.RenderInfo;
 import Game.View.Animation.AnimateUpdateListener;
 import Game.View.Animation.Animator;
+import Game.View.Numreable;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	//private ConsoleGraphics console;

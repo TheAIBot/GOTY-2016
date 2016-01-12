@@ -22,13 +22,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
-	protected RenderInfo renderInfo;
+	protected final RenderInfo renderInfo;
 
 	public GameBoard(GameSettings settings) {
 		this.currentGameState = GameState.NOT_DECIDED_YET;
 		this.settings = settings;
-		renderInfo = new RenderInfo(false, this.settings.getGameSize());
-	}
+		renderInfo = new RenderInfo(false, this.settings.getGameSize());	}
 
 	public GameState getGameState() {
 		return currentGameState;

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JPanel;
 
 import Game.Control.GameEngine.GraphicsManager;
@@ -17,7 +16,8 @@ public class GraphicsPanel extends JPanel {
 	private RenderInfo renderInfo;
 	private double imageScaling = 1;
 	private final GraphicsManager gManager;
-	
+
+
 	public GraphicsPanel(GraphicsManager gManager) {
 		super();
 		this.gManager = gManager;
@@ -36,7 +36,7 @@ public class GraphicsPanel extends JPanel {
 		renderColorfull(gManager.getColorfullsToRender(), g);
 		renderNumreable(gManager.getNumreablesToRender(), g);
 	}
-		
+	
 	private void renderDisplayables(Displayable[] displayables, Graphics gDisplay){
 		if (displayables != null) {
 			for (Displayable d : displayables) {
@@ -113,19 +113,22 @@ public class GraphicsPanel extends JPanel {
 		this.repaint();
 	}
 	
+	
 	public boolean isInsideDisplay(Point2D.Double[] corners, Point2D.Double startingPosition, double scallingX, double scallingY){
 		if (corners != null) {
-			for (Point2D.Double corner : corners) {
-				if ((corner.x + startingPosition.x) * scallingX * imageScaling <= this.getWidth() &&
-						(corner.y + startingPosition.y) * scallingY * imageScaling <= this.getHeight()) {
-						return true;
+			for (Point2D.Double corner : corners) { //Mulighed for fejl ved store eller drejede billeder(*)
+				if (corner != null && //Eventuelt ænder tileSize(*)
+					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX < getWidth() &&
+					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY < getHeight() &&
+					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX >= 0 &&
+					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY >= 0) {
+					return true;
 				}
 			}
-		} else {
-			System.out.println();
-		}	
+		}
 		return false;		
 	}
+	
 	
 	public Point2D.Double getPosition(int number, int size) {
 		int row = number / size;

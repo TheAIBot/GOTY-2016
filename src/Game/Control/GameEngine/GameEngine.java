@@ -35,7 +35,20 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		game = new GameBoard(settings);
 		game.addBoardChangedListener(this);
 		game.createGame();
-		game.makeRandom();
+		boardChanged();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(2000);
+					game.makeRandom();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+		}).start();
 		addKeyboardControls();
 	}
 	

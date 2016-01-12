@@ -2,8 +2,10 @@ package Game.Model.Board;
 
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,7 +21,6 @@ import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
-	
 	private int scallingX = 1;
 	private int scallingY = 1;
 	private Point2D.Double[] corners;
@@ -33,7 +34,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private boolean finishedMoving = true;
 	
 	
-	//Skal den ikke bare altid bruge denne?	Nej det skal den ikke. Tests bruger den anden.
 	public Tile(int number, Point2D.Double position, Color color, BufferedImage displayImage)
 	{
 		this(number, position, color);
@@ -86,11 +86,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	
 	public Color getColor() {
 		return color;
-	}
-
-	public Point2D.Double getPosition()
-	{
-		return position;
 	}
 	
 	public void translatePosition(int x, int y)
@@ -166,6 +161,11 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	public void finishedMoving() {
 		finishedMoving = true;
 		
+	}
+
+	@Override
+	public Double getPosition() {
+		return this.position;
 	}
 
 }
