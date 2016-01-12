@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import Game.Model.Resources.ResourceImages;
 import Game.View.Colorfull;
 import Game.View.Displayable;
+<<<<<<< HEAD
 import Game.View.Numreable;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
@@ -24,6 +25,12 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private int scallingX = 1;
 	private int scallingY = 1;
 	private Point2D.Double[] corners;
+=======
+
+public class Tile implements java.io.Serializable, Displayable {
+	
+	private Point[] corners;
+>>>>>>> refs/remotes/origin/Niklas
 	private int number;
 	transient Point2D.Double position;	
 	private Color color;
@@ -141,6 +148,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	public double getColorPolygonScallingY() {
 		return scallingY;
 	}
+<<<<<<< HEAD
 
 	@Override
 	public double getNumberDisplayScallingX() {
@@ -168,4 +176,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		return this.position;
 	}
 
+=======
+>>>>>>> refs/remotes/origin/Niklas
 }

@@ -22,7 +22,13 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
+<<<<<<< HEAD
 	protected final RenderInfo renderInfo;
+=======
+	protected RenderInfo renderInfo = new RenderInfo(false);
+	
+	
+>>>>>>> refs/remotes/origin/Niklas
 
 	public GameBoard(GameSettings settings) {
 		this.currentGameState = GameState.NOT_DECIDED_YET;
