@@ -12,8 +12,8 @@ import Game.Control.GameEngine.GraphicsManager;
 
 public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
-	private static final Point2D.Double MAX_MOVEMENT_PER_FRAME = new Point2D.Double(0.03,0.03);
-	private static final double EPSILON = 2;
+	private static final Point2D.Double MAX_MOVEMENT_PER_FRAME = new Point2D.Double(0.06,0.06);
+	private static final double EPSILON = 0.02;
 	private AnimateUpdateListener listener;
 	private Timer animationTimer = new Timer(16, new ActionListener() {
 		@Override
@@ -43,9 +43,9 @@ public class Animator  {
 		for (AnimationInfo animationInfo : toAnimate) {
 			Point2D.Double position = animationInfo.getPosition();
 			Point2D.Double previousPosition = animationInfo.getPreviousPosition();
-			if (Math.abs(position.x - previousPosition.x) < MAX_MOVEMENT_PER_FRAME.x * EPSILON &&
-				Math.abs(position.y - previousPosition.y) < MAX_MOVEMENT_PER_FRAME.y * EPSILON) {
-				previousPosition.setLocation(position.x, position.y);
+			if (Math.abs(position.x - previousPosition.x) < MAX_MOVEMENT_PER_FRAME.x + EPSILON &&
+				Math.abs(position.y - previousPosition.y) < MAX_MOVEMENT_PER_FRAME.y + EPSILON) {
+				previousPosition.setLocation(Math.round(position.x), Math.round(position.y));
 				animationInfo.finishedMoving();
 			}
 			else {
