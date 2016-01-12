@@ -14,7 +14,6 @@ public class GraphicsPanel extends JPanel {
 	private Displayable[] tiles;
 	private final int tileSize = 100;
 	private RenderInfo renderInfo;
-	private double imageScaling = 1;
 	private final GraphicsManager gManager;
 
 
@@ -53,10 +52,10 @@ public class GraphicsPanel extends JPanel {
 					//If not, it dosen't render it (to increase performance), else it does.
 					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), currentImage.getWidth(), currentImage.getHeight())) {
 						
-						Rectangle destRect = new Rectangle((int) ((imagePosition.x + renderInfo.xOffset) * tileSize * imageScaling), 
-		  						   (int) ((imagePosition.y + renderInfo.yOffset) * tileSize * imageScaling), (int) (tileSize * imageScaling), 
-		  						   (int) (tileSize * imageScaling));						
-						Rectangle srcRect = new Rectangle((int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).x ) * (currentImage.getWidth() / renderInfo.getSize())), 
+						Rectangle destRect = new Rectangle((int) ((imagePosition.x + renderInfo.xOffset) * tileSize * renderInfo.imageScale), 
+		  						   (int) ((imagePosition.y + renderInfo.yOffset) * tileSize * renderInfo.imageScale), (int) (tileSize * renderInfo.imageScale), 
+		  						   (int) (tileSize * renderInfo.imageScale));						
+						Rectangle srcRect = new Rectangle((int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize())), 
 		  						  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize())), 
 		  						  (int) (currentImage.getWidth() / renderInfo.getSize()),
 		  						  (int) (currentImage.getHeight() / renderInfo.getSize()));
@@ -82,8 +81,8 @@ public class GraphicsPanel extends JPanel {
 							numreable.getNumberDisplayScallingX(), numreable.getNumberDisplayScallingY())) {
 						gDisplay.setColor(Color.WHITE);
 						gDisplay.drawString(String.valueOf(numreable.getNumber()), 
-								(int) ((numreable.getNumberPosition().x + renderInfo.xOffset) * imageScaling * numreable.getNumberDisplayScallingX() + numreable.getNumberDisplayScallingX() / 2),
-								(int) ((numreable.getNumberPosition().y + renderInfo.yOffset) * imageScaling * numreable.getNumberDisplayScallingY()  + numreable.getNumberDisplayScallingY()  / 2));
+								(int) (((numreable.getNumberPosition().x + renderInfo.xOffset) * numreable.getNumberDisplayScallingX() + numreable.getNumberDisplayScallingX() / 2) * renderInfo.imageScale),
+								(int) (((numreable.getNumberPosition().y + renderInfo.yOffset) * numreable.getNumberDisplayScallingY() + numreable.getNumberDisplayScallingY() / 2) * renderInfo.imageScale));
 					}
 				}
 			}
@@ -118,10 +117,10 @@ public class GraphicsPanel extends JPanel {
 		if (corners != null) {
 			for (Point2D.Double corner : corners) { //Mulighed for fejl ved store eller drejede billeder(*)
 				if (corner != null && //Eventuelt ænder tileSize(*)
-					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX < getWidth() &&
-					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY < getHeight() &&
-					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX >= 0 &&
-					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY >= 0) {
+					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale < getWidth() &&
+					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY * renderInfo.imageScale < getHeight() &&
+					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale >= 0 &&
+					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY * renderInfo.imageScale >= 0) {
 					return true;
 				}
 			}
