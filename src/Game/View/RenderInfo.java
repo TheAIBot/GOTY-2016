@@ -1,6 +1,5 @@
 package Game.View;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import Game.View.Animation.AnimationInfo;
@@ -10,12 +9,14 @@ public class RenderInfo {
 	public int xOffset, yOffset;
 	public HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 	public double imageScale;
+	private final int size;
 
-	public RenderInfo(boolean renderColor) {
+	public RenderInfo(boolean renderColor, int size) {
 		this.renderColor = renderColor;
 		xOffset = 0;
 		yOffset = 0;
 		imageScale = 1;
+		this.size = size;
 	}
 	
 	public void addOffset(int xOffset, int yOffset) {
@@ -29,5 +30,12 @@ public class RenderInfo {
 
 	public void toggleRenderColor() {
 		renderColor = !renderColor;
+	}
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
 	}
 }
