@@ -11,25 +11,23 @@ import javax.swing.Timer;
 import Game.Control.GameEngine.GraphicsManager;
 
 public class Animate  {
-	private static HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
-	private static GraphicsManager manager;
+	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 	private static final Point2D.Double MAX_MOVEMENT_PER_FRAME = new Point2D.Double(0.03,0.03);
 	private static final double EPSILON = 2;
-	
-	public static void start(GraphicsManager newManager)
-	{
-		manager = newManager;
-	}
-	
-	private static Timer animationTimer = new Timer(16, new ActionListener() {
+	private AnimateUpdateListener listener;
+	private Timer animationTimer = new Timer(16, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			updateAnimators();	
 		}
 	});
 	
-	
-	public static void startAnimation(HashSet<AnimationInfo> animators)
+	public Animate(AnimateUpdateListener listener)
+	{
+		this.listener = listener;
+	}
+		
+	public void startAnimation(HashSet<AnimationInfo> animators)
 	{
 		for (AnimationInfo animationInfo : animators) {
 			toAnimate.add(animationInfo);
@@ -39,7 +37,7 @@ public class Animate  {
 		}
 	}
 	
-	public static void updateAnimators()
+	public void updateAnimators()
 	{
 		HashSet<AnimationInfo> toKeep = new HashSet<AnimationInfo>();
 		for (AnimationInfo animationInfo : toAnimate) {
@@ -61,10 +59,10 @@ public class Animate  {
 			animationTimer.stop();
 			System.out.println("animation stopped");
 		}
-		manager.repaint();
+		listener.animateUpdate();
 	}
 	
-	private static Point2D.Double getMoveVector(Point2D.Double prevPos, Point2D.Double nowPos)
+	private Point2D.Double getMoveVector(Point2D.Double prevPos, Point2D.Double nowPos)
 	{
 		Point2D.Double abDistance = new Point2D.Double(nowPos.x - prevPos.x, nowPos.y - prevPos.y);
 		if (Math.abs(abDistance.x) < MAX_MOVEMENT_PER_FRAME.x) {
@@ -81,18 +79,9 @@ public class Animate  {
 		
 		return new Point2D.Double(MAX_MOVEMENT_PER_FRAME.x * xyDifference * signVector.x, 
 								  MAX_MOVEMENT_PER_FRAME.y * signVector.y);
-		/*Point2D.Double moveVector = new Point2D.Double(((MAX_MOVEMENT_PER_FRAME.x * Math.abs(abDistance.y)) / abDistance.x), 
-				  									   ((MAX_MOVEMENT_PER_FRAME.y * Math.abs(abDistance.y)) / abDistance.y));
-		if (Double.isInfinite(moveVector.x)) {
-			moveVector.x = 0;
-		}
-		if (Double.isInfinite(moveVector.y)) {
-			moveVector.y = 0;
-		}*/
-		//return moveVector;
 	}
 	
-	private static Point2D.Double getSignVector(Point2D.Double abDistance)
+	private Point2D.Double getSignVector(Point2D.Double abDistance)
 	{
 		Point2D.Double signVector = new Point2D.Double();
 		if (abDistance.x == 0) {
