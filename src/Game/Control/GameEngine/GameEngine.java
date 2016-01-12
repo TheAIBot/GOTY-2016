@@ -88,7 +88,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 
 	@Override
 	public void boardChanged() {
-		audio.makeSwooshSound();
+		//audio.makeSwooshSound();
 		render();		
 	}
 
