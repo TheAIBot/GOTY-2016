@@ -9,11 +9,13 @@ public class RenderInfo {
 	public boolean renderColor;
 	public int xOffset, yOffset;
 	public HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
+	private int size;
 
-	public RenderInfo(boolean renderColor) {
+	public RenderInfo(boolean renderColor, int size) {
 		this.renderColor = renderColor;
 		xOffset = 0;
 		yOffset = 0;
+		this.size = size;
 	}
 	
 	public void addOffset(int xOffset, int yOffset) {
@@ -24,4 +26,20 @@ public class RenderInfo {
 	public void toggleRenderColor() {
 		renderColor = !renderColor;
 	}
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
+	}
+
+	/**
+	 * @param size the size to set
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
+
 }

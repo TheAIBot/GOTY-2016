@@ -17,6 +17,7 @@ public class GraphicsPanel extends JPanel {
 	private Displayable[] tiles;
 	private RenderInfo renderInfo;
 	private double imageScaling = 1;
+	private final int tileSize = 100;
 
 	public GraphicsPanel() {
 		super();
@@ -59,11 +60,23 @@ public class GraphicsPanel extends JPanel {
 			if (isInsideDisplay(d)) {
 				if (!renderInfo.renderColor) {
 					gDisplay.drawImage(currentImage, 
+									  (int) (((imagePosition.x + renderInfo.xOffset) + renderInfo.xOffset) * tileSize * imageScaling), 
+									  (int) (((imagePosition.y + renderInfo.yOffset) + renderInfo.yOffset) * tileSize * imageScaling), 
+									  (int) (((imagePosition.x + renderInfo.xOffset) + renderInfo.xOffset) * tileSize * imageScaling) + (int) (tileSize * imageScaling), 
+									  (int) (((imagePosition.y + renderInfo.yOffset) + renderInfo.yOffset) * tileSize * imageScaling) + (int) (tileSize * imageScaling), 
+									  
+									  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).x + renderInfo.xOffset) * (currentImage.getWidth() / renderInfo.getSize())), 
+									  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).y + renderInfo.yOffset) * (currentImage.getHeight() / renderInfo.getSize())), 
+									  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).x + renderInfo.xOffset) * (currentImage.getWidth() / renderInfo.getSize())) + (int) (currentImage.getWidth() / renderInfo.getSize()), 
+									  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).y + renderInfo.yOffset) * (currentImage.getWidth() / renderInfo.getSize())) + (int) (currentImage.getHeight() / renderInfo.getSize()),
+									  null);
+					/*gDisplay.drawImage(currentImage, 
 									   (int) ((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() * imageScaling), 
 									   (int) ((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() * imageScaling), 
 									   (int) (currentImage.getWidth() * imageScaling), 
 									   (int) (currentImage.getHeight() * imageScaling), 
 									   null);
+									   */
 					} else {
 					gDisplay.setColor(d.getColor());
 					gDisplay.fillRect((int) (imagePosition.x * imageScaling * currentImage.getWidth()), 
@@ -81,6 +94,14 @@ public class GraphicsPanel extends JPanel {
 			}
 		}
 	}
+	
+	public Point2D.Double getPosition(int number, int size) {
+		int row = number / size;
+		int col = number % size;
+
+		return new Point2D.Double(col, row);
+	}
+	
 
 	/**
 	 * @param currentImage
