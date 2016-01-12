@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
+import Game.Control.GameEngine.GraphicsManager;
 import Game.Model.Board.RenderInfo;
 
 public class GraphicsPanel extends JPanel{	
@@ -15,9 +19,11 @@ public class GraphicsPanel extends JPanel{
 	private Displayable[] tiles;
 	private RenderInfo renderInfo;
 	private double imageScaling = 1;
+	private final GraphicsManager gManager;
 	
-	public GraphicsPanel() {
+	public GraphicsPanel(GraphicsManager gManager) {
 		super();
+		this.gManager = gManager;
 		this.setBackground(Color.WHITE);
 	}
 	
@@ -29,7 +35,12 @@ public class GraphicsPanel extends JPanel{
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		super.paintComponent(g);		
+		renderDisplayables(gManager.getDisplayablesToRender(), g);
+		renderColorfull(gManager.getColorfullsToRender(), g);
+		renderNumreable(gManager.getNumreablesToRender(), g);
+		
+		/*
 		if (tiles != null && renderInfo != null) {
 			int painted = 0;
 			for (Displayable tile : tiles) {
@@ -41,8 +52,73 @@ public class GraphicsPanel extends JPanel{
 			}
 			System.out.println(painted);
 		}
+		*/
 	}
 	
+	private void renderDisplayables(Displayable[] displayables, Graphics gDisplay){
+		if (displayables != null) {
+			for (Displayable d : displayables) {
+				//Checks if the displayable has the neccesary information required for displaying it on the screen.
+				if (d == null) {
+					continue;
+				}
+				BufferedImage currentImage = d.getDisplayImage();
+				Point imagePosition = d.getDisplayPosition();
+				if (currentImage == null || imagePosition == null) {
+					throw new NullPointerException();
+				} else {
+					//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
+					//If not, it dosen't render it (to increase performance), else it does.
+					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), currentImage.getWidth(), currentImage.getHeight())) {
+						gDisplay.drawImage(currentImage, (int) (imagePosition.x * imageScaling * currentImage.getWidth()),
+															 (int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
+						
+					}
+				}
+			}
+		}
+	}
+	
+	private void renderNumreable(Numreable[] numreables, Graphics gDisplay){
+		if (numreables != null) {
+			for (Numreable numreable : numreables) {
+				if (numreable != null) {
+					Point[] point = new Point[]{numreable.getNumberPosition()};
+					if (isInsideDisplay(point, new Point(0, 0), 
+							numreable.getNumberDisplayScallingX(), numreable.getNumberDisplayScallingY())) {
+						gDisplay.setColor(Color.WHITE);
+						gDisplay.drawString(String.valueOf(numreable.getNumber()), 
+								(int) (numreable.getNumberPosition().x * imageScaling * numreable.getNumberDisplayScallingX() + numreable.getNumberDisplayScallingX() / 2),
+								(int) (numreable.getNumberPosition().y * imageScaling * numreable.getNumberDisplayScallingY()  + numreable.getNumberDisplayScallingY()  / 2));
+					}
+				}
+			}
+		}		
+	}
+	
+	private void renderColorfull(Colorfull[] colored, Graphics gDisplay){
+		if (colored != null) {
+			for (Colorfull colorfull : colored) {
+				if (colorfull != null && isInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), 1, 1)) {
+					gDisplay.setColor(colorfull.getColor());
+					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) {
+						colorfull.getColorPolygon().xpoints[i] = (colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x)*colorfull.getColorPolygonScallingX();
+						colorfull.getColorPolygon().ypoints[i] = (colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y)*colorfull.getColorPolygonScallingX();						
+					}
+					gDisplay.fillPolygon(colorfull.getColorPolygon());
+					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) {
+						colorfull.getColorPolygon().xpoints[i] = colorfull.getColorPolygon().xpoints[i]/colorfull.getColorPolygonScallingX() - colorfull.getColorPosition().x;
+						colorfull.getColorPolygon().ypoints[i] = colorfull.getColorPolygon().ypoints[i]/colorfull.getColorPolygonScallingY() - colorfull.getColorPosition().y;	
+					}
+				}
+			}
+		}		
+	}
+	
+	public void render(){
+		this.repaint();
+	}
+	/*
 	public boolean render(Graphics2D gDisplay, Displayable d, RenderInfo renderInfo) {
 		//Checks if the displayable has the neccesary information required for displaying it on the screen.
 		if (d == null) {
@@ -55,7 +131,7 @@ public class GraphicsPanel extends JPanel{
 		} else {
 			//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
 			//If not, it dosen't render it (to increase performance), else it does.
-			if (isInsideDisplay(d)) {
+			if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), currentImage.getWidth(), currentImage.getHeight())) {
 				if (!renderInfo.renderColor) {
 					gDisplay.drawImage(currentImage, (int) (imagePosition.x * imageScaling * currentImage.getWidth()),
 													 (int) (imagePosition.y * imageScaling * currentImage.getHeight()), null);
@@ -75,17 +151,20 @@ public class GraphicsPanel extends JPanel{
 			}
 		}
 	}
-
+	
 	/**
+	 * Tager ikke højde for tilfælde med rigtigt stort billed
 	 * @param currentImage
 	 * @param imagePosition
 	 * @return
 	 */
+	/*
 	public boolean isInsideDisplay(Displayable d) { //Rename? (*)
+		//(*) Lave det om til polygoner?
 		//Checks if any of the points along the image bounds of image to be displayed is inside the bounds of the display,
 		//with the vantage point representing the middle of the display.
 		BufferedImage dImage = d.getDisplayImage();
-		Point imagePosition =  d.getPosition();
+		Point imagePosition =  d.getDisplayPosition();
 		Point[] corners = d.getCorners();
 		for (Point corner : corners) {
 			if ((corner.x + imagePosition.x) * dImage.getWidth() * imageScaling <= this.getWidth() &&
@@ -94,5 +173,20 @@ public class GraphicsPanel extends JPanel{
 			}
 		}
 		return false;
+	}
+	*/
+	
+	public boolean isInsideDisplay(Point[] corners, Point startingPosition, int scallingX, int scallingY){
+		if (corners != null) {
+			for (Point corner : corners) {
+				if ((corner.x + startingPosition.x) * scallingX * imageScaling <= this.getWidth() &&
+						(corner.y + startingPosition.y) * scallingY * imageScaling <= this.getHeight()) {
+						return true;
+				}
+			}
+		} else {
+			System.out.println();
+		}	
+		return false;		
 	}
 }
