@@ -24,11 +24,22 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
+<<<<<<< HEAD
 	protected final RenderInfo renderInfo;
+<<<<<<< HEAD:src/Game/Model/Board/SinglePlayerBoard.java
 	protected final int playerIndex;
 	
 	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
+=======
+=======
+	protected RenderInfo renderInfo = new RenderInfo(false);
+	
+	
+>>>>>>> refs/remotes/origin/Niklas
+
+	public GameBoard(GameSettings settings) {
+>>>>>>> refs/remotes/origin/Dev:src/Game/Model/Board/GameBoard.java
 		this.currentGameState = GameState.NOT_DECIDED_YET;
 		this.settings = settings;
 		renderInfo = new RenderInfo(false, this.settings.getGameSize());	}
