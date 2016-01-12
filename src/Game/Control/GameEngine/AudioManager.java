@@ -73,7 +73,6 @@ public class AudioManager implements SoundFinishedListener {
 				i--;
 			}
 		}
-		//sounds.removeAll(Collections.singletonList(sound));
 	}
 
 

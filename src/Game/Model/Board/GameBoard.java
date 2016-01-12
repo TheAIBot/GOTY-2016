@@ -2,6 +2,7 @@ package Game.Model.Board;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -10,39 +11,62 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Settings.GameSettings;
+import Game.View.RenderInfo;
+import Game.View.Animation.AnimationInfo;
+import Game.View.Animation.ToAnimateListener;
 
-public class GameBoard implements GameBoardMode, java.io.Serializable {
-	private transient Point voidTilePosition;
+public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener {
+	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
-	protected RenderInfo renderInfo = new RenderInfo(false);
-	private final String toggleColorKey = "ALT";
+	protected final RenderInfo renderInfo;
 
 	public GameBoard(GameSettings settings) {
 		this.currentGameState = GameState.NOT_DECIDED_YET;
 		this.settings = settings;
+		renderInfo = new RenderInfo(false, settings.getGameSize());
 	}
 
 	public GameState getGameState() {
 		return currentGameState;
 	}
 
-	public Point moveWithDirection(Point toMove, Directions direction) {
+	public Point2D.Double moveWithDirection(Tile toMove, Directions direction) {
 		switch (direction) {
 		case RIGHT:
-			toMove.translate(1, 0);
+			toMove.translatePosition(1, 0);
 			break;
 		case LEFT:
-			toMove.translate(-1, 0);
+			toMove.translatePosition(-1, 0);
 			break;
 		case UP:
-			toMove.translate(0, -1);
+			toMove.translatePosition(0, -1);
 			break;
 		case DOWN:
-			toMove.translate(0, 1);
+			toMove.translatePosition(0, 1);
+			break;
+		default:
+			throw new IllegalArgumentException();
+		}
+		return toMove.getPosition();
+	}
+	
+	public Point2D.Double moveWithDirection(Point2D.Double toMove, Directions direction) {
+		switch (direction) {
+		case RIGHT:
+			toMove.setLocation(toMove.x + 1, toMove.y);
+			break;
+		case LEFT:
+			toMove.setLocation(toMove.x - 1, toMove.y);
+			break;
+		case UP:
+			toMove.setLocation(toMove.x, toMove.y - 1);
+			break;
+		case DOWN:
+			toMove.setLocation(toMove.x, toMove.y + 1);
 			break;
 		default:
 			throw new IllegalArgumentException();
@@ -50,16 +74,16 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		return toMove;
 	}
 
-	public int getIndexFromPoint(Point p) {
+	public int getIndexFromPoint(Point2D.Double p) {
 		// x + y * width (width = size)
-		return p.x + p.y * settings.getGameSize();
+		return (int)(p.x + p.y * settings.getGameSize());
 	}
 
-	public Point getPosition(int number) {
+	public Point2D.Double getPosition(int number) {
 		int row = number / settings.getGameSize();
 		int col = number % settings.getGameSize();
 
-		return new Point(col, row);
+		return new Point2D.Double(col, row);
 	}
 
 	public void GameStateChanged(GameState newGameState) {
@@ -78,8 +102,8 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		}
 	}
 
-	private Point recreateTilePositions() {
-		Point voidPos = null;
+	private Point2D.Double recreateTilePositions() {
+		Point2D.Double voidPos = null;
 		for (int i = 0; i < tilePlacements.length; i++) {
 			if (tilePlacements[i] != null) {
 				tilePlacements[i].position = getPosition(i);
@@ -96,9 +120,9 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			int red = 		  (255 / (tilePlacements.length - 1)) * (i + 1);
 			int green = 255 - (255 / (tilePlacements.length - 1)) * (i + 1);
-			tilePlacements[i] = new Tile(i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
+			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
 		}
-		voidTilePosition = new Point(settings.getGameSize() - 1, settings.getGameSize() - 1);
+		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1, settings.getGameSize() - 1);
 	}
 
 	@Override
@@ -129,6 +153,24 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 			moveVoidTile(Directions.UP);
 		} else if (key.equals(settings.getPlayerOne().getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraUpKeyName())) {
+			renderInfo.addOffset(0, 1);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraDownKeyName())) {
+			renderInfo.addOffset(1, 0);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraLeftKeyName())) {
+			renderInfo.addOffset(0, -1);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getCameraRightKeyName())) {
+			renderInfo.addOffset(-1, 0);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getZoomInKeyName())) {
+			renderInfo.addImageScale(0.1);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getZoomOutKeyName())) {
+			renderInfo.addImageScale(-0.1);
 			boardChanged();
 		}
 	}
@@ -174,7 +216,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	private void swapVoidTile(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
 		final Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
-		moveWithDirection(tileToMove.position, direction.getOppositeDirection());
+		moveWithDirection(tileToMove, direction.getOppositeDirection());
 		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
 	}
 
@@ -237,7 +279,15 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 			settings.getPlayerOne().getDownKeyName(),
 			settings.getPlayerOne().getLeftKeyName(),
 			settings.getPlayerOne().getRightKeyName(),
-			settings.getPlayerOne().getToggleColorKeyName()
+			settings.getPlayerOne().getToggleColorKeyName(),
+			
+			settings.getPlayerOne().getCameraUpKeyName(),
+			settings.getPlayerOne().getCameraDownKeyName(),
+			settings.getPlayerOne().getCameraLeftKeyName(),
+			settings.getPlayerOne().getCameraRightKeyName(),
+			
+			settings.getPlayerOne().getZoomInKeyName(),
+			settings.getPlayerOne().getZoomOutKeyName()
 		};
 	}
 
@@ -245,5 +295,11 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	public RenderInfo getRenderInfo()
 	{
 		return renderInfo;
+	}
+
+	@Override
+	public void toAnimate(AnimationInfo tile) {
+		renderInfo.toAnimate.add(tile);
+		
 	}
 }
