@@ -44,7 +44,15 @@ public class GameSettings {
 								   KeyEvent.VK_S, 
 								   KeyEvent.VK_A, 
 								   KeyEvent.VK_D, 
-								   KeyEvent.VK_Q, 
+								   KeyEvent.VK_Q,
+								   
+								   KeyEvent.VK_Y, 
+								   KeyEvent.VK_G, 
+								   KeyEvent.VK_H, 
+								   KeyEvent.VK_J,
+								   
+								   KeyEvent.VK_9,
+								   KeyEvent.VK_0,
 								   "Player 1"),
 				new PlayerSettings(KeyEvent.VK_UP, 
 								   KeyEvent.VK_DOWN, 

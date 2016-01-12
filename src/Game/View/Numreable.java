@@ -1,16 +1,16 @@
 package Game.View;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 
 public interface Numreable {	
 
-	public Point getNumberPosition();
+	public Point2D.Double getNumberPosition();
 	
 	public int getNumber();
 	
-	public int getNumberDisplayScallingX();
+	public double getNumberDisplayScallingX();
 	
-	public int getNumberDisplayScallingY();
+	public double getNumberDisplayScallingY();
 	
 }

@@ -1,5 +1,7 @@
 package Game.Model.Board;
 
+import Game.View.RenderInfo;
+
 public interface GameBoardMode {
 
 	public abstract void createGame();
