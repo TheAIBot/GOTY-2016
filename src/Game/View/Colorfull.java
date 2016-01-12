@@ -3,19 +3,20 @@ package Game.View;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Point2D;
 
 public interface Colorfull {
 	
-	public Point getColorPosition();
+	public Point2D.Double getColorPosition();
 	
 	public Polygon getColorPolygon();
 	
-	public Point[] getColorCorners();
+	public Point2D.Double[] getColorCorners();
 
 	public Color getColor();
 	
-	public int getColorPolygonScallingX();
+	public double getColorPolygonScallingX();
 	
-	public int getColorPolygonScallingY();
+	public double getColorPolygonScallingY();
 	
 }

@@ -31,8 +31,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		this.playerIndex = playerindex;
 		this.currentGameState = GameState.NOT_DECIDED_YET;
 		this.settings = settings;
-		renderInfo = new RenderInfo(false, settings.getGameSize());
-	}
+		renderInfo = new RenderInfo(false, this.settings.getGameSize());	}
 
 	public GameState getGameState() {
 		return currentGameState;
