@@ -3,12 +3,12 @@ package Game.Control.GameEngine;
 import Game.Model.Board.Tile;
 import Game.View.GraphicsPanel;
 import Game.View.RenderInfo;
-import Game.View.Animation.Animate;
+import Game.View.Animation.Animator;
 import Game.View.Animation.AnimateUpdateListener;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	//private ConsoleGraphics console;
-	private Animate animator = new Animate(this);
+	private Animator animator = new Animator(this);
 	private GraphicsPanel panel = new GraphicsPanel();
 	
 	public void renderTiles(Tile[] tiles, RenderInfo renderInfo){

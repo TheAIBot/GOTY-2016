@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 import Game.Control.GameEngine.GraphicsManager;
 
-public class Animate  {
+public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 	private static final Point2D.Double MAX_MOVEMENT_PER_FRAME = new Point2D.Double(0.03,0.03);
 	private static final double EPSILON = 2;
@@ -22,7 +22,7 @@ public class Animate  {
 		}
 	});
 	
-	public Animate(AnimateUpdateListener listener)
+	public Animator(AnimateUpdateListener listener)
 	{
 		this.listener = listener;
 	}
