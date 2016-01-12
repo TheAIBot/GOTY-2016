@@ -11,21 +11,21 @@ public class InputManager implements java.io.Serializable {
 	
 	private final HashSet<KeyPressListener> listeners = new HashSet<KeyPressListener>();
 	
-	public void AttachListenerToKey(JComponent component, KeyPressListener listener, final String key, final int playerIndex)
+	public void AttachListenerToKey(JComponent component, KeyPressListener listener, final String key)
 	{
 		listeners.add(listener);
 		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(key), key);
 		component.getActionMap().put(key, new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
-		    	performEvent(key, playerIndex);
+		    	performEvent(key);
 		    }
 		});
 	}
 	
-	private void performEvent(String KeyPressed, int playerIndex)
+	private void performEvent(String KeyPressed)
 	{
 		for (KeyPressListener keyPressListener : listeners) {
-			keyPressListener.keyPressed(KeyPressed, playerIndex);
+			keyPressListener.keyPressed(KeyPressed);
 		}
 	}
 }

@@ -37,7 +37,7 @@ public class GameSettings {
 	{
 		this(0.5f,
 				4,
-				GameModes.NORMAL, 
+				GameModes.SINGLE_PLAYER, 
 				DifficultyLevel.NORMAL, 
 				true,
 				new PlayerSettings(KeyEvent.VK_W, 

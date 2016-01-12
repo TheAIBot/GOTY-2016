@@ -7,7 +7,7 @@ import Game.Model.Board.Directions;
 import Game.Model.Board.SinglePlayerBoard;
 import Game.Model.Board.GameBoardMode;
 import Game.Model.Board.GameState;
-import Game.Model.Board.MultiPlayerBoard;
+import Game.Model.Board.TwoPlayerBoard;
 import Game.Model.Board.Tile;
 import Game.Model.Settings.GameSettings;
 import Game.View.GraphicsPanel;
@@ -41,11 +41,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		default:
 			break;
 		}
-		game = new SinglePlayerBoard(settings);
+		game = createGameType(settings);
 		game.addBoardChangedListener(this);
 		game.createGame();
-		boardChanged();
-<<<<<<< HEAD
 		new Thread(() -> 
 		{
 			try {
@@ -56,20 +54,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 			}
 			game.makeRandom();
 			addKeyboardControls();
-=======
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(2000);
-					game.makeRandom();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}
->>>>>>> refs/remotes/origin/Dev
 		}).start();
 	}
 	
@@ -79,7 +63,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		case SINGLE_PLAYER:
 			return new SinglePlayerBoard(settings, 0);
 		case MULTI_PLAYER:
-			return new MultiPlayerBoard();
+			return new TwoPlayerBoard();
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -90,14 +74,14 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		for (int playerIndex = 0; playerIndex < game.getNumberOfPlayers(); playerIndex++) {
 			String[] subscribeKeys = game.getKeysToSubscribeTo(playerIndex);
 			for (String subKey : subscribeKeys) {
-				input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey, playerIndex);
+				input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
 			}
 		}
 	}
 	
 	@Override
-	public void keyPressed(String keyPressed, int playerIndex) {
-		game.keyPressed(keyPressed, playerIndex);
+	public void keyPressed(String keyPressed) {
+		game.keyPressed(keyPressed);
 	}
 	
 	public Tile[] getTiles(int playerIndex) {

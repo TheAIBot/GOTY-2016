@@ -67,7 +67,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		//For setting the difficulty settings
 		final JComboBox gameModeList = new JComboBox(GameModes.values());
-		gameModeList.setSelectedItem(GameModes.NORMAL);
+		gameModeList.setSelectedItem(GameModes.SINGLE_PLAYER);
 		gameModeList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				theGameSettings.setGameMode((GameModes)gameModeList.getSelectedItem());

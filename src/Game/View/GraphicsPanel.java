@@ -16,12 +16,14 @@ public class GraphicsPanel extends JPanel {
 	private RenderInfo renderInfo;
 	private double imageScaling = 1;
 	private final GraphicsManager gManager;
+	private final int screenIndex;
 
 
-	public GraphicsPanel(GraphicsManager gManager) {
+	public GraphicsPanel(GraphicsManager gManager, int screenIndex) {
 		super();
 		this.gManager = gManager;
 		this.setBackground(Color.WHITE);
+		this.screenIndex = screenIndex;
 	}
 
 	public void setRenderInfo(Displayable[] tiles, RenderInfo renderInfo) {
@@ -32,9 +34,9 @@ public class GraphicsPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);		
-		renderDisplayables(gManager.getDisplayablesToRender(), g);
-		renderColorfull(gManager.getColorfullsToRender(), g);
-		renderNumreable(gManager.getNumreablesToRender(), g);
+		renderDisplayables(gManager.getDisplayablesToRender(screenIndex), g);
+		renderColorfull(gManager.getColorfullsToRender(screenIndex), g);
+		renderNumreable(gManager.getNumreablesToRender(screenIndex), g);
 	}
 	
 	private void renderDisplayables(Displayable[] displayables, Graphics gDisplay){

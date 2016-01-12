@@ -14,11 +14,11 @@ public interface GameBoardMode {
 
 	public abstract int getSize();
 
-	public abstract GameState getGameState();
+	public abstract GameState getGameState(int playerIndex);
 
 	public abstract void addBoardChangedListener(BoardChangedListener gameEngine);
 	
-	public abstract void keyPressed(String key, int playerIndex);
+	public abstract void keyPressed(String key);
 	
 	public abstract void pause();
 	

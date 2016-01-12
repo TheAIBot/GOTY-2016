@@ -33,7 +33,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		this.settings = settings;
 		renderInfo = new RenderInfo(false, this.settings.getGameSize());	}
 
-	public GameState getGameState() {
+	public GameState getGameState(int playerIndex) {
 		return currentGameState;
 	}
 
@@ -101,7 +101,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	public void boardChanged() {
 		for (BoardChangedListener listener : listeners) {
-			listener.boardChanged();
+			listener.boardChanged(playerIndex);
 		}
 	}
 
@@ -145,7 +145,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 
 	@Override
-	public void keyPressed(String key, int playerIndex) {
+	public void keyPressed(String key) {
 		if (key.equals(settings.getPlayerOne().getDownKeyName())) {
 			moveVoidTile(Directions.DOWN);
 		} else if (key.equals(settings.getPlayerOne().getLeftKeyName())) {

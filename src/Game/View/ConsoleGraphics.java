@@ -22,7 +22,7 @@ class ConsoleGraphics {
 		//always bigger than the max tile number length
 		final int tileLength = (int)Math.log10((boardSize * boardSize) - 1) + 1 + spacesBetweenTileNumbers;
 		final String sTileLength = String.valueOf(tileLength);
-		final Tile[] tiles = game.getTiles();
+		final Tile[] tiles = game.getTiles(0);
 		//the game consists of rows and columns equal the the game board size
 		//so two loops goes through each row and then column and prints the tile number to the console
 		for (int y = 0; y < boardSize; y++) {

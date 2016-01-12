@@ -1,7 +1,10 @@
 package Game.Control.GameEngine;
 
+import javax.swing.JPanel;
+
 import Game.Model.Board.Tile;
 import Game.View.Colorfull;
+import Game.View.CreateGamePanel;
 import Game.View.Displayable;
 import Game.View.GraphicsPanel;
 import Game.View.Numreable;
@@ -13,55 +16,66 @@ import Game.View.Numreable;
 public class GraphicsManager implements AnimateUpdateListener {
 	//private ConsoleGraphics console;
 	private GameEngine gEngine;
-	private GraphicsPanel panel = new GraphicsPanel(this);
+	private GraphicsPanel[] gPanels;
 	private Animator animator = new Animator(this);
+	private CreateGamePanel gamePanelCreater = new CreateGamePanel();
+	private JPanel gamePanel;
 	RenderInfo renderInfo;
 	
-	public GraphicsManager(GameEngine gEngine) {
+	public GraphicsManager(GameEngine gEngine, int numberOfScreens) {
 		this.gEngine = gEngine;
+		gPanels = new GraphicsPanel[numberOfScreens];
+		for (int i = 0; i < gPanels.length; i++) {
+			gPanels[i] = new GraphicsPanel(this, i);
+		}
 	}
 	
-	public void renderTiles(Tile[] tiles, RenderInfo renderInfo){
-		panel.setRenderInfo(tiles, renderInfo);
+	public void renderTiles(Tile[] tiles, RenderInfo renderInfo, int screenIndex){
+		gPanels[screenIndex].setRenderInfo(tiles, renderInfo);
 		this.renderInfo = renderInfo;
 		checkForNewAnimations(renderInfo);
-		panel.repaint();	
+		gPanels[screenIndex].repaint();	
 	}
 	
-	public void renderScreen(){
-		panel.render();
+	public void renderScreen(int screenIndex){
+		gPanels[screenIndex].render();
 	}
 	
-	public GraphicsPanel getGraphicsPanel(){
-		return this.panel;
+	public JPanel getGraphicsPanel(){
+		if (gamePanel == null) {
+			gamePanel = gamePanelCreater.getGamePanel(gPanels);
+		}
+		return gamePanel;
 	}
 	
 	private void animate(){
 		animator.startAnimation(renderInfo.toAnimate);
 	}
 	
-	public Displayable[] getDisplayablesToRender(){
+	public Displayable[] getDisplayablesToRender(int screenIndex){
 		if (!renderInfo.renderColor) {
 			animate();
-			return gEngine.getTiles();
+			return gEngine.getTiles(screenIndex);
 		} else return null;
 	}
 	
-	public Numreable[] getNumreablesToRender(){
-		return gEngine.getTiles();
+	public Numreable[] getNumreablesToRender(int screenIndex){
+		return gEngine.getTiles(screenIndex);
 	}
 	
-	public Colorfull[] getColorfullsToRender(){
+	public Colorfull[] getColorfullsToRender(int screenIndex){
 		if (renderInfo.renderColor) {
 			animate();
 			animator.startAnimation(renderInfo.toAnimate);
-			return gEngine.getTiles();
+			return gEngine.getTiles(screenIndex);
 		} else return null;
 	}
 	
 	public void repaint()
 	{
-		panel.repaint();
+		for (int i = 0; i < gPanels.length; i++) {
+			gPanels[i].repaint();
+		}
 	}
 
 	public void checkForNewAnimations(RenderInfo renderInfo) {
@@ -73,6 +87,6 @@ public class GraphicsManager implements AnimateUpdateListener {
 
 	@Override
 	public void animateUpdate() {
-		panel.repaint();
+		repaint();
 	}
 }
