@@ -8,11 +8,8 @@ import Game.View.Animation.AnimationInfo;
 public class RenderInfo {
 	public boolean renderColor;
 	public int xOffset, yOffset;
-<<<<<<< HEAD:src/Game/View/RenderInfo.java
 	public HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
-=======
 	public double imageScale;
->>>>>>> refs/remotes/origin/Emil:src/Game/Model/Board/RenderInfo.java
 
 	public RenderInfo(boolean renderColor) {
 		this.renderColor = renderColor;

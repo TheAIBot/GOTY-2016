@@ -57,30 +57,7 @@ public class GraphicsPanel extends JPanel {
 			//If not, it dosen't render it (to increase performance), else it does.
 			if (isInsideDisplay(d)) {
 				if (!renderInfo.renderColor) {
-<<<<<<< HEAD
-					gDisplay.drawImage(currentImage, 
-									   (int) ((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() * imageScaling), 
-									   (int) ((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() * imageScaling), 
-									   (int) (currentImage.getWidth() * imageScaling), 
-									   (int) (currentImage.getHeight() * imageScaling), 
-									   null);
-					} else {
-					gDisplay.setColor(d.getColor());
-<<<<<<< HEAD
-					gDisplay.fillRect((int) ((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() * imageScaling), (int) ((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() * imageScaling), (int) (currentImage.getWidth() * imageScaling), (int) (currentImage.getHeight() * imageScaling));
-					//gDisplay.fillRect((int) (imagePosition.x * imageScaling * currentImage.getWidth()), (int) (imagePosition.y * imageScaling * currentImage.getHeight()), currentImage.getWidth(), currentImage.getHeight());
-=======
-					gDisplay.fillRect((int) (imagePosition.x * imageScaling * currentImage.getWidth()), 
-									  (int) (imagePosition.y * imageScaling * currentImage.getHeight()), 
-									  currentImage.getWidth(), 
-									  currentImage.getHeight());
->>>>>>> refs/remotes/origin/Andreas
-				}
-				gDisplay.setColor(Color.WHITE);
-				gDisplay.drawString(String.valueOf(d.getNumber()), 
-									(int) (((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() + currentImage.getWidth() / 2) * imageScaling), 
-									(int) (((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() + currentImage.getHeight() / 2) * imageScaling));
-=======
+
 					gDisplay.drawImage(currentImage, (int) ((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() * renderInfo.imageScale), (int) ((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() * renderInfo.imageScale), (int) (currentImage.getWidth() * renderInfo.imageScale), (int) (currentImage.getHeight() * renderInfo.imageScale), null);
 					//gDisplay.drawImage(currentImage, (int) ((imagePosition.x + renderInfo.xOffset) * renderInfo.imageScale * currentImage.getWidth()), (int) ((imagePosition.y + renderInfo.yOffset) * renderInfo.imageScale * currentImage.getHeight()), null);
 				} else {
@@ -89,7 +66,6 @@ public class GraphicsPanel extends JPanel {
 				}
 				gDisplay.setColor(Color.WHITE);
 				gDisplay.drawString(String.valueOf(d.getNumber()), (int) (((imagePosition.x + renderInfo.xOffset) * currentImage.getWidth() + currentImage.getWidth() / 2) * renderInfo.imageScale), (int) (((imagePosition.y + renderInfo.yOffset) * currentImage.getHeight() + currentImage.getHeight() / 2) * renderInfo.imageScale));
->>>>>>> refs/remotes/origin/Emil
 				return true;
 			} else {
 				return false;
