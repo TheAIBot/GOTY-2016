@@ -54,7 +54,6 @@ public class AudioManager implements SoundFinishedListener {
 	
 	
 	public void soundClosed(Sound sound) {
-<<<<<<< HEAD:src/Control/GameEngine/AudioManager.java
 		System.out.println("sounds size = " + sounds.size());
 		for (int i = 0; i < sounds.size(); i++) {
 			if (sounds.get(i).equals(sound)) {
@@ -63,9 +62,7 @@ public class AudioManager implements SoundFinishedListener {
 			}
 		}
 		//sounds.removeAll(Collections.singletonList(sound));
-=======
 		sounds.removeAll(Collections.singletonList(sound));
->>>>>>> 4c5c6838b65622434c625728c9f598f3c916b18c:src/Game/Control/GameEngine/AudioManager.java
 	}
 
 

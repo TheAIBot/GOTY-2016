@@ -19,7 +19,8 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 	protected GameState currentGameState;
 	protected final GameSettings settings;
 	protected RenderInfo renderInfo = new RenderInfo(false);
-	private final String toggleColorKey = "ALT";
+	
+	
 
 	public GameBoard(GameSettings settings) {
 		this.currentGameState = GameState.NOT_DECIDED_YET;

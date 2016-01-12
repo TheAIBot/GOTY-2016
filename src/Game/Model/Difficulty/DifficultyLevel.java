@@ -1,7 +1,7 @@
 package Game.Model.Difficulty;
 
 public enum DifficultyLevel {
-	EASY
+	EASY(0)
 	{
 		private static final double MIN_PERCENT = 0.00;
 		private static final double MAX_PERCENT = 0.50;
@@ -12,7 +12,7 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	NORMAL
+	NORMAL(1)
 	{
 		private static final double MIN_PERCENT = 0.50;
 		private static final double MAX_PERCENT = 0.55;
@@ -23,7 +23,7 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	INTERMEDIATE
+	INTERMEDIATE(2)
 	{
 		private static final double MIN_PERCENT = 0.55;
 		private static final double MAX_PERCENT = 0.60;
@@ -34,7 +34,7 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	HARD
+	HARD(3)
 	{
 		private static final double MIN_PERCENT = 0.60;
 		private static final double MAX_PERCENT = 1.00;
@@ -46,7 +46,7 @@ public enum DifficultyLevel {
 		}
 	};
 	
-
+	private final int value;
 	
 	protected abstract boolean isPercentageEqualToThisDifficulty(double percent);
 	
@@ -61,5 +61,15 @@ public enum DifficultyLevel {
 		} else {
 			return EASY;
 		}
+	}
+
+	private DifficultyLevel(int value)
+	{
+		this.value = value;
+	}
+	
+	public int getValue()
+	{
+		return value;
 	}
 }

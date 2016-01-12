@@ -1,13 +1,20 @@
 package Game.Model.Settings;
 
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
-public class PlayerSettings {
+public class PlayerSettings implements Serializable {
 	private int upKey;
 	private int downKey;
 	private int leftKey;
 	private int rightKey;
+	private int upViewKey;
+	private int downViewKey;
+	private int leftViewKey;
+	private int rightViewKey;
 	private int toggleColorKey;
+	private int zoomInKey;
+	private int zoomOutKey;
 	private String name;
 	
 	/**
@@ -18,14 +25,20 @@ public class PlayerSettings {
 	 * @param right
 	 * @param playerName
 	 */
-	public PlayerSettings(int up, int down, int left, int right, int toggleColor, String playerName)
+	public PlayerSettings(int up, int down, int left, int right, int viewUp, int viewDown, int viewLeft, int viewRight, int toggleColor, int zoomIn, int zoomOut, String playerName)
 	{
-		this.upKey = up;
-		this.downKey = down;
-		this.leftKey = left;
-		this.rightKey = right;
-		this.toggleColorKey = toggleColor;
-		this.name = playerName;
+		upKey = up;
+		downKey = down;
+		leftKey = left;
+		rightKey = right;
+		upViewKey = viewUp;
+		downViewKey = viewDown;
+		leftViewKey = viewLeft;
+		rightViewKey = viewRight;
+		toggleColorKey = toggleColor;
+		zoomInKey = zoomIn;
+		zoomOutKey = zoomOut;
+		name = playerName;
 	}
 
 	/**
@@ -95,6 +108,13 @@ public class PlayerSettings {
 	}
 
 	/**
+	 * @param Sets the key code corresponding to the key used to go right
+	 */
+	public void setRightKeyCode(int right) {
+		rightKey = right;
+	}
+	
+	/**
 	 * @return The code for the key used to go right
 	 */
 	public int getRightKeyCode() {
@@ -110,38 +130,139 @@ public class PlayerSettings {
 	}
 	
 	/**
-	 * @param Sets the key code corresponding to the key used to go right
+	 * Sets the key code corresponding to the key used to view up
 	 */
-	public void setRightKeyCode(int right) {
-		rightKey = right;
+	public void setUpViewKeyCode(int up) {
+		upViewKey = up;
 	}
-
 	
 	/**
-	 * @return the name of the player
+	 * @return The code for the key used to view up
 	 */
-	public String getName() {
-		return name;
+	public int getUpViewKeyCode() {
+		return upViewKey;
 	}
 
+	/**
+	 * 
+	 * @return The name for the key used to view up
+	 */
+	public String getUpViewKeyName() {
+		return KeyEvent.getKeyText(upViewKey);
+	}
 	
 	/**
-	 * @param name of the player
+	 * Sets the key code corresponding to the key used to view down
 	 */
-	public void setName(String playerName) {
-		name = playerName;
+	public void setDownViewKeyCode(int down) {
+		downViewKey = down;
 	}
 	
-	public boolean hasKeyCode(int key)
-	{
-		return (key == upKey || 
-				key == downKey || 
-				key == leftKey || 
-				key == rightKey || 
-				key == toggleColorKey);
+	/**
+	 * @return The code for the key used to view down
+	 */
+	public int getDownViewKeyCode() {
+		return downViewKey;
 	}
 
+	/**
+	 * 
+	 * @return The name for the key used to view down
+	 */
+	public String getDownViewKeyName() {
+		return KeyEvent.getKeyText(downViewKey);
+	}
+	
+	/**
+	 * Sets the key code corresponding to the key used to view left
+	 */
+	public void setLeftViewKeyCode(int left) {
+		leftViewKey = left;
+	}
+	
+	/**
+	 * @return The code for the key used to view left
+	 */
+	public int getLeftViewKeyCode() {
+		return leftViewKey;
+	}
 
+	/**
+	 * 
+	 * @return The name for the key used to view left
+	 */
+	public String getLeftViewKeyName() {
+		return KeyEvent.getKeyText(leftViewKey);
+	}
+	
+	/**
+	 * Sets the key code corresponding to the key used to view right
+	 */
+	public void setRightViewKeyCode(int right) {
+		rightViewKey = right;
+	}
+	
+	/**
+	 * @return The code for the key used to view right
+	 */
+	public int getRightViewKeyCode() {
+		return rightViewKey;
+	}
+	
+	/**
+	 * 
+	 * @return The name for the key used to view right
+	 */
+	public String getRightViewKeyName() {
+		return KeyEvent.getKeyText(rightViewKey);
+	}
+
+	/**
+	 * 
+	 * @return The name for the key used to zoom in
+	 */
+	public String getZoomInKeyName() {
+		return KeyEvent.getKeyText(zoomInKey);
+	}
+	
+	/**
+	 * Sets the key code corresponding to the key used to zoom in
+	 */
+	public void setZoomInKeyCode(int zoomIn) {
+		zoomInKey = zoomIn;
+	}
+	
+	/**
+	 * @return The code for the key used to zoom in
+	 */
+	public int getZoomInKeyCode() {
+		return zoomInKey;
+	}
+	
+	/**
+	 * 
+	 * @return The name for the key used to zoom out
+	 */
+	public String getZoomOutKeyName() {
+		return KeyEvent.getKeyText(zoomOutKey);
+	}
+	
+	/**
+	 * Sets the key code corresponding to the key used to zoom out
+	 */
+	public void setZoomOutKeyCode(int zoomOut) {
+		zoomOutKey = zoomOut;
+	}
+	
+	/**
+	 * @return The code for the key used to zoom out
+	 */
+	public int getZoomOutKeyCode() {
+		return zoomOutKey;
+	}
+	
+	
+	
 	/**
 	 * @param toggleColorKey the toggleColorKey to set
 	 */
@@ -163,5 +284,36 @@ public class PlayerSettings {
 	public String getToggleColorKeyName()
 	{
 		return KeyEvent.getKeyText(toggleColorKey);
+	}
+	
+	
+	/**
+	 * @return the name of the player
+	 */
+	public String getName() {
+		return name;
+	}
+
+	
+	/**
+	 * @param name of the player
+	 */
+	public void setName(String playerName) {
+		name = playerName;
+	}
+	
+	public boolean hasKeyCode(int key)
+	{
+		return (key == upKey || 
+				key == downKey || 
+				key == leftKey || 
+				key == rightKey ||
+				key == upViewKey ||
+				key == downViewKey ||
+				key == leftViewKey ||
+				key == rightViewKey ||
+				key == zoomInKey ||
+				key == zoomOutKey ||
+				key == toggleColorKey);
 	}
 }

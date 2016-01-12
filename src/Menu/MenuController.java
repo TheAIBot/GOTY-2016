@@ -1,6 +1,7 @@
 package Menu;
 
 
+import java.awt.Dimension;
 import java.util.Stack;
 
 import javax.swing.JFrame;
@@ -54,5 +55,16 @@ public class MenuController implements PageRequestsListener {
 		mainMenu.setVisible(true);
 		
 		currentPage.startPage();
+	}
+
+	@Override
+	public void resize(Dimension dim) {
+		mainMenu.setSize(dim.width, dim.height);
+	}
+
+	@Override
+	public void canResize(boolean canResize) {
+		mainMenu.setResizable(canResize);
+		
 	}
 }
