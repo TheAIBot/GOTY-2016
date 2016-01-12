@@ -11,11 +11,13 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Settings.GameSettings;
+import Game.Control.GameEngine.Log;
+import Game.Model.Board.GameModes;
 import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener {
 	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
@@ -23,8 +25,10 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	protected GameState currentGameState;
 	protected final GameSettings settings;
 	protected final RenderInfo renderInfo;
-
-	public GameBoard(GameSettings settings) {
+	protected final int playerIndex;
+	
+	public SinglePlayerBoard(GameSettings settings, int playerindex) {
+		this.playerIndex = playerindex;
 		this.currentGameState = GameState.NOT_DECIDED_YET;
 		this.settings = settings;
 		renderInfo = new RenderInfo(false, settings.getGameSize());
@@ -137,12 +141,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	}
 
 	@Override
-	public Tile[] getTiles() {
+	public Tile[] getTiles(int playerIndex) {
 		return tilePlacements;
 	}
 
 	@Override
-	public void keyPressed(String key) {
+	public void keyPressed(String key, int playerIndex) {
 		if (key.equals(settings.getPlayerOne().getDownKeyName())) {
 			moveVoidTile(Directions.DOWN);
 		} else if (key.equals(settings.getPlayerOne().getLeftKeyName())) {
@@ -153,39 +157,23 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 			moveVoidTile(Directions.UP);
 		} else if (key.equals(settings.getPlayerOne().getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
-			boardChanged();
 		} else if (key.equals(settings.getPlayerOne().getCameraUpKeyName())) {
 			renderInfo.addOffset(0, 1);
-			boardChanged();
 		} else if (key.equals(settings.getPlayerOne().getCameraDownKeyName())) {
 			renderInfo.addOffset(1, 0);
-			boardChanged();
 		} else if (key.equals(settings.getPlayerOne().getCameraLeftKeyName())) {
 			renderInfo.addOffset(0, -1);
-			boardChanged();
 		} else if (key.equals(settings.getPlayerOne().getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
-			boardChanged();
 		} else if (key.equals(settings.getPlayerOne().getZoomInKeyName())) {
 			renderInfo.addImageScale(0.1);
-			boardChanged();
 		} else if (key.equals(settings.getPlayerOne().getZoomOutKeyName())) {
 			renderInfo.addImageScale(-0.1);
-			boardChanged();
 		}
+		boardChanged();
 	}
 
-	@Override
-	public boolean moveVoidTile(Directions direction) {
-		if (isMoveAllowed(direction)) {
-			swapVoidTile(direction);
-			boardChanged();
-			return true;
-		}
-		return false;
-	}
-
-	public boolean moveVoidTileNoUpdate(Directions direction) {
+	private boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			swapVoidTile(direction);
 			return true;
@@ -217,7 +205,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 		moveWithDirection(voidTilePosition, direction);
 		final Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
-		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()), getIndexFromPoint(voidTilePosition));
 	}
 
 	private void moveTileIndexes(int tileAIndex, int tileBIndex) {
@@ -232,16 +220,16 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 			for (int i = 0; i < settings.getGameSize() * 100; i++) {
 				switch (getRandomNumber(4)) {
 				case 0:
-					moveVoidTileNoUpdate(Directions.LEFT);
+					moveVoidTile(Directions.LEFT);
 					break;
 				case 1:
-					moveVoidTileNoUpdate(Directions.RIGHT);
+					moveVoidTile(Directions.RIGHT);
 					break;
 				case 2:
-					moveVoidTileNoUpdate(Directions.UP);
+					moveVoidTile(Directions.UP);
 					break;
 				case 3:
-					moveVoidTileNoUpdate(Directions.DOWN);
+					moveVoidTile(Directions.DOWN);
 					break;
 				}
 			}
@@ -273,26 +261,48 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	}
 
 	@Override
-	public String[] getKeysToSubscribeTo() {
-		return new String[] {
-			settings.getPlayerOne().getUpKeyName(),
-			settings.getPlayerOne().getDownKeyName(),
-			settings.getPlayerOne().getLeftKeyName(),
-			settings.getPlayerOne().getRightKeyName(),
-			settings.getPlayerOne().getToggleColorKeyName(),
-			
-			settings.getPlayerOne().getCameraUpKeyName(),
-			settings.getPlayerOne().getCameraDownKeyName(),
-			settings.getPlayerOne().getCameraLeftKeyName(),
-			settings.getPlayerOne().getCameraRightKeyName(),
-			
-			settings.getPlayerOne().getZoomInKeyName(),
-			settings.getPlayerOne().getZoomOutKeyName()
-		};
+	public String[] getKeysToSubscribeTo(int playerIndex) {
+		switch (playerIndex) {
+		case 1:
+			return new String[] {
+					settings.getPlayerOne().getUpKeyName(),
+					settings.getPlayerOne().getDownKeyName(),
+					settings.getPlayerOne().getLeftKeyName(),
+					settings.getPlayerOne().getRightKeyName(),
+					settings.getPlayerOne().getToggleColorKeyName(),
+					
+					settings.getPlayerOne().getCameraUpKeyName(),
+					settings.getPlayerOne().getCameraDownKeyName(),
+					settings.getPlayerOne().getCameraLeftKeyName(),
+					settings.getPlayerOne().getCameraRightKeyName(),
+					
+					settings.getPlayerOne().getZoomInKeyName(),
+					settings.getPlayerOne().getZoomOutKeyName()
+				};
+		case 2:
+			return new String[] {
+					settings.getPlayerTwo().getUpKeyName(),
+					settings.getPlayerTwo().getDownKeyName(),
+					settings.getPlayerTwo().getLeftKeyName(),
+					settings.getPlayerTwo().getRightKeyName(),
+					settings.getPlayerTwo().getToggleColorKeyName(),
+					
+					settings.getPlayerTwo().getCameraUpKeyName(),
+					settings.getPlayerTwo().getCameraDownKeyName(),
+					settings.getPlayerTwo().getCameraLeftKeyName(),
+					settings.getPlayerTwo().getCameraRightKeyName(),
+					
+					settings.getPlayerTwo().getZoomInKeyName(),
+					settings.getPlayerTwo().getZoomOutKeyName()
+				};
+		default:
+			throw new IllegalArgumentException();
+		}
+		
 	}
 
 	@Override
-	public RenderInfo getRenderInfo()
+	public RenderInfo getRenderInfo(int playerIndex)
 	{
 		return renderInfo;
 	}
@@ -301,5 +311,17 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);
 		
+	}
+
+	@Override
+	public int getNumberOfPlayers() {
+		switch (settings.getGameMode()) {
+		case SINGLE_PLAYER:
+			return 1;
+		case MULTI_PLAYER:
+			return 2;
+		default:
+			throw new IllegalArgumentException();
+		}
 	}
 }

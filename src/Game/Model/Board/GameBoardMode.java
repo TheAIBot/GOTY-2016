@@ -10,9 +10,7 @@ public interface GameBoardMode {
 
 	public abstract void resetGame();
 
-	public abstract Tile[] getTiles();
-
-	public abstract boolean moveVoidTile(Directions direction);
+	public abstract Tile[] getTiles(int playerIndex);
 
 	public abstract int getSize();
 
@@ -20,13 +18,15 @@ public interface GameBoardMode {
 
 	public abstract void addBoardChangedListener(BoardChangedListener gameEngine);
 	
-	public abstract void keyPressed(String key);
+	public abstract void keyPressed(String key, int playerIndex);
 	
 	public abstract void pause();
 	
 	public abstract void restart();
 	
-	public abstract String[] getKeysToSubscribeTo();
+	public abstract String[] getKeysToSubscribeTo(int playerIndex);
 	
-	public abstract RenderInfo getRenderInfo();
+	public abstract RenderInfo getRenderInfo(int playerIndex);
+	
+	public abstract int getNumberOfPlayers();
 }
