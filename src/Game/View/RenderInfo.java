@@ -3,6 +3,8 @@ package Game.View;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import Game.View.Animation.AnimationInfo;
+
 public class RenderInfo {
 	public boolean renderColor;
 	public int xOffset, yOffset;

@@ -1,10 +1,10 @@
 package Game.Control.GameEngine;
 
 import Game.Model.Board.Tile;
-import Game.View.Animate;
-import Game.View.AnimateUpdateListener;
 import Game.View.GraphicsPanel;
 import Game.View.RenderInfo;
+import Game.View.Animation.Animate;
+import Game.View.Animation.AnimateUpdateListener;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	//private ConsoleGraphics console;

@@ -19,7 +19,7 @@ public class GOTYPlay extends SuperPage {
 	@Override
 	public JPanel createPage() {
 		settings.setGameSize(10);
-		settings.setDifficultyLevel(DifficultyLevel.HARD);
+		settings.setDifficultyLevel(DifficultyLevel.EASY);
 		game = new GameEngine(settings);
 		page = game.getScreen();
 		return page;

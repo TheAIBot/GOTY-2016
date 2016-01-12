@@ -11,9 +11,9 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Settings.GameSettings;
-import Game.View.AnimationInfo;
 import Game.View.RenderInfo;
-import Game.View.ToAnimateListener;
+import Game.View.Animation.AnimationInfo;
+import Game.View.Animation.ToAnimateListener;
 
 public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener {
 	private transient Point2D.Double voidTilePosition;

@@ -12,10 +12,10 @@ import java.io.ObjectOutputStream;
 import javax.imageio.ImageIO;
 
 import Game.Model.Resources.ResourceImages;
-import Game.View.AnimationInfo;
 import Game.View.Displayable;
 import Game.View.Numreable;
-import Game.View.ToAnimateListener;
+import Game.View.Animation.AnimationInfo;
+import Game.View.Animation.ToAnimateListener;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable, AnimationInfo {
 	
