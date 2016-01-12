@@ -3,7 +3,7 @@ package Game.Model.Board;
 public class RenderInfo {
 	public boolean renderColor;
 	public int xOffset, yOffset;
-	public int imageScale;
+	public double imageScale;
 
 	public RenderInfo(boolean renderColor) {
 		this.renderColor = renderColor;
@@ -17,7 +17,7 @@ public class RenderInfo {
 		this.yOffset += yOffset;
 	}
 	
-	public void addImageScale(int imageScale) {
+	public void addImageScale(double imageScale) {
 		this.imageScale += imageScale;
 	}
 

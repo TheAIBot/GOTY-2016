@@ -27,7 +27,7 @@ public class PlayerSettings {
 		this.name = playerName;
 	}
 	
-	public PlayerSettings(int up, int down, int left, int right, int toggleColor, int cup, int cdown, int cleft, int cright, String playerName) {
+	public PlayerSettings(int up, int down, int left, int right, int toggleColor, int cup, int cdown, int cleft, int cright, int zoomIn, int zoomOut, String playerName) {
 		this.upKey = up;
 		this.downKey = down;
 		this.leftKey = left;
@@ -37,6 +37,8 @@ public class PlayerSettings {
 		cameraDownKey = cdown;
 		cameraLeftKey = cleft;
 		cameraRightKey = cright;
+		zoomInKey = zoomIn;
+		zoomOutKey = zoomOut;
 		this.name = playerName;
 	}
 
@@ -154,6 +156,8 @@ public class PlayerSettings {
 				key == cameraDownKey || 
 				key == cameraLeftKey || 
 				key == cameraRightKey ||
+				key == zoomInKey || 
+				key == zoomOutKey ||
 				key == toggleColorKey);
 	}
 

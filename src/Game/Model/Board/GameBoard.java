@@ -142,6 +142,12 @@ public class GameBoard implements GameBoardMode, java.io.Serializable {
 		} else if (key.equals(settings.getPlayerOne().getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
 			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getZoomInKeyName())) {
+			renderInfo.addImageScale(0.1);
+			boardChanged();
+		} else if (key.equals(settings.getPlayerOne().getZoomOutKeyName())) {
+			renderInfo.addImageScale(-0.1);
+			boardChanged();
 		}
 	}
 
