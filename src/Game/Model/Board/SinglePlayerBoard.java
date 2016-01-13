@@ -1,23 +1,23 @@
 package Game.Model.Board;
 
 import java.awt.Color;
-
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Resources.ResourceImages;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Score.ScoreManager;
 import Game.Model.Settings.GameSettings;
 import Game.Model.Settings.PlayerSettings;
-import Game.Control.GameEngine.Log;
-import Game.Model.Board.GameModes;
 import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
@@ -34,8 +34,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private Random randomGenerator = new Random();
 	private ScoreChangedListener scoreListener;
 	private ScoreManager scoreManager;
+	private boolean isPaused = false;
+	private boolean isRunning = true;
 	
- 	public SinglePlayerBoard(GameSettings settings, int playerindex) {
+  	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
 		this.settings = settings;
 		this.renderInfo = new RenderInfo(false, settings.getGameSize());
@@ -218,17 +220,21 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			return voidTilePosition.getX() < settings.getGameSize() - 1;
-		case LEFT:
-			return voidTilePosition.getX() > 0;
-		case UP:
-			return voidTilePosition.getY() > 0;
-		case DOWN:
-			return voidTilePosition.getY() < settings.getGameSize() - 1;
-		default:
-			throw new IllegalArgumentException();
+		if (!isPaused) {
+			switch (direction) {
+			case RIGHT:
+				return voidTilePosition.getX() < settings.getGameSize() - 1;
+			case LEFT:
+				return voidTilePosition.getX() > 0;
+			case UP:
+				return voidTilePosition.getY() > 0;
+			case DOWN:
+				return voidTilePosition.getY() < settings.getGameSize() - 1;
+			default:
+				throw new IllegalArgumentException();
+			}
+		} else {
+			return false;
 		}
 	}
 
@@ -271,16 +277,32 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		voidTilePosition = recreateTilePositions();
+		Tile.setTileImage(ImageIO.read(in));
 	}
 
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        ImageIO.write(Tile.getTileImage(), ResourceImages.ACCEPTED_EXTENSION, out);
+    }
+	
 	@Override
 	public void pause() {
 		scoreManager.stopClock();
+		isPaused = true;
 	}
 
+	public void Stop()
+	{
+		pause();
+		isRunning = false;
+	}
+	
 	@Override
 	public void unpause() {
-		scoreManager.startClock();
+		if (isRunning) {
+			scoreManager.startClock();
+			isPaused = false;
+		}
 	}
 
 	@Override
@@ -332,7 +354,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		randomGenerator = random;
 	}
 
-	
 	@Override
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
 		gameStateChangedListeners.add(listener);		

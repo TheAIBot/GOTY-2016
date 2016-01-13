@@ -47,12 +47,16 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 	public boolean canShowPage() {
 		if (settings == null) {
 			game = GameEngine.load();
+			game.addGameEventListener(this);
+			page = game.getScreen();
 			if (game == null) {
 				return false;
 			}
 		} else {
 			settings.setGameSize(2);
 			game = new GameEngine(settings);
+			game.addGameEventListener(this);
+			page = game.getScreen();
 		}
 		return true;
 	}

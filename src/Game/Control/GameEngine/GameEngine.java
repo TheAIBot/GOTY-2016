@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion.Setting;
-
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
 import Game.Control.Input.KeyPressListener;
@@ -24,11 +22,11 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private static final String SAVE_FILE_NAME = "game";
 	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>("saveFiles");
 	private transient GraphicsManager graphics;
-	private transient final InputManager input = new InputManager();
+	private transient InputManager input = new InputManager();
 	private final GameSettings settings;
 	private ConsoleControl consoleControl;
 	private transient AudioManager audio;
-	private ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
+	private  transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
 	private GameBoardMode game;
 
 	public GameEngine(GameSettings settings) {	
@@ -154,7 +152,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	public void shutdown()
 	{
-		
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.closeGame();
+		}
 	}
 	
 	public void save()
@@ -168,6 +168,8 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		GameEngine loadedGame = saver.load(SAVE_FILE_NAME);
 		loadedGame.graphics = new GraphicsManager(loadedGame, load().game.getNumberOfPlayers(), loadedGame.settings);
+		loadedGame.gameEventsListeners = new ArrayList<GameEventsListener>();
+		loadedGame.input = new InputManager();
 		loadedGame.audio = new AudioManager(loadedGame.settings.getSoundVolume());
 		loadedGame.addKeyboardControls();
 		return loadedGame;		

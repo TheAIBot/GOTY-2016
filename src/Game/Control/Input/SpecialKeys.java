@@ -1,7 +1,7 @@
 package Game.Control.Input;
 
 public class SpecialKeys {
-	public static final String EXIT_GAME = "ESC";
+	public static final String EXIT_GAME = "ESCAPE";
 	public static final String TOGGLE_PAUSE = "SPACE";
 	
 	public static boolean isSpecialKey(String key)

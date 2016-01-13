@@ -65,6 +65,7 @@ public class MenuController implements PageRequestsListener {
 			mainMenu.getContentPane().removeAll();
 			mainMenu.add(toSwitchTo.getPage());
 			mainMenu.repaint();
+			mainMenu.setVisible(true);
 			
 			currentPage.startPage();
 		}
