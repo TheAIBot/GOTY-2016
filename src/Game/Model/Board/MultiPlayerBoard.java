@@ -1,12 +1,16 @@
 package Game.Model.Board;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import Game.Control.GameEngine.Log;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class TwoPlayerBoard implements GameBoardMode {
+public class MultiPlayerBoard implements GameBoardMode {
 	private final SinglePlayerBoard[] boards;
 	
-	public TwoPlayerBoard(GameSettings settings) {
+	public MultiPlayerBoard(GameSettings settings) {
 		boards = new SinglePlayerBoard[settings.getPlayers().length];
 		for (int i = 0; i < boards.length; i++) {
 			boards[i] = new SinglePlayerBoard(settings, i);
@@ -22,9 +26,21 @@ public class TwoPlayerBoard implements GameBoardMode {
 
 	@Override
 	public void makeRandom() {
+		//Thread[] threads = new Thread[boards.length];
 		for (int i = 0; i < boards.length; i++) {
-			boards[i].makeRandom();
+			final int index = i;
+			//threads[i] = new Thread(() -> {
+				boards[index].makeRandom();
+			//});
+			//threads[i].start();
 		}		
+		//for (int i = 0; i < threads.length; i++) {
+		//	try {
+		//		threads[i].join();
+		//	} catch (InterruptedException e) {
+		//		Log.writeln("error occured when joining thread with main thread in makeRandom");
+		//	}
+		//}
 	}
 
 	@Override
