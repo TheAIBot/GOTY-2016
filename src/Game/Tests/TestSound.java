@@ -1,38 +1,21 @@
 package Game.Tests;
+import Game.Control.GameEngine.AudioManager;
 import Game.Control.Sound.Sound;
 
 public class TestSound {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
-		Sound meh = new Sound("res/bossdeath.wav");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		AudioManager audio = new AudioManager(0F);
+		int bufferSize = 50;
+		audio.createSoundBuffer("01 The Vampire From Nazareth.wav", 1);
+		audio.setVolumeInPercents(10000F);
+		audio.makeSound("01 The Vampire From Nazareth.wav");
+		audio.createSoundBuffer("bossdeath.wav", bufferSize);
+		Thread.sleep(5000);
+		for (int i = 0; i < bufferSize; i++) {
+			audio.makeSwooshSound();
+			Thread.sleep(1);
 		}
-		Sound meh2 = new Sound("res/01 The Vampire From Nazareth.wav");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		meh.playSound();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		meh2.playSound();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 }

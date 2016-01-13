@@ -50,6 +50,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 			}
 		}).start();
 		addKeyboardControls();
+		setupSound();
+	}
+	
+	private void setupSound(){
+		audio.createSoundBuffer("Swoosh", 10);
+		
 	}
 	
 	private void addKeyboardControls()
