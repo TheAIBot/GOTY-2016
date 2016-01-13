@@ -32,12 +32,13 @@ public class Animator  {
 		for (AnimationInfo animationInfo : animators) {
 			toAnimate.add(animationInfo);
 		}
+		toAnimate.clear();
 		if (toAnimate.size() > 0) {
 			animationTimer.start();
 		}
 	}
 	
-	public void updateAnimators()
+	private void updateAnimators()
 	{
 		HashSet<AnimationInfo> toKeep = new HashSet<AnimationInfo>();
 		for (AnimationInfo animationInfo : toAnimate) {
