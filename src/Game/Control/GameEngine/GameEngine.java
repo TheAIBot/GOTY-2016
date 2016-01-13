@@ -11,10 +11,11 @@ import Game.Model.Board.Directions;
 import Game.Model.Board.SinglePlayerBoard;
 import Game.Model.Board.GameBoardMode;
 import Game.Model.Board.GameState;
-import Game.Model.Board.TwoPlayerBoard;
+import Game.Model.Board.MultiPlayerBoard;
 import Game.Model.Board.Tile;
 import Game.Model.Settings.GameSettings;
 import Game.View.GraphicsPanel;
+import Game.View.RenderInfo;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private static final String SAVE_FILE_NAME = "game";
@@ -26,31 +27,24 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	private final AudioManager audio;
 
 	public GameEngine(GameSettings settings) {	
-		//if (screen == null) {
-			//throw new NullPointerException("Screen provided is null");
-		//}//TODO add more null checks
 		this.settings = settings;
 		this.audio = new AudioManager(settings.getSoundVolume());
-		initGame(settings);
-		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers());
-	}
-	
-	private void initGame(GameSettings settings)
-	{
+		//initGame(settings);
 		game = createGameType(settings);
 		game.createGame();
+		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers());
 		game.addBoardChangedListener(this);
-		new Thread(() -> 
-		{
-			try {
-				final int waitBeforeRandomize = 1000; // 1 sec
-				Thread.sleep(waitBeforeRandomize);
-			} catch (InterruptedException e) {
-				Log.writeln("could not wait before randomizing");
-			}
-			game.makeRandom();
-			addKeyboardControls();
-		}).start();
+		graphics.repaint();
+		game.makeRandom();
+		//new Thread(() -> {
+		try {
+			final int waitBeforeRandomize = 1000; // 1 sec
+			Thread.sleep(waitBeforeRandomize);
+		} catch (InterruptedException e) {
+			Log.writeln("could not wait before randomizing");
+		}
+		addKeyboardControls();
+		//});
 	}
 	
 	private GameBoardMode createGameType(GameSettings settings)
@@ -59,7 +53,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		case SINGLE_PLAYER:
 			return new SinglePlayerBoard(settings, 0);
 		case MULTI_PLAYER:
-			return new TwoPlayerBoard(settings);
+			return new MultiPlayerBoard(settings);
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -73,6 +67,11 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 				input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
 			}
 		}
+	}
+	
+	public RenderInfo getRenderInfo(int playerIndex)
+	{
+		return game.getRenderInfo(playerIndex);
 	}
 	
 	@Override

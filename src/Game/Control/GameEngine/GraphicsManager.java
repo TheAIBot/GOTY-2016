@@ -15,25 +15,24 @@ import Game.View.Numreable;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	//private ConsoleGraphics console;
-	private GameEngine gEngine;
-	private GraphicsPanel[] gPanels;
-	private Animator animator = new Animator(this);
-	private CreateGamePanel gamePanelCreater = new CreateGamePanel();
+	private final GameEngine gEngine;
+	private final GraphicsPanel[] gPanels;
+	private final Animator animator = new Animator(this);
+	private final CreateGamePanel gamePanelCreater = new CreateGamePanel();
 	private JPanel gamePanel;
-	RenderInfo[] renderInfos;
+	private final RenderInfo[] renderInfos;
 	
 	public GraphicsManager(GameEngine gEngine, int numberOfScreens) {
 		this.gEngine = gEngine;
-		gPanels = new GraphicsPanel[numberOfScreens];
+		this.gPanels = new GraphicsPanel[numberOfScreens];
+		this.renderInfos = new RenderInfo[numberOfScreens];
 		for (int i = 0; i < gPanels.length; i++) {
-			gPanels[i] = new GraphicsPanel(this, i);
+			this.renderInfos[i] = gEngine.getRenderInfo(i);
+			gPanels[i] = new GraphicsPanel(this, renderInfos[i], i);
 		}
-		renderInfos = new RenderInfo[numberOfScreens];
 	}
 	
-	public void renderTiles(Tile[] tiles, RenderInfo renderInfo, int screenIndex){
-		gPanels[screenIndex].setRenderInfo(tiles, renderInfo);
-		this.renderInfos[screenIndex] = renderInfo;
+	public void renderTiles(Tile[] tiles, RenderInfo renderInfo, int screenIndex){		
 		checkForNewAnimations(renderInfo);
 		gPanels[screenIndex].repaint();	
 	}

@@ -3,6 +3,7 @@ package Menu.Pages;
 import javax.swing.JPanel;
 
 import Game.Control.GameEngine.GameEngine;
+import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Settings.GameSettings;
 
 
@@ -17,8 +18,8 @@ public class GOTYPlay extends SuperPage {
 	
 	@Override
 	public JPanel createPage() {
-		//settings.setGameSize(10);
-		//settings.setDifficultyLevel(DifficultyLevel.HARD);
+		settings.setGameSize(10);
+		settings.setDifficultyLevel(DifficultyLevel.HARD);
 		game = new GameEngine(settings);
 		page = game.getScreen();
 		return page;
