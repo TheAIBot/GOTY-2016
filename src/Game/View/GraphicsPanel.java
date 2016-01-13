@@ -104,15 +104,15 @@ public class GraphicsPanel extends JPanel {
 			for (Colorfull colorfull : colored) {
 				if (colorfull != null && isInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), tileSize, tileSize)) {	
 					gDisplay.setColor(colorfull.getColor());
+					int[] xPoints = new int[colorfull.getColorPolygon().npoints];
+					int[] yPoints = new int[colorfull.getColorPolygon().npoints];
 					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) { //Kan værer en fejl her, med skiftet frem og tilbage imellem int og double (*)
-						colorfull.getColorPolygon().xpoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * tileSize * renderInfo.imageScale);
-						colorfull.getColorPolygon().ypoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * tileSize * renderInfo.imageScale);						
+						
+						xPoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * tileSize * renderInfo.imageScale);
+						yPoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * tileSize * renderInfo.imageScale);						
 					}
-					gDisplay.fillPolygon(colorfull.getColorPolygon());
-					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) {
-						colorfull.getColorPolygon().xpoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] - tileSize * (colorfull.getColorPosition().x + renderInfo.xOffset) * renderInfo.imageScale) / tileSize);
-						colorfull.getColorPolygon().ypoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] - tileSize * (colorfull.getColorPosition().y + renderInfo.yOffset) * renderInfo.imageScale) / tileSize);
-					}
+					gDisplay.fillPolygon(xPoints, yPoints, colorfull.getColorPolygon().npoints);
+					//gDisplay.fillPolygon(colorfull.getColorPolygon());
 				}
 			}
 		}		
