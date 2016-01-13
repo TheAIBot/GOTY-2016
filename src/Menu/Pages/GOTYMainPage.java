@@ -13,9 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GOTYMainPage extends SuperPage {
-	//private final SuperPage highscores;
-	private final SuperPage playSettings;
 	private final SuperPage highscores;
+	private final SuperPage playSettings;
 
 	public GOTYMainPage(PageRequestsListener listener) {
 		super(listener);
@@ -50,10 +49,10 @@ public class GOTYMainPage extends SuperPage {
 
 		JButton highscoreButton = new JButton("Highscore");
 		highscoreButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switchPage(highscores);
-			}
-		});
+	         public void actionPerformed(ActionEvent e) {
+	        	 switchPage(highscores);
+	         }
+	      });
 		highscoreButton.setPreferredSize(new Dimension(200, 100));
 
 		JButton loadGameButton = new JButton("Load Game");
