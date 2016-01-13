@@ -30,6 +30,7 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Game.Control.Input.SpecialKeys;
 import Game.Model.Board.GameModes;
 import Game.Model.Cheat.CheatActivatedListener;
 import Game.Model.Cheat.CheatCodes;
@@ -412,7 +413,8 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 						theGameSettings.getGameMode() == GameModes.MULTI_PLAYER)  || 
 						((theGameSettings.getPlayerOne().hasKeyCode(key) || 
 								theGameSettings.getPlayerTwo().hasKeyCode(key) && 
-								theGameSettings.getGameMode() == GameModes.SINGLE_PLAYER)))) 
+								theGameSettings.getGameMode() == GameModes.SINGLE_PLAYER))) && 
+						!SpecialKeys.isSpecialKey(KeyEvent.getKeyText(key).toUpperCase())) 
 				{
 					//Determine which button is selected and map the corresponding key.
 					if (p1MoveUp.isSelected()) {

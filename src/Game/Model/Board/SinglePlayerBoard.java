@@ -11,6 +11,8 @@ import java.util.Random;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+import com.sun.prism.paint.Stop;
+
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Score.ScoreManager;
@@ -34,8 +36,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private Random randomGenerator = new Random();
 	private ScoreChangedListener scoreListener;
 	private ScoreManager scoreManager;
+	private boolean isPaused = false;
+	private boolean isRunning = true;
 	
- 	public SinglePlayerBoard(GameSettings settings, int playerindex) {
+  	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
 		this.settings = settings;
 		this.renderInfo = new RenderInfo(false, settings.getGameSize());
@@ -218,17 +222,21 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			return voidTilePosition.getX() < settings.getGameSize() - 1;
-		case LEFT:
-			return voidTilePosition.getX() > 0;
-		case UP:
-			return voidTilePosition.getY() > 0;
-		case DOWN:
-			return voidTilePosition.getY() < settings.getGameSize() - 1;
-		default:
-			throw new IllegalArgumentException();
+		if (!isPaused) {
+			switch (direction) {
+			case RIGHT:
+				return voidTilePosition.getX() < settings.getGameSize() - 1;
+			case LEFT:
+				return voidTilePosition.getX() > 0;
+			case UP:
+				return voidTilePosition.getY() > 0;
+			case DOWN:
+				return voidTilePosition.getY() < settings.getGameSize() - 1;
+			default:
+				throw new IllegalArgumentException();
+			}
+		} else {
+			return false;
 		}
 	}
 
@@ -276,11 +284,21 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void pause() {
 		scoreManager.stopClock();
+		isPaused = true;
 	}
 
+	public void Stop()
+	{
+		pause();
+		isRunning = false;
+	}
+	
 	@Override
 	public void unpause() {
-		scoreManager.startClock();
+		if (isRunning) {
+			scoreManager.startClock();
+			isPaused = false;
+		}
 	}
 
 	@Override
@@ -332,7 +350,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		randomGenerator = random;
 	}
 
-	
 	@Override
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
 		gameStateChangedListeners.add(listener);		

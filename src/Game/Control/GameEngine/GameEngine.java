@@ -89,7 +89,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	@Override
 	public void keyPressed(String keyPressed) {
-		if (!SpecialKeys.isSpecialKey(keyPressed) && !isPaused) {
+		if (!SpecialKeys.isSpecialKey(keyPressed)) {
 			game.keyPressed(keyPressed);
 		} else {
 			handleSpecialKeyPress(keyPressed);
@@ -149,7 +149,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	public void shutdown()
 	{
-		
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.closeGame();
+		}
 	}
 	
 	public void save()
