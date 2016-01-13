@@ -1,8 +1,5 @@
 package Game.Model.Board;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 import Game.Control.GameEngine.Log;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
@@ -26,21 +23,21 @@ public class MultiPlayerBoard implements GameBoardMode {
 
 	@Override
 	public void makeRandom() {
-		//Thread[] threads = new Thread[boards.length];
+		Thread[] threads = new Thread[boards.length];
 		for (int i = 0; i < boards.length; i++) {
 			final int index = i;
-			//threads[i] = new Thread(() -> {
+			threads[i] = new Thread(() -> {
 				boards[index].makeRandom();
-			//});
-			//threads[i].start();
+			});
+			threads[i].start();
 		}		
-		//for (int i = 0; i < threads.length; i++) {
-		//	try {
-		//		threads[i].join();
-		//	} catch (InterruptedException e) {
-		//		Log.writeln("error occured when joining thread with main thread in makeRandom");
-		//	}
-		//}
+		for (int i = 0; i < threads.length; i++) {
+			try {
+				threads[i].join();
+			} catch (InterruptedException e) {
+				Log.writeln("error occured when joining thread with main thread in makeRandom");
+			}
+		}
 	}
 
 	@Override
