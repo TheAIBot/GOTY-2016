@@ -1,5 +1,6 @@
 package Game.Model.Board;
 
+import Game.Model.Score.ScoreChangedListener;
 import Game.View.RenderInfo;
 
 public interface GameBoardMode {
@@ -20,11 +21,13 @@ public interface GameBoardMode {
 	
 	public abstract void addGameStateChangedListener(GameStateChangedListener listener);
 	
+	public abstract void addScoreChangedListener(ScoreChangedListener listener);
+	
 	public abstract void keyPressed(String key);
 	
 	public abstract void pause();
 	
-	public abstract void restart();
+	public abstract void unpause();
 	
 	public abstract String[] getKeysToSubscribeTo(int playerIndex);
 	

@@ -1,10 +1,11 @@
 package Game.View;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 import Game.View.Animation.AnimationInfo;
 
-public class RenderInfo {
+public class RenderInfo implements Serializable {
 	public boolean renderColor;
 	public int xOffset = 0;
 	public int yOffset = 0;

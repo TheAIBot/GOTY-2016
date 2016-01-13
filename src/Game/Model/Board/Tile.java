@@ -66,16 +66,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		}
 	}
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        displayImage = ImageIO.read(in);
-    }
-    
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        ImageIO.write(displayImage, ResourceImages.ACCEPTED_EXTENSION, out);
-    }
-
 	public BufferedImage getDisplayImage() {
 		return displayImage;
 	}
@@ -167,5 +157,15 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	@Override
 	public Double getPosition() {
 		return this.position;
+	}
+
+	public static BufferedImage getTileImage()
+	{
+		return displayImage;
+	}
+	
+	public static void setTileImage(BufferedImage image)
+	{
+		displayImage = image;
 	}
 }
