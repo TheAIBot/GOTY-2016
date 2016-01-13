@@ -139,7 +139,9 @@ public class Sound implements LineListener{
 		try {
 			if (clip != null) {
 				for (FloatControl volumeControl : volumeControls) {
-					volumeControl.setValue(newVolumeInPercents);
+					if (volumeControl != null) {
+						volumeControl.setValue(newVolumeInPercents);
+					}
 				}
 			} else {
 				Log.writeln("Tried to change volume when clip was null");

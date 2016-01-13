@@ -2,11 +2,19 @@ package Game.Model.Settings;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
+import javax.imageio.ImageIO;
+
+import Game.Control.GameEngine.SaveFileManager;
 import Game.Model.Board.GameModes;
 import Game.Model.Difficulty.DifficultyLevel;
+import Game.Model.Resources.ResourceImages;
 
-public class GameSettings {
+public class GameSettings implements Serializable{
 	public static final int SOUND_MAX = 100;
 	public static final int SOUND_MIN = 0;
 	public static final int DIFF_MIN = 0;
@@ -14,52 +22,64 @@ public class GameSettings {
 	public static final int SIZE_MIN = 3;
 	public static final int SIZE_MAX = 100;
 	
+	private boolean isConsoleMode;
 	private float soundVolume;
 	private int gameSize;
 	private GameModes gameMode;
 	private DifficultyLevel difficultyLevel;
 	private boolean randomize;
-	private PlayerSettings playerOne;
-	private PlayerSettings playerTwo;
-	private BufferedImage tileImage;
+	private PlayerSettings[] players;
+	private transient BufferedImage tileImage;
+	private boolean isRandomized;
+	private static transient SaveFileManager<GameSettings> gameSettingsSaver = new SaveFileManager<GameSettings>("Game_settings");
 	
-	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings p_one, PlayerSettings p_two)
+	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings[] players, boolean isRandom, boolean isConsoleMode)
 	{
 		this.soundVolume = vol;
 		this.gameSize = size;
 		this.gameMode = mode;
 		this.difficultyLevel = difficulty;
 		this.randomize = randomize;
-		this.playerOne = p_one;
-		this.playerTwo = p_two;
+		this.players = players;
+		this.isRandomized = isRandom;
+		this.isConsoleMode = isConsoleMode;
 	}
+	
 	public GameSettings()
 	{
 		this(0.5f,
 				4,
-				GameModes.NORMAL, 
+				GameModes.SINGLE_PLAYER, 
 				DifficultyLevel.NORMAL, 
 				true,
-				new PlayerSettings(KeyEvent.VK_W, 
-								   KeyEvent.VK_S, 
-								   KeyEvent.VK_A, 
-								   KeyEvent.VK_D, 
-								   KeyEvent.VK_Q,
-								   
-								   KeyEvent.VK_Y, 
-								   KeyEvent.VK_G, 
-								   KeyEvent.VK_H, 
-								   KeyEvent.VK_J,
-								   
-								   KeyEvent.VK_9,
-								   KeyEvent.VK_0,
-								   "Player 1"),
-				new PlayerSettings(KeyEvent.VK_UP, 
-								   KeyEvent.VK_DOWN, 
-								   KeyEvent.VK_LEFT, 
-								   KeyEvent.VK_RIGHT, 
-								   KeyEvent.VK_PERIOD, 
-								   "Player 2"));
+				new PlayerSettings[] {
+					new PlayerSettings(KeyEvent.VK_W, 
+									   KeyEvent.VK_S, 
+									   KeyEvent.VK_A, 
+									   KeyEvent.VK_D, 
+									   KeyEvent.VK_T,
+									   KeyEvent.VK_G,
+									   KeyEvent.VK_H,
+									   KeyEvent.VK_F,
+									   KeyEvent.VK_Q,
+									   KeyEvent.VK_E,
+									   KeyEvent.VK_R,
+									   "Player 1"),
+					new PlayerSettings(KeyEvent.VK_UP, 
+									   KeyEvent.VK_DOWN, 
+									   KeyEvent.VK_LEFT, 
+									   KeyEvent.VK_RIGHT, 
+									   KeyEvent.VK_I,
+									   KeyEvent.VK_K,
+									   KeyEvent.VK_L,
+									   KeyEvent.VK_J,
+									   KeyEvent.VK_U,
+									   KeyEvent.VK_O,
+									   KeyEvent.VK_P,
+									   "Player 2"),
+		},
+				false,
+				false); //Assumes it shouldn't start in console mode(*)
 	}
 	
 	/**
@@ -81,6 +101,11 @@ public class GameSettings {
 	 */
 	public int getGameSize() {
 		return gameSize;
+	}
+	
+	public PlayerSettings[] getPlayers()
+	{
+		return players;
 	}
 	
 	/**
@@ -108,28 +133,28 @@ public class GameSettings {
 	 * @return the playerOne
 	 */
 	public PlayerSettings getPlayerOne() {
-		return playerOne;
+		return players[0];
 	}
 	
 	/**
 	 * @param playerOne the playerOne to set
 	 */
 	public void setPlayerOne(PlayerSettings playerOne) {
-		this.playerOne = playerOne;
+		this.players[0] = playerOne;
 	}
 	
 	/**
 	 * @return the playerTwo
 	 */
 	public PlayerSettings getPlayerTwo() {
-		return playerTwo;
+		return players[1];
 	}
 	
 	/**
 	 * @param playerTwo the playerTwo to set
 	 */
 	public void setPlayerTwo(PlayerSettings playerTwo) {
-		this.playerTwo = playerTwo;
+		this.players[1] = playerTwo;
 	}
 	/**
 	 * @return the difficultyLevel
@@ -155,4 +180,30 @@ public class GameSettings {
 	public void setTileImage(BufferedImage tileImage) {
 		this.tileImage = tileImage;
 	}
+		
+	public void save(){
+		gameSettingsSaver.save("game_settings", this);
+	}
+	
+	public static GameSettings load(){
+		return gameSettingsSaver.load("game_settings");
+	}
+	
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        tileImage = ImageIO.read(in);
+    }
+    
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        ImageIO.write(tileImage, ResourceImages.ACCEPTED_EXTENSION, out);
+    }
+
+    public boolean getIsConsoleMode(){
+    	return this.isConsoleMode;
+    }
+    
+    public void setIsConsoleMode(boolean isConsoleMode){
+    	this.isConsoleMode = isConsoleMode;
+    }
 }

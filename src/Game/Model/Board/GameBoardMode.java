@@ -1,5 +1,6 @@
 package Game.Model.Board;
 
+import Game.Model.Score.ScoreChangedListener;
 import Game.View.RenderInfo;
 
 public interface GameBoardMode {
@@ -10,15 +11,17 @@ public interface GameBoardMode {
 
 	public abstract void resetGame();
 
-	public abstract Tile[] getTiles();
-
-	public abstract boolean moveVoidTile(Directions direction);
+	public abstract Tile[] getTiles(int playerIndex);
 
 	public abstract int getSize();
 
-	public abstract GameState getGameState();
+	public abstract GameState getGameState(int playerIndex);
 
-	public abstract void addBoardChangedListener(BoardChangedListener gameEngine);
+	public abstract void addBoardChangedListener(BoardChangedListener listener);
+	
+	public abstract void addGameStateChangedListener(GameStateChangedListener listener);
+	
+	public abstract void addScoreChangedListener(ScoreChangedListener listener);
 	
 	public abstract void keyPressed(String key);
 	
@@ -26,7 +29,9 @@ public interface GameBoardMode {
 	
 	public abstract void restart();
 	
-	public abstract String[] getKeysToSubscribeTo();
+	public abstract String[] getKeysToSubscribeTo(int playerIndex);
 	
-	public abstract RenderInfo getRenderInfo();
+	public abstract RenderInfo getRenderInfo(int playerIndex);
+	
+	public abstract int getNumberOfPlayers();
 }

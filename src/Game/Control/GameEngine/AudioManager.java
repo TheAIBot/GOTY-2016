@@ -14,7 +14,7 @@ import Game.Control.Sound.SoundFinishedListener;
  */
 public class AudioManager implements SoundFinishedListener {
 	
-	private static int MAX_PARALLEL_SOUNDS = -1; //-1 means that as many sounds as one wants can be played at the same time.
+	private static int MAX_PARALLEL_SOUNDS = 30; //-1 means that as many sounds as one wants can be played at the same time.
 	private boolean paused = false;
 	private float currentVolumeInPercents;
 	private ArrayList<Sound> sounds;
@@ -36,12 +36,8 @@ public class AudioManager implements SoundFinishedListener {
 			bufferPlacementMap.put(nameOfSound, 0);
 			for (int i = 0; i < soundBuffer.length; i++) { //(*) Kan komme en fejl hvis lydende bliver loadet lige efter hinadenen for huritigt.
 				final int t = i;
-				soundLoaderService.execute(new Runnable() {
-					public void run() {
-						soundBuffer[t] = new Sound("res/" + nameOfSound);
-						soundBuffer[t].setVolume(currentVolumeInPercents);
-					}
-				});
+				soundBuffer[t] = new Sound("res/" + nameOfSound);
+				soundBuffer[t].setVolume(currentVolumeInPercents);
 			}
 			for (int i = 0; i < soundBuffer.length; i++) {
 				if (paused) {

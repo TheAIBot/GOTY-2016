@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import Game.Model.Board.GameBoard;
+import Game.Model.Board.SinglePlayerBoard;
 import Game.Model.Board.Tile;
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Settings.GameSettings;
@@ -28,19 +28,19 @@ public class DifficultyCalculatorTest {
 	private static void testStartDifficulty(int size)
 	{
 		GameSettings settings = new GameSettings();
-		GameBoard game = new GameBoard(settings);
+		SinglePlayerBoard game = new SinglePlayerBoard(settings, 0);
 		game.createGame();
-		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);
+		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(0), size);
 		assert(difficulty == 0) : "starter difficulty is incorrect for the size " + size + ", expected " + 0 + " and got " + difficulty;
 	}
 	
 	private static void testHighestDifficulty(int size)
 	{
 		GameSettings settings = new GameSettings();
-		GameBoard game = new GameBoard(settings);
+		SinglePlayerBoard game = new SinglePlayerBoard(settings, 0);
 		game.createGame();
-		reverse(game.getTiles(), size);
-		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(), size);
+		reverse(game.getTiles(0), size);
+		double difficulty = DifficultyCalculator.getDfficulty(game.getTiles(0), size);
 		double maxDifficulty = DifficultyCalculator.getMaxDifficulty(size);
 		assert(difficulty == maxDifficulty) : "max difficulty is incorrect for the size " + size + ", expected " + difficulty + " and got " + maxDifficulty;
 	}

@@ -1,78 +1,121 @@
 package Game.Control.GameEngine;
 
-import Game.Model.Board.Tile;
+import javax.swing.JPanel;
+
+import Game.Model.Board.GameState;
 import Game.View.Colorfull;
+import Game.View.ConsoleGraphics;
+import Game.View.CreateGamePanel;
 import Game.View.Displayable;
 import Game.View.GraphicsPanel;
 import Game.View.Numreable;
 import Game.View.RenderInfo;
 import Game.View.Animation.AnimateUpdateListener;
 import Game.View.Animation.Animator;
-import Game.View.Numreable;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	//private ConsoleGraphics console;
-	private GameEngine gEngine;
-	private GraphicsPanel panel = new GraphicsPanel(this);
-	private Animator animator = new Animator(this);
-	RenderInfo renderInfo;
+	private final GameEngine gEngine;
+	private final GraphicsPanel[] gPanels;
+	private final ConsoleGraphics consoleDisplay;
+	private final Animator animator = new Animator(this);
+	private final CreateGamePanel gamePanelCreater = new CreateGamePanel();
+	private final RenderInfo[] renderInfos;
+	private JPanel gamePanel;
+	private boolean isConsoleMode;
 	
-	public GraphicsManager(GameEngine gEngine) {
+	public GraphicsManager(GameEngine gEngine, int numberOfScreens, boolean isConsoleMode) {
 		this.gEngine = gEngine;
+		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);
+		this.isConsoleMode = isConsoleMode;
+		this.gPanels = new GraphicsPanel[numberOfScreens];
+		this.renderInfos = new RenderInfo[numberOfScreens];
+		for (int i = 0; i < gPanels.length; i++) {
+			this.renderInfos[i] = gEngine.getRenderInfo(i);
+			gPanels[i] = new GraphicsPanel(this, renderInfos[i], i);
+		}
 	}
 	
-	public void renderTiles(Tile[] tiles, RenderInfo renderInfo){
-		panel.setRenderInfo(tiles, renderInfo);
-		this.renderInfo = renderInfo;
-		checkForNewAnimations(renderInfo);
-		panel.repaint();	
+	public void renderTiles(RenderInfo renderInfo, int screenIndex){	
+		if (isConsoleMode) {
+			consoleDisplay.render();			
+		} else {
+			checkForNewAnimations(renderInfo);
+			gPanels[screenIndex].render();
+		}
 	}
 	
-	public void renderScreen(){
-		panel.render();
+	public void renderScreen(int screenIndex){
+		if (isConsoleMode) {
+			consoleDisplay.render();
+		} else gPanels[screenIndex].render();
 	}
 	
-	public GraphicsPanel getGraphicsPanel(){
-		return this.panel;
+	public JPanel getGraphicsPanel(){
+		if (gamePanel == null) {
+			gamePanel = gamePanelCreater.getGamePanel(gPanels);
+		}
+		return gamePanel;
 	}
 	
-	private void animate(){
-		animator.startAnimation(renderInfo.toAnimate);
+	private void animate(int screenIndex){
+		animator.startAnimation(renderInfos[screenIndex].toAnimate);
 	}
 	
-	public Displayable[] getDisplayablesToRender(){
-		if (!renderInfo.renderColor) {
-			animate();
-			return gEngine.getTiles();
+	public Displayable[] getDisplayablesToRender(int screenIndex){
+		if (renderInfos[screenIndex] != null && !renderInfos[screenIndex].renderColor) {
+			//It does not animate anything, if it is in console mode.
+			if (!isConsoleMode) {
+				animate(screenIndex);
+			}
+			return gEngine.getTiles(screenIndex);
 		} else return null;
 	}
 	
-	public Numreable[] getNumreablesToRender(){
-		return gEngine.getTiles();
+	public Numreable[] getNumreablesToRender(int screenIndex){
+		return gEngine.getTiles(screenIndex);
 	}
 	
-	public Colorfull[] getColorfullsToRender(){
-		if (renderInfo.renderColor) {
-			animate();
-			animator.startAnimation(renderInfo.toAnimate);
-			return gEngine.getTiles();
+	public Colorfull[] getColorfullsToRender(int screenIndex){
+		if (renderInfos[screenIndex] != null && renderInfos[screenIndex].renderColor) {
+			animate(screenIndex);
+			animator.startAnimation(renderInfos[screenIndex].toAnimate);
+			return gEngine.getTiles(screenIndex);
 		} else return null;
 	}
 	
 	public void repaint()
 	{
-		panel.repaint();
+		if (isConsoleMode) {
+			consoleDisplay.render();
+		} else{
+			for (int i = 0; i < gPanels.length; i++) {
+				gPanels[i].render();
+			}			
+		}
 	}
 
 	public void checkForNewAnimations(RenderInfo renderInfo) {
-		if (renderInfo.toAnimate.size() > 0) {
-			animator.startAnimation(renderInfo.toAnimate);
-			renderInfo.toAnimate.clear();
+		if (!isConsoleMode) {
+			if (renderInfo.toAnimate.size() > 0) {
+				animator.startAnimation(renderInfo.toAnimate);
+				renderInfo.toAnimate.clear();
+			}
 		}
 	}
 
 	@Override
 	public void animateUpdate() {
-		panel.repaint();
+		repaint();
+	}
+
+	public void setScoreAndTime(int score, int time, int screenIndex)
+	{
+		gamePanelCreater.setTimeAndScore(score, time, screenIndex);
+	}
+
+	public void setGameState(GameState newGameState, int screenIndex)
+	{
+		gamePanelCreater.setGameState(newGameState, screenIndex);
 	}
 }
