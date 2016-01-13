@@ -69,10 +69,10 @@ public class GOTYHighscore extends SuperPage {
 
 		
 		Object[][] scoreElements = new Object[scores.size()][2];
-		for(int i = 1; i < scores.size(); i++)
+		for(int i = scores.size() - 1; i >= 0 ; i--)
 		{
-			scoreElements[i][0] = scores.get(i).getKey();
-			scoreElements[i][1] = scores.get(i).getValue();
+			scoreElements[scoreElements.length - 1 - i][0] = scores.get(i).getKey();
+			scoreElements[scoreElements.length - 1 - i][1] = scores.get(i).getValue();
 		}
 		
 
