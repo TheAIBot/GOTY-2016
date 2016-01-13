@@ -1,18 +1,21 @@
 package Game.Model.Board;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import Game.Control.GameEngine.Log;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class MultiPlayerBoard implements GameBoardMode {
+public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener {
+	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final SinglePlayerBoard[] boards;
 	
 	public MultiPlayerBoard(GameSettings settings) {
 		boards = new SinglePlayerBoard[settings.getPlayers().length];
 		for (int i = 0; i < boards.length; i++) {
 			boards[i] = new SinglePlayerBoard(settings, i);
+			boards[i].addGameStateChangedListener(this);
 		}
 	}
 	
@@ -110,4 +113,35 @@ public class MultiPlayerBoard implements GameBoardMode {
 		return boards.length;
 	}
 	
+	@Override
+	public void addGameStateChangedListener(GameStateChangedListener listener) {
+		gameStateChangedListeners.add(listener);
+	}
+
+	
+	@Override
+	public void gameStateChanged(GameState newGameState, int playerIndex) {
+		if (newGameState == GameState.WON) {
+			boolean anyoneAlreadyWon = false;
+			for (int i = 0; i < boards.length; i++) {
+				if (i != playerIndex && boards[i].getGameState(i) == GameState.WON) {
+					anyoneAlreadyWon = true;
+					break;
+				}
+			}
+			if (!anyoneAlreadyWon) {
+				for (int i = 0; i < boards.length; i++) {
+					if (i != playerIndex) {
+						boards[i].setGameState(GameState.LOST);
+					}
+				}
+				for (int j = 0; j < gameStateChangedListeners.size(); j++) {
+					for (int playerIndex2 = 0; playerIndex2 < boards.length; playerIndex2++) {
+						gameStateChangedListeners.get(j).gameStateChanged(boards[playerIndex2].getGameState(playerIndex2), playerIndex2);
+					}
+				}
+			}
+		}
+
+	}
 }

@@ -18,6 +18,8 @@ public interface GameBoardMode {
 
 	public abstract void addBoardChangedListener(BoardChangedListener listener);
 	
+	public abstract void addGameStateChangedListener(GameStateChangedListener listener);
+	
 	public abstract void keyPressed(String key);
 	
 	public abstract void pause();

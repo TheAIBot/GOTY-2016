@@ -2,6 +2,7 @@ package Game.Control.GameEngine;
 
 import javax.swing.JPanel;
 
+import Game.Model.Board.GameState;
 import Game.Model.Board.Tile;
 import Game.View.Colorfull;
 import Game.View.CreateGamePanel;
@@ -93,5 +94,10 @@ public class GraphicsManager implements AnimateUpdateListener {
 	public void setScoreAndTime(int score, int time, int screenIndex)
 	{
 		gamePanelCreater.setTimeAndScore(score, time, screenIndex);
+	}
+
+	public void setGameState(GameState newGameState, int screenIndex)
+	{
+		gamePanelCreater.setGameState(newGameState, screenIndex);
 	}
 }

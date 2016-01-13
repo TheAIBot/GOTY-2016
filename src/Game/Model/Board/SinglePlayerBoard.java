@@ -34,6 +34,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		this.playerIndex = playerindex;
 		this.settings = settings;
 		this.renderInfo = new RenderInfo(false, settings.getGameSize());
+		gameStateChanged(GameState.NOT_DECIDED_YET);
 	}
 	
 	public GameState getGameState(int playerIndex) {
@@ -92,16 +93,17 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		return new Point2D.Double(col, row);
 	}
 
-	public void GameStateChanged(GameState newGameState) {
+	public void gameStateChanged(GameState newGameState) {
+		setGameState(newGameState);
 		for (GameStateChangedListener listener : gameStateChangedListeners) {
-			listener.gameStateChanged(newGameState);
+			listener.gameStateChanged(newGameState, playerIndex);
 		}
 	}
 
 	public void addBoardChangedListener(BoardChangedListener listener) {
 		listeners.add(listener);
 	}
-
+	
 	public void boardChanged() {
 		for (BoardChangedListener listener : listeners) {
 			listener.boardChanged(playerIndex);
@@ -174,6 +176,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			renderInfo.addImageScale(-0.1);
 		}
 		boardChanged();
+		if (hasWonGame()) {
+			gameStateChanged(GameState.WON);
+		}
 	}
 
 	private boolean moveVoidTile(Directions direction) {
@@ -189,6 +194,11 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		return settings.getGameSize();
 	}
 
+	private boolean hasWonGame()
+	{
+		return DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0;
+	}
+	
 	private boolean isMoveAllowed(Directions direction) {
 		switch (direction) {
 		case RIGHT:
@@ -304,5 +314,16 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void setRandom(Random random)
 	{
 		randomGenerator = random;
+	}
+
+	
+	@Override
+	public void addGameStateChangedListener(GameStateChangedListener listener) {
+		gameStateChangedListeners.add(listener);		
+	}
+	
+	public void setGameState(GameState newGameState)
+	{
+		currentGameState = newGameState;
 	}
 }

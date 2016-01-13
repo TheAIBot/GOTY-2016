@@ -11,13 +11,14 @@ import Game.Model.Board.Directions;
 import Game.Model.Board.SinglePlayerBoard;
 import Game.Model.Board.GameBoardMode;
 import Game.Model.Board.GameState;
+import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Board.MultiPlayerBoard;
 import Game.Model.Board.Tile;
 import Game.Model.Settings.GameSettings;
 import Game.View.GraphicsPanel;
 import Game.View.RenderInfo;
 
-public class GameEngine implements BoardChangedListener, KeyPressListener {
+public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener {
 	private static final String SAVE_FILE_NAME = "game";
 	private final SaveFileManager<GameBoardMode> saver = new SaveFileManager<GameBoardMode>("saveFiles");
 	private final GraphicsManager graphics;
@@ -34,6 +35,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 		game.createGame();
 		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers());
 		game.addBoardChangedListener(this);
+		game.addGameStateChangedListener(this);
 		graphics.repaint();
 		game.makeRandom();
 		//new Thread(() -> {
@@ -146,5 +148,10 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	public void setScoreAndTime(int score, int time, int screenIndex)
 	{
 		graphics.setScoreAndTime(score, time, screenIndex);
+	}
+
+	@Override
+	public void gameStateChanged(GameState newGameState, int playerIndex) {
+		graphics.setGameState(newGameState, playerIndex);
 	}
 }
