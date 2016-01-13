@@ -22,12 +22,12 @@ public class GameSettings implements Serializable{
 	public static final int SIZE_MIN = 3;
 	public static final int SIZE_MAX = 100;
 	
+	private boolean isPaused;
 	private boolean isConsoleMode;
 	private float soundVolume;
 	private int gameSize;
 	private GameModes gameMode;
 	private DifficultyLevel difficultyLevel;
-	private boolean randomize;
 	private PlayerSettings[] players;
 	private transient BufferedImage tileImage;
 	private boolean isRandomized;
@@ -39,7 +39,7 @@ public class GameSettings implements Serializable{
 		this.gameSize = size;
 		this.gameMode = mode;
 		this.difficultyLevel = difficulty;
-		this.randomize = randomize;
+		this.isRandomized = randomize;
 		this.players = players;
 		this.isRandomized = isRandom;
 		this.isConsoleMode = isConsoleMode;
@@ -57,10 +57,10 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_S, 
 									   KeyEvent.VK_A, 
 									   KeyEvent.VK_D, 
-									   KeyEvent.VK_T,
 									   KeyEvent.VK_G,
-									   KeyEvent.VK_H,
+									   KeyEvent.VK_T,
 									   KeyEvent.VK_F,
+									   KeyEvent.VK_H,
 									   KeyEvent.VK_Q,
 									   KeyEvent.VK_E,
 									   KeyEvent.VK_R,
@@ -69,10 +69,10 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_DOWN, 
 									   KeyEvent.VK_LEFT, 
 									   KeyEvent.VK_RIGHT, 
-									   KeyEvent.VK_I,
 									   KeyEvent.VK_K,
-									   KeyEvent.VK_L,
+									   KeyEvent.VK_I,
 									   KeyEvent.VK_J,
+									   KeyEvent.VK_L,
 									   KeyEvent.VK_U,
 									   KeyEvent.VK_O,
 									   KeyEvent.VK_P,
@@ -127,6 +127,16 @@ public class GameSettings implements Serializable{
 	 */
 	public void setGameMode(GameModes gameMode) {
 		this.gameMode = gameMode;
+	}
+	
+	public boolean isRandomized()
+	{
+		return isRandomized;
+	}
+	
+	public void setIsRandomize(boolean isRandomized)
+	{
+		this.isRandomized = isRandomized;
 	}
 	
 	/**
@@ -199,11 +209,19 @@ public class GameSettings implements Serializable{
         ImageIO.write(tileImage, ResourceImages.ACCEPTED_EXTENSION, out);
     }
 
-    public boolean getIsConsoleMode(){
+    public boolean isConsoleMode(){
     	return this.isConsoleMode;
     }
     
-    public void setIsConsoleMode(boolean isConsoleMode){
+    public void setConsoleMode(boolean isConsoleMode){
     	this.isConsoleMode = isConsoleMode;
     }
+
+	public boolean isPaused() {
+		return isPaused;
+	}
+
+	public void setPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
 }

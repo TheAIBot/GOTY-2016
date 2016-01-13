@@ -3,6 +3,7 @@ package Game.Control.GameEngine;
 import javax.swing.JPanel;
 
 import Game.Model.Board.GameState;
+import Game.Model.Settings.GameSettings;
 import Game.View.Colorfull;
 import Game.View.ConsoleGraphics;
 import Game.View.CreateGamePanel;
@@ -21,13 +22,13 @@ public class GraphicsManager implements AnimateUpdateListener {
 	private final Animator animator = new Animator(this);
 	private final CreateGamePanel gamePanelCreater = new CreateGamePanel();
 	private final RenderInfo[] renderInfos;
-	private JPanel gamePanel;
-	private boolean isConsoleMode;
+	private GameSettings settings;
+	private JPanel gamePanel;	
 	
-	public GraphicsManager(GameEngine gEngine, int numberOfScreens, boolean isConsoleMode) {
+	public GraphicsManager(GameEngine gEngine, int numberOfScreens, GameSettings settings) {
 		this.gEngine = gEngine;
-		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);
-		this.isConsoleMode = isConsoleMode;
+		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);		
+		this.settings = settings;
 		this.gPanels = new GraphicsPanel[numberOfScreens];
 		this.renderInfos = new RenderInfo[numberOfScreens];
 		for (int i = 0; i < gPanels.length; i++) {
@@ -37,7 +38,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	}
 	
 	public void renderTiles(RenderInfo renderInfo, int screenIndex){	
-		if (isConsoleMode) {
+		if (settings.isConsoleMode()) {
 			consoleDisplay.render();			
 		} else {
 			checkForNewAnimations(renderInfo);
@@ -46,7 +47,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	}
 	
 	public void renderScreen(int screenIndex){
-		if (isConsoleMode) {
+		if (settings.isConsoleMode()) {
 			consoleDisplay.render();
 		} else gPanels[screenIndex].render();
 	}
@@ -65,7 +66,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	public Displayable[] getDisplayablesToRender(int screenIndex){
 		if (renderInfos[screenIndex] != null && !renderInfos[screenIndex].renderColor) {
 			//It does not animate anything, if it is in console mode.
-			if (!isConsoleMode) {
+			if (!settings.isConsoleMode()) {
 				animate(screenIndex);
 			}
 			return gEngine.getTiles(screenIndex);
@@ -86,7 +87,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	
 	public void repaint()
 	{
-		if (isConsoleMode) {
+		if (settings.isConsoleMode()) {
 			consoleDisplay.render();
 		} else{
 			for (int i = 0; i < gPanels.length; i++) {
@@ -96,7 +97,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	}
 
 	public void checkForNewAnimations(RenderInfo renderInfo) {
-		if (!isConsoleMode) {
+		if (!settings.isConsoleMode()) {
 			if (renderInfo.toAnimate.size() > 0) {
 				animator.startAnimation(renderInfo.toAnimate);
 				renderInfo.toAnimate.clear();

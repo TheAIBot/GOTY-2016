@@ -25,7 +25,7 @@ public class ConsoleControl implements GameStateChangedListener {
 	public void startGameInConsole() {
 		run = true;
 		try (Scanner scan = new Scanner(System.in)) {
-			while (settings.getIsConsoleMode()) {
+			while (settings.isConsoleMode()) {
 				do {
 					//Prints the game to the console every time a command is passed
 					// and at the start of the game so the user can see the games initial position

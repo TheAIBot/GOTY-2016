@@ -278,10 +278,50 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		lblPlayer2View.setBounds(630, 483, 116, 16);
 		page.add(lblPlayer2View);
 		
-		JCheckBox setRandomize = new JCheckBox("Randomize");
+		JLabel lblPlayerName1 = new JLabel("Player 1 name:");
+		lblPlayerName1.setBounds(174, 638, 96, 16);
+		page.add(lblPlayerName1);
+		
+		JLabel lblPlayerName2 = new JLabel("Player 2 name:");
+		lblPlayerName2.setBounds(630, 638, 96, 16);
+		page.add(lblPlayerName2);
+		
+		final JCheckBox setRandomize = new JCheckBox("Randomize");
 		setRandomize.setBounds(750, 96, 117, 25);
-		//setRandomize.setSelected(theGameSettings);
+		setRandomize.setSelected(theGameSettings.isRandomized());
+		setRandomize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				theGameSettings.setIsRandomize(setRandomize.isSelected());
+				System.out.println(theGameSettings.isRandomized());
+			}
+		});
 		page.add(setRandomize);
+		
+		final JTextField p1Name = new JTextField();
+		p1Name.setText(theGameSettings.getPlayerOne().getName());
+		p1Name.setBounds(153, 667, 137, 22);
+		page.add(p1Name);
+		p1Name.setColumns(10);
+		p1Name.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				theGameSettings.getPlayerOne().setName(p1Name.getText());
+			}
+			@Override
+			public void focusGained(FocusEvent e) {}
+		});
+		
+		final JTextField p2Name = new JTextField();
+		p2Name.setText(theGameSettings.getPlayerTwo().getName());
+		p2Name.setBounds(609, 667, 137, 22);
+		page.add(p2Name);
+		p2Name.setColumns(10);
+		p2Name.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				theGameSettings.getPlayerTwo().setName(p2Name.getText());
+			}
+			@Override
+			public void focusGained(FocusEvent e) {}
+		});
 		
 		tileImages = ResourceImages.getDefaultImages();
 		showtileImage = new JLabel();
@@ -457,6 +497,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p1ViewDown.addKeyListener(keyBindingsListener);
 		p1ViewLeft.addKeyListener(keyBindingsListener);
 		p1ViewRight.addKeyListener(keyBindingsListener);
+		p1ColorMode.addKeyListener(keyBindingsListener);
+		p1ZoomIn.addKeyListener(keyBindingsListener);
+		p1ZoomOut.addKeyListener(keyBindingsListener);
 		
 		p2MoveUp.addKeyListener(keyBindingsListener);
 		p2MoveDown.addKeyListener(keyBindingsListener);
@@ -466,6 +509,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p2ViewDown.addKeyListener(keyBindingsListener);
 		p2ViewLeft.addKeyListener(keyBindingsListener);
 		p2ViewRight.addKeyListener(keyBindingsListener);
+		p2ColorMode.addKeyListener(keyBindingsListener);
+		p2ZoomIn.addKeyListener(keyBindingsListener);
+		p2ZoomOut.addKeyListener(keyBindingsListener);
 		
 		
 		//The text field which adjusts the size of the map
@@ -555,5 +601,10 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				showTileImage();
 			}
 		}
+	}
+
+	@Override
+	public boolean canShowPage() {
+		return true;		
 	}
 }

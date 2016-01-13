@@ -42,7 +42,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		gameStateChanged(GameState.NOT_DECIDED_YET);
 		scoreManager = new ScoreManager(1, 2, true, this);
 	}
-	
+ 	
 	public GameState getGameState(int playerIndex) {
 		return currentGameState;
 	}
@@ -142,7 +142,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void makeRandom() {
 		randomizeGame();
-		scoreManager.startClock();
 	}
 
 	@Override
@@ -276,14 +275,12 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
+		scoreManager.stopClock();
 	}
 
 	@Override
-	public void restart() {
-		// TODO Auto-generated method stub
-		
+	public void unpause() {
+		scoreManager.startClock();
 	}
 
 	@Override
@@ -355,5 +352,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void scoreChanged(int score, int seconds, int screenIndex) {
 		scoreListener.scoreChanged(score, seconds, playerIndex);
 		
+	}
+
+	public int getScore()
+	{
+		return scoreManager.getTotalScore();
 	}
 }
