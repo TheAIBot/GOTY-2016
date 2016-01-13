@@ -20,6 +20,7 @@ public class ResourceImages {
 	
 	public static final String DEFAULT_IMAGE_DIRECTORY_NAME = "default";
 	public static final String ANIME_DIRECTORY_PATH = "res" + File.separator + "images" + File.separator + "special";
+	public static final int THUMBNAIL_SIZE = 100;
 
 
 	public static ArrayList<BufferedImage> getDefaultImages() {
@@ -85,6 +86,35 @@ public class ResourceImages {
 		return filePath.substring(index + 1);
 	}
 
+	public static ArrayList<BufferedImage> convertToThumbNails(ArrayList<BufferedImage> images)
+	{
+		ArrayList<BufferedImage> thumbnails = new ArrayList<BufferedImage>();
+		for (BufferedImage image : images) {
+			thumbnails.add(convertToThumbnail(image));
+		}
+		return thumbnails;
+	}
+	
+	public static BufferedImage convertToThumbnail(BufferedImage image)
+	{
+		BufferedImage thumbNail = new BufferedImage(THUMBNAIL_SIZE, THUMBNAIL_SIZE, image.getType());
+		Graphics2D g = thumbNail.createGraphics();
+		g.drawImage(image, 0, 0, THUMBNAIL_SIZE, THUMBNAIL_SIZE, 0, 0, image.getWidth(), image.getHeight(), null);
+		g.dispose();
+		return thumbNail;
+	}
+	
+	public static void releaseImagesResources(ArrayList<BufferedImage> images)
+	{
+		for (BufferedImage image : images) {
+			releaseImageResource(image);
+		}
+	}
+	
+	public static void releaseImageResource(BufferedImage image)
+	{
+		image.flush();
+	}
 	
 	/**
 	 * http://stackoverflow.com/questions/196890/java2d-performance-issues
