@@ -11,6 +11,7 @@ public class RenderInfo {
 	public HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 	public double imageScale = 1;
 	private final int size;
+	private static final double MIN_ZOOM_LEVEL = 0.1;
 
 	public RenderInfo(boolean renderColor, int size) {
 		this.renderColor = renderColor;
@@ -23,7 +24,9 @@ public class RenderInfo {
 	}
 	
 	public void addImageScale(double imageScale) {
-		this.imageScale += imageScale;
+		if (this.imageScale + imageScale >= MIN_ZOOM_LEVEL) {
+			this.imageScale += imageScale;
+		}
 	}
 
 	public void toggleRenderColor() {
