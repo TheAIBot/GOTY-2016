@@ -35,6 +35,8 @@ import Game.Model.Settings.GameSettings;
 
 public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
 	private final GOTYPlay playGame;
+	private SuperPage gameSettingsPage;
+	private PageRequestsListener gameSettingsListener;
 	private GameSettings theGameSettings = GameSettings.load();
 	private static final int SOUND_MAX = 100;
 	private static final int SOUND_MIN = 0;
@@ -50,6 +52,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	{
 		super(listener);
 		playGame = new GOTYPlay(listener);
+		gameSettingsListener = listener;
 	}
 	
 	//The play button
@@ -541,6 +544,18 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				
 			}
 		});
+		
+		JButton resetSettingsButton = new JButton("Reset settings");
+		resetSettingsButton.setBounds(32, 171, 117, 54);
+		resetSettingsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameSettingsPage = new GOTYPlayGameSettings(gameSettingsListener);
+				theGameSettings = new GameSettings();
+				switchPage(gameSettingsPage);
+			}
+		});
+		page.add(resetSettingsButton);
+		
 		
 		addCheats();
 		
