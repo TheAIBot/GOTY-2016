@@ -56,4 +56,9 @@ public class GOTYMainPage extends SuperPage {
 	@Override
 	public void startPage() {
 	}
+
+	@Override
+	public boolean canShowPage() {
+		return true;		
+	}
 }

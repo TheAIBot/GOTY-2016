@@ -6,4 +6,6 @@ public interface GameEventsListener {
 	public abstract void hideWindow();
 	
 	public abstract void showWindow();
+	
+	public abstract void closeGame();
 }

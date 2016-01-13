@@ -1,6 +1,7 @@
 package Game.View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -34,7 +35,7 @@ public class GraphicsPanel extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);		
+		super.paintComponent(g);
 		renderDisplayables(gManager.getDisplayablesToRender(screenIndex), g);
 		renderColorfull(gManager.getColorfullsToRender(screenIndex), g);
 		renderNumreable(gManager.getNumreablesToRender(screenIndex), g);

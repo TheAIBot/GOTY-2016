@@ -51,7 +51,7 @@ public class CreateGamePanel {
 		JPanel panelGame = new JPanel();
 		panelGame.setLayout(new GridBagLayout());
 		
-		panelGame.add(gPanel, createConstraint(0, 1, 5, 1, GridBagConstraints.SOUTH, true, GridBagConstraints.BOTH));
+		panelGame.add(gPanel, createConstraint(0, 1, 5, 1, GridBagConstraints.CENTER, true, GridBagConstraints.BOTH));
 		
 		JLabel gameStateLabel = new JLabel("", SwingConstants.CENTER);
 		Font currentGameStateFont = gameStateLabel.getFont();

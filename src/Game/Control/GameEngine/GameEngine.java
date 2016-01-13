@@ -1,5 +1,7 @@
 package Game.Control.GameEngine;
 
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 import com.sun.security.auth.NTDomainPrincipal;
@@ -28,6 +30,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private final GameSettings settings;
 	private transient AudioManager audio;
 	private boolean isPaused = false;
+	private ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
 	private GameBoardMode game;
 
 	public GameEngine(GameSettings settings) {	
@@ -49,7 +52,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		} catch (InterruptedException e) {
 			Log.writeln("could not wait before randomizing");
 		}
+		game.pause();
 		addKeyboardControls();
+		game.unpause();
 		//});
 	}
 	
@@ -57,9 +62,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		switch (settings.getGameMode()) {
 		case SINGLE_PLAYER:
-			return new SinglePlayerBoard(settings, 0);
+			return new MultiPlayerBoard(settings, 1);
 		case MULTI_PLAYER:
-			return new MultiPlayerBoard(settings);
+			return new MultiPlayerBoard(settings, 2);
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -74,6 +79,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 			}
 		}
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.EXIT_GAME);
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_PAUSE);
 	}
 	
 	public RenderInfo getRenderInfo(int playerIndex)
@@ -111,9 +117,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		return game.getSize();
 	}
 	
-	public GameState getGameState(int playerIndex)
+	public GameState getGameState()
 	{
-		return game.getGameState(playerIndex);
+		return game.getGameState(0);
 	}
 
 	public void createGame()
@@ -150,7 +156,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		game.pause();
 		saver.save(SAVE_FILE_NAME, this);
-		game.restart();
+		game.unpause();
 	}
 	
 	public static GameEngine load()
@@ -198,5 +204,10 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	@Override
 	public void scoreChanged(int score, int time, int screenIndex) {
 		setScoreAndTime(score, time, screenIndex);
+	}
+
+	public void addGameEventListener(GameEventsListener listener)
+	{
+		gameEventsListeners.add(listener);
 	}
 }

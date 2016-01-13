@@ -12,10 +12,7 @@ import java.util.Random;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
-<<<<<<< HEAD
-=======
 import Game.Model.Score.ScoreChangedListener;
->>>>>>> refs/remotes/origin/Dev
 import Game.Model.Score.ScoreManager;
 import Game.Model.Settings.GameSettings;
 import Game.Model.Settings.PlayerSettings;
@@ -145,7 +142,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void makeRandom() {
 		randomizeGame();
-		scoreManager.startClock();
 	}
 
 	@Override
@@ -279,12 +275,12 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void pause() {
-		
+		scoreManager.stopClock();
 	}
 
 	@Override
 	public void unpause() {
-		
+		scoreManager.startClock();
 	}
 
 	@Override
@@ -356,5 +352,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void scoreChanged(int score, int seconds, int screenIndex) {
 		scoreListener.scoreChanged(score, seconds, playerIndex);
 		
+	}
+
+	public int getScore()
+	{
+		return scoreManager.getTotalScore();
 	}
 }
