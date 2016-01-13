@@ -25,9 +25,7 @@ public class MenuController implements PageRequestsListener {
 	{
 		mainMenu = new JFrame(windowName);
 		mainMenu.setSize(startWidth, startHeight);
-<<<<<<< HEAD
 		mainMenu.setLocationRelativeTo(null);
-=======
 		mainMenu.addWindowListener(new WindowAdapter() {
 			@Override
 	        public void windowClosing(WindowEvent e) {
@@ -35,7 +33,6 @@ public class MenuController implements PageRequestsListener {
 	            currentPage.closePage();
 	        }
 		});
->>>>>>> refs/remotes/origin/Andreas
 	}
 	
 	public void showWindow()
@@ -60,21 +57,6 @@ public class MenuController implements PageRequestsListener {
 	@Override
 	public void switchPage(SuperPage toSwitchTo)
 	{
-<<<<<<< HEAD
-		previousPages.add(currentPage);
-		currentPage.closePage();
-		currentPage = toSwitchTo;
-		
-		mainMenu.getContentPane().removeAll();
-		mainMenu.add(toSwitchTo.getPage());
-		mainMenu.repaint();
-		//mainMenu.validate();
-		//mainMenu.repaint();
-		//mainMenu.repaint();
-		mainMenu.setVisible(true);
-		
-		currentPage.startPage();
-=======
 		if (toSwitchTo.canShowPage()) {
 			previousPages.add(currentPage);
 			currentPage.closePage();
@@ -83,10 +65,10 @@ public class MenuController implements PageRequestsListener {
 			mainMenu.getContentPane().removeAll();
 			mainMenu.add(toSwitchTo.getPage());
 			mainMenu.repaint();
+			mainMenu.setVisible(true);
 			
 			currentPage.startPage();
 		}
->>>>>>> refs/remotes/origin/Andreas
 	}
 
 	@Override
