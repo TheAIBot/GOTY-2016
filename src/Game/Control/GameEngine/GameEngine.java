@@ -8,17 +8,19 @@ import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
 import Game.Control.Input.KeyPressListener;
 import Game.Control.Input.SpecialKeys;
+import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Board.BoardChangedListener;
 import Game.Model.Board.GameBoardMode;
 import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Board.MultiPlayerBoard;
 import Game.Model.Board.Tile;
+import Game.Model.Resources.ResourceAudio;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener, ScoreChangedListener {
+public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
 	private static final String SAVE_FILE_NAME = "game";
 	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>("saveFiles");
 	private transient GraphicsManager graphics;
@@ -40,6 +42,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.addBoardChangedListener(this);
 		game.addGameStateChangedListener(this);
 		game.addScoreChangedListener(this);
+		game.addPlaySoundListener(this);
 		graphics.repaint();
 		game.makeRandom();
 		try {
@@ -67,10 +70,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		default:
 			throw new IllegalArgumentException();
 		}
-	}
-	
-	private void setupSound(){
-		audio.createSoundBuffer("Swoosh", 10);		
 	}
 	
 	private void addKeyboardControls()
@@ -142,7 +141,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 
 	@Override
 	public void boardChanged(int playerIndex) {
-		//audio.makeSwooshSound();
 		render(playerIndex);		
 	}
 
@@ -152,6 +150,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	public void shutdown()
 	{
+		audio.close();
 		for (GameEventsListener gameEventsListener : gameEventsListeners) {
 			gameEventsListener.closeGame();
 		}
@@ -216,5 +215,10 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void addGameEventListener(GameEventsListener listener)
 	{
 		gameEventsListeners.add(listener);
+	}
+
+	@Override
+	public void playSound(String name) {
+		audio.playSound(name);		
 	}
 }

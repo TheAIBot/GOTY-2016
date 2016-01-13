@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Game.Control.GameEngine.Log;
+import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Score.Highscore;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener {
+public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
+	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
 	private final SinglePlayerBoard[] boards;
 	private ScoreChangedListener scoreListener;
 	
@@ -176,5 +178,20 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			boards[i].addScoreChangedListener(this);
 		}
 		
+	}
+
+	@Override
+	public void playSound(String name) {
+		for (PlaySoundListener playSoundListener : playSoundListeners) {
+			playSoundListener.playSound(name);
+		}
+	}
+
+	@Override
+	public void addPlaySoundListener(PlaySoundListener listener) {
+		playSoundListeners.add(listener);
+		for (int i = 0; i < boards.length; i++) {
+			boards[i].addPlaySoundListener(listener);
+		}
 	}
 }

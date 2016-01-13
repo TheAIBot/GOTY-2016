@@ -20,7 +20,9 @@ import javax.swing.SwingUtilities;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Resources.ResourceAudio;
 import Game.Model.Resources.ResourceImages;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Score.ScoreManager;
@@ -30,10 +32,11 @@ import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
 	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
+	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
@@ -171,22 +174,22 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		if (key.equals(playerSettings.getDownKeyName())) {
 			if(moveVoidTile(Directions.DOWN))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getLeftKeyName())) {
 			if(moveVoidTile(Directions.LEFT))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getRightKeyName())) {
 			if(moveVoidTile(Directions.RIGHT))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getUpKeyName())) {
 			if(moveVoidTile(Directions.UP))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
@@ -204,6 +207,13 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			renderInfo.addImageScale(-0.01);
 		}
 		boardChanged();
+	}
+	
+	private void updateBoardStateAfterMove()
+	{
+		scoreManager.incrementNumMoves();	
+		playSound(ResourceAudio.TILE_MOVED_SOUND);
+		
 		if (hasWonGame()) {
 			gameStateChanged(GameState.WON);
 		}
@@ -387,5 +397,17 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public int getScore()
 	{
 		return scoreManager.getTotalScore();
+	}
+	
+	@Override
+	public void playSound(String name) {
+		for (PlaySoundListener playSoundListener : playSoundListeners) {
+			playSoundListener.playSound(name);
+		}
+	}
+
+	@Override
+	public void addPlaySoundListener(PlaySoundListener listener) {
+		playSoundListeners.add(listener);
 	}
 }
