@@ -1,5 +1,7 @@
 package Game.Model.Board;
 
+import java.util.Random;
+
 import Game.Control.GameEngine.Log;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
@@ -23,9 +25,11 @@ public class MultiPlayerBoard implements GameBoardMode {
 
 	@Override
 	public void makeRandom() {
-		Thread[] threads = new Thread[boards.length];
+		final Thread[] threads = new Thread[boards.length];
+		final long seed = (int)(Math.random() * 1000000000);
 		for (int i = 0; i < boards.length; i++) {
 			final int index = i;
+			boards[i].setRandom(new Random(seed));
 			threads[i] = new Thread(() -> {
 				boards[index].makeRandom();
 			});

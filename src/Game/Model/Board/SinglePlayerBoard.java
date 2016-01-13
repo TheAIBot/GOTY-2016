@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
@@ -27,8 +28,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	protected final GameSettings settings;
 	protected RenderInfo renderInfo;
 	protected final int playerIndex;
+	private Random randomGenerator = new Random();
 	
-	public SinglePlayerBoard(GameSettings settings, int playerindex) {
+ 	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
 		this.settings = settings;
 		this.renderInfo = new RenderInfo(false, settings.getGameSize());
@@ -216,10 +218,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 
 	private void randomizeGame() {
-
+		final int NumberOfDirections = 4;
 		do {
 			for (int i = 0; i < settings.getGameSize() * 100; i++) {
-				switch (getRandomNumber(4)) {
+				switch (randomGenerator.nextInt(NumberOfDirections)) {
 				case 0:
 					moveVoidTile(Directions.LEFT);
 					break;
@@ -238,11 +240,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 				   DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
 	}
 	
-	private int getRandomNumber(int maxNumber)
-	{
-		return ((int) (Math.random() * 1000000)) % maxNumber;
-	}
-
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		voidTilePosition = recreateTilePositions();
@@ -302,5 +299,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		default:
 			throw new IllegalArgumentException();
 		}
+	}
+
+	public void setRandom(Random random)
+	{
+		randomGenerator = random;
 	}
 }
