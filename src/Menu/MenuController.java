@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.util.Stack;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import Game.Control.GameEngine.Log;
 import Menu.Pages.GOTYMainPage;
@@ -52,7 +53,10 @@ public class MenuController implements PageRequestsListener {
 		mainMenu.getContentPane().removeAll();
 		mainMenu.add(toSwitchTo.getPage());
 		mainMenu.repaint();
-		mainMenu.setVisible(true);
+		//mainMenu.validate();
+		//mainMenu.repaint();
+		//mainMenu.repaint();
+		//mainMenu.setVisible(true);
 		
 		currentPage.startPage();
 	}

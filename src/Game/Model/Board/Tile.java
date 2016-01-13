@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import Game.Model.Resources.ResourceImages;
 import Game.View.Colorfull;
 import Game.View.Displayable;
-<<<<<<< HEAD
 import Game.View.Numreable;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
@@ -24,17 +23,11 @@ import Game.View.Animation.ToAnimateListener;
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
 	private int scallingX = 1;
 	private int scallingY = 1;
-	private Point2D.Double[] corners;
-=======
-
-public class Tile implements java.io.Serializable, Displayable {
-	
-	private Point[] corners;
->>>>>>> refs/remotes/origin/Niklas
-	private int number;
+	private final Point2D.Double[] corners;
+	private final int number;
 	transient Point2D.Double position;	
-	private Color color;
-	private Polygon colorPolygon;
+	private final Color color;
+	private final Polygon colorPolygon;
 	private static transient BufferedImage displayImage;
 	private Point2D.Double previousPosition;
 	private ToAnimateListener listener;
@@ -63,11 +56,11 @@ public class Tile implements java.io.Serializable, Displayable {
 		this.position = position;
 		this.previousPosition = position;
 		this.color = color;	
-		corners = new Point2D.Double[]{new Point2D.Double(0, 0),
-				  			  new Point2D.Double(1, 0),
-				  			  new Point2D.Double(1, 1),
-				  			  new Point2D.Double(0, 1)};
-		colorPolygon = new Polygon();
+		this.corners = new Point2D.Double[]{new Point2D.Double(0, 0),
+				  			  				new Point2D.Double(1, 0),
+				  			  				new Point2D.Double(1, 1),
+				  			  				new Point2D.Double(0, 1)};
+		this.colorPolygon = new Polygon();
 		for (Point2D.Double corner : corners) {
 			colorPolygon.addPoint((int) corner.x, (int) corner.y);
 		}
@@ -148,7 +141,7 @@ public class Tile implements java.io.Serializable, Displayable {
 	public double getColorPolygonScallingY() {
 		return scallingY;
 	}
-<<<<<<< HEAD
+
 
 	@Override
 	public double getNumberDisplayScallingX() {
@@ -175,7 +168,4 @@ public class Tile implements java.io.Serializable, Displayable {
 	public Double getPosition() {
 		return this.position;
 	}
-
-=======
->>>>>>> refs/remotes/origin/Niklas
 }

@@ -41,7 +41,8 @@ public class ConsoleControl implements GameStateChangedListener {
 		}
 	}
 
-	public void gameStateChanged(GameState newGameState) {
+	@Override
+	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		if (newGameState != GameState.NOT_DECIDED_YET) {
 			run = false;
 		}

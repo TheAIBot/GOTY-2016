@@ -3,13 +3,6 @@ package Game.Model.Settings;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
-<<<<<<< HEAD
-public class PlayerSettings {
-	private int upKey, downKey, leftKey, rightKey;
-	private int toggleColorKey;
-	private int cameraUpKey, cameraDownKey, cameraLeftKey, cameraRightKey;
-	private int zoomInKey, zoomOutKey;
-=======
 public class PlayerSettings implements Serializable {
 	private int upKey;
 	private int downKey;
@@ -22,7 +15,6 @@ public class PlayerSettings implements Serializable {
 	private int toggleColorKey;
 	private int zoomInKey;
 	private int zoomOutKey;
->>>>>>> refs/remotes/origin/Niklas
 	private String name;
 	
 	/**
@@ -48,21 +40,6 @@ public class PlayerSettings implements Serializable {
 		zoomOutKey = zoomOut;
 		name = playerName;
 	}
-	
-	public PlayerSettings(int up, int down, int left, int right, int toggleColor, int cup, int cdown, int cleft, int cright, int zoomIn, int zoomOut, String playerName) {
-		this.upKey = up;
-		this.downKey = down;
-		this.leftKey = left;
-		this.rightKey = right;
-		this.toggleColorKey = toggleColor;
-		cameraUpKey = cup;
-		cameraDownKey = cdown;
-		cameraLeftKey = cleft;
-		cameraRightKey = cright;
-		zoomInKey = zoomIn;
-		zoomOutKey = zoomOut;
-		this.name = playerName;
-	}
 
 	/**
 	 * @return The code for the key used to go up
@@ -76,7 +53,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to go up
 	 */
 	public String getUpKeyName(){
-		return KeyEvent.getKeyText(upKey);
+		return getKeyName(upKey);
 	}
 
 	/**
@@ -98,7 +75,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to go down
 	 */
 	public String getDownKeyName(){
-		return KeyEvent.getKeyText(downKey);
+		return getKeyName(downKey);
 	}
 
 	/**
@@ -120,7 +97,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to go left
 	 */
 	public String getLeftKeyName(){
-		return KeyEvent.getKeyText(leftKey);
+		return getKeyName(leftKey);
 	}
 
 	/**
@@ -149,7 +126,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to go right
 	 */
 	public String getRightKeyName() {
-		return KeyEvent.getKeyText(rightKey);
+		return getKeyName(rightKey);
 	}
 	
 	/**
@@ -171,7 +148,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to view up
 	 */
 	public String getUpViewKeyName() {
-		return KeyEvent.getKeyText(upViewKey);
+		return getKeyName(upViewKey);
 	}
 	
 	/**
@@ -193,7 +170,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to view down
 	 */
 	public String getDownViewKeyName() {
-		return KeyEvent.getKeyText(downViewKey);
+		return getKeyName(downViewKey);
 	}
 	
 	/**
@@ -203,27 +180,11 @@ public class PlayerSettings implements Serializable {
 		leftViewKey = left;
 	}
 	
-<<<<<<< HEAD
-	public boolean hasKeyCode(int key)
-	{
-		return (key == upKey || 
-				key == downKey || 
-				key == leftKey || 
-				key == rightKey || 
-				key == cameraUpKey ||
-				key == cameraDownKey || 
-				key == cameraLeftKey || 
-				key == cameraRightKey ||
-				key == zoomInKey || 
-				key == zoomOutKey ||
-				key == toggleColorKey);
-=======
 	/**
 	 * @return The code for the key used to view left
 	 */
 	public int getLeftViewKeyCode() {
 		return leftViewKey;
->>>>>>> refs/remotes/origin/Niklas
 	}
 
 	/**
@@ -231,7 +192,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to view left
 	 */
 	public String getLeftViewKeyName() {
-		return KeyEvent.getKeyText(leftViewKey);
+		return getKeyName(leftViewKey);
 	}
 	
 	/**
@@ -253,15 +214,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to view right
 	 */
 	public String getRightViewKeyName() {
-		return KeyEvent.getKeyText(rightViewKey);
-	}
-
-	/**
-	 * 
-	 * @return The name for the key used to zoom in
-	 */
-	public String getZoomInKeyName() {
-		return KeyEvent.getKeyText(zoomInKey);
+		return getKeyName(rightViewKey);
 	}
 	
 	/**
@@ -283,7 +236,7 @@ public class PlayerSettings implements Serializable {
 	 * @return The name for the key used to zoom out
 	 */
 	public String getZoomOutKeyName() {
-		return KeyEvent.getKeyText(zoomOutKey);
+		return getKeyName(zoomOutKey);
 	}
 	
 	/**
@@ -322,37 +275,32 @@ public class PlayerSettings implements Serializable {
 	 */
 	public String getToggleColorKeyName()
 	{
-		return KeyEvent.getKeyText(toggleColorKey);
+		return getKeyName(toggleColorKey);
 	}
 	
-<<<<<<< HEAD
 	//--- Camera control
 
 	public String getCameraUpKeyName() {
-		return KeyEvent.getKeyText(cameraUpKey);
+		return getKeyName(upViewKey);
 	}
 	
 	public String getCameraDownKeyName() {
-		return KeyEvent.getKeyText(cameraDownKey);
+		return getKeyName(downViewKey);
 	}
 	
 	public String getCameraLeftKeyName() {
-		return KeyEvent.getKeyText(cameraLeftKey);
+		return getKeyName(leftViewKey);
 	}
 	
 	public String getCameraRightKeyName() {
-		return KeyEvent.getKeyText(cameraRightKey);
+		return getKeyName(rightViewKey);
 	}
 	
 	//--- Zoom
 	
 	public String getZoomInKeyName() {
-		return KeyEvent.getKeyText(zoomInKey);
+		return getKeyName(zoomInKey);
 	}
-	
-	public String getZoomOutKeyName() {
-		return KeyEvent.getKeyText(zoomOutKey);
-=======
 	
 	/**
 	 * @return the name of the player
@@ -382,6 +330,10 @@ public class PlayerSettings implements Serializable {
 				key == zoomInKey ||
 				key == zoomOutKey ||
 				key == toggleColorKey);
->>>>>>> refs/remotes/origin/Niklas
+	}
+
+	private String getKeyName(int keyCode)
+	{
+		return KeyEvent.getKeyText(keyCode).toUpperCase();
 	}
 }

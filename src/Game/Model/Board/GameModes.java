@@ -1,5 +1,5 @@
 package Game.Model.Board;
 
 public enum GameModes {
-	SINGLEPLAYER, MULTIPLAYER
+	SINGLE_PLAYER, MULTI_PLAYER
 }

@@ -74,11 +74,6 @@ public class AudioManager implements SoundFinishedListener {
 				i--;
 			}
 		}
-<<<<<<< HEAD
-=======
-		//sounds.removeAll(Collections.singletonList(sound));
-		sounds.removeAll(Collections.singletonList(sound));
->>>>>>> refs/remotes/origin/Niklas
 	}
 
 
