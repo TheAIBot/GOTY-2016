@@ -6,14 +6,18 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import com.sun.prism.paint.Stop;
 
 import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Resources.ResourceImages;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Score.ScoreManager;
 import Game.Model.Settings.GameSettings;
@@ -279,8 +283,14 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		voidTilePosition = recreateTilePositions();
+		Tile.setTileImage(ImageIO.read(in));
 	}
 
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        ImageIO.write(Tile.getTileImage(), ResourceImages.ACCEPTED_EXTENSION, out);
+    }
+	
 	@Override
 	public void pause() {
 		scoreManager.stopClock();

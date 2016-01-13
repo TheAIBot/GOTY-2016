@@ -2,9 +2,16 @@ package Game.Model.Score;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
+
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
+import Game.Model.Board.Tile;
 
 public class ScoreManager implements Serializable{
 	
@@ -104,7 +111,15 @@ public class ScoreManager implements Serializable{
 		}
 	}
 	
-	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
+		in.defaultReadObject();
+		clock = new Timer(delay, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateTimeScore();
+			}
+		});
+	}
 	
 	//Get-methods
 	

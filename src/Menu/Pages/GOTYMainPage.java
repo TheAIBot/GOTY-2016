@@ -15,11 +15,13 @@ import javax.swing.JPanel;
 public class GOTYMainPage extends SuperPage {
 	private final SuperPage highscores;
 	private final SuperPage playSettings;
+	private final SuperPage playGame;
 
 	public GOTYMainPage(PageRequestsListener listener) {
 		super(listener);
 		playSettings = new GOTYPlayGameSettings(listener);
 		highscores = new GOTYHighscore(listener);
+		playGame = new GOTYPlay(listener);
 	}
 
 	public JPanel createPage() {
@@ -57,6 +59,11 @@ public class GOTYMainPage extends SuperPage {
 
 		JButton loadGameButton = new JButton("Load Game");
 		loadGameButton.setPreferredSize(new Dimension(200, 100));
+		loadGameButton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	        	 switchPage(playGame);
+	         }
+	      });
 
 		page.add(playButton, createConstraint(1, 2, 1, 1, GridBagConstraints.CENTER, false, GridBagConstraints.NONE));
 		page.add(loadGameButton, createConstraint(1, 3, 1, 1, GridBagConstraints.CENTER, false, GridBagConstraints.NONE));
