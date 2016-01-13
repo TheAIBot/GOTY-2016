@@ -26,7 +26,6 @@ public class GameSettings implements Serializable{
 	private int gameSize;
 	private GameModes gameMode;
 	private DifficultyLevel difficultyLevel;
-	private boolean randomize;
 	private PlayerSettings[] players;
 	private transient BufferedImage tileImage;
 	private boolean isRandomized;
@@ -38,7 +37,7 @@ public class GameSettings implements Serializable{
 		this.gameSize = size;
 		this.gameMode = mode;
 		this.difficultyLevel = difficulty;
-		this.randomize = randomize;
+		this.isRandomized = randomize;
 		this.players = players;
 		this.isRandomized = isRandom;
 	}
@@ -124,6 +123,16 @@ public class GameSettings implements Serializable{
 	 */
 	public void setGameMode(GameModes gameMode) {
 		this.gameMode = gameMode;
+	}
+	
+	public boolean isRandomized()
+	{
+		return isRandomized;
+	}
+	
+	public void setIsRandomize(boolean isRandomized)
+	{
+		this.isRandomized = isRandomized;
 	}
 	
 	/**
