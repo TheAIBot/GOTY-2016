@@ -32,7 +32,7 @@ public class Animator  {
 		for (AnimationInfo animationInfo : animators) {
 			toAnimate.add(animationInfo);
 		}
-		toAnimate.clear();
+		animators.clear();
 		if (toAnimate.size() > 0) {
 			animationTimer.start();
 		}
