@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import Game.Control.GameEngine.GameEngine;
 import Game.Control.GameEngine.GameEventsListener;
 import Game.Model.Board.GameState;
-import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Settings.GameSettings;
 
 
@@ -20,8 +19,6 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 	
 	@Override
 	public JPanel createPage() {
-		//settings.setDifficultyLevel(DifficultyLevel.EASY);
-		page = game.getScreen();
 		return page;
 	}
 	
@@ -53,9 +50,9 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 				return false;
 			}
 		} else {
-			settings.setGameSize(2);
 			game = new GameEngine(settings);
 			game.addGameEventListener(this);
+			game.makeRandom();
 			page = game.getScreen();
 		}
 		return true;

@@ -1,9 +1,11 @@
 package Game.Model.Board;
 
+import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import Game.Control.GameEngine.Log;
+import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Score.Highscore;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
@@ -31,28 +33,34 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 
 	@Override
 	public void makeRandom() {
-		final Thread[] threads = new Thread[boards.length];
-		final long seed = (int)(Math.random() * 1000000000);
-		for (int i = 0; i < boards.length; i++) {
-			final int index = i;
-			boards[i].setRandom(new Random(seed));
-			threads[i] = new Thread(new Runnable() {
-				public void run() {
-					boards[index].makeRandom();				
+		final int NumberOfDirections = 4;
+		Random randomGenerator = new Random();
+		do {
+			for (int i = 0; i < boards[0].settings.getGameSize() * 100; i++) {
+				Directions direction;
+				switch (randomGenerator.nextInt(NumberOfDirections)) {
+				case 0:
+					direction = Directions.LEFT;
+					break;
+				case 1:
+					direction = Directions.RIGHT;
+					break;
+				case 2:
+					direction = Directions.UP;
+					break;
+				case 3:
+					direction = Directions.DOWN;
+					break;
+				default:
+					Log.writeln("Random generator in makeRandom game a number that was higher than the number of directions");
+					direction = Directions.LEFT;
 				}
-			});
-			/*threads[i] = new Thread(() -> {
-				boards[index].makeRandom();
-			});*/
-			threads[i].start();
-		}		
-		for (int i = 0; i < threads.length; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				Log.writeln("error occured when joining thread with main thread in makeRandom");
+				for (int j = 0; j < boards.length; j++) {
+					boards[j].moveVoidTile(direction);
+				}
 			}
-		}
+		} while (boards[0].settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(boards[0].getTiles(0), boards[0].settings.getGameSize()) ||
+				   DifficultyCalculator.getDfficulty(boards[0].getTiles(0), boards[0].settings.getGameSize()) == 0);
 	}
 
 	@Override

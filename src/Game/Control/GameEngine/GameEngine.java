@@ -44,18 +44,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.addGameStateChangedListener(this);
 		game.addScoreChangedListener(this);
 		graphics.repaint();
-		game.makeRandom();
-		//new Thread(() -> {
-		try {
-			final int waitBeforeRandomize = 1000; // 1 sec
-			Thread.sleep(waitBeforeRandomize);
-		} catch (InterruptedException e) {
-			Log.writeln("could not wait before randomizing");
-		}
 		game.pause();
 		addKeyboardControls();
 		game.unpause();
-		//});
 	}
 	
 	private GameBoardMode createGameType(GameSettings settings)

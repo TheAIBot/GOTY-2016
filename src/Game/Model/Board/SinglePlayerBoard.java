@@ -1,19 +1,26 @@
 package Game.Model.Board;
 
 import java.awt.Color;
-
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Transparency;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+import com.sun.java.accessibility.util.SwingEventMonitor;
 import com.sun.prism.paint.Stop;
 
 import Game.Model.Difficulty.DifficultyCalculator;
@@ -197,9 +204,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
 		} else if (key.equals(playerSettings.getZoomInKeyName())) {
-			renderInfo.addImageScale(0.1);
+			renderInfo.addImageScale(0.01);
 		} else if (key.equals(playerSettings.getZoomOutKeyName())) {
-			renderInfo.addImageScale(-0.1);
+			renderInfo.addImageScale(-0.01);
 		}
 		boardChanged();
 		if (hasWonGame()) {
@@ -207,7 +214,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		}
 	}
 
-	private boolean moveVoidTile(Directions direction) {
+	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			swapVoidTile(direction);
 			return true;
@@ -276,6 +283,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 					break;
 				}
 			}
+			boardChanged();
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
 				   DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
 	}
