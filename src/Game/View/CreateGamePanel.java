@@ -101,7 +101,8 @@ public class CreateGamePanel {
 		if (scoreLabels != null) {
 			scoreLabels[screenIndex].setText(String.valueOf(score));
 			timeLabels[screenIndex].setText(String.valueOf(time));
-			gamePanel.repaint();
+			scoreLabels[screenIndex].repaint();
+			timeLabels[screenIndex].repaint();
 		}
 	}
 
@@ -109,7 +110,7 @@ public class CreateGamePanel {
 	{
 		if (gameStateLabels != null) {
 			gameStateLabels[screenIndex].setText(newGameState.getText());
-			gamePanel.repaint();
+			gameStateLabels[screenIndex].repaint();
 		}
 	}
 }
