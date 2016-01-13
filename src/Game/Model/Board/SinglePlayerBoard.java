@@ -6,30 +6,38 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Settings.GameSettings;
+import Game.Model.Settings.PlayerSettings;
+import Game.Control.GameEngine.Log;
+import Game.Model.Board.GameModes;
 import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener {
 	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
-	protected final RenderInfo renderInfo;
-
-	public GameBoard(GameSettings settings) {
-		this.currentGameState = GameState.NOT_DECIDED_YET;
+	protected RenderInfo renderInfo;
+	protected final int playerIndex;
+	private Random randomGenerator = new Random();
+	
+ 	public SinglePlayerBoard(GameSettings settings, int playerindex) {
+		this.playerIndex = playerindex;
 		this.settings = settings;
-		renderInfo = new RenderInfo(false, this.settings.getGameSize());	}
-
-	public GameState getGameState() {
+		this.renderInfo = new RenderInfo(false, settings.getGameSize());
+		gameStateChanged(GameState.NOT_DECIDED_YET);
+	}
+	
+	public GameState getGameState(int playerIndex) {
 		return currentGameState;
 	}
 
@@ -85,19 +93,20 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 		return new Point2D.Double(col, row);
 	}
 
-	public void GameStateChanged(GameState newGameState) {
+	public void gameStateChanged(GameState newGameState) {
+		setGameState(newGameState);
 		for (GameStateChangedListener listener : gameStateChangedListeners) {
-			listener.gameStateChanged(newGameState);
+			listener.gameStateChanged(newGameState, playerIndex);
 		}
 	}
 
 	public void addBoardChangedListener(BoardChangedListener listener) {
 		listeners.add(listener);
 	}
-
+	
 	public void boardChanged() {
 		for (BoardChangedListener listener : listeners) {
-			listener.boardChanged();
+			listener.boardChanged(playerIndex);
 		}
 	}
 
@@ -117,8 +126,8 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	public void createGame() {
 		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
-			int red = 		  (255 / (tilePlacements.length - 1)) * (i + 1);
-			int green = 255 - (255 / (tilePlacements.length - 1)) * (i + 1);
+			int red = 		  (int)Math.round(255 / (double)((tilePlacements.length - 1)) * (i + 1));
+			int green = 255 - (int)Math.round(255 / (double)((tilePlacements.length - 1)) * (i + 1));
 			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
 		}
 		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1, settings.getGameSize() - 1);
@@ -136,55 +145,43 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	}
 
 	@Override
-	public Tile[] getTiles() {
+	public Tile[] getTiles(int playerIndex) {
 		return tilePlacements;
 	}
 
 	@Override
 	public void keyPressed(String key) {
-		if (key.equals(settings.getPlayerOne().getDownKeyName())) {
+		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
+		if (key.equals(playerSettings.getDownKeyName())) {
 			moveVoidTile(Directions.DOWN);
-		} else if (key.equals(settings.getPlayerOne().getLeftKeyName())) {
+		} else if (key.equals(playerSettings.getLeftKeyName())) {
 			moveVoidTile(Directions.LEFT);
-		} else if (key.equals(settings.getPlayerOne().getRightKeyName())) {
+		} else if (key.equals(playerSettings.getRightKeyName())) {
 			moveVoidTile(Directions.RIGHT);
-		} else if (key.equals(settings.getPlayerOne().getUpKeyName())) {
+		} else if (key.equals(playerSettings.getUpKeyName())) {
 			moveVoidTile(Directions.UP);
-		} else if (key.equals(settings.getPlayerOne().getToggleColorKeyName())) {
+		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
-			boardChanged();
-		} else if (key.equals(settings.getPlayerOne().getCameraUpKeyName())) {
-			renderInfo.addOffset(0, 1);
-			boardChanged();
-		} else if (key.equals(settings.getPlayerOne().getCameraDownKeyName())) {
-			renderInfo.addOffset(1, 0);
-			boardChanged();
-		} else if (key.equals(settings.getPlayerOne().getCameraLeftKeyName())) {
+		} else if (key.equals(playerSettings.getCameraUpKeyName())) {
 			renderInfo.addOffset(0, -1);
-			boardChanged();
-		} else if (key.equals(settings.getPlayerOne().getCameraRightKeyName())) {
+		} else if (key.equals(playerSettings.getCameraDownKeyName())) {
+			renderInfo.addOffset(0, 1);
+		} else if (key.equals(playerSettings.getCameraLeftKeyName())) {
+			renderInfo.addOffset(1, 0);
+		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
-			boardChanged();
-		} else if (key.equals(settings.getPlayerOne().getZoomInKeyName())) {
+		} else if (key.equals(playerSettings.getZoomInKeyName())) {
 			renderInfo.addImageScale(0.1);
-			boardChanged();
-		} else if (key.equals(settings.getPlayerOne().getZoomOutKeyName())) {
+		} else if (key.equals(playerSettings.getZoomOutKeyName())) {
 			renderInfo.addImageScale(-0.1);
-			boardChanged();
+		}
+		boardChanged();
+		if (hasWonGame()) {
+			gameStateChanged(GameState.WON);
 		}
 	}
 
-	@Override
-	public boolean moveVoidTile(Directions direction) {
-		if (isMoveAllowed(direction)) {
-			swapVoidTile(direction);
-			boardChanged();
-			return true;
-		}
-		return false;
-	}
-
-	public boolean moveVoidTileNoUpdate(Directions direction) {
+	private boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			swapVoidTile(direction);
 			return true;
@@ -197,6 +194,11 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 		return settings.getGameSize();
 	}
 
+	private boolean hasWonGame()
+	{
+		return DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0;
+	}
+	
 	private boolean isMoveAllowed(Directions direction) {
 		switch (direction) {
 		case RIGHT:
@@ -216,7 +218,7 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 		moveWithDirection(voidTilePosition, direction);
 		final Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
-		moveTileIndexes(getIndexFromPoint(tileToMove.position), getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()), getIndexFromPoint(voidTilePosition));
 	}
 
 	private void moveTileIndexes(int tileAIndex, int tileBIndex) {
@@ -226,34 +228,28 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	}
 
 	private void randomizeGame() {
-
+		final int NumberOfDirections = 4;
 		do {
 			for (int i = 0; i < settings.getGameSize() * 100; i++) {
-				switch (getRandomNumber(4)) {
+				switch (randomGenerator.nextInt(NumberOfDirections)) {
 				case 0:
-					moveVoidTileNoUpdate(Directions.LEFT);
+					moveVoidTile(Directions.LEFT);
 					break;
 				case 1:
-					moveVoidTileNoUpdate(Directions.RIGHT);
+					moveVoidTile(Directions.RIGHT);
 					break;
 				case 2:
-					moveVoidTileNoUpdate(Directions.UP);
+					moveVoidTile(Directions.UP);
 					break;
 				case 3:
-					moveVoidTileNoUpdate(Directions.DOWN);
+					moveVoidTile(Directions.DOWN);
 					break;
 				}
 			}
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
 				   DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
-		boardChanged();
 	}
 	
-	private int getRandomNumber(int maxNumber)
-	{
-		return ((int) (Math.random() * 1000000)) % maxNumber;
-	}
-
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		voidTilePosition = recreateTilePositions();
@@ -272,26 +268,27 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	}
 
 	@Override
-	public String[] getKeysToSubscribeTo() {
+	public String[] getKeysToSubscribeTo(int playerIndex) {
+		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
 		return new String[] {
-			settings.getPlayerOne().getUpKeyName(),
-			settings.getPlayerOne().getDownKeyName(),
-			settings.getPlayerOne().getLeftKeyName(),
-			settings.getPlayerOne().getRightKeyName(),
-			settings.getPlayerOne().getToggleColorKeyName(),
+			playerSettings.getUpKeyName(),
+			playerSettings.getDownKeyName(),
+			playerSettings.getLeftKeyName(),
+			playerSettings.getRightKeyName(),
+			playerSettings.getToggleColorKeyName(),
 			
-			settings.getPlayerOne().getCameraUpKeyName(),
-			settings.getPlayerOne().getCameraDownKeyName(),
-			settings.getPlayerOne().getCameraLeftKeyName(),
-			settings.getPlayerOne().getCameraRightKeyName(),
+			playerSettings.getCameraUpKeyName(),
+			playerSettings.getCameraDownKeyName(),
+			playerSettings.getCameraLeftKeyName(),
+			playerSettings.getCameraRightKeyName(),
 			
-			settings.getPlayerOne().getZoomInKeyName(),
-			settings.getPlayerOne().getZoomOutKeyName()
-		};
+			playerSettings.getZoomInKeyName(),
+			playerSettings.getZoomOutKeyName()
+		};		
 	}
 
 	@Override
-	public RenderInfo getRenderInfo()
+	public RenderInfo getRenderInfo(int playerIndex)
 	{
 		return renderInfo;
 	}
@@ -300,5 +297,33 @@ public class GameBoard implements GameBoardMode, java.io.Serializable, ToAnimate
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);
 		
+	}
+
+	@Override
+	public int getNumberOfPlayers() {
+		switch (settings.getGameMode()) {
+		case SINGLE_PLAYER:
+			return 1;
+		case MULTI_PLAYER:
+			return 2;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+
+	public void setRandom(Random random)
+	{
+		randomGenerator = random;
+	}
+
+	
+	@Override
+	public void addGameStateChangedListener(GameStateChangedListener listener) {
+		gameStateChangedListeners.add(listener);		
+	}
+	
+	public void setGameState(GameState newGameState)
+	{
+		currentGameState = newGameState;
 	}
 }

@@ -1,4 +1,6 @@
 package Menu.Pages;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 import Game.Control.GameEngine.Log;
@@ -48,5 +50,15 @@ public abstract class SuperPage {
 	protected void switchPage(SuperPage switchTo)
 	{
 		listener.switchPage(switchTo);
+	}
+	
+	protected void resize(Dimension dim)
+	{
+		listener.resize(dim);
+	}
+	
+	protected void setResizeable(boolean canResize)
+	{
+		listener.canResize(canResize);
 	}
 }
