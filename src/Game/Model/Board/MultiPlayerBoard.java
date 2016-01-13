@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Game.Control.GameEngine.Log;
+import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener {
+public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener {
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final SinglePlayerBoard[] boards;
+	private ScoreChangedListener scoreListener;
 	
 	public MultiPlayerBoard(GameSettings settings) {
 		boards = new SinglePlayerBoard[settings.getPlayers().length];
@@ -143,5 +145,20 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			}
 		}
 
+	}
+
+	@Override
+	public void scoreChanged(int score, int seconds, int screenIndex) {
+		scoreListener.scoreChanged(score, seconds, screenIndex);
+		
+	}
+
+	@Override
+	public void addScoreChangedListener(ScoreChangedListener listener) {
+		scoreListener = listener;
+		for (int i = 0; i < boards.length; i++) {
+			boards[i].addScoreChangedListener(this);
+		}
+		
 	}
 }

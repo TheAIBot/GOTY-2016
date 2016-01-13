@@ -1,6 +1,7 @@
 package Game.Model.Board;
 
 import java.awt.Color;
+
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.Random;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Score.ScoreChangedListener;
+import Game.Model.Score.ScoreManager;
 import Game.Model.Settings.GameSettings;
 import Game.Model.Settings.PlayerSettings;
 import Game.Control.GameEngine.Log;
@@ -19,7 +22,7 @@ import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener {
 	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
@@ -29,12 +32,15 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	protected RenderInfo renderInfo;
 	protected final int playerIndex;
 	private Random randomGenerator = new Random();
+	private ScoreChangedListener scoreListener;
+	private ScoreManager scoreManager;
 	
  	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
 		this.settings = settings;
 		this.renderInfo = new RenderInfo(false, settings.getGameSize());
 		gameStateChanged(GameState.NOT_DECIDED_YET);
+		scoreManager = new ScoreManager(1, 2, true, this);
 	}
 	
 	public GameState getGameState(int playerIndex) {
@@ -136,6 +142,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void makeRandom() {
 		randomizeGame();
+		scoreManager.startClock();
 	}
 
 	@Override
@@ -153,13 +160,25 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void keyPressed(String key) {
 		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
 		if (key.equals(playerSettings.getDownKeyName())) {
-			moveVoidTile(Directions.DOWN);
+			if(moveVoidTile(Directions.DOWN))
+			{
+				scoreManager.incrementNumMoves();	
+			}
 		} else if (key.equals(playerSettings.getLeftKeyName())) {
-			moveVoidTile(Directions.LEFT);
+			if(moveVoidTile(Directions.LEFT))
+			{
+				scoreManager.incrementNumMoves();	
+			}
 		} else if (key.equals(playerSettings.getRightKeyName())) {
-			moveVoidTile(Directions.RIGHT);
+			if(moveVoidTile(Directions.RIGHT))
+			{
+				scoreManager.incrementNumMoves();	
+			}
 		} else if (key.equals(playerSettings.getUpKeyName())) {
-			moveVoidTile(Directions.UP);
+			if(moveVoidTile(Directions.UP))
+			{
+				scoreManager.incrementNumMoves();	
+			}
 		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
 		} else if (key.equals(playerSettings.getCameraUpKeyName())) {
@@ -325,5 +344,16 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void setGameState(GameState newGameState)
 	{
 		currentGameState = newGameState;
+	}
+
+	@Override
+	public void addScoreChangedListener(ScoreChangedListener listener) {
+		scoreListener = listener;
+	}
+
+	@Override
+	public void scoreChanged(int score, int seconds, int screenIndex) {
+		scoreListener.scoreChanged(score, seconds, playerIndex);
+		
 	}
 }
