@@ -102,7 +102,7 @@ public class GraphicsPanel extends JPanel {
 	private void renderColorfull(Colorfull[] colored, Graphics gDisplay){
 		if (colored != null) {
 			for (Colorfull colorfull : colored) {
-				if (colorfull != null && isInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), tileSize, tileSize)) {	
+				if (colorfull != null && isInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {	
 					gDisplay.setColor(colorfull.getColor());
 					int[] xPoints = new int[colorfull.getColorPolygon().npoints];
 					int[] yPoints = new int[colorfull.getColorPolygon().npoints];
