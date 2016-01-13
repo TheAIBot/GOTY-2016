@@ -11,7 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.sun.org.apache.regexp.internal.recompile;
+
 import Game.Model.Board.GameState;
+import sun.net.www.content.image.png;
 
 public class CreateGamePanel {
 	private JPanel gamePanel;
