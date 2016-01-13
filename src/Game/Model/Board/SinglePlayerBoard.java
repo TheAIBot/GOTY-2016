@@ -122,8 +122,8 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void createGame() {
 		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
-			int red = 		  (255 / (tilePlacements.length - 1)) * (i + 1);
-			int green = 255 - (255 / (tilePlacements.length - 1)) * (i + 1);
+			int red = 		  (int)Math.round(255 / (double)((tilePlacements.length - 1)) * (i + 1));
+			int green = 255 - (int)Math.round(255 / (double)((tilePlacements.length - 1)) * (i + 1));
 			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
 		}
 		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1, settings.getGameSize() - 1);
