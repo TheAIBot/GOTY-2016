@@ -142,4 +142,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener {
 	{
 		return graphics.getGraphicsPanel();
 	}
+	
+	public void setScoreAndTime(int score, int time, int screenIndex)
+	{
+		graphics.setScoreAndTime(score, time, screenIndex);
+	}
 }

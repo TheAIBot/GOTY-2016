@@ -15,6 +15,8 @@ import sun.net.www.content.image.png;
 
 public class CreateGamePanel {
 	private JPanel gamePanel;
+	private JLabel[] scoreLabels;
+	private JLabel[] timeLabels;
 	
 	public JPanel getGamePanel(GraphicsPanel[] gPanels)
 	{
@@ -25,6 +27,8 @@ public class CreateGamePanel {
 	}
 	
 	private JPanel createGamePanel(GraphicsPanel[] gPanels) {
+		scoreLabels = new JLabel[gPanels.length];
+		timeLabels = new JLabel[gPanels.length];
 		JPanel gPanelContainer = new JPanel();
 		gPanelContainer.setLayout(new GridLayout(1, gPanels.length));
 		for (int i = 0; i < gPanels.length; i++) {
@@ -73,5 +77,12 @@ public class CreateGamePanel {
 		contraint.gridheight = gridHeight;
 		contraint.anchor = anchor;
 		return contraint;
+	}
+
+	public void setTimeAndScore(int score, int time, int screenIndex)
+	{
+		scoreLabels[screenIndex].setText(String.valueOf(score));
+		timeLabels[screenIndex].setText(String.valueOf(time));
+		gamePanel.repaint();
 	}
 }

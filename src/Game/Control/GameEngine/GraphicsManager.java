@@ -89,4 +89,9 @@ public class GraphicsManager implements AnimateUpdateListener {
 	public void animateUpdate() {
 		repaint();
 	}
+
+	public void setScoreAndTime(int score, int time, int screenIndex)
+	{
+		gamePanelCreater.setTimeAndScore(score, time, screenIndex);
+	}
 }
