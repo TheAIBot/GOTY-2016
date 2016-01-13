@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -474,8 +476,10 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		//The text field which adjusts the size of the map
 		sizeField.setText("" + theGameSettings.getGameSize());
-		sizeField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		sizeField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				
 				int previousSize = theGameSettings.getGameSize();
 				int nextSize;
 				try {
@@ -487,6 +491,12 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				} catch (Exception e2) {
 					sizeField.setText("" + previousSize);
 				}
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		
