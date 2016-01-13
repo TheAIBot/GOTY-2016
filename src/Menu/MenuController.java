@@ -2,6 +2,9 @@ package Menu;
 
 
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Stack;
 
 import javax.swing.JFrame;
@@ -22,6 +25,14 @@ public class MenuController implements PageRequestsListener {
 	{
 		mainMenu = new JFrame(windowName);
 		mainMenu.setSize(startWidth, startHeight);
+		mainMenu.setLocationRelativeTo(null);
+		mainMenu.addWindowListener(new WindowAdapter() {
+			@Override
+	        public void windowClosing(WindowEvent e) {
+	            super.windowClosing(e);
+	            currentPage.closePage();
+	        }
+		});
 	}
 	
 	public void showWindow()
@@ -46,19 +57,18 @@ public class MenuController implements PageRequestsListener {
 	@Override
 	public void switchPage(SuperPage toSwitchTo)
 	{
-		previousPages.add(currentPage);
-		currentPage.closePage();
-		currentPage = toSwitchTo;
-		
-		mainMenu.getContentPane().removeAll();
-		mainMenu.add(toSwitchTo.getPage());
-		mainMenu.repaint();
-		//mainMenu.validate();
-		//mainMenu.repaint();
-		//mainMenu.repaint();
-		mainMenu.setVisible(true);
-		
-		currentPage.startPage();
+		if (toSwitchTo.canShowPage()) {
+			previousPages.add(currentPage);
+			currentPage.closePage();
+			currentPage = toSwitchTo;
+			
+			mainMenu.getContentPane().removeAll();
+			mainMenu.add(toSwitchTo.getPage());
+			mainMenu.repaint();
+			mainMenu.setVisible(true);
+			
+			currentPage.startPage();
+		}
 	}
 
 	@Override
