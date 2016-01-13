@@ -8,14 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class GOTYMainPage extends SuperPage {
-	private final SuperPage highscores;
+	//private final SuperPage highscores;
 	private final SuperPage playSettings;
 	
 	public GOTYMainPage(PageRequestsListener listener)
 	{
 		super(listener);
 		playSettings = new GOTYPlayGameSettings(listener);
-		highscores = new GOTYHighscore(listener);
+		//highscores = new GOTYHighscore(listener);
 	}
 	
 	public JPanel createPage() {	
@@ -37,7 +37,7 @@ public class GOTYMainPage extends SuperPage {
 		JButton highscoreButton = new JButton("Highscore");
 		highscoreButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	 switchPage(highscores);
+	        	 //switchPage(highscores);
 	         }
 	      });
 		highscoreButton.setPreferredSize(new Dimension(200, 100));

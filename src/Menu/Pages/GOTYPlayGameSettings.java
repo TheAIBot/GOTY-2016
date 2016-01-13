@@ -59,8 +59,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	@Override
 	public JPanel createPage() {
 		
-		if(theGameSettings == null)
-			theGameSettings = new GameSettings();
+		if(theGameSettings == null) {
+			theGameSettings = new GameSettings();	
+		}
 		
 		resize(new Dimension(920,900));
 		
@@ -139,7 +140,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				backPage();
-				
 			}
 		});
 		page.add(backButton);
@@ -363,9 +363,14 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			public void keyTyped(KeyEvent e) {}
 			
 			
+			//TODO UPDATE METHOD to handle camera controls
 			public void keyReleased(KeyEvent e) {
 				int key = e.getKeyCode();
-				if (!((theGameSettings.getPlayerOne().hasKeyCode(key) && theGameSettings.getGameMode() == GameModes.MULTIPLAYER)  || ((theGameSettings.getPlayerOne().hasKeyCode(key) || theGameSettings.getPlayerTwo().hasKeyCode(key) && theGameSettings.getGameMode() == GameModes.SINGLEPLAYER)))) 
+				if (!((theGameSettings.getPlayerOne().hasKeyCode(key) && 
+						theGameSettings.getGameMode() == GameModes.MULTI_PLAYER)  || 
+						((theGameSettings.getPlayerOne().hasKeyCode(key) || 
+								theGameSettings.getPlayerTwo().hasKeyCode(key) && 
+								theGameSettings.getGameMode() == GameModes.SINGLE_PLAYER)))) 
 				{
 					//Determine which button is selected and map the corresponding key.
 					if (p1MoveUp.isSelected()) {
@@ -475,8 +480,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				int nextSize;
 				try {
 					nextSize = Integer.parseInt(sizeField.getText());
-					if(nextSize > GameSettings.SIZE_MAX || nextSize < GameSettings.SIZE_MIN)
+					if(nextSize > GameSettings.SIZE_MAX || nextSize < GameSettings.SIZE_MIN){
 						throw new Exception();
+					}
 					theGameSettings.setGameSize(nextSize);
 				} catch (Exception e2) {
 					sizeField.setText("" + previousSize);
@@ -485,95 +491,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		});
 		
 		addCheats();
-		
-		/*
-		
-		tileImages = ResourceImages.getDefaultImages();
-		showtileImage = new JLabel();
-		showTileImage();
-		JButton prevImage = new JButton("<-");
-		prevImage.setPreferredSize(new Dimension(30, 100));
-		prevImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				moveSelectedImageIndex(-1);
-				showTileImage();				
-			}
-		});
-		JButton nextImage = new JButton("->");
-		nextImage.setPreferredSize(new Dimension(30, 100));
-		nextImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				moveSelectedImageIndex(1);
-				showTileImage();				
-			}
-		});
-		JPanel setTileImagePanel = new JPanel();
-		setTileImagePanel.setLayout(new GridLayout(1, 3));
-		setTileImagePanel.add(prevImage);
-		setTileImagePanel.add(showtileImage);
-		setTileImagePanel.add(nextImage);
-		
-		
-		
-		//Add the components the the page
-		page.add(playButton);
-		page.add(gameModeList);
-
-		JPanel diffSliderPanel = new JPanel();
-		JLabel diffSliderLabel = new JLabel("Difficulty");
-		
-		diffSliderPanel.setLayout(new GridBagLayout());
-		GridBagConstraints gcDiffPanel = new GridBagConstraints();
-		
-		gcDiffPanel.gridx=0;
-		gcDiffPanel.gridy=0;
-		diffSliderPanel.add(diffSliderLabel,gcDiffPanel);
-		gcDiffPanel.gridx=0;
-		gcDiffPanel.gridy=1;
-		diffSliderPanel.add(diffSlider,gcDiffPanel);
-		
-		
-		page.setLayout(new GridBagLayout());
-		
-		GridBagConstraints gcMenu = new GridBagConstraints();
-		gcMenu.insets = new Insets(20,20,20,20);
-		
-		gcMenu.gridx = 0;
-		gcMenu.gridy = 0;
-		page.add(playButton,gcMenu);
-		
-		gcMenu.gridx = 0;
-		gcMenu.gridy = 1;
-		page.add(gameModeList,gcMenu);
-		
-		gcMenu.gridx = 0;
-		gcMenu.gridy = 2;
-		gcMenu.ipadx = 200;
-		page.add(sizeFieldPanel,gcMenu);
-		
-		gcMenu.gridx = 0;
-		gcMenu.gridy = 3;
-		gcMenu.ipadx = 200;
-		page.add(diffSliderPanel,gcMenu);
-		
-		gcMenu.gridx = 0;
-		gcMenu.gridy = 4;
-		page.add(soundSliderPanel,gcMenu);
-		
-		gcMenu.gridx = 0;
-		gcMenu.gridy = 5;
-		gcMenu.fill = gcMenu.ipadx = 0;
-		page.add(p1,gcMenu);
-		
-		gcMenu.gridx = 0;
-		gcMenu.gridy = 6;
-		page.add(p2,gcMenu);
-		
-		
-		
-		page.add(setTileImagePanel);
-		
-		*/
 		
 		setResizeable(false);
 		
