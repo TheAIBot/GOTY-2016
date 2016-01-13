@@ -41,11 +41,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.addGameStateChangedListener(this);
 		game.addScoreChangedListener(this);
 		graphics.repaint();
-<<<<<<< HEAD
-		game.pause();
-		addKeyboardControls();
-		game.unpause();
-=======
 		game.makeRandom();
 		try {
 			final int waitBeforeRandomize = 1000; // 1 sec
@@ -61,7 +56,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 			addKeyboardControls();
 			game.unpause();
 		}
->>>>>>> refs/remotes/origin/Dev
 	}
 	
 	private GameBoardMode createGameType(GameSettings settings){

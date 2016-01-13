@@ -33,7 +33,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 
 	@Override
 	public void makeRandom() {
-<<<<<<< HEAD
 		final int NumberOfDirections = 4;
 		Random randomGenerator = new Random();
 		do {
@@ -58,16 +57,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				}
 				for (int j = 0; j < boards.length; j++) {
 					boards[j].moveVoidTile(direction);
-=======
-		final Thread[] threads = new Thread[boards.length];
-		final long seed = (int)(Math.random() * 1000000000);
-		for (int i = 0; i < boards.length; i++) {
-			final int index = i;
-			boards[i].setRandom(new Random(seed));
-			threads[i] = new Thread(new Runnable() {
-				public void run() {
-					boards[index].makeRandom();
->>>>>>> refs/remotes/origin/Dev
 				}
 			}
 		} while (boards[0].settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(boards[0].getTiles(0), boards[0].settings.getGameSize()) ||

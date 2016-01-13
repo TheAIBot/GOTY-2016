@@ -1,14 +1,11 @@
 package Game.Model.Board;
 
 import java.awt.Color;
-<<<<<<< HEAD
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Transparency;
-=======
->>>>>>> refs/remotes/origin/Dev
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -23,12 +20,6 @@ import javax.swing.SwingUtilities;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-<<<<<<< HEAD
-import com.sun.java.accessibility.util.SwingEventMonitor;
-import com.sun.prism.paint.Stop;
-
-=======
->>>>>>> refs/remotes/origin/Dev
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Resources.ResourceImages;
 import Game.Model.Score.ScoreChangedListener;

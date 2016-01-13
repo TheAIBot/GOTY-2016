@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Game.Control.GameEngine.SaveFileManager;
 import Game.Model.Score.Highscore;
+import javafx.util.Pair;
 
 public class HighscoreTest {
 	public static void TestHighscore()
