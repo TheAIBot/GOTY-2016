@@ -55,8 +55,8 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_S, 
 									   KeyEvent.VK_A, 
 									   KeyEvent.VK_D, 
-									   KeyEvent.VK_G,
 									   KeyEvent.VK_T,
+									   KeyEvent.VK_G,
 									   KeyEvent.VK_H,
 									   KeyEvent.VK_F,
 									   KeyEvent.VK_Q,
@@ -69,14 +69,14 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_RIGHT, 
 									   KeyEvent.VK_I,
 									   KeyEvent.VK_K,
-									   KeyEvent.VK_J,
 									   KeyEvent.VK_L,
+									   KeyEvent.VK_J,
 									   KeyEvent.VK_U,
 									   KeyEvent.VK_O,
 									   KeyEvent.VK_P,
 									   "Player 2"),
 		},
-									false);
+				false);
 	}
 	
 	/**

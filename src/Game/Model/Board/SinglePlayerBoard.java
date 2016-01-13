@@ -159,11 +159,11 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
 		} else if (key.equals(playerSettings.getCameraUpKeyName())) {
-			renderInfo.addOffset(0, 1);
-		} else if (key.equals(playerSettings.getCameraDownKeyName())) {
-			renderInfo.addOffset(1, 0);
-		} else if (key.equals(playerSettings.getCameraLeftKeyName())) {
 			renderInfo.addOffset(0, -1);
+		} else if (key.equals(playerSettings.getCameraDownKeyName())) {
+			renderInfo.addOffset(0, 1);
+		} else if (key.equals(playerSettings.getCameraLeftKeyName())) {
+			renderInfo.addOffset(1, 0);
 		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
 		} else if (key.equals(playerSettings.getZoomInKeyName())) {
