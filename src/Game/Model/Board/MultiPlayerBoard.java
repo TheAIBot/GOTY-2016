@@ -35,9 +35,14 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		for (int i = 0; i < boards.length; i++) {
 			final int index = i;
 			boards[i].setRandom(new Random(seed));
-			threads[i] = new Thread(() -> {
-				boards[index].makeRandom();
+			threads[i] = new Thread(new Runnable() {
+				public void run() {
+					boards[index].makeRandom();				
+				}
 			});
+			/*threads[i] = new Thread(() -> {
+				boards[index].makeRandom();
+			});*/
 			threads[i].start();
 		}		
 		for (int i = 0; i < threads.length; i++) {
