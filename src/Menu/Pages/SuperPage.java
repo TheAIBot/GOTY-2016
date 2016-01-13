@@ -31,6 +31,8 @@ public abstract class SuperPage {
 	
 	public abstract void closePage();
 	
+	public abstract boolean canShowPage();
+	
 	private boolean isPageCreated()
 	{
 		return page != null;

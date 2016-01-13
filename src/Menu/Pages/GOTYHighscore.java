@@ -90,4 +90,9 @@ public class GOTYHighscore extends SuperPage {
 	public void closePage()
 	{
 	}
+
+	@Override
+	public boolean canShowPage() {
+		return true;		
+	}
 }

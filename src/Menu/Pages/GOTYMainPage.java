@@ -70,6 +70,7 @@ public class GOTYMainPage extends SuperPage {
 	public void startPage() {
 	}
 
+<<<<<<< HEAD
 	private GridBagConstraints createConstraint(int gridX, int gridY, int gridWidth, int gridHeight, int anchor, boolean extraSpace, int fill) {
 		GridBagConstraints contraint = new GridBagConstraints();
 		contraint.gridx = gridX;
@@ -87,5 +88,10 @@ public class GOTYMainPage extends SuperPage {
 		contraint.gridheight = gridHeight;
 		contraint.anchor = anchor;
 		return contraint;
+=======
+	@Override
+	public boolean canShowPage() {
+		return true;		
+>>>>>>> refs/remotes/origin/Andreas
 	}
 }

@@ -27,7 +27,7 @@ public interface GameBoardMode {
 	
 	public abstract void pause();
 	
-	public abstract void restart();
+	public abstract void unpause();
 	
 	public abstract String[] getKeysToSubscribeTo(int playerIndex);
 	

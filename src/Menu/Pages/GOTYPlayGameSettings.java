@@ -608,4 +608,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			}
 		}
 	}
+
+	@Override
+	public boolean canShowPage() {
+		return true;		
+	}
 }

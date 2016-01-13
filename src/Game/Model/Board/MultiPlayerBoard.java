@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Game.Control.GameEngine.Log;
+import Game.Model.Score.Highscore;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
@@ -13,8 +14,8 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private final SinglePlayerBoard[] boards;
 	private ScoreChangedListener scoreListener;
 	
-	public MultiPlayerBoard(GameSettings settings) {
-		boards = new SinglePlayerBoard[settings.getPlayers().length];
+	public MultiPlayerBoard(GameSettings settings, int playerCount) {
+		boards = new SinglePlayerBoard[playerCount];
 		for (int i = 0; i < boards.length; i++) {
 			boards[i] = new SinglePlayerBoard(settings, i);
 			boards[i].addGameStateChangedListener(this);
@@ -99,9 +100,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	}
 
 	@Override
-	public void restart() {
+	public void unpause() {
 		for (int i = 0; i < boards.length; i++) {
-			boards[i].restart();
+			boards[i].unpause();
 		}
 	}
 
@@ -137,6 +138,8 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				}
 			}
 			if (!anyoneAlreadyWon) {
+				pause();
+				Highscore.newScore(boards[playerIndex].settings.getPlayers()[playerIndex].getName(), boards[playerIndex].getScore());
 				for (int i = 0; i < boards.length; i++) {
 					if (i != playerIndex) {
 						boards[i].setGameState(GameState.LOST);
