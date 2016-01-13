@@ -6,6 +6,7 @@ import com.sun.security.auth.NTDomainPrincipal;
 
 import Game.Control.Input.InputManager;
 import Game.Control.Input.KeyPressListener;
+import Game.Control.Input.SpecialKeys;
 import Game.Model.Board.BoardChangedListener;
 import Game.Model.Board.Directions;
 import Game.Model.Board.SinglePlayerBoard;
@@ -20,12 +21,13 @@ import Game.View.RenderInfo;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener {
 	private static final String SAVE_FILE_NAME = "game";
-	private final SaveFileManager<GameBoardMode> saver = new SaveFileManager<GameBoardMode>("saveFiles");
-	private final GraphicsManager graphics;
-	private final InputManager input = new InputManager();
+	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>("saveFiles");
+	private transient GraphicsManager graphics;
+	private transient final InputManager input = new InputManager();
 	private final GameSettings settings;
+	private transient AudioManager audio;
+	private boolean isPaused = false;
 	private GameBoardMode game;
-	private final AudioManager audio;
 
 	public GameEngine(GameSettings settings) {	
 		this.settings = settings;
@@ -69,6 +71,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 				input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
 			}
 		}
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.EXIT_GAME);
 	}
 	
 	public RenderInfo getRenderInfo(int playerIndex)
@@ -78,7 +81,23 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	@Override
 	public void keyPressed(String keyPressed) {
-		game.keyPressed(keyPressed);
+		if (!SpecialKeys.isSpecialKey(keyPressed) && !isPaused) {
+			game.keyPressed(keyPressed);
+		} else {
+			handleSpecialKeyPress(keyPressed);
+		}
+	}
+		
+	private void handleSpecialKeyPress(String key)
+	{
+		switch (key) {
+		case SpecialKeys.EXIT_GAME:
+			shutdown();
+		case SpecialKeys.TOGGLE_PAUSE:
+			togglePause();
+		default:
+			break;
+		}
 	}
 	
 	public Tile[] getTiles(int playerIndex) {
@@ -120,26 +139,45 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		graphics.renderTiles(game.getTiles(playerIndex), game.getRenderInfo(playerIndex), playerIndex);
 	}
 	
-	public void save()
+	public void shutdown()
 	{
-		saver.save(SAVE_FILE_NAME, game);
+		
 	}
 	
-	public void load()
+	public void save()
 	{
-		game = saver.load(SAVE_FILE_NAME);
+		game.pause();
+		saver.save(SAVE_FILE_NAME, this);
+		game.restart();
+	}
+	
+	public static GameEngine load()
+	{
+		GameEngine loadedGame = saver.load(SAVE_FILE_NAME);
+		loadedGame.graphics = new GraphicsManager(loadedGame, load().game.getNumberOfPlayers());
+		loadedGame.addKeyboardControls();
+		loadedGame.audio = new AudioManager(loadedGame.settings.getSoundVolume());
+		return loadedGame;		
 	}
 
-	public void pauseGame()
+	public void togglePause()
 	{
+		if (isPaused) {
+			unpause();
+		} else {
+			pause();
+		}
+		isPaused = !isPaused;
+	}
+
+	public void pause(){
 		game.pause();
 	}
 	
-	public void restartGame()
-	{
-		game.restart();
+	public void unpause() {
+		game.unpause();
 	}
-
+	
 	public JPanel getScreen()
 	{
 		return graphics.getGraphicsPanel();

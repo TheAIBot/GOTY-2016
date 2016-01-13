@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Game.Control.GameEngine.Log;
+import Game.Model.Score.Highscore;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
@@ -92,9 +93,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	}
 
 	@Override
-	public void restart() {
+	public void unpause() {
 		for (int i = 0; i < boards.length; i++) {
-			boards[i].restart();
+			boards[i].unpause();
 		}
 	}
 

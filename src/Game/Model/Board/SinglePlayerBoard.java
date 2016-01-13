@@ -11,6 +11,7 @@ import java.util.Random;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Score.ScoreManager;
 import Game.Model.Settings.GameSettings;
 import Game.Model.Settings.PlayerSettings;
 import Game.Control.GameEngine.Log;
@@ -257,13 +258,11 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void restart() {
-		// TODO Auto-generated method stub
+	public void unpause() {
 		
 	}
 
