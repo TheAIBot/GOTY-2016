@@ -57,17 +57,22 @@ public class GraphicsPanel extends JPanel {
 					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), tileSize, tileSize)) {
 						
 						Rectangle destRect = new Rectangle((int) ((imagePosition.x + renderInfo.xOffset) * tileSize * renderInfo.imageScale), 
-		  						   (int) ((imagePosition.y + renderInfo.yOffset) * tileSize * renderInfo.imageScale), (int) (tileSize * renderInfo.imageScale), 
-		  						   (int) (tileSize * renderInfo.imageScale));						
+		  						   						   (int) ((imagePosition.y + renderInfo.yOffset) * tileSize * renderInfo.imageScale), 
+		  						   						   (int) (tileSize * renderInfo.imageScale), 
+		  						   						   (int) (tileSize * renderInfo.imageScale));						
 						Rectangle srcRect = new Rectangle((int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize())), 
-		  						  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize())), 
-		  						  (int) (currentImage.getWidth() / renderInfo.getSize()),
-		  						  (int) (currentImage.getHeight() / renderInfo.getSize()));
+		  						  						  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize())), 
+		  						  						  (int) (currentImage.getWidth() / renderInfo.getSize()),
+		  						  						  (int) (currentImage.getHeight() / renderInfo.getSize()));
 						gDisplay.drawImage(currentImage, 
-									   destRect.x, destRect.y,
-									   destRect.x + destRect.width, destRect.y + destRect.height,
-									   srcRect.x, srcRect.y,
-									   srcRect.x + srcRect.width, srcRect.y + srcRect.height,
+									   destRect.x, 
+									   destRect.y,
+									   destRect.x + destRect.width, 
+									   destRect.y + destRect.height,
+									   srcRect.x, 
+									   srcRect.y,
+									   srcRect.x + srcRect.width, 
+									   srcRect.y + srcRect.height,
 									   null);
 									
 					}
