@@ -8,9 +8,12 @@ import javafx.util.Pair;
 public class Highscore {
 
 	private static final String SCORE_FILE_NAME = "highscore";
-	private static final SaveFileManager<ArrayList<Pair<String, Integer>>> SAVE_MANAGER = new SaveFileManager<ArrayList<Pair<String, Integer>>>("Highscore");
+	private static final String SCORE_FOLDER_NAME = "Highscore";
+	private static final SaveFileManager<ArrayList<Pair<String, Integer>>> SAVE_MANAGER = new SaveFileManager<ArrayList<Pair<String, Integer>>>(SCORE_FOLDER_NAME);
 
  	public static ArrayList<Pair<String, Integer>> getHighscores() {
+ 		
+ 		
  		ArrayList<Pair<String, Integer>> scores = SAVE_MANAGER.load(SCORE_FILE_NAME);
 		if (scores != null) {
 			return scores;

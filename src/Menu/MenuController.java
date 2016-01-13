@@ -56,7 +56,7 @@ public class MenuController implements PageRequestsListener {
 		//mainMenu.validate();
 		//mainMenu.repaint();
 		//mainMenu.repaint();
-		//mainMenu.setVisible(true);
+		mainMenu.setVisible(true);
 		
 		currentPage.startPage();
 	}
