@@ -22,6 +22,7 @@ public class MenuController implements PageRequestsListener {
 	{
 		mainMenu = new JFrame(windowName);
 		mainMenu.setSize(startWidth, startHeight);
+		mainMenu.setLocationRelativeTo(null);
 	}
 	
 	public void showWindow()

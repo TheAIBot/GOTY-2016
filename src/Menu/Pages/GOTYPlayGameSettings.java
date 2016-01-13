@@ -69,19 +69,19 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		page.setLayout(null);
 		
-		JToggleButton p1MoveUp = new JToggleButton("Up: " + theGameSettings.getPlayerOne().getUpKeyName());
+		final JToggleButton p1MoveUp = new JToggleButton("Up: " + theGameSettings.getPlayerOne().getUpKeyName());
 		p1MoveUp.setBounds(153, 405, 137, 25);
 		page.add(p1MoveUp);
 		
-		JToggleButton p1MoveDown = new JToggleButton("Down: " + theGameSettings.getPlayerOne().getDownKeyName());
+		final JToggleButton p1MoveDown = new JToggleButton("Down: " + theGameSettings.getPlayerOne().getDownKeyName());
 		p1MoveDown.setBounds(153, 434, 137, 25);
 		page.add(p1MoveDown);
 		
-		JToggleButton p1MoveRight = new JToggleButton("Right: " + theGameSettings.getPlayerOne().getRightKeyName());
+		final JToggleButton p1MoveRight = new JToggleButton("Right: " + theGameSettings.getPlayerOne().getRightKeyName());
 		p1MoveRight.setBounds(294, 434, 137, 25);
 		page.add(p1MoveRight);
 		
-		JToggleButton p1MoveLeft = new JToggleButton("Left: " + theGameSettings.getPlayerOne().getLeftKeyName());
+		final JToggleButton p1MoveLeft = new JToggleButton("Left: " + theGameSettings.getPlayerOne().getLeftKeyName());
 		p1MoveLeft.setBounds(12, 434, 137, 25);
 		page.add(p1MoveLeft);
 		
@@ -89,51 +89,51 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		playButton.setBounds(750, 31, 117, 54);
 		page.add(playButton);
 		
-		JToggleButton p1ViewUp = new JToggleButton("Up: " + theGameSettings.getPlayerOne().getUpViewKeyName());
+		final JToggleButton p1ViewUp = new JToggleButton("Up: " + theGameSettings.getPlayerOne().getUpViewKeyName());
 		p1ViewUp.setBounds(153, 512, 137, 25);
 		page.add(p1ViewUp);
 		
-		JToggleButton p1ViewDown = new JToggleButton("Down: " + theGameSettings.getPlayerOne().getDownViewKeyName());
+		final JToggleButton p1ViewDown = new JToggleButton("Down: " + theGameSettings.getPlayerOne().getDownViewKeyName());
 		p1ViewDown.setBounds(153, 541, 137, 25);
 		page.add(p1ViewDown);
 		
-		JToggleButton p1ViewLeft = new JToggleButton("Left: " + theGameSettings.getPlayerOne().getLeftViewKeyName());
+		final JToggleButton p1ViewLeft = new JToggleButton("Left: " + theGameSettings.getPlayerOne().getLeftViewKeyName());
 		p1ViewLeft.setBounds(12, 541, 137, 25);
 		page.add(p1ViewLeft);
 		
-		JToggleButton p1ViewRight = new JToggleButton("Right: " + theGameSettings.getPlayerOne().getRightViewKeyName());
+		final JToggleButton p1ViewRight = new JToggleButton("Right: " + theGameSettings.getPlayerOne().getRightViewKeyName());
 		p1ViewRight.setBounds(294, 541, 137, 25);
 		page.add(p1ViewRight);
 		
-		JToggleButton p2MoveUp = new JToggleButton("Up: " + theGameSettings.getPlayerTwo().getUpKeyName());
+		final JToggleButton p2MoveUp = new JToggleButton("Up: " + theGameSettings.getPlayerTwo().getUpKeyName());
 		p2MoveUp.setBounds(609, 405, 137, 25);
 		page.add(p2MoveUp);
 		
-		JToggleButton p2MoveDown = new JToggleButton("Down: " + theGameSettings.getPlayerTwo().getDownKeyName());
+		final JToggleButton p2MoveDown = new JToggleButton("Down: " + theGameSettings.getPlayerTwo().getDownKeyName());
 		p2MoveDown.setBounds(609, 434, 137, 25);
 		page.add(p2MoveDown);
 		
-		JToggleButton p2MoveLeft = new JToggleButton("Left: " + theGameSettings.getPlayerTwo().getLeftKeyName());
+		final JToggleButton p2MoveLeft = new JToggleButton("Left: " + theGameSettings.getPlayerTwo().getLeftKeyName());
 		p2MoveLeft.setBounds(468, 434, 137, 25);
 		page.add(p2MoveLeft);
 		
-		JToggleButton p2MoveRight = new JToggleButton("Right: " + theGameSettings.getPlayerTwo().getRightKeyName());
+		final JToggleButton p2MoveRight = new JToggleButton("Right: " + theGameSettings.getPlayerTwo().getRightKeyName());
 		p2MoveRight.setBounds(750, 434, 137, 25);
 		page.add(p2MoveRight);
 		
-		JToggleButton p2ViewUp = new JToggleButton("Up: " + theGameSettings.getPlayerTwo().getUpViewKeyName());
+		final JToggleButton p2ViewUp = new JToggleButton("Up: " + theGameSettings.getPlayerTwo().getUpViewKeyName());
 		p2ViewUp.setBounds(609, 512, 137, 25);
 		page.add(p2ViewUp);
 		
-		JToggleButton p2ViewLeft = new JToggleButton("Left: " + theGameSettings.getPlayerTwo().getLeftViewKeyName());
+		final JToggleButton p2ViewLeft = new JToggleButton("Left: " + theGameSettings.getPlayerTwo().getLeftViewKeyName());
 		p2ViewLeft.setBounds(468, 541, 137, 25);
 		page.add(p2ViewLeft);
 		
-		JToggleButton p2ViewDown = new JToggleButton("Down: " + theGameSettings.getPlayerTwo().getDownViewKeyName());
+		final JToggleButton p2ViewDown = new JToggleButton("Down: " + theGameSettings.getPlayerTwo().getDownViewKeyName());
 		p2ViewDown.setBounds(609, 541, 137, 25);
 		page.add(p2ViewDown);
 		
-		JToggleButton p2ViewRight = new JToggleButton("Right: " + theGameSettings.getPlayerTwo().getRightViewKeyName());
+		final JToggleButton p2ViewRight = new JToggleButton("Right: " + theGameSettings.getPlayerTwo().getRightViewKeyName());
 		p2ViewRight.setBounds(750, 541, 137, 25);
 		page.add(p2ViewRight);
 		
@@ -146,27 +146,27 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		});
 		page.add(backButton);
 		
-		JToggleButton p1ColorMode = new JToggleButton("Color mode: " + theGameSettings.getPlayerOne().getToggleColorKeyName());
+		final JToggleButton p1ColorMode = new JToggleButton("Color mode: " + theGameSettings.getPlayerOne().getToggleColorKeyName());
 		p1ColorMode.setBounds(12, 579, 137, 25);
 		page.add(p1ColorMode);
 		
-		JToggleButton p1ZoomIn = new JToggleButton("Zoom in: " + theGameSettings.getPlayerOne().getZoomInKeyName());
+		final JToggleButton p1ZoomIn = new JToggleButton("Zoom in: " + theGameSettings.getPlayerOne().getZoomInKeyName());
 		p1ZoomIn.setBounds(153, 579, 137, 25);
 		page.add(p1ZoomIn);
 		
-		JToggleButton p1ZoomOut = new JToggleButton("Zoom out: " + theGameSettings.getPlayerOne().getZoomOutKeyName());
+		final JToggleButton p1ZoomOut = new JToggleButton("Zoom out: " + theGameSettings.getPlayerOne().getZoomOutKeyName());
 		p1ZoomOut.setBounds(294, 579, 137, 25);
 		page.add(p1ZoomOut);
 		
-		JToggleButton p2ColorMode = new JToggleButton("Color mode: " + theGameSettings.getPlayerTwo().getToggleColorKeyName());
+		final JToggleButton p2ColorMode = new JToggleButton("Color mode: " + theGameSettings.getPlayerTwo().getToggleColorKeyName());
 		p2ColorMode.setBounds(468, 579, 137, 25);
 		page.add(p2ColorMode);
 		
-		JToggleButton p2ZoomIn = new JToggleButton("Zoom in: " + theGameSettings.getPlayerTwo().getZoomInKeyName());
+		final JToggleButton p2ZoomIn = new JToggleButton("Zoom in: " + theGameSettings.getPlayerTwo().getZoomInKeyName());
 		p2ZoomIn.setBounds(609, 579, 137, 25);
 		page.add(p2ZoomIn);
 		
-		JToggleButton p2ZoomOut = new JToggleButton("Zoom out: " + theGameSettings.getPlayerTwo().getZoomOutKeyName());
+		final JToggleButton p2ZoomOut = new JToggleButton("Zoom out: " + theGameSettings.getPlayerTwo().getZoomOutKeyName());
 		p2ZoomOut.setBounds(750, 579, 137, 25);
 		page.add(p2ZoomOut);
 		
@@ -181,7 +181,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		page.add(saveButton);
 		
-		JTextField sizeField = new JTextField();
+		final JTextField sizeField = new JTextField();
 		sizeField.setBounds(395, 195, 116, 22);
 		page.add(sizeField);
 		sizeField.setColumns(10);
@@ -248,7 +248,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			}
 		});
 		
-		JComboBox modeBox = new JComboBox(theGameSettings.getGameMode().values());
+		final JComboBox modeBox = new JComboBox(theGameSettings.getGameMode().values());
 		modeBox.setBounds(395, 125, 125, 22);
 		page.add(modeBox);
 		

@@ -42,7 +42,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		gameStateChanged(GameState.NOT_DECIDED_YET);
 		scoreManager = new ScoreManager(1, 2, true, this);
 	}
-	
+ 	
 	public GameState getGameState(int playerIndex) {
 		return currentGameState;
 	}
