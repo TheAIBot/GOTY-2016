@@ -8,6 +8,8 @@ import javax.swing.Timer;
 
 public class ScoreManager implements Serializable{
 	
+	private ScoreChangedListener scoreChangedListener;
+		
 	private final int delay = 1000; //1000 = 1 s
 	private transient Timer clock = new Timer(delay, new ActionListener() {
 		@Override
@@ -28,11 +30,13 @@ public class ScoreManager implements Serializable{
 	 * @param scoreSecond
 	 * @param scoreMove
 	 */
-	public ScoreManager(int scoreSecond, int scoreMove, boolean detectMoves)
+	public ScoreManager(int scoreSecond, int scoreMove, boolean detectMoves, ScoreChangedListener scoreListener)
 	{
 		this.scorePerSecond = scoreSecond;
 		this.scorePerMove = scoreMove;
-		this.detectMoves = detectMoves;		
+		this.detectMoves = detectMoves;
+		this.scoreChangedListener = scoreListener;
+		
 	}
 	
 	/**
@@ -61,6 +65,7 @@ public class ScoreManager implements Serializable{
 	{
 		timeElapsedInSeconds++;
 		totalScore += scorePerSecond;
+		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
 	/**
@@ -70,11 +75,13 @@ public class ScoreManager implements Serializable{
 	public void addToScore(int score)
 	{
 		totalScore += score;
+		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
 	public void incrementScore()
 	{
 		totalScore += 1;
+		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
 	public void incrementNumMoves()
@@ -96,6 +103,8 @@ public class ScoreManager implements Serializable{
 			addToScore(moves * scorePerMove);
 		}
 	}
+	
+	
 	
 	//Get-methods
 	
@@ -135,6 +144,9 @@ public class ScoreManager implements Serializable{
 	{
 		return scorePerMove;
 	}
+	
+	
+	//set-methods
 	
 	/**
 	 * Sets the total score.
