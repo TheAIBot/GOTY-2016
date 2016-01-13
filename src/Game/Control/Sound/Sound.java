@@ -40,11 +40,11 @@ public class Sound implements LineListener{
 	 */
 	
 	private static int globalCurrentSoundID = 0;
-	
 	private final int soundID;
 	private ArrayList<SoundFinishedListener> soundFinishedListeners;
 	private Clip clip;
 	private static ArrayList<FloatControl> volumeControls;
+	private static boolean isPaused = false;
 	
 	public Sound(String path) {
 		if (volumeControls == null) {
@@ -55,7 +55,7 @@ public class Sound implements LineListener{
 		soundFinishedListeners = new ArrayList<SoundFinishedListener>();
 		try {					
 			File audioFile = new File(path);			
-			if(audioFile.exists() && audioFile.isFile() && audioFile.canRead()){				
+			if(audioFile.exists() && audioFile.isFile() && audioFile.canRead()){	
 				AudioInputStream streamOfSound = AudioSystem.getAudioInputStream(audioFile);
 				clip = (Clip) AudioSystem.getLine(new DataLine.Info(Clip.class, streamOfSound.getFormat()));
 				clip.open(streamOfSound);
@@ -70,7 +70,6 @@ public class Sound implements LineListener{
 			Log.writeError(e);
 		} 
 	}
-	
 	
 	/**
 	 * found code example from http://stackoverflow.com/posts/17502340/revisions
@@ -104,8 +103,8 @@ public class Sound implements LineListener{
 	 */
 	public void playSound(){
 		try {
-			//Allerede ny tr�d?(*)
 			clip.addLineListener(this);
+			isPaused = false; //Placer den efter clip.start()?
 			clip.start();
 		} catch (Exception e) {
 			Log.writeError(e);
@@ -116,6 +115,7 @@ public class Sound implements LineListener{
 	 * Pauses the sound.
 	 */
 	public void pauseSound() {
+		isPaused = true;
 		clip.stop();
 	}
 	
@@ -139,10 +139,12 @@ public class Sound implements LineListener{
 		try {
 			if (clip != null) {
 				for (FloatControl volumeControl : volumeControls) {
-					volumeControl.setValue(newVolumeInPercents);
+					if (volumeControl != null) {
+						volumeControl.setValue(newVolumeInPercents);
+					}
 				}
 			} else {
-				Log.writeln("Tried to change olume when clip was null");
+				Log.writeln("Tried to change volume when clip was null");
 			}			
 		} catch (Exception e) {
 			Log.writeError(e);
@@ -166,23 +168,22 @@ public class Sound implements LineListener{
 		return false;
 	}
 
-	@Override
+	
 	public void update(LineEvent event) {
-		if (LineEvent.Type.STOP == event.getType()) {
+		if (LineEvent.Type.STOP == event.getType() && !isPaused) {
+			/*
 			SwingUtilities.invokeLater(new Runnable() {			
 				@Override
 				public void run() {
 					closeClip();			
 					System.out.println("It has closed!");
 				}
-			});
-			for (SoundFinishedListener listener : soundFinishedListeners) {
-				listener.soundClosed(this);
+			}); */
+			
+			for (int i = 0; i < soundFinishedListeners.size(); i++) {
+				soundFinishedListeners.get(i).soundFinished(this);
 			}
-			System.out.println("closeStart");
-		} else if (LineEvent.Type.CLOSE == event.getType()) {
-			System.out.println("closeEnd");
-		}
+		} 
 	}
 	
 	public void closeClip(){
@@ -192,4 +193,18 @@ public class Sound implements LineListener{
 	public void addSoundFinishedListener(SoundFinishedListener listener) {
 		soundFinishedListeners.add(listener);
 	}
+
+	public void resetSound(){
+		clip.setFramePosition(0);
+	}
+
+	public void removeSoundFinishedListener(SoundFinishedListener listener){
+		for (int i = 0; i < soundFinishedListeners.size(); i++) {
+			if (listener == soundFinishedListeners.get(i)) {
+				soundFinishedListeners.remove(i);
+				return; //Assumes that there are only one copy of the same listener in the list.
+			}
+		}
+	}
+	
 }

@@ -94,7 +94,7 @@ public class GOTYMainPage extends SuperPage {
 		contraint.gridheight = gridHeight;
 		contraint.anchor = anchor;
 		return contraint;
-}
+	}
 	
 	@Override
 	public boolean canShowPage() {

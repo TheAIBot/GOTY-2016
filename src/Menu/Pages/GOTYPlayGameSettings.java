@@ -1,11 +1,7 @@
 package Menu.Pages;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -21,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -37,10 +32,11 @@ import Game.Model.Cheat.CheatCodes;
 import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceImages;
 import Game.Model.Settings.GameSettings;
-import javafx.scene.input.ZoomEvent;
 
 public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
 	private final GOTYPlay playGame;
+	private SuperPage gameSettingsPage;
+	private PageRequestsListener gameSettingsListener;
 	private GameSettings theGameSettings = GameSettings.load();
 	private static final int SOUND_MAX = 100;
 	private static final int SOUND_MIN = 0;
@@ -56,6 +52,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	{
 		super(listener);
 		playGame = new GOTYPlay(listener);
+		gameSettingsListener = listener;
 	}
 	
 	//The play button
@@ -86,7 +83,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p1MoveLeft.setBounds(12, 434, 137, 25);
 		page.add(p1MoveLeft);
 		
-		JButton playButton = new JButton("PLAY");
+		final JButton playButton = new JButton("PLAY");
 		playButton.setBounds(750, 31, 117, 54);
 		page.add(playButton);
 		
@@ -138,7 +135,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p2ViewRight.setBounds(750, 541, 137, 25);
 		page.add(p2ViewRight);
 		
-		JButton backButton = new JButton("BACK");
+		final JButton backButton = new JButton("BACK");
 		backButton.setBounds(32, 31, 117, 54);
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -171,7 +168,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p2ZoomOut.setBounds(750, 579, 137, 25);
 		page.add(p2ZoomOut);
 		
-		JButton saveButton = new JButton("Save settings");
+		final JButton saveButton = new JButton("Save settings");
 		saveButton.setBounds(32, 101, 117, 54);
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -547,6 +544,18 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 				
 			}
 		});
+		
+		JButton resetSettingsButton = new JButton("Reset settings");
+		resetSettingsButton.setBounds(32, 171, 117, 54);
+		resetSettingsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameSettingsPage = new GOTYPlayGameSettings(gameSettingsListener);
+				theGameSettings = new GameSettings();
+				switchPage(gameSettingsPage);
+			}
+		});
+		page.add(resetSettingsButton);
+		
 		
 		addCheats();
 		

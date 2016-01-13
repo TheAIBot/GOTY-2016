@@ -8,7 +8,6 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 public class InputManager implements java.io.Serializable {
-	
 	private final HashSet<KeyPressListener> listeners = new HashSet<KeyPressListener>();
 	
 	public void AttachListenerToKey(JComponent component, KeyPressListener listener, final String key)
