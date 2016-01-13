@@ -18,8 +18,9 @@ import Game.Model.Board.Tile;
 import Game.Model.Settings.GameSettings;
 import Game.View.GraphicsPanel;
 import Game.View.RenderInfo;
+import Game.Model.Score.*;
 
-public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener {
+public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener, ScoreChangedListener {
 	private static final String SAVE_FILE_NAME = "game";
 	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>("saveFiles");
 	private transient GraphicsManager graphics;
@@ -38,6 +39,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers());
 		game.addBoardChangedListener(this);
 		game.addGameStateChangedListener(this);
+		game.addScoreChangedListener(this);
 		graphics.repaint();
 		game.makeRandom();
 		//new Thread(() -> {
@@ -191,5 +193,10 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	@Override
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		graphics.setGameState(newGameState, playerIndex);
+	}
+
+	@Override
+	public void scoreChanged(int score, int time, int screenIndex) {
+		setScoreAndTime(score, time, screenIndex);
 	}
 }
