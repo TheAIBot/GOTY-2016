@@ -12,6 +12,8 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 public class ScoreManager implements Serializable{
 	
+	private static final long serialVersionUID = 6046970807246670554L;
+
 	private ScoreChangedListener scoreChangedListener;
 		
 	private final int delay = 1000; //1000 = 1 s

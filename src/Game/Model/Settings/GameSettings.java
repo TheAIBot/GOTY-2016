@@ -15,6 +15,7 @@ import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceImages;
 
 public class GameSettings implements Serializable{
+	private static final long serialVersionUID = -7337035071280469025L;
 	public static final int SOUND_MAX = 100;
 	public static final int SOUND_MIN = 0;
 	public static final int DIFF_MIN = 0;

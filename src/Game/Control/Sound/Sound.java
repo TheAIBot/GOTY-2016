@@ -40,7 +40,7 @@ public class Sound implements LineListener{
 	public Sound(Clip clip, float soundVolume)
 	{
 		this.soundID = globalCurrentSoundID;
-		this.globalCurrentSoundID++;
+		Sound.globalCurrentSoundID++;
 		this.clip = clip;
 		this.volumeControl = getVolumeControl();
 		this.clip.addLineListener(this);

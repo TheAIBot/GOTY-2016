@@ -1,5 +1,6 @@
 package Game.Model.Board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,7 +12,8 @@ import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
+public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener, PlaySoundListener, Serializable {
+	private static final long serialVersionUID = 1474947852904108736L;
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
 	private final SinglePlayerBoard[] boards;

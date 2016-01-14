@@ -14,6 +14,7 @@ import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
+	private static final long serialVersionUID = -3423525350188897586L;
 	private int scallingX = 1;
 	private int scallingY = 1;
 	private final Point2D.Double[] corners;

@@ -28,7 +28,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private transient GraphicsManager graphics;
 	private transient InputManager input = new InputManager();
 	private final GameSettings settings;
-	private ConsoleControl consoleControl;
+	private transient ConsoleControl consoleControl;
 	private transient AudioManager audio;
 	private  transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
 	private GameBoardMode game;
@@ -47,13 +47,11 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.addPlaySoundListener(this);
 		graphics.repaint();
 		game.makeRandom();
-		try {
-			final int waitBeforeRandomize = 1000; // 1 sec
-			Thread.sleep(waitBeforeRandomize);
-		} catch (InterruptedException e) {
-			Log.writeln("could not wait before randomizing");
-		}
-		
+		setControls();
+	}
+	
+	private void setControls()
+	{
 		if (settings.isConsoleMode()) {
 			consoleControl.startGameInConsole();
 		} else {
@@ -178,11 +176,13 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public static GameEngine load()
 	{
 		GameEngine loadedGame = saver.load(SAVE_FILE_NAME);
-		loadedGame.graphics = new GraphicsManager(loadedGame, load().game.getNumberOfPlayers(), loadedGame.settings);
+		loadedGame.consoleControl = new ConsoleControl(loadedGame, loadedGame.settings);
+		loadedGame.graphics = new GraphicsManager(loadedGame, loadedGame.game.getNumberOfPlayers(), loadedGame.settings);
 		loadedGame.gameEventsListeners = new ArrayList<GameEventsListener>();
 		loadedGame.input = new InputManager();
 		loadedGame.audio = new AudioManager(loadedGame.settings.getSoundVolume());
-		loadedGame.addKeyboardControls();
+		loadedGame.setControls();
+		loadedGame.pause();
 		return loadedGame;		
 	}
 

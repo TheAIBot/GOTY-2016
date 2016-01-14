@@ -25,6 +25,7 @@ import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
 public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
+	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
