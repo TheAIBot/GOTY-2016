@@ -15,32 +15,35 @@ import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceImages;
 
 public class GameSettings implements Serializable{
+	private static final long serialVersionUID = -7337035071280469025L;
 	public static final int SOUND_MAX = 100;
 	public static final int SOUND_MIN = 0;
 	public static final int DIFF_MIN = 0;
 	public static final int DIFF_MAX = 3;
-	public static final int SIZE_MIN = 3;
+	public static final int SIZE_MIN = 2;
 	public static final int SIZE_MAX = 100;
 	
+	private boolean isPaused;
+	private boolean isConsoleMode;
 	private float soundVolume;
 	private int gameSize;
 	private GameModes gameMode;
 	private DifficultyLevel difficultyLevel;
-	private boolean randomize;
 	private PlayerSettings[] players;
 	private transient BufferedImage tileImage;
 	private boolean isRandomized;
 	private static transient SaveFileManager<GameSettings> gameSettingsSaver = new SaveFileManager<GameSettings>("Game_settings");
 	
-	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings[] players, boolean isRandom)
+	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings[] players, boolean isRandom, boolean isConsoleMode)
 	{
 		this.soundVolume = vol;
 		this.gameSize = size;
 		this.gameMode = mode;
 		this.difficultyLevel = difficulty;
-		this.randomize = randomize;
+		this.isRandomized = randomize;
 		this.players = players;
 		this.isRandomized = isRandom;
+		this.isConsoleMode = isConsoleMode;
 	}
 	
 	public GameSettings()
@@ -55,10 +58,10 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_S, 
 									   KeyEvent.VK_A, 
 									   KeyEvent.VK_D, 
-									   KeyEvent.VK_T,
 									   KeyEvent.VK_G,
-									   KeyEvent.VK_H,
+									   KeyEvent.VK_T,
 									   KeyEvent.VK_F,
+									   KeyEvent.VK_H,
 									   KeyEvent.VK_Q,
 									   KeyEvent.VK_E,
 									   KeyEvent.VK_R,
@@ -67,16 +70,17 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_DOWN, 
 									   KeyEvent.VK_LEFT, 
 									   KeyEvent.VK_RIGHT, 
-									   KeyEvent.VK_I,
 									   KeyEvent.VK_K,
-									   KeyEvent.VK_L,
+									   KeyEvent.VK_I,
 									   KeyEvent.VK_J,
+									   KeyEvent.VK_L,
 									   KeyEvent.VK_U,
 									   KeyEvent.VK_O,
 									   KeyEvent.VK_P,
 									   "Player 2"),
 		},
-				false);
+				false,
+				false); //Assumes it shouldn't start in console mode(*)
 	}
 	
 	/**
@@ -124,6 +128,16 @@ public class GameSettings implements Serializable{
 	 */
 	public void setGameMode(GameModes gameMode) {
 		this.gameMode = gameMode;
+	}
+	
+	public boolean isRandomized()
+	{
+		return isRandomized;
+	}
+	
+	public void setIsRandomize(boolean isRandomized)
+	{
+		this.isRandomized = isRandomized;
 	}
 	
 	/**
@@ -177,9 +191,7 @@ public class GameSettings implements Serializable{
 	public void setTileImage(BufferedImage tileImage) {
 		this.tileImage = tileImage;
 	}
-	
-	
-	
+		
 	public void save(){
 		gameSettingsSaver.save("game_settings", this);
 	}
@@ -197,4 +209,20 @@ public class GameSettings implements Serializable{
         out.defaultWriteObject();
         ImageIO.write(tileImage, ResourceImages.ACCEPTED_EXTENSION, out);
     }
+
+    public boolean isConsoleMode(){
+    	return this.isConsoleMode;
+    }
+    
+    public void setConsoleMode(boolean isConsoleMode){
+    	this.isConsoleMode = isConsoleMode;
+    }
+
+	public boolean isPaused() {
+		return isPaused;
+	}
+
+	public void setPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
 }

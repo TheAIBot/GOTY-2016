@@ -1,11 +1,7 @@
 package Menu.Pages;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -21,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -30,31 +25,31 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Game.Control.Input.SpecialKeys;
 import Game.Model.Board.GameModes;
 import Game.Model.Cheat.CheatActivatedListener;
 import Game.Model.Cheat.CheatCodes;
 import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceImages;
 import Game.Model.Settings.GameSettings;
-import javafx.scene.input.ZoomEvent;
 
 public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedListener {
 	private final GOTYPlay playGame;
+	private SuperPage gameSettingsPage;
+	private PageRequestsListener gameSettingsListener;
 	private GameSettings theGameSettings = GameSettings.load();
-	private static final int SOUND_MAX = 100;
-	private static final int SOUND_MIN = 0;
-	private static final int DIFF_MIN = 0;
-	private static final int DIFF_MAX = 3;
 	private CheatCodes cheats;
 	
 	private JLabel showtileImage;
 	private ArrayList<BufferedImage> tileImages;
+	private ArrayList<BufferedImage> tileImageThumbNails;
 	private int selectedtileImageIndex = 0;
 	
 	public GOTYPlayGameSettings(PageRequestsListener listener)
 	{
 		super(listener);
 		playGame = new GOTYPlay(listener);
+		gameSettingsListener = listener;
 	}
 	
 	//The play button
@@ -85,7 +80,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p1MoveLeft.setBounds(12, 434, 137, 25);
 		page.add(p1MoveLeft);
 		
-		JButton playButton = new JButton("PLAY");
+		final JButton playButton = new JButton("PLAY");
 		playButton.setBounds(750, 31, 117, 54);
 		page.add(playButton);
 		
@@ -137,7 +132,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p2ViewRight.setBounds(750, 541, 137, 25);
 		page.add(p2ViewRight);
 		
-		JButton backButton = new JButton("BACK");
+		final JButton backButton = new JButton("BACK");
 		backButton.setBounds(32, 31, 117, 54);
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -170,7 +165,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p2ZoomOut.setBounds(750, 579, 137, 25);
 		page.add(p2ZoomOut);
 		
-		JButton saveButton = new JButton("Save settings");
+		final JButton saveButton = new JButton("Save settings");
 		saveButton.setBounds(32, 101, 117, 54);
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -284,14 +279,57 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		lblPlayer2View.setBounds(630, 483, 116, 16);
 		page.add(lblPlayer2View);
 		
-		JCheckBox setRandomize = new JCheckBox("Randomize");
+		JLabel lblPlayerName1 = new JLabel("Player 1 name:");
+		lblPlayerName1.setBounds(174, 638, 96, 16);
+		page.add(lblPlayerName1);
+		
+		JLabel lblPlayerName2 = new JLabel("Player 2 name:");
+		lblPlayerName2.setBounds(630, 638, 96, 16);
+		page.add(lblPlayerName2);
+		
+		final JCheckBox setRandomize = new JCheckBox("Randomize");
 		setRandomize.setBounds(750, 96, 117, 25);
-		//setRandomize.setSelected(theGameSettings);
+		setRandomize.setSelected(theGameSettings.isRandomized());
+		setRandomize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				theGameSettings.setIsRandomize(setRandomize.isSelected());
+				System.out.println(theGameSettings.isRandomized());
+			}
+		});
 		page.add(setRandomize);
 		
+		final JTextField p1Name = new JTextField();
+		p1Name.setText(theGameSettings.getPlayerOne().getName());
+		p1Name.setBounds(153, 667, 137, 22);
+		page.add(p1Name);
+		p1Name.setColumns(10);
+		p1Name.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				theGameSettings.getPlayerOne().setName(p1Name.getText());
+			}
+			@Override
+			public void focusGained(FocusEvent e) {}
+		});
+		
+		final JTextField p2Name = new JTextField();
+		p2Name.setText(theGameSettings.getPlayerTwo().getName());
+		p2Name.setBounds(609, 667, 137, 22);
+		page.add(p2Name);
+		p2Name.setColumns(10);
+		p2Name.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent e) {
+				theGameSettings.getPlayerTwo().setName(p2Name.getText());
+			}
+			@Override
+			public void focusGained(FocusEvent e) {}
+		});
+		
 		tileImages = ResourceImages.getDefaultImages();
+		tileImageThumbNails = ResourceImages.convertToThumbNails(tileImages);
 		showtileImage = new JLabel();
 		showTileImage();
+		
+		
 		JButton prevImage = new JButton("<-");
 		prevImage.setPreferredSize(new Dimension(30, 100));
 		prevImage.addActionListener(new ActionListener() {
@@ -372,7 +410,8 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 						theGameSettings.getGameMode() == GameModes.MULTI_PLAYER)  || 
 						((theGameSettings.getPlayerOne().hasKeyCode(key) || 
 								theGameSettings.getPlayerTwo().hasKeyCode(key) && 
-								theGameSettings.getGameMode() == GameModes.SINGLE_PLAYER)))) 
+								theGameSettings.getGameMode() == GameModes.SINGLE_PLAYER))) && 
+						!SpecialKeys.isSpecialKey(KeyEvent.getKeyText(key).toUpperCase())) 
 				{
 					//Determine which button is selected and map the corresponding key.
 					if (p1MoveUp.isSelected()) {
@@ -463,6 +502,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p1ViewDown.addKeyListener(keyBindingsListener);
 		p1ViewLeft.addKeyListener(keyBindingsListener);
 		p1ViewRight.addKeyListener(keyBindingsListener);
+		p1ColorMode.addKeyListener(keyBindingsListener);
+		p1ZoomIn.addKeyListener(keyBindingsListener);
+		p1ZoomOut.addKeyListener(keyBindingsListener);
 		
 		p2MoveUp.addKeyListener(keyBindingsListener);
 		p2MoveDown.addKeyListener(keyBindingsListener);
@@ -472,6 +514,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		p2ViewDown.addKeyListener(keyBindingsListener);
 		p2ViewLeft.addKeyListener(keyBindingsListener);
 		p2ViewRight.addKeyListener(keyBindingsListener);
+		p2ColorMode.addKeyListener(keyBindingsListener);
+		p2ZoomIn.addKeyListener(keyBindingsListener);
+		p2ZoomOut.addKeyListener(keyBindingsListener);
 		
 		
 		//The text field which adjusts the size of the map
@@ -500,6 +545,18 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			}
 		});
 		
+		JButton resetSettingsButton = new JButton("Reset settings");
+		resetSettingsButton.setBounds(32, 171, 117, 54);
+		resetSettingsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameSettingsPage = new GOTYPlayGameSettings(gameSettingsListener);
+				theGameSettings = new GameSettings();
+				switchPage(gameSettingsPage);
+			}
+		});
+		page.add(resetSettingsButton);
+		
+		
 		addCheats();
 		
 		setResizeable(false);
@@ -526,7 +583,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	
 	private void showTileImage()
 	{
-		ImageIcon tileImage = new ImageIcon(tileImages.get(selectedtileImageIndex));
+		ImageIcon tileImage = new ImageIcon(tileImageThumbNails.get(selectedtileImageIndex));
 		showtileImage.setIcon(tileImage);
 		theGameSettings.setTileImage(tileImages.get(selectedtileImageIndex));
 	}
@@ -556,10 +613,18 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		if (cheatName.equals(CheatCodes.KONAMI_CODE)) {
 			ArrayList<BufferedImage> konamiImages = ResourceImages.getAllImagesFromDirectory(ResourceImages.ANIME_DIRECTORY_PATH);
 			if (konamiImages != null) {
+				ResourceImages.releaseImagesResources(tileImages);
 				tileImages = konamiImages;
+				ResourceImages.releaseImagesResources(tileImageThumbNails);
+				tileImageThumbNails = ResourceImages.convertToThumbNails(tileImages);
 				selectedtileImageIndex = tileImages.size() - 1;
 				showTileImage();
 			}
 		}
+	}
+
+	@Override
+	public boolean canShowPage() {
+		return true;		
 	}
 }

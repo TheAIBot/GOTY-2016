@@ -1,6 +1,5 @@
 package Game.View;
 
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,10 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.sun.org.apache.regexp.internal.recompile;
-
 import Game.Model.Board.GameState;
-import sun.net.www.content.image.png;
 
 public class CreateGamePanel {
 	private JPanel gamePanel;
@@ -51,7 +47,7 @@ public class CreateGamePanel {
 		JPanel panelGame = new JPanel();
 		panelGame.setLayout(new GridBagLayout());
 		
-		panelGame.add(gPanel, createConstraint(0, 1, 5, 1, GridBagConstraints.SOUTH, true, GridBagConstraints.BOTH));
+		panelGame.add(gPanel, createConstraint(0, 1, 5, 1, GridBagConstraints.CENTER, true, GridBagConstraints.BOTH));
 		
 		JLabel gameStateLabel = new JLabel("", SwingConstants.CENTER);
 		Font currentGameStateFont = gameStateLabel.getFont();
@@ -101,7 +97,8 @@ public class CreateGamePanel {
 		if (scoreLabels != null) {
 			scoreLabels[screenIndex].setText(String.valueOf(score));
 			timeLabels[screenIndex].setText(String.valueOf(time));
-			gamePanel.repaint();
+			scoreLabels[screenIndex].repaint();
+			timeLabels[screenIndex].repaint();
 		}
 	}
 
@@ -109,7 +106,7 @@ public class CreateGamePanel {
 	{
 		if (gameStateLabels != null) {
 			gameStateLabels[screenIndex].setText(newGameState.getText());
-			gamePanel.repaint();
+			gameStateLabels[screenIndex].repaint();
 		}
 	}
 }

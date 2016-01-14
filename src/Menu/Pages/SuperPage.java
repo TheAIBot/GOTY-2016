@@ -31,6 +31,8 @@ public abstract class SuperPage {
 	
 	public abstract void closePage();
 	
+	public abstract boolean canShowPage();
+	
 	private boolean isPageCreated()
 	{
 		return page != null;
@@ -55,6 +57,11 @@ public abstract class SuperPage {
 	protected void resize(Dimension dim)
 	{
 		listener.resize(dim);
+	}
+	
+	protected void setFullScreen()
+	{
+		listener.setFullScreen();
 	}
 	
 	protected void setResizeable(boolean canResize)

@@ -75,13 +75,13 @@ public class SaveFileManager<T> {
 	 * folder with the given name. Returns the object if reading from the
 	 * file went succesfully, and returns null otherwise.
 	 */
+	@SuppressWarnings("unchecked")
 	public T load(String loadName) {
 		// Deserializes object state
 		try {
 			// Get file which contains the object state to be loaded.
 			try (FileInputStream loadFileIn = new FileInputStream(saveFileDirectory + "/" + loadName + ".ser")) {
 				try (ObjectInputStream loadObjIn = new ObjectInputStream(loadFileIn)) {
-
 					// Read object state data
 					return (T) loadObjIn.readObject();
 				}				

@@ -2,11 +2,13 @@ package Menu;
 
 
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Stack;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
+import Game.Control.GameEngine.AudioManager;
 import Game.Control.GameEngine.Log;
 import Menu.Pages.GOTYMainPage;
 import Menu.Pages.PageRequestsListener;
@@ -23,6 +25,15 @@ public class MenuController implements PageRequestsListener {
 		mainMenu = new JFrame(windowName);
 		mainMenu.setSize(startWidth, startHeight);
 		mainMenu.setLocationRelativeTo(null);
+		mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainMenu.addWindowListener(new WindowAdapter() {
+			@Override
+	        public void windowClosing(WindowEvent e) {
+	            super.windowClosing(e);
+	            currentPage.closePage();
+	            AudioManager.closeBackgroundMusic();
+	        }
+		});
 	}
 	
 	public void showWindow()
@@ -47,19 +58,18 @@ public class MenuController implements PageRequestsListener {
 	@Override
 	public void switchPage(SuperPage toSwitchTo)
 	{
-		previousPages.add(currentPage);
-		currentPage.closePage();
-		currentPage = toSwitchTo;
-		
-		mainMenu.getContentPane().removeAll();
-		mainMenu.add(toSwitchTo.getPage());
-		mainMenu.repaint();
-		//mainMenu.validate();
-		//mainMenu.repaint();
-		//mainMenu.repaint();
-		//mainMenu.setVisible(true);
-		
-		currentPage.startPage();
+		if (toSwitchTo.canShowPage()) {
+			previousPages.add(currentPage);
+			currentPage.closePage();
+			currentPage = toSwitchTo;
+			
+			mainMenu.getContentPane().removeAll();
+			mainMenu.add(toSwitchTo.getPage());
+			mainMenu.repaint();
+			mainMenu.setVisible(true);
+			
+			currentPage.startPage();
+		}
 	}
 
 	@Override
@@ -71,5 +81,10 @@ public class MenuController implements PageRequestsListener {
 	public void canResize(boolean canResize) {
 		mainMenu.setResizable(canResize);
 		
+	}
+
+	@Override
+	public void setFullScreen() {
+		mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH); 		
 	}
 }

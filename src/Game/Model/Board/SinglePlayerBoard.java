@@ -1,31 +1,35 @@
 package Game.Model.Board;
 
 import java.awt.Color;
-
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Resources.ResourceAudio;
+import Game.Model.Resources.ResourceImages;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Score.ScoreManager;
 import Game.Model.Settings.GameSettings;
 import Game.Model.Settings.PlayerSettings;
-import Game.Control.GameEngine.Log;
-import Game.Model.Board.GameModes;
 import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
+	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
+	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
 	protected Tile[] tilePlacements;
 	protected GameState currentGameState;
 	protected final GameSettings settings;
@@ -34,8 +38,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private Random randomGenerator = new Random();
 	private ScoreChangedListener scoreListener;
 	private ScoreManager scoreManager;
+	private boolean isRunning = false;
 	
- 	public SinglePlayerBoard(GameSettings settings, int playerindex) {
+  	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
 		this.settings = settings;
 		this.renderInfo = new RenderInfo(false, settings.getGameSize());
@@ -141,14 +146,30 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void makeRandom() {
-		randomizeGame();
-		scoreManager.startClock();
+		if (settings.isRandomized()) {
+			randomizeGame();
+		} else {
+			defaultGame();
+		}
 	}
 
 	@Override
 	public void resetGame() {
 		createGame();
 		randomizeGame();
+	}
+	
+	public void defaultGame()
+	{
+		tilePlacements[0].setNumber(2);
+		tilePlacements[1].setNumber(3);
+		tilePlacements[2].setNumber(1);
+	//	moveWithDirection(tilePlacements[0], Directions.RIGHT);
+	//	moveWithDirection(tilePlacements[1], Directions.LEFT);
+		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		//moveTileIndexes(1, 2);
+	//	moveTileIndexes(0, 1);
 	}
 
 	@Override
@@ -162,22 +183,22 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		if (key.equals(playerSettings.getDownKeyName())) {
 			if(moveVoidTile(Directions.DOWN))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getLeftKeyName())) {
 			if(moveVoidTile(Directions.LEFT))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getRightKeyName())) {
 			if(moveVoidTile(Directions.RIGHT))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getUpKeyName())) {
 			if(moveVoidTile(Directions.UP))
 			{
-				scoreManager.incrementNumMoves();	
+				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
@@ -190,17 +211,24 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
 		} else if (key.equals(playerSettings.getZoomInKeyName())) {
-			renderInfo.addImageScale(0.1);
+			renderInfo.addImageScale(0.02);
 		} else if (key.equals(playerSettings.getZoomOutKeyName())) {
-			renderInfo.addImageScale(-0.1);
+			renderInfo.addImageScale(-0.02);
 		}
 		boardChanged();
+	}
+	
+	private void updateBoardStateAfterMove()
+	{
+		scoreManager.incrementNumMoves();	
+		playSound(ResourceAudio.TILE_MOVED_SOUND);
+		
 		if (hasWonGame()) {
 			gameStateChanged(GameState.WON);
 		}
 	}
 
-	private boolean moveVoidTile(Directions direction) {
+	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			swapVoidTile(direction);
 			return true;
@@ -219,17 +247,21 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			return voidTilePosition.getX() < settings.getGameSize() - 1;
-		case LEFT:
-			return voidTilePosition.getX() > 0;
-		case UP:
-			return voidTilePosition.getY() > 0;
-		case DOWN:
-			return voidTilePosition.getY() < settings.getGameSize() - 1;
-		default:
-			throw new IllegalArgumentException();
+		if (!settings.isPaused()) {
+			switch (direction) {
+			case RIGHT:
+				return voidTilePosition.getX() < settings.getGameSize() - 1;
+			case LEFT:
+				return voidTilePosition.getX() > 0;
+			case UP:
+				return voidTilePosition.getY() > 0;
+			case DOWN:
+				return voidTilePosition.getY() < settings.getGameSize() - 1;
+			default:
+				throw new IllegalArgumentException();
+			}
+		} else {
+			return false;
 		}
 	}
 
@@ -265,6 +297,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 					break;
 				}
 			}
+			boardChanged();
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) ||
 				   DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
 	}
@@ -272,18 +305,30 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		voidTilePosition = recreateTilePositions();
+		Tile.setTileImage(ImageIO.read(in));
 	}
 
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        ImageIO.write(Tile.getTileImage(), ResourceImages.ACCEPTED_EXTENSION, out);
+    }
+	
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
+		scoreManager.stopClock();
 	}
 
+	public void Stop()
+	{
+		pause();
+		isRunning = false;
+	}
+	
 	@Override
-	public void restart() {
-		// TODO Auto-generated method stub
-		
+	public void unpause() {
+		if (isRunning) {
+			scoreManager.startClock();
+		}
 	}
 
 	@Override
@@ -315,7 +360,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);
-		
 	}
 
 	@Override
@@ -335,7 +379,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		randomGenerator = random;
 	}
 
-	
 	@Override
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
 		gameStateChangedListeners.add(listener);		
@@ -355,5 +398,22 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void scoreChanged(int score, int seconds, int screenIndex) {
 		scoreListener.scoreChanged(score, seconds, playerIndex);
 		
+	}
+
+	public int getScore()
+	{
+		return scoreManager.getTotalScore();
+	}
+	
+	@Override
+	public void playSound(String name) {
+		for (PlaySoundListener playSoundListener : playSoundListeners) {
+			playSoundListener.playSound(name);
+		}
+	}
+
+	@Override
+	public void addPlaySoundListener(PlaySoundListener listener) {
+		playSoundListeners.add(listener);
 	}
 }
