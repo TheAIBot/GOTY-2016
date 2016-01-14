@@ -38,8 +38,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private Random randomGenerator = new Random();
 	private ScoreChangedListener scoreListener;
 	private ScoreManager scoreManager;
-	private boolean isPaused = false;
-	private boolean isRunning = true;
+	private boolean isRunning = false;
 	
   	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
@@ -248,7 +247,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
-		if (!isPaused) {
+		if (!settings.isPaused()) {
 			switch (direction) {
 			case RIGHT:
 				return voidTilePosition.getX() < settings.getGameSize() - 1;
@@ -317,7 +316,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void pause() {
 		scoreManager.stopClock();
-		isPaused = true;
 	}
 
 	public void Stop()
@@ -330,7 +328,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void unpause() {
 		if (isRunning) {
 			scoreManager.startClock();
-			isPaused = false;
 		}
 	}
 
@@ -363,7 +360,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);
-		
 	}
 
 	@Override

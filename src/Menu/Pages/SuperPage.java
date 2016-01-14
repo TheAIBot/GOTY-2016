@@ -59,6 +59,11 @@ public abstract class SuperPage {
 		listener.resize(dim);
 	}
 	
+	protected void setFullScreen()
+	{
+		listener.setFullScreen();
+	}
+	
 	protected void setResizeable(boolean canResize)
 	{
 		listener.canResize(canResize);

@@ -126,7 +126,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		return scallingY;
 	}
 
-
 	@Override
 	public double getNumberDisplayScallingX() {
 		return scallingX;

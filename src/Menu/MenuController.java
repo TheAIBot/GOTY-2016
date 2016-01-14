@@ -82,4 +82,9 @@ public class MenuController implements PageRequestsListener {
 		mainMenu.setResizable(canResize);
 		
 	}
+
+	@Override
+	public void setFullScreen() {
+		mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH); 		
+	}
 }

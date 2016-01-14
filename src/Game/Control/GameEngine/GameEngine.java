@@ -1,9 +1,11 @@
 package Game.Control.GameEngine;
 
 import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
@@ -39,15 +41,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		this.consoleControl = new ConsoleControl(this, settings);
 		//initGame(settings);
 		game = createGameType(settings);
-		game.createGame();
 		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(),settings);
 		game.addBoardChangedListener(this);
 		game.addGameStateChangedListener(this);
 		game.addScoreChangedListener(this);
 		game.addPlaySoundListener(this);
 		graphics.repaint();
-		game.makeRandom();
-		setControls();
 	}
 	
 	private void setControls()
@@ -128,11 +127,20 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void createGame()
 	{
 		game.createGame();
+		gameStarted();
+		graphics.repaint();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			Log.writeError(e);
+		}
+		graphics.repaint();
+		game.makeRandom();
 	}
 	
-	public void makeRandom()
+	public void startGame()
 	{
-		game.makeRandom();
+		setControls();
 	}
 	
 	public void resetGame()
@@ -140,6 +148,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.resetGame();
 	}
 
+	private void gameStarted() {
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.gameStarted();
+		}
+	}
+	
 	@Override
 	public void boardChanged(int playerIndex) {
 		render(playerIndex);		

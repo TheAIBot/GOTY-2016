@@ -17,6 +17,7 @@ public class GraphicsPanel extends JPanel {
 	private final RenderInfo renderInfo;
 	private final GraphicsManager gManager;
 	private final int screenIndex;
+	private boolean firstPaint = true;
 
 
 	public GraphicsPanel(GraphicsManager gManager, RenderInfo renderInfo, int screenIndex) {
@@ -35,9 +36,21 @@ public class GraphicsPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		if (firstPaint) {
+			setImageScale();
+		}
 		renderDisplayables(gManager.getDisplayablesToRender(screenIndex), g);
 		renderColorfull(gManager.getColorfullsToRender(screenIndex), g);
 		renderNumreable(gManager.getNumreablesToRender(screenIndex), g);
+	}
+	
+	private void setImageScale()
+	{
+		double widthAndHeight = renderInfo.imageScale * DEFAULT_TILE_SIZE * renderInfo.getSize();
+		double scaler = widthAndHeight / getHeight();
+		double newImageScale = renderInfo.imageScale / scaler;
+		renderInfo.setImageScale(newImageScale);
+		firstPaint = false;
 	}
 	
 	private void renderDisplayables(Displayable[] displayables, Graphics gDisplay){
@@ -82,14 +95,14 @@ public class GraphicsPanel extends JPanel {
 	}
 	
 	private void renderNumreable(Numreable[] numreables, Graphics gDisplay){
-		if (numreables != null) {
+		if (numreables != null && renderInfo.renderColor) {
 			for (Numreable numreable : numreables) {
 				if (numreable != null) {
 					Point2D.Double[] point = new Point2D.Double[]{numreable.getNumberPosition()};
 					if (isInsideDisplay(point, new Point2D.Double(0, 0), 
 							DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
 						gDisplay.setColor(Color.WHITE);
-						gDisplay.setFont(new Font("Verdana", 0, (int) (15 * renderInfo.imageScale)));
+						gDisplay.setFont(new Font("Verdana", 0, (int) (20 * renderInfo.imageScale)));
 						gDisplay.drawString(String.valueOf(numreable.getNumber()), 
 								(int) Math.ceil(((numreable.getNumberPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale),
 								(int) Math.ceil(((numreable.getNumberPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale));
@@ -116,12 +129,7 @@ public class GraphicsPanel extends JPanel {
 			}
 		}		
 	}
-	
-	public void render(){
-		this.repaint();
-	}
-	
-	
+		
 	public boolean isInsideDisplay(Point2D.Double[] corners, Point2D.Double startingPosition, double scallingX, double scallingY){
 		if (corners != null) {
 			for (Point2D.Double corner : corners) { //Mulighed for fejl ved store eller drejede billeder(*)
