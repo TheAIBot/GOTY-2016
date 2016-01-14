@@ -25,7 +25,8 @@ import Game.View.RenderInfo;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
 	private static final String SAVE_FILE_NAME = "game";
-	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>("saveFiles");
+	private static final String SAVE_FILE_DIRECTORY = "savefiles";
+	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>(SAVE_FILE_DIRECTORY);
 	private transient GraphicsManager graphics;
 	private transient InputManager input = new InputManager();
 	private final GameSettings settings;
@@ -230,6 +231,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		gameEventsListeners.add(listener);
 	}
 
+	
 	@Override
 	public void playSound(String name) {
 		audio.playSound(name);		

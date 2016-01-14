@@ -23,6 +23,7 @@ public class AudioManager implements SoundFinishedListener {
 	private float currentVolumeInPercents;
 	private ArrayList<Sound> playingSounds = new ArrayList<Sound>();
 	private HashMap<String, CirculairList<Sound>> soundMap = new  HashMap<String, CirculairList<Sound>>();
+	private static Sound backgroundMusic;
 	
 	public AudioManager(float volumeInPercent) {
 		this.currentVolumeInPercents = volumeInPercent;
@@ -95,6 +96,11 @@ public class AudioManager implements SoundFinishedListener {
 			}
 		}
 	}
+	
+	public static void setbackgroundMusic(Sound sound)
+	{
+		backgroundMusic = sound;
+	}
 
 	public void close()
 	{
@@ -102,6 +108,15 @@ public class AudioManager implements SoundFinishedListener {
 			for (Sound sound : sounds.getArray()) {
 				sound.closeClip();
 			}
+		}
+		closeBackgroundMusic();
+	}
+	
+	public static void closeBackgroundMusic()
+	{
+		if (backgroundMusic != null) {
+			backgroundMusic.closeClip();
+			backgroundMusic = null;
 		}
 	}
 }
