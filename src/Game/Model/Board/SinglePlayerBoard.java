@@ -147,13 +147,30 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void makeRandom() {
-		randomizeGame();
+		if (settings.isRandomized()) {
+			randomizeGame();
+		} else {
+			defaultGame();
+		}
 	}
 
 	@Override
 	public void resetGame() {
 		createGame();
 		randomizeGame();
+	}
+	
+	public void defaultGame()
+	{
+		tilePlacements[0].setNumber(2);
+		tilePlacements[1].setNumber(3);
+		tilePlacements[2].setNumber(1);
+	//	moveWithDirection(tilePlacements[0], Directions.RIGHT);
+	//	moveWithDirection(tilePlacements[1], Directions.LEFT);
+		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		//moveTileIndexes(1, 2);
+	//	moveTileIndexes(0, 1);
 	}
 
 	@Override

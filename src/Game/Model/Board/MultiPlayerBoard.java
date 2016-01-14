@@ -36,6 +36,15 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 
 	@Override
 	public void makeRandom() {
+		if (boards[0].settings.isRandomized()) {
+			randomizeGame();
+		} else {
+			defaultGame();
+		}
+	}
+	
+	private void randomizeGame()
+	{
 		final int NumberOfDirections = 4;
 		Random randomGenerator = new Random();
 		do {
@@ -66,6 +75,13 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				   DifficultyCalculator.getDfficulty(boards[0].getTiles(0), boards[0].settings.getGameSize()) == 0);
 	}
 
+	private void defaultGame()
+	{
+		for (int i = 0; i < boards.length; i++) {
+			boards[i].makeRandom();
+		}
+	}
+	
 	@Override
 	public void resetGame() {
 		for (int i = 0; i < boards.length; i++) {

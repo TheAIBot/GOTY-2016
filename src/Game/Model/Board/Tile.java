@@ -18,7 +18,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private int scallingX = 1;
 	private int scallingY = 1;
 	private final Point2D.Double[] corners;
-	private final int number;
+	private int number;
 	transient Point2D.Double position;	
 	private final Color color;
 	private final Polygon colorPolygon;
@@ -161,5 +161,10 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	public static void setTileImage(BufferedImage image)
 	{
 		displayImage = image;
+	}
+
+	public void setNumber(int newNumber)
+	{
+		number = newNumber;
 	}
 }

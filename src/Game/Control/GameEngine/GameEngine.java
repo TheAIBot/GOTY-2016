@@ -47,28 +47,16 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.addPlaySoundListener(this);
 		graphics.repaint();
 		game.makeRandom();
-<<<<<<< HEAD
 		setControls();
 	}
 	
 	private void setControls()
 	{
-		if (settings.isConsoleMode()) {
-=======
-		try {
-			final int waitBeforeRandomize = 1000; // 1 sec
-			Thread.sleep(waitBeforeRandomize);
-		} catch (InterruptedException e) {
-			Log.writeln("could not wait before randomizing");
-		}
 		
-		if (settings.isConsoleMode()) {//
->>>>>>> refs/remotes/origin/Dev
+		if (settings.isConsoleMode()) {
 			consoleControl.startGameInConsole();
 		} else {
-			game.pause();
 			addKeyboardControls();
-			game.unpause();
 		}
 	}
 	
@@ -244,7 +232,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		gameEventsListeners.add(listener);
 	}
-
 	
 	@Override
 	public void playSound(String name) {

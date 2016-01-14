@@ -48,7 +48,7 @@ public class Sound implements LineListener{
 	
 	private FloatControl getVolumeControl()
 	{
-		return null;//(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	}
 	
 	/**

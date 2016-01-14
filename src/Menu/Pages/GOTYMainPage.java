@@ -19,7 +19,7 @@ import Game.Model.Cheat.CheatCodes;
 import Game.Model.Resources.ResourceAudio;
 
 public class GOTYMainPage extends SuperPage implements CheatActivatedListener {
-	//private final SuperPage highscores;
+	private final SuperPage highscores;
 	private final SuperPage playSettings;
 	private final SuperPage playGame;
 	private CheatCodes cheats;
@@ -27,7 +27,7 @@ public class GOTYMainPage extends SuperPage implements CheatActivatedListener {
 	public GOTYMainPage(PageRequestsListener listener) {
 		super(listener);
 		playSettings = new GOTYPlayGameSettings(listener);
-		//highscores = new GOTYHighscore(listener);
+		highscores = new GOTYHighscore(listener);
 		playGame = new GOTYPlay(listener);
 	}
 
