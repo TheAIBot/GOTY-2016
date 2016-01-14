@@ -21,6 +21,7 @@ import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
+	private static final long serialVersionUID = 2299668499178280826L;
 	private static final String SAVE_FILE_NAME = "game";
 	private static final String SAVE_FILE_DIRECTORY = "savefiles";
 	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>(SAVE_FILE_DIRECTORY);
@@ -197,10 +198,13 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void pause(){
 		settings.setPaused(true);
 		game.pause();
+		audio.pause();
 	}
 	
 	public void unpause() {
-		settings.setPaused(true);
+		settings.setPaused(false);
+		game.unpause();
+		audio.unPause();
 	}
 	
 	public JPanel getScreen()

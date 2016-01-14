@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import javax.swing.JFrame;
 
+import Game.Control.GameEngine.AudioManager;
 import Game.Control.GameEngine.Log;
 import Menu.Pages.GOTYMainPage;
 import Menu.Pages.PageRequestsListener;
@@ -30,6 +31,7 @@ public class MenuController implements PageRequestsListener {
 	        public void windowClosing(WindowEvent e) {
 	            super.windowClosing(e);
 	            currentPage.closePage();
+	            AudioManager.closeBackgroundMusic();
 	        }
 		});
 	}

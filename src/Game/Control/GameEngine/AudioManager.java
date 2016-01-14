@@ -59,7 +59,7 @@ public class AudioManager implements SoundFinishedListener {
 				sound.pauseSound();
 			}
 		}
-		playBackgroundMusic();
+		pauseBackgroundMusic();
 		paused = true;
 	}
 	
@@ -69,7 +69,7 @@ public class AudioManager implements SoundFinishedListener {
 				sound.playSound();
 			}
 		}
-		pauseBackgroundMusic();
+		playBackgroundMusic();
 		paused = false;
 	}
 	

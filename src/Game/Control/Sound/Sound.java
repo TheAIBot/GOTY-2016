@@ -114,7 +114,6 @@ public class Sound implements LineListener{
 		return false;
 	}
 
-	
 	public void update(LineEvent event) {
 		if (LineEvent.Type.STOP == event.getType() && !isPaused) {
 			for (int i = 0; i < soundFinishedListeners.size(); i++) {
