@@ -3,16 +3,14 @@ package Game.View.Animation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.Timer;
 
-import Game.Control.GameEngine.GraphicsManager;
-
 public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
-	private static final Point2D.Double MAX_MOVEMENT_PER_FRAME = new Point2D.Double(0.06,0.06);
+	private Point2D.Double maxMovementPerFrame = new Point2D.Double(0.06,0.06);
 	private static final double EPSILON = 0.02;
 	private AnimateUpdateListener listener;
 	private Timer animationTimer = new Timer(16, new ActionListener() {
@@ -27,12 +25,12 @@ public class Animator  {
 		this.listener = listener;
 	}
 		
-	public void startAnimation(HashSet<AnimationInfo> animators)
+	public void startAnimation(ConcurrentLinkedQueue<AnimationInfo> animators)
 	{
-		for (AnimationInfo animationInfo : animators) {
-			toAnimate.add(animationInfo);
+		AnimationInfo aniInfo;
+		while ((aniInfo = animators.poll()) != null) {
+			toAnimate.add(aniInfo);
 		}
-		animators.clear();
 		if (toAnimate.size() > 0) {
 			animationTimer.start();
 		}
@@ -40,12 +38,13 @@ public class Animator  {
 	
 	private void updateAnimators()
 	{
+		maxMovementPerFrame = new Point2D.Double(0.03 + toAnimate.size() * 0.002, 0.03 + toAnimate.size() * 0.002);
 		HashSet<AnimationInfo> toKeep = new HashSet<AnimationInfo>();
 		for (AnimationInfo animationInfo : toAnimate) {
 			Point2D.Double position = animationInfo.getPosition();
 			Point2D.Double previousPosition = animationInfo.getPreviousPosition();
-			if (Math.abs(position.x - previousPosition.x) < MAX_MOVEMENT_PER_FRAME.x + EPSILON &&
-				Math.abs(position.y - previousPosition.y) < MAX_MOVEMENT_PER_FRAME.y + EPSILON) {
+			if (Math.abs(position.x - previousPosition.x) < maxMovementPerFrame.x + EPSILON &&
+				Math.abs(position.y - previousPosition.y) < maxMovementPerFrame.y + EPSILON) {
 				previousPosition.setLocation(Math.round(position.x), Math.round(position.y));
 				animationInfo.finishedMoving();
 			}
@@ -66,10 +65,10 @@ public class Animator  {
 	private Point2D.Double getMoveVector(Point2D.Double prevPos, Point2D.Double nowPos)
 	{
 		Point2D.Double abDistance = new Point2D.Double(nowPos.x - prevPos.x, nowPos.y - prevPos.y);
-		if (Math.abs(abDistance.x) < MAX_MOVEMENT_PER_FRAME.x) {
+		if (Math.abs(abDistance.x) < maxMovementPerFrame.x) {
 			abDistance.x = 0;
 		}
-		if (Math.abs(abDistance.y) < MAX_MOVEMENT_PER_FRAME.y) {
+		if (Math.abs(abDistance.y) < maxMovementPerFrame.y) {
 			abDistance.y = 0;
 		}
 		double xyDifference = Math.abs(abDistance.x / abDistance.y);
@@ -78,8 +77,8 @@ public class Animator  {
 		
 		Point2D.Double signVector = getSignVector(abDistance);
 		
-		return new Point2D.Double(MAX_MOVEMENT_PER_FRAME.x * xyDifference * signVector.x, 
-								  MAX_MOVEMENT_PER_FRAME.y * signVector.y);
+		return new Point2D.Double(maxMovementPerFrame.x * xyDifference * signVector.x, 
+								  maxMovementPerFrame.y * signVector.y);
 	}
 	
 	private Point2D.Double getSignVector(Point2D.Double abDistance)

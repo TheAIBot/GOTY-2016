@@ -2,18 +2,11 @@ package Game.Model.Board;
 
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
-import javax.imageio.ImageIO;
-
-import Game.Model.Resources.ResourceImages;
 import Game.View.Colorfull;
 import Game.View.Displayable;
 import Game.View.Numreable;
@@ -21,10 +14,11 @@ import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
+	private static final long serialVersionUID = -3423525350188897586L;
 	private int scallingX = 1;
 	private int scallingY = 1;
 	private final Point2D.Double[] corners;
-	private final int number;
+	private int number;
 	transient Point2D.Double position;	
 	private final Color color;
 	private final Polygon colorPolygon;
@@ -132,7 +126,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		return scallingY;
 	}
 
-
 	@Override
 	public double getNumberDisplayScallingX() {
 		return scallingX;
@@ -167,5 +160,10 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	public static void setTileImage(BufferedImage image)
 	{
 		displayImage = image;
+	}
+
+	public void setNumber(int newNumber)
+	{
+		number = newNumber;
 	}
 }

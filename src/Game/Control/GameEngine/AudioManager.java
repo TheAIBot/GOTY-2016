@@ -36,7 +36,7 @@ public class AudioManager implements SoundFinishedListener {
 			sounds[i].addSoundFinishedListener(this);
 		}
 		if (sounds != null) {
-			soundMap.put(name, new CirculairList<>(sounds));
+			soundMap.put(name, new CirculairList<Sound>(sounds));
 		}
 	}
 	
@@ -59,6 +59,7 @@ public class AudioManager implements SoundFinishedListener {
 				sound.pauseSound();
 			}
 		}
+		pauseBackgroundMusic();
 		paused = true;
 	}
 	
@@ -68,11 +69,33 @@ public class AudioManager implements SoundFinishedListener {
 				sound.playSound();
 			}
 		}
+		playBackgroundMusic();
 		paused = false;
 	}
 	
-	public void setVolumeInPercents(float newVolumeInPercents){
-		currentVolumeInPercents = newVolumeInPercents;
+	public void playBackgroundMusic()
+	{
+		if (backgroundMusic != null) {
+			backgroundMusic.playSound();
+		}
+	}
+	
+	public void pauseBackgroundMusic()
+	{
+		if (backgroundMusic != null) {
+			backgroundMusic.pauseSound();
+		}
+	}
+	
+	public void setBackgroundVolumeInPercents(float newVolumeInPercent)
+	{
+		if (backgroundMusic != null) {
+			backgroundMusic.setVolume(newVolumeInPercent);
+		}
+	}
+	
+	public void setVolumeInPercents(float newVolumeInPercent){
+		currentVolumeInPercents = newVolumeInPercent;
 		for (CirculairList<Sound> sounds : soundMap.values()) {
 			for (Sound sound : sounds.getArray()) {
 				sound.setVolume(currentVolumeInPercents);
@@ -93,6 +116,15 @@ public class AudioManager implements SoundFinishedListener {
 	
 	public static void setbackgroundMusic(Sound sound)
 	{
+		setbackgroundMusic(sound, true);
+		backgroundMusic = sound;
+	}
+	
+	public static void setbackgroundMusic(Sound sound, boolean overrideBackgrundMusic)
+	{
+		if (backgroundMusic == null ||
+			overrideBackgrundMusic) {
+		}
 		backgroundMusic = sound;
 	}
 

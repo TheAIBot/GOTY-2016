@@ -1,11 +1,11 @@
 package Game.Control.GameEngine;
 
 import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-
-import org.omg.PortableServer.ServantActivator;
+import javax.swing.SwingUtilities;
 
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
@@ -18,19 +18,19 @@ import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Board.MultiPlayerBoard;
 import Game.Model.Board.Tile;
-import Game.Model.Resources.ResourceAudio;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
 public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
+	private static final long serialVersionUID = 2299668499178280826L;
 	private static final String SAVE_FILE_NAME = "game";
 	private static final String SAVE_FILE_DIRECTORY = "savefiles";
 	private transient static final SaveFileManager<GameEngine> saver = new SaveFileManager<GameEngine>(SAVE_FILE_DIRECTORY);
 	private transient GraphicsManager graphics;
 	private transient InputManager input = new InputManager();
 	private final GameSettings settings;
-	private ConsoleControl consoleControl;
+	private transient ConsoleControl consoleControl;
 	private transient AudioManager audio;
 	private  transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
 	private GameBoardMode game;
@@ -41,27 +41,21 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		this.consoleControl = new ConsoleControl(this, settings);
 		//initGame(settings);
 		game = createGameType(settings);
-		game.createGame();
 		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(),settings);
 		game.addBoardChangedListener(this);
 		game.addGameStateChangedListener(this);
 		game.addScoreChangedListener(this);
 		game.addPlaySoundListener(this);
 		graphics.repaint();
-		game.makeRandom();
-		try {
-			final int waitBeforeRandomize = 1000; // 1 sec
-			Thread.sleep(waitBeforeRandomize);
-		} catch (InterruptedException e) {
-			Log.writeln("could not wait before randomizing");
-		}
+	}
+	
+	private void setControls()
+	{
 		
-		if (settings.isConsoleMode()) {//
+		if (settings.isConsoleMode()) {
 			consoleControl.startGameInConsole();
 		} else {
-			game.pause();
 			addKeyboardControls();
-			game.unpause();
 		}
 	}
 	
@@ -133,11 +127,20 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void createGame()
 	{
 		game.createGame();
+		gameStarted();
+		graphics.repaint();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			Log.writeError(e);
+		}
+		graphics.repaint();
+		game.makeRandom();
 	}
 	
-	public void makeRandom()
+	public void startGame()
 	{
-		game.makeRandom();
+		setControls();
 	}
 	
 	public void resetGame()
@@ -145,6 +148,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.resetGame();
 	}
 
+	private void gameStarted() {
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.gameStarted();
+		}
+	}
+	
 	@Override
 	public void boardChanged(int playerIndex) {
 		render(playerIndex);		
@@ -182,11 +191,13 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public static GameEngine load()
 	{
 		GameEngine loadedGame = saver.load(SAVE_FILE_NAME);
-		loadedGame.graphics = new GraphicsManager(loadedGame, load().game.getNumberOfPlayers(), loadedGame.settings);
+		loadedGame.consoleControl = new ConsoleControl(loadedGame, loadedGame.settings);
+		loadedGame.graphics = new GraphicsManager(loadedGame, loadedGame.game.getNumberOfPlayers(), loadedGame.settings);
 		loadedGame.gameEventsListeners = new ArrayList<GameEventsListener>();
 		loadedGame.input = new InputManager();
 		loadedGame.audio = new AudioManager(loadedGame.settings.getSoundVolume());
-		loadedGame.addKeyboardControls();
+		loadedGame.setControls();
+		loadedGame.pause();
 		return loadedGame;		
 	}
 
@@ -202,10 +213,13 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void pause(){
 		settings.setPaused(true);
 		game.pause();
+		audio.pause();
 	}
 	
 	public void unpause() {
-		settings.setPaused(true);
+		settings.setPaused(false);
+		game.unpause();
+		audio.unPause();
 	}
 	
 	public JPanel getScreen()
@@ -232,7 +246,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		gameEventsListeners.add(listener);
 	}
-
 	
 	@Override
 	public void playSound(String name) {

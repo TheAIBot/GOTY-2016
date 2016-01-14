@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
 public class PlayerSettings implements Serializable {
+	private static final long serialVersionUID = -1316711227064851660L;
 	private int upKey;
 	private int downKey;
 	private int leftKey;

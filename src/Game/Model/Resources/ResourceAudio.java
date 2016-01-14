@@ -17,7 +17,7 @@ public class ResourceAudio {
 
 	private static final String AUDIO_DIRECTORY_PATH = "res" + File.separator + "audio";
 	
-	public static final String TILE_MOVED_SOUND = "monsterhurt.wav";
+	public static final String TILE_MOVED_SOUND = "badminton_racket_fast_movement_swoosh_005.wav";
 	public static final String DEATH_METAL_SONG = "01 The Vampire From Nazareth.wav";
 	
  	public static Sound loadSound(String name, float soundVolume)

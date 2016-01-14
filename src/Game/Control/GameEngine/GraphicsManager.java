@@ -43,14 +43,14 @@ public class GraphicsManager implements AnimateUpdateListener {
 			consoleDisplay.render();			
 		} else {
 			checkForNewAnimations(renderInfo);
-			gPanels[screenIndex].render();
+			gPanels[screenIndex].repaint();;
 		}
 	}
 	
 	public void renderScreen(int screenIndex){
 		if (settings.isConsoleMode()) {
 			consoleDisplay.render();
-		} else gPanels[screenIndex].render();
+		} else gPanels[screenIndex].repaint();
 	}
 	
 	public JPanel getGraphicsPanel(){
@@ -92,7 +92,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 			consoleDisplay.render();
 		} else{
 			for (int i = 0; i < gPanels.length; i++) {
-				gPanels[i].render();
+				gPanels[i].repaint();
 			}			
 		}
 	}
