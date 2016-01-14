@@ -57,7 +57,7 @@ public class Sound implements LineListener{
 	
 	private FloatControl getVolumeControl()
 	{
-		return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		return null;//(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	}
 	
 	/**
@@ -100,7 +100,9 @@ public class Sound implements LineListener{
 	public void setVolume(float newVolumeInPercents){
 		try {
 			//TODO fix
-			volumeControl.setValue(volumeControl.getMaximum());
+			if (volumeControl != null) {
+				volumeControl.setValue(volumeControl.getMaximum());
+			}			
 		} catch (Exception e) {
 			Log.writeError(e);
 		}

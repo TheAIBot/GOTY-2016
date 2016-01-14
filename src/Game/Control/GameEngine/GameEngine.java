@@ -56,7 +56,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 			Log.writeln("could not wait before randomizing");
 		}
 		
-		if (true) {//
+		if (settings.isConsoleMode()) {//
 			consoleControl.startGameInConsole();
 		} else {
 			game.pause();

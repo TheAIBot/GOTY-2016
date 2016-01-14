@@ -2,19 +2,13 @@ package Game.Control.GameEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import com.sun.istack.internal.FinalArrayList;
-import com.sun.javafx.collections.MappingChange.Map;
 
 import Game.Control.Sound.Sound;
 import Game.Control.Sound.SoundFinishedListener;
 import Game.Model.CirculairList;
 import Game.Model.Resources.ResourceAudio;
-import javafx.util.Pair;
 
-/** Unlimited sounds work!
+/** Unlimited sounds works!
  */
 public class AudioManager implements SoundFinishedListener {
 	
