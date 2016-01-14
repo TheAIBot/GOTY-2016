@@ -65,15 +65,15 @@ public class GraphicsPanel extends JPanel {
 		  						  						  (int) Math.ceil(currentImage.getWidth() / renderInfo.getSize()),
 		  						  						  (int) Math.ceil(currentImage.getHeight() / renderInfo.getSize()));
 						gDisplay.drawImage(currentImage, 
-									   destRect.x, 
-									   destRect.y,
-									   destRect.x + destRect.width, 
-									   destRect.y + destRect.height,
-									   srcRect.x, 
-									   srcRect.y,
-									   srcRect.x + srcRect.width, 
-									   srcRect.y + srcRect.height,
-									   null);
+									   	   destRect.x, 
+									   	   destRect.y,
+									   	   destRect.x + destRect.width, 
+									   	   destRect.y + destRect.height,
+									   	   srcRect.x, 
+									   	   srcRect.y,
+									   	   srcRect.x + srcRect.width, 
+									   	   srcRect.y + srcRect.height,
+									   	   null);
 									
 					}
 				}
@@ -91,8 +91,8 @@ public class GraphicsPanel extends JPanel {
 						gDisplay.setColor(Color.WHITE);
 						gDisplay.setFont(new Font("Verdana", 0, (int) (15 * renderInfo.imageScale)));
 						gDisplay.drawString(String.valueOf(numreable.getNumber()), 
-								(int) (((numreable.getNumberPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale),
-								(int) (((numreable.getNumberPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale));
+								(int) Math.ceil(((numreable.getNumberPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale),
+								(int) Math.ceil(((numreable.getNumberPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale));
 					}
 				}
 			}
@@ -112,7 +112,6 @@ public class GraphicsPanel extends JPanel {
 						yPoints[i] = (int) Math.ceil((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
 					}
 					gDisplay.fillPolygon(xPoints, yPoints, colorfull.getColorPolygon().npoints);
-					//gDisplay.fillPolygon(colorfull.getColorPolygon());
 				}
 			}
 		}		
