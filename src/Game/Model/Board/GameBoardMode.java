@@ -1,5 +1,6 @@
 package Game.Model.Board;
 
+import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Score.ScoreChangedListener;
 import Game.View.RenderInfo;
 
@@ -22,6 +23,8 @@ public interface GameBoardMode {
 	public abstract void addGameStateChangedListener(GameStateChangedListener listener);
 	
 	public abstract void addScoreChangedListener(ScoreChangedListener listener);
+	
+	public abstract void addPlaySoundListener(PlaySoundListener listener);
 	
 	public abstract void keyPressed(String key);
 	

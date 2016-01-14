@@ -49,7 +49,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		this(number, position, color, displayImage);
 		this.listener = listener;
 	}
-	
+	 	
 	public Tile(int number, Point2D.Double position, Color color)
 	{
 		this.number = number;
