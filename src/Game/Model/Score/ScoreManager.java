@@ -6,12 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
-
-import Game.Model.Board.Tile;
 
 public class ScoreManager implements Serializable{
 	

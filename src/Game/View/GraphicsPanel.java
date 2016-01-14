@@ -1,12 +1,12 @@
 package Game.View;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 import Game.Control.GameEngine.GraphicsManager;

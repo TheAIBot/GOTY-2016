@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 import Game.Control.GameEngine.GameEngine;
 import Game.Control.GameEngine.GameEventsListener;
 import Game.Model.Board.GameState;
-import Game.Model.Cheat.CheatActivatedListener;
-import Game.Model.Cheat.CheatCodes;
 import Game.Model.Settings.GameSettings;
 
 

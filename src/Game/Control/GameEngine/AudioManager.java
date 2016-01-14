@@ -2,17 +2,11 @@ package Game.Control.GameEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import com.sun.istack.internal.FinalArrayList;
-import com.sun.javafx.collections.MappingChange.Map;
 
 import Game.Control.Sound.Sound;
 import Game.Control.Sound.SoundFinishedListener;
 import Game.Model.CirculairList;
 import Game.Model.Resources.ResourceAudio;
-import javafx.util.Pair;
 
 /** Unlimited sounds work!
  */
@@ -42,7 +36,7 @@ public class AudioManager implements SoundFinishedListener {
 			sounds[i].addSoundFinishedListener(this);
 		}
 		if (sounds != null) {
-			soundMap.put(name, new CirculairList<>(sounds));
+			soundMap.put(name, new CirculairList<Sound>(sounds));
 		}
 	}
 	
@@ -65,6 +59,7 @@ public class AudioManager implements SoundFinishedListener {
 				sound.pauseSound();
 			}
 		}
+		playBackgroundMusic();
 		paused = true;
 	}
 	
@@ -74,11 +69,33 @@ public class AudioManager implements SoundFinishedListener {
 				sound.playSound();
 			}
 		}
+		pauseBackgroundMusic();
 		paused = false;
 	}
 	
-	public void setVolumeInPercents(float newVolumeInPercents){
-		currentVolumeInPercents = newVolumeInPercents;
+	public void playBackgroundMusic()
+	{
+		if (backgroundMusic != null) {
+			backgroundMusic.playSound();
+		}
+	}
+	
+	public void pauseBackgroundMusic()
+	{
+		if (backgroundMusic != null) {
+			backgroundMusic.pauseSound();
+		}
+	}
+	
+	public void setBackgroundVolumeInPercents(float newVolumeInPercent)
+	{
+		if (backgroundMusic != null) {
+			backgroundMusic.setVolume(newVolumeInPercent);
+		}
+	}
+	
+	public void setVolumeInPercents(float newVolumeInPercent){
+		currentVolumeInPercents = newVolumeInPercent;
 		for (CirculairList<Sound> sounds : soundMap.values()) {
 			for (Sound sound : sounds.getArray()) {
 				sound.setVolume(currentVolumeInPercents);
@@ -99,6 +116,15 @@ public class AudioManager implements SoundFinishedListener {
 	
 	public static void setbackgroundMusic(Sound sound)
 	{
+		setbackgroundMusic(sound, true);
+		backgroundMusic = sound;
+	}
+	
+	public static void setbackgroundMusic(Sound sound, boolean overrideBackgrundMusic)
+	{
+		if (backgroundMusic == null ||
+			overrideBackgrundMusic) {
+		}
 		backgroundMusic = sound;
 	}
 

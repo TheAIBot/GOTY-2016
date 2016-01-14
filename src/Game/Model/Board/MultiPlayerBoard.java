@@ -1,6 +1,5 @@
 package Game.Model.Board;
 
-import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.Random;
 

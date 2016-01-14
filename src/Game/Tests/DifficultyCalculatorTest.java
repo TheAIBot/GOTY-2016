@@ -1,7 +1,6 @@
 package Game.Tests;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import Game.Model.Board.SinglePlayerBoard;

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import org.omg.PortableServer.ServantActivator;
-
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
 import Game.Control.Input.KeyPressListener;
@@ -18,7 +16,6 @@ import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Board.MultiPlayerBoard;
 import Game.Model.Board.Tile;
-import Game.Model.Resources.ResourceAudio;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;

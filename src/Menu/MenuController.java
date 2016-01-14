@@ -4,11 +4,9 @@ package Menu;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Stack;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import Game.Control.GameEngine.Log;
 import Menu.Pages.GOTYMainPage;
