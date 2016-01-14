@@ -41,60 +41,23 @@ public class Sound implements LineListener{
 	
 	private static int globalCurrentSoundID = 0;
 	private final int soundID;
-	private ArrayList<SoundFinishedListener> soundFinishedListeners;
-	private Clip clip;
-	private static ArrayList<FloatControl> volumeControls;
-	private static boolean isPaused = false;
+	private final ArrayList<SoundFinishedListener> soundFinishedListeners = new ArrayList<SoundFinishedListener>();
+	private final Clip clip;
+	private boolean isPaused = false;
+	private final FloatControl volumeControl;
 	
-	public Sound(String path) {
-		if (volumeControls == null) {
-			setVolumeControls();
-		}
-		soundID = globalCurrentSoundID;
-		globalCurrentSoundID++;
-		soundFinishedListeners = new ArrayList<SoundFinishedListener>();
-		try {					
-			File audioFile = new File(path);			
-			if(audioFile.exists() && audioFile.isFile() && audioFile.canRead()){	
-				AudioInputStream streamOfSound = AudioSystem.getAudioInputStream(audioFile);
-				clip = (Clip) AudioSystem.getLine(new DataLine.Info(Clip.class, streamOfSound.getFormat()));
-				clip.open(streamOfSound);
-				streamOfSound.close();
-			}
-			else {
-				Log.writeln("Sound file not available: " + path);
-			}
-		}catch (LineUnavailableException e) {
-			Log.writeln(("Line unavailable, sound = " + path));
-		}catch (Exception e) {
-			Log.writeError(e);
-		} 
+	public Sound(Clip clip, float soundVolume)
+	{
+		this.soundID = globalCurrentSoundID;
+		this.globalCurrentSoundID++;
+		this.clip = clip;
+		this.volumeControl = getVolumeControl();
+		this.clip.addLineListener(this);
 	}
 	
-	/**
-	 * found code example from http://stackoverflow.com/posts/17502340/revisions
-	 */
-	private void setVolumeControls()
+	private FloatControl getVolumeControl()
 	{
-		volumeControls = new ArrayList<FloatControl>();
-		Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo(); 
-		for (Info mixerInfo : mixerInfos) {
-	        Mixer mixer = AudioSystem.getMixer(mixerInfo);
-	        Line.Info[] lineInfos = mixer.getTargetLineInfo();
-	        for(Line.Info lineinfo : lineInfos){
-	            try {
-	                Line line = mixer.getLine(lineinfo);
-	                line.open();
-	                if(line.isControlSupported(FloatControl.Type.VOLUME)){
-	                    volumeControls.add((FloatControl) line.getControl(FloatControl.Type.VOLUME));
-	                } else {
-						Log.writeln("Mixer: " + mixerInfo.getName() + " doesn't support volume control");
-					}
-	            } catch (LineUnavailableException e) {
-	                Log.writeError(e);
-	            }
-	        }
-		}
+		return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	}
 	
 	/**
@@ -103,7 +66,6 @@ public class Sound implements LineListener{
 	 */
 	public void playSound(){
 		try {
-			clip.addLineListener(this);
 			isPaused = false; //Placer den efter clip.start()?
 			clip.start();
 		} catch (Exception e) {
@@ -137,15 +99,8 @@ public class Sound implements LineListener{
 	 */
 	public void setVolume(float newVolumeInPercents){
 		try {
-			if (clip != null) {
-				for (FloatControl volumeControl : volumeControls) {
-					if (volumeControl != null) {
-						volumeControl.setValue(newVolumeInPercents);
-					}
-				}
-			} else {
-				Log.writeln("Tried to change volume when clip was null");
-			}			
+			//TODO fix
+			volumeControl.setValue(volumeControl.getMaximum());
 		} catch (Exception e) {
 			Log.writeError(e);
 		}
@@ -171,15 +126,6 @@ public class Sound implements LineListener{
 	
 	public void update(LineEvent event) {
 		if (LineEvent.Type.STOP == event.getType() && !isPaused) {
-			/*
-			SwingUtilities.invokeLater(new Runnable() {			
-				@Override
-				public void run() {
-					closeClip();			
-					System.out.println("It has closed!");
-				}
-			}); */
-			
 			for (int i = 0; i < soundFinishedListeners.size(); i++) {
 				soundFinishedListeners.get(i).soundFinished(this);
 			}

@@ -3,6 +3,7 @@ package Game.Model.Resources;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -137,7 +138,7 @@ public class ResourceImages {
 
 		// image is not optimized, so create a new image that is
 		BufferedImage new_image = gfx_config.createCompatibleImage(
-				image.getWidth(), image.getHeight(), image.getTransparency());
+				image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
 
 		// get the graphics context of the new image to draw the old image on
 		Graphics2D g2d = (Graphics2D) new_image.getGraphics();

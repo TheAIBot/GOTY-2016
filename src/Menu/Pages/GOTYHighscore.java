@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import Game.Model.Score.Highscore;
+import javafx.util.Pair;
 
 public class GOTYHighscore extends SuperPage {
 	

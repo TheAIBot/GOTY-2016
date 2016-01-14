@@ -38,14 +38,11 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	private SuperPage gameSettingsPage;
 	private PageRequestsListener gameSettingsListener;
 	private GameSettings theGameSettings = GameSettings.load();
-	private static final int SOUND_MAX = 100;
-	private static final int SOUND_MIN = 0;
-	private static final int DIFF_MIN = 0;
-	private static final int DIFF_MAX = 3;
 	private CheatCodes cheats;
 	
 	private JLabel showtileImage;
 	private ArrayList<BufferedImage> tileImages;
+	private ArrayList<BufferedImage> tileImageThumbNails;
 	private int selectedtileImageIndex = 0;
 	
 	public GOTYPlayGameSettings(PageRequestsListener listener)
@@ -328,8 +325,11 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		});
 		
 		tileImages = ResourceImages.getDefaultImages();
+		tileImageThumbNails = ResourceImages.convertToThumbNails(tileImages);
 		showtileImage = new JLabel();
 		showTileImage();
+		
+		
 		JButton prevImage = new JButton("<-");
 		prevImage.setPreferredSize(new Dimension(30, 100));
 		prevImage.addActionListener(new ActionListener() {
@@ -583,7 +583,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	
 	private void showTileImage()
 	{
-		ImageIcon tileImage = new ImageIcon(tileImages.get(selectedtileImageIndex));
+		ImageIcon tileImage = new ImageIcon(tileImageThumbNails.get(selectedtileImageIndex));
 		showtileImage.setIcon(tileImage);
 		theGameSettings.setTileImage(tileImages.get(selectedtileImageIndex));
 	}
@@ -613,7 +613,10 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		if (cheatName.equals(CheatCodes.KONAMI_CODE)) {
 			ArrayList<BufferedImage> konamiImages = ResourceImages.getAllImagesFromDirectory(ResourceImages.ANIME_DIRECTORY_PATH);
 			if (konamiImages != null) {
+				ResourceImages.releaseImagesResources(tileImages);
 				tileImages = konamiImages;
+				ResourceImages.releaseImagesResources(tileImageThumbNails);
+				tileImageThumbNails = ResourceImages.convertToThumbNails(tileImages);
 				selectedtileImageIndex = tileImages.size() - 1;
 				showTileImage();
 			}

@@ -26,6 +26,7 @@ public class MenuController implements PageRequestsListener {
 		mainMenu = new JFrame(windowName);
 		mainMenu.setSize(startWidth, startHeight);
 		mainMenu.setLocationRelativeTo(null);
+		mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainMenu.addWindowListener(new WindowAdapter() {
 			@Override
 	        public void windowClosing(WindowEvent e) {
