@@ -38,10 +38,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	private SuperPage gameSettingsPage;
 	private PageRequestsListener gameSettingsListener;
 	private GameSettings theGameSettings = GameSettings.load();
-	private static final int SOUND_MAX = 100;
-	private static final int SOUND_MIN = 0;
-	private static final int DIFF_MIN = 0;
-	private static final int DIFF_MAX = 3;
 	private CheatCodes cheats;
 	
 	private JLabel showtileImage;
