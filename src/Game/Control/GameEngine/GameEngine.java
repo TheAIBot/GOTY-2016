@@ -49,7 +49,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 			Log.writeln("could not wait before randomizing");
 		}
 		
-		if (settings.isConsoleMode()) {
+		if (true) {//
 			consoleControl.startGameInConsole();
 		} else {
 			game.pause();
@@ -92,10 +92,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	@Override
 	public void keyPressed(String keyPressed) {
-		if (!SpecialKeys.isSpecialKey(keyPressed) && !settings.isPaused()) {
-			game.keyPressed(keyPressed);
-		} else {
-			handleSpecialKeyPress(keyPressed);
+		if (!settings.isPaused()) {
+			if (!SpecialKeys.isSpecialKey(keyPressed)) {
+				game.keyPressed(keyPressed);
+			} else {
+				handleSpecialKeyPress(keyPressed);
+			}
 		}
 	}
 		

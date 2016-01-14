@@ -38,7 +38,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	}
 	
 	public void renderTiles(RenderInfo renderInfo, int screenIndex){	
-		if (settings.isConsoleMode()) {
+		if (true) {//settings.isConsoleMode(
 			consoleDisplay.render();			
 		} else {
 			checkForNewAnimations(renderInfo);
