@@ -202,9 +202,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
 		} else if (key.equals(playerSettings.getZoomInKeyName())) {
-			renderInfo.addImageScale(0.01);
+			renderInfo.addImageScale(0.02);
 		} else if (key.equals(playerSettings.getZoomOutKeyName())) {
-			renderInfo.addImageScale(-0.01);
+			renderInfo.addImageScale(-0.02);
 		}
 		boardChanged();
 	}

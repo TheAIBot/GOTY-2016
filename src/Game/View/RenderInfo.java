@@ -12,7 +12,7 @@ public class RenderInfo implements Serializable {
 	public HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 	public double imageScale = 1;
 	private final int size;
-	private static final double MIN_ZOOM_LEVEL = 0.15;
+	private static final double MIN_ZOOM_LEVEL = 0.1;
 
 	public RenderInfo(boolean renderColor, int size) {
 		this.renderColor = renderColor;
