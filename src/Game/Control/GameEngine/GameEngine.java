@@ -1,8 +1,11 @@
 package Game.Control.GameEngine;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+
+import org.omg.PortableServer.ServantActivator;
 
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
@@ -150,9 +153,19 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	public void shutdown()
 	{
-		audio.close();
+		releaseAllResources();
 		for (GameEventsListener gameEventsListener : gameEventsListeners) {
 			gameEventsListener.closeGame();
+		}
+	}
+	
+	private void releaseAllResources()
+	{
+		audio.close();
+		BufferedImage image = Tile.getTileImage();
+		if (image != null) {
+
+			image.flush();
 		}
 	}
 	
