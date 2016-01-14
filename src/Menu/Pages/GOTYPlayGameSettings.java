@@ -613,7 +613,9 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		if (cheatName.equals(CheatCodes.KONAMI_CODE)) {
 			ArrayList<BufferedImage> konamiImages = ResourceImages.getAllImagesFromDirectory(ResourceImages.ANIME_DIRECTORY_PATH);
 			if (konamiImages != null) {
+				ResourceImages.releaseImagesResources(tileImages);
 				tileImages = konamiImages;
+				ResourceImages.releaseImagesResources(tileImageThumbNails);
 				tileImageThumbNails = ResourceImages.convertToThumbNails(tileImages);
 				selectedtileImageIndex = tileImages.size() - 1;
 				showTileImage();

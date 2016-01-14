@@ -56,14 +56,14 @@ public class GraphicsPanel extends JPanel {
 					//If not, it dosen't render it (to increase performance), else it does.
 					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
 						
-						Rectangle destRect = new Rectangle((int) ((imagePosition.x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
-		  						   						   (int) ((imagePosition.y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
-		  						   						   (int) (DEFAULT_TILE_SIZE * renderInfo.imageScale), 
-		  						   						   (int) (DEFAULT_TILE_SIZE * renderInfo.imageScale));						
-						Rectangle srcRect = new Rectangle((int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize())), 
-		  						  						  (int) ((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize())), 
-		  						  						  (int) (currentImage.getWidth() / renderInfo.getSize()),
-		  						  						  (int) (currentImage.getHeight() / renderInfo.getSize()));
+						Rectangle destRect = new Rectangle((int) Math.ceil((imagePosition.x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
+		  						   						   (int) Math.ceil((imagePosition.y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
+		  						   						   (int) Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale), 
+		  						   						   (int) Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale));						
+						Rectangle srcRect = new Rectangle((int) Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize())), 
+		  						  						  (int) Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize())), 
+		  						  						  (int) Math.ceil(currentImage.getWidth() / renderInfo.getSize()),
+		  						  						  (int) Math.ceil(currentImage.getHeight() / renderInfo.getSize()));
 						gDisplay.drawImage(currentImage, 
 									   destRect.x, 
 									   destRect.y,
@@ -108,8 +108,8 @@ public class GraphicsPanel extends JPanel {
 					int[] yPoints = new int[colorfull.getColorPolygon().npoints];
 					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) { //Kan værer en fejl her, med skiftet frem og tilbage imellem int og double (*)
 						
-						xPoints[i] = (int) Math.round((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
-						yPoints[i] = (int) Math.round((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
+						xPoints[i] = (int) Math.ceil((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
+						yPoints[i] = (int) Math.ceil((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
 					}
 					gDisplay.fillPolygon(xPoints, yPoints, colorfull.getColorPolygon().npoints);
 					//gDisplay.fillPolygon(colorfull.getColorPolygon());
