@@ -23,7 +23,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		boards = new SinglePlayerBoard[playerCount];
 		for (int i = 0; i < boards.length; i++) {
 			boards[i] = new SinglePlayerBoard(settings, i);
-			boards[i].addGameStateChangedListener(this);
 		}
 	}
 	
@@ -45,12 +44,12 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	
 	private void randomizeGame()
 	{
-		final int NumberOfDirections = 4;
+		final int numberOfDirections = 4;
 		Random randomGenerator = new Random();
 		do {
 			for (int i = 0; i < boards[0].settings.getGameSize() * 100; i++) {
 				Directions direction;
-				switch (randomGenerator.nextInt(NumberOfDirections)) {
+				switch (randomGenerator.nextInt(numberOfDirections)) {
 				case 0:
 					direction = Directions.LEFT;
 					break;
@@ -109,7 +108,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].addBoardChangedListener(listener);
 		}
-		
 	}
 
 	@Override
@@ -151,6 +149,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	@Override
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
 		gameStateChangedListeners.add(listener);
+		for (int i = 0; i < boards.length; i++) {
+			boards[i].addGameStateChangedListener(listener);
+		}
 	}
 
 	

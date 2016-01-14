@@ -80,6 +80,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		}
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.EXIT_GAME);
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_PAUSE);
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_CONSOLE_MODE);
 	}
 	
 	public RenderInfo getRenderInfo(int playerIndex)
@@ -103,10 +104,42 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		switch (key) {
 		case SpecialKeys.EXIT_GAME:
 			shutdown();
+			break;
 		case SpecialKeys.TOGGLE_PAUSE:
 			togglePause();
-		default:
 			break;
+		case SpecialKeys.TOGGLE_CONSOLE_MODE:
+			toggleConsoleMode();
+			break;
+		default:
+			Log.writeln("special key pressed without any action taken: " + key);
+		}
+	}
+	
+	private void toggleConsoleMode()
+	{
+		if (settings.isConsoleMode()) {
+			settings.setConsoleMode(false);
+			showScreen();
+			
+		} else {
+			settings.setConsoleMode(true);
+			hideScreen();
+			consoleControl.startGameInConsole();
+		}
+	}
+	
+	private void hideScreen()
+	{
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.hideWindow();
+		}
+	}
+	
+	private void showScreen()
+	{
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.showWindow();
 		}
 	}
 	
@@ -141,6 +174,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void startGame()
 	{
 		setControls();
+		game.unpause();
 	}
 	
 	public void resetGame()
@@ -249,6 +283,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	@Override
 	public void playSound(String name) {
-		audio.playSound(name);		
+		audio.playSound(name);	
 	}
 }

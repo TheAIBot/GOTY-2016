@@ -108,7 +108,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 
 	@Override
 	public void animateUpdate() {
-		repaint();
+			repaint();
 	}
 
 	public void setScoreAndTime(int score, int time, int screenIndex)

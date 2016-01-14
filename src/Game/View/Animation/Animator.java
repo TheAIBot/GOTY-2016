@@ -38,7 +38,8 @@ public class Animator  {
 	
 	private void updateAnimators()
 	{
-		maxMovementPerFrame = new Point2D.Double(0.03 + toAnimate.size() * 0.002, 0.03 + toAnimate.size() * 0.002);
+		maxMovementPerFrame = new Point2D.Double(0.05 + toAnimate.size() * 0.00002, 0.05 + toAnimate.size() * 0.00002);
+		//maxMovementPerFrame = new Point2D.Double(0.03, 0.03);
 		HashSet<AnimationInfo> toKeep = new HashSet<AnimationInfo>();
 		for (AnimationInfo animationInfo : toAnimate) {
 			Point2D.Double position = animationInfo.getPosition();
