@@ -4,12 +4,11 @@ package Menu;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Stack;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
+import Game.Control.GameEngine.AudioManager;
 import Game.Control.GameEngine.Log;
 import Menu.Pages.GOTYMainPage;
 import Menu.Pages.PageRequestsListener;
@@ -26,11 +25,13 @@ public class MenuController implements PageRequestsListener {
 		mainMenu = new JFrame(windowName);
 		mainMenu.setSize(startWidth, startHeight);
 		mainMenu.setLocationRelativeTo(null);
+		mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainMenu.addWindowListener(new WindowAdapter() {
 			@Override
 	        public void windowClosing(WindowEvent e) {
 	            super.windowClosing(e);
 	            currentPage.closePage();
+	            AudioManager.closeBackgroundMusic();
 	        }
 		});
 	}
@@ -80,5 +81,10 @@ public class MenuController implements PageRequestsListener {
 	public void canResize(boolean canResize) {
 		mainMenu.setResizable(canResize);
 		
+	}
+
+	@Override
+	public void setFullScreen() {
+		mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH); 		
 	}
 }

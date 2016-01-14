@@ -1,22 +1,16 @@
 package Menu.Pages;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
-
-import com.sun.management.GarbageCollectorMXBean;
 
 import Game.Model.Score.Highscore;
 import javafx.util.Pair;
@@ -53,7 +47,6 @@ public class GOTYHighscore extends SuperPage {
 		page.add(backButton, gc);
 		
 		showHighScores(Highscore.getHighscores());
-		
 		return page;
 	}
 	

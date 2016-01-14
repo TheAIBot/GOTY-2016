@@ -1,11 +1,13 @@
 package Game.Control.GameEngine;
 
 public interface GameEventsListener {
-	public abstract void gameEnded();
+	public void gameEnded();
 	
-	public abstract void hideWindow();
+	public void hideWindow();
 	
-	public abstract void showWindow();
+	public void showWindow();
 	
-	public abstract void closeGame();
+	public void closeGame();
+	
+	public void gameStarted();
 }

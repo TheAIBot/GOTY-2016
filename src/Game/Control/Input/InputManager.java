@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 public class InputManager implements java.io.Serializable {
-	
+	private static final long serialVersionUID = 2930449295015622601L;
 	private final HashSet<KeyPressListener> listeners = new HashSet<KeyPressListener>();
 	
 	public void AttachListenerToKey(JComponent component, KeyPressListener listener, final String key)
@@ -16,7 +16,9 @@ public class InputManager implements java.io.Serializable {
 		listeners.add(listener);
 		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(key), key);
 		component.getActionMap().put(key, new AbstractAction() {
-		    public void actionPerformed(ActionEvent e) {
+			private static final long serialVersionUID = 6529023994874939582L;
+
+			public void actionPerformed(ActionEvent e) {
 		    	performEvent(key);
 		    }
 		});

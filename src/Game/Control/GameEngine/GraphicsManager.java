@@ -3,8 +3,9 @@ package Game.Control.GameEngine;
 import javax.swing.JPanel;
 
 import Game.Model.Board.GameState;
-import Game.Model.Board.Tile;
+import Game.Model.Settings.GameSettings;
 import Game.View.Colorfull;
+import Game.View.ConsoleGraphics;
 import Game.View.CreateGamePanel;
 import Game.View.Displayable;
 import Game.View.GraphicsPanel;
@@ -12,19 +13,23 @@ import Game.View.Numreable;
 import Game.View.RenderInfo;
 import Game.View.Animation.AnimateUpdateListener;
 import Game.View.Animation.Animator;
-import Game.View.Numreable;
 
 public class GraphicsManager implements AnimateUpdateListener {
+	
 	//private ConsoleGraphics console;
 	private final GameEngine gEngine;
 	private final GraphicsPanel[] gPanels;
+	private final ConsoleGraphics consoleDisplay;
 	private final Animator animator = new Animator(this);
 	private final CreateGamePanel gamePanelCreater = new CreateGamePanel();
-	private JPanel gamePanel;
 	private final RenderInfo[] renderInfos;
+	private GameSettings settings;
+	private JPanel gamePanel;	
 	
-	public GraphicsManager(GameEngine gEngine, int numberOfScreens) {
+	public GraphicsManager(GameEngine gEngine, int numberOfScreens, GameSettings settings) {
 		this.gEngine = gEngine;
+		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);		
+		this.settings = settings;
 		this.gPanels = new GraphicsPanel[numberOfScreens];
 		this.renderInfos = new RenderInfo[numberOfScreens];
 		for (int i = 0; i < gPanels.length; i++) {
@@ -33,13 +38,19 @@ public class GraphicsManager implements AnimateUpdateListener {
 		}
 	}
 	
-	public void renderTiles(Tile[] tiles, RenderInfo renderInfo, int screenIndex){		
-		checkForNewAnimations(renderInfo);
-		gPanels[screenIndex].repaint();	
+	public void renderTiles(RenderInfo renderInfo, int screenIndex){	
+		if (settings.isConsoleMode()) {//settings.isConsoleMode(
+			consoleDisplay.render();			
+		} else {
+			checkForNewAnimations(renderInfo);
+			gPanels[screenIndex].repaint();;
+		}
 	}
 	
 	public void renderScreen(int screenIndex){
-		gPanels[screenIndex].render();
+		if (settings.isConsoleMode()) {
+			consoleDisplay.render();
+		} else gPanels[screenIndex].repaint();
 	}
 	
 	public JPanel getGraphicsPanel(){
@@ -55,7 +66,10 @@ public class GraphicsManager implements AnimateUpdateListener {
 	
 	public Displayable[] getDisplayablesToRender(int screenIndex){
 		if (renderInfos[screenIndex] != null && !renderInfos[screenIndex].renderColor) {
-			animate(screenIndex);
+			//It does not animate anything, if it is in console mode.
+			if (!settings.isConsoleMode()) {
+				animate(screenIndex);
+			}
 			return gEngine.getTiles(screenIndex);
 		} else return null;
 	}
@@ -74,15 +88,21 @@ public class GraphicsManager implements AnimateUpdateListener {
 	
 	public void repaint()
 	{
-		for (int i = 0; i < gPanels.length; i++) {
-			gPanels[i].repaint();
+		if (settings.isConsoleMode()) {
+			consoleDisplay.render();
+		} else{
+			for (int i = 0; i < gPanels.length; i++) {
+				gPanels[i].repaint();
+			}			
 		}
 	}
 
 	public void checkForNewAnimations(RenderInfo renderInfo) {
-		if (renderInfo.toAnimate.size() > 0) {
-			animator.startAnimation(renderInfo.toAnimate);
-			renderInfo.toAnimate.clear();
+		if (!settings.isConsoleMode()) {
+			if (renderInfo.toAnimate.size() > 0) {
+				animator.startAnimation(renderInfo.toAnimate);
+				renderInfo.toAnimate.clear();
+			}
 		}
 	}
 
