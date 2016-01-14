@@ -47,12 +47,23 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		game.addPlaySoundListener(this);
 		graphics.repaint();
 		game.makeRandom();
+<<<<<<< HEAD
 		setControls();
 	}
 	
 	private void setControls()
 	{
 		if (settings.isConsoleMode()) {
+=======
+		try {
+			final int waitBeforeRandomize = 1000; // 1 sec
+			Thread.sleep(waitBeforeRandomize);
+		} catch (InterruptedException e) {
+			Log.writeln("could not wait before randomizing");
+		}
+		
+		if (settings.isConsoleMode()) {//
+>>>>>>> refs/remotes/origin/Dev
 			consoleControl.startGameInConsole();
 		} else {
 			game.pause();
@@ -91,10 +102,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	@Override
 	public void keyPressed(String keyPressed) {
-		if (!SpecialKeys.isSpecialKey(keyPressed) && !settings.isPaused()) {
-			game.keyPressed(keyPressed);
-		} else {
-			handleSpecialKeyPress(keyPressed);
+		if (!settings.isPaused()) {
+			if (!SpecialKeys.isSpecialKey(keyPressed)) {
+				game.keyPressed(keyPressed);
+			} else {
+				handleSpecialKeyPress(keyPressed);
+			}
 		}
 	}
 		

@@ -15,6 +15,7 @@ import Game.View.Animation.AnimateUpdateListener;
 import Game.View.Animation.Animator;
 
 public class GraphicsManager implements AnimateUpdateListener {
+	
 	//private ConsoleGraphics console;
 	private final GameEngine gEngine;
 	private final GraphicsPanel[] gPanels;
@@ -38,7 +39,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	}
 	
 	public void renderTiles(RenderInfo renderInfo, int screenIndex){	
-		if (settings.isConsoleMode()) {
+		if (settings.isConsoleMode()) {//settings.isConsoleMode(
 			consoleDisplay.render();			
 		} else {
 			checkForNewAnimations(renderInfo);

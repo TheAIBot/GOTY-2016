@@ -82,7 +82,6 @@ public class SaveFileManager<T> {
 			// Get file which contains the object state to be loaded.
 			try (FileInputStream loadFileIn = new FileInputStream(saveFileDirectory + "/" + loadName + ".ser")) {
 				try (ObjectInputStream loadObjIn = new ObjectInputStream(loadFileIn)) {
-
 					// Read object state data
 					return (T) loadObjIn.readObject();
 				}				

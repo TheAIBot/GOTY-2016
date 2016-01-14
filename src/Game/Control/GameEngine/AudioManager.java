@@ -8,7 +8,7 @@ import Game.Control.Sound.SoundFinishedListener;
 import Game.Model.CirculairList;
 import Game.Model.Resources.ResourceAudio;
 
-/** Unlimited sounds work!
+/** Unlimited sounds works!
  */
 public class AudioManager implements SoundFinishedListener {
 	
