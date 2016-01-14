@@ -42,6 +42,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	
 	private JLabel showtileImage;
 	private ArrayList<BufferedImage> tileImages;
+	private ArrayList<BufferedImage> tileImageThumbNails;
 	private int selectedtileImageIndex = 0;
 	
 	public GOTYPlayGameSettings(PageRequestsListener listener)
@@ -324,8 +325,11 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		});
 		
 		tileImages = ResourceImages.getDefaultImages();
+		tileImageThumbNails = ResourceImages.convertToThumbNails(tileImages);
 		showtileImage = new JLabel();
 		showTileImage();
+		
+		
 		JButton prevImage = new JButton("<-");
 		prevImage.setPreferredSize(new Dimension(30, 100));
 		prevImage.addActionListener(new ActionListener() {
@@ -579,7 +583,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	
 	private void showTileImage()
 	{
-		ImageIcon tileImage = new ImageIcon(tileImages.get(selectedtileImageIndex));
+		ImageIcon tileImage = new ImageIcon(tileImageThumbNails.get(selectedtileImageIndex));
 		showtileImage.setIcon(tileImage);
 		theGameSettings.setTileImage(tileImages.get(selectedtileImageIndex));
 	}
@@ -610,6 +614,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			ArrayList<BufferedImage> konamiImages = ResourceImages.getAllImagesFromDirectory(ResourceImages.ANIME_DIRECTORY_PATH);
 			if (konamiImages != null) {
 				tileImages = konamiImages;
+				tileImageThumbNails = ResourceImages.convertToThumbNails(tileImages);
 				selectedtileImageIndex = tileImages.size() - 1;
 				showTileImage();
 			}
