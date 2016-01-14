@@ -39,14 +39,13 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		this.settings = settings;		
 		this.audio = new AudioManager(settings.getSoundVolume());
 		this.consoleControl = new ConsoleControl(this, settings);
-		//initGame(settings);
-		game = createGameType(settings);
+		this.game = createGameType(settings);
+		this.game.addBoardChangedListener(this);
+		this.game.addGameStateChangedListener(this);
+		this.game.addScoreChangedListener(this);
+		this.game.addPlaySoundListener(this);
 		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(),settings);
-		game.addBoardChangedListener(this);
-		game.addGameStateChangedListener(this);
-		game.addScoreChangedListener(this);
-		game.addPlaySoundListener(this);
-		graphics.repaint();
+		this.graphics.repaint();
 	}
 	
 	private void setControls()
@@ -81,6 +80,11 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.EXIT_GAME);
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_PAUSE);
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_CONSOLE_MODE);
+	}
+	
+	private void removeKeyboardControls()
+	{
+		input.RemoveAllListeners(graphics.getGraphicsPanel());
 	}
 	
 	public RenderInfo getRenderInfo(int playerIndex)
@@ -121,10 +125,12 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		if (settings.isConsoleMode()) {
 			settings.setConsoleMode(false);
 			showScreen();
+			addKeyboardControls();
 			
 		} else {
 			settings.setConsoleMode(true);
 			hideScreen();
+			removeKeyboardControls();
 			consoleControl.startGameInConsole();
 		}
 	}
@@ -174,7 +180,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void startGame()
 	{
 		setControls();
-		game.unpause();
+		unpause();
 	}
 	
 	public void resetGame()
@@ -210,7 +216,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		audio.close();
 		BufferedImage image = Tile.getTileImage();
 		if (image != null) {
-
 			image.flush();
 		}
 	}

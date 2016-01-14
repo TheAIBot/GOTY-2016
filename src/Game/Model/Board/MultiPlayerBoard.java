@@ -18,9 +18,11 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
 	private final SinglePlayerBoard[] boards;
 	private ScoreChangedListener scoreListener;
+	private GameSettings settings;
 	
 	public MultiPlayerBoard(GameSettings settings, int playerCount) {
-		boards = new SinglePlayerBoard[playerCount];
+		this.settings = settings;
+		this.boards = new SinglePlayerBoard[playerCount];
 		for (int i = 0; i < boards.length; i++) {
 			boards[i] = new SinglePlayerBoard(settings, i);
 		}
@@ -35,7 +37,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 
 	@Override
 	public void makeRandom() {
-		if (boards[0].settings.isRandomized()) {
+		if (settings.isRandomized()) {
 			randomizeGame();
 		} else {
 			defaultGame();
@@ -47,7 +49,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		final int numberOfDirections = 4;
 		Random randomGenerator = new Random();
 		do {
-			for (int i = 0; i < boards[0].settings.getGameSize() * 100; i++) {
+			for (int i = 0; i < settings.getGameSize() * 100; i++) {
 				Directions direction;
 				switch (randomGenerator.nextInt(numberOfDirections)) {
 				case 0:
@@ -70,8 +72,8 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 					boards[j].moveVoidTile(direction);
 				}
 			}
-		} while (boards[0].settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(boards[0].getTiles(0), boards[0].settings.getGameSize()) ||
-				   DifficultyCalculator.getDfficulty(boards[0].getTiles(0), boards[0].settings.getGameSize()) == 0);
+		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(boards[0].getTiles(0), settings.getGameSize()) ||
+				   DifficultyCalculator.getDfficulty(boards[0].getTiles(0), settings.getGameSize()) == 0);
 	}
 
 	private void defaultGame()
@@ -167,7 +169,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			}
 			if (!anyoneAlreadyWon) {
 				pause();
-				Highscore.newScore(boards[playerIndex].settings.getPlayers()[playerIndex].getName(), boards[playerIndex].getScore());
+				Highscore.newScore(settings.getPlayers()[playerIndex].getName(), boards[playerIndex].getScore());
 				for (int i = 0; i < boards.length; i++) {
 					if (i != playerIndex) {
 						boards[i].setGameState(GameState.LOST);
