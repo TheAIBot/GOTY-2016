@@ -1,17 +1,17 @@
 package Menu.Pages;
-import javax.swing.*;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.event.ActionEvent;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 public class testpages {
 	private JTextField textField;
+	private JTextField p1Name;
+	private JTextField p2Name;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -173,5 +173,29 @@ public class testpages {
 		JCheckBox setRandomize = new JCheckBox("Randomize");
 		setRandomize.setBounds(750, 96, 117, 25);
 		frame.getContentPane().add(setRandomize);
+		
+		p1Name = new JTextField();
+		p1Name.setText("Player 1");
+		p1Name.setBounds(153, 667, 137, 22);
+		frame.getContentPane().add(p1Name);
+		p1Name.setColumns(10);
+		
+		p2Name = new JTextField();
+		p2Name.setText("Player 2");
+		p2Name.setColumns(10);
+		p2Name.setBounds(609, 667, 137, 22);
+		frame.getContentPane().add(p2Name);
+		
+		JLabel lblPlayerName1 = new JLabel("Player 1 name:");
+		lblPlayerName1.setBounds(174, 638, 96, 16);
+		frame.getContentPane().add(lblPlayerName1);
+		
+		JLabel lblPlayerName2 = new JLabel("Player 2 name:");
+		lblPlayerName2.setBounds(630, 638, 96, 16);
+		frame.getContentPane().add(lblPlayerName2);
+		
+		JButton resetSettingsButton = new JButton("Reset settings");
+		resetSettingsButton.setBounds(32, 171, 117, 54);
+		frame.getContentPane().add(resetSettingsButton);
 	}
 }

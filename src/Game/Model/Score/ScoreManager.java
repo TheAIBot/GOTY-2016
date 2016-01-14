@@ -2,12 +2,21 @@ package Game.Model.Score;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
+
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
+import Game.Model.Board.Tile;
 
 public class ScoreManager implements Serializable{
 	
+	private ScoreChangedListener scoreChangedListener;
+		
 	private final int delay = 1000; //1000 = 1 s
 	private transient Timer clock = new Timer(delay, new ActionListener() {
 		@Override
@@ -28,11 +37,13 @@ public class ScoreManager implements Serializable{
 	 * @param scoreSecond
 	 * @param scoreMove
 	 */
-	public ScoreManager(int scoreSecond, int scoreMove, boolean detectMoves)
+	public ScoreManager(int scoreSecond, int scoreMove, boolean detectMoves, ScoreChangedListener scoreListener)
 	{
 		this.scorePerSecond = scoreSecond;
 		this.scorePerMove = scoreMove;
-		this.detectMoves = detectMoves;		
+		this.detectMoves = detectMoves;
+		this.scoreChangedListener = scoreListener;
+		
 	}
 	
 	/**
@@ -61,6 +72,7 @@ public class ScoreManager implements Serializable{
 	{
 		timeElapsedInSeconds++;
 		totalScore += scorePerSecond;
+		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
 	/**
@@ -70,11 +82,13 @@ public class ScoreManager implements Serializable{
 	public void addToScore(int score)
 	{
 		totalScore += score;
+		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
 	public void incrementScore()
 	{
 		totalScore += 1;
+		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
 	public void incrementNumMoves()
@@ -95,6 +109,16 @@ public class ScoreManager implements Serializable{
 			numMoves += moves;
 			addToScore(moves * scorePerMove);
 		}
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
+		in.defaultReadObject();
+		clock = new Timer(delay, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateTimeScore();
+			}
+		});
 	}
 	
 	//Get-methods
@@ -135,6 +159,9 @@ public class ScoreManager implements Serializable{
 	{
 		return scorePerMove;
 	}
+	
+	
+	//set-methods
 	
 	/**
 	 * Sets the total score.

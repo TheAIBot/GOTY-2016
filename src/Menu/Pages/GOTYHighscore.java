@@ -1,14 +1,16 @@
 package Menu.Pages;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import Game.Model.Score.Highscore;
 import javafx.util.Pair;
@@ -22,39 +24,68 @@ public class GOTYHighscore extends SuperPage {
 	
 	public JPanel createPage()
 	{
-		JLabel topLabel = new JLabel("HIGHSCORE", SwingConstants.CENTER);
-		JPanel scoreList = new JPanel();
-		scoreList.setLayout(new BoxLayout(scoreList, BoxLayout.Y_AXIS));
-		JLabel testScore = new JLabel("adasd");
-		JLabel testScore2 = new JLabel("asdadas");
-		scoreList.add(testScore);
-		scoreList.add((testScore2));
-		JButton back = new JButton("Back");
-		back.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	        	 	backPage();
-		         }
-		      });
-		page.setLayout(new GridLayout(3, 1));
-		page.add(topLabel);
-		page.add(scoreList);
-		page.add(back);
-		page.setVisible(true);
 		
+		page.setLayout(new GridBagLayout());
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.gridx = 0;
+		gc.gridy = 0;
+		JLabel topLabel = new JLabel("HIGHSCORE");
+		
+		gc.insets = new Insets(10, 10, 10, 10);
+	
+		page.add(topLabel,gc);
+		
+		JButton backButton = new JButton("BACK");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				backPage();
+			}
+		});
+		
+		gc.ipadx = 0;
+		gc.gridy = 2;
+		page.add(backButton, gc);
+		
+		showHighScores(Highscore.getHighscores());
 		return page;
 	}
 	
 	public void startPage()
 	{
-		showHighScores(Highscore.getHighscores());
+		
 	}
 	
 	private void showHighScores(ArrayList<Pair<String, Integer>> scores)
 	{
-		//TODO fill this out to show scores
+		String[] columnNames = {"Player name",
+        "Score"};
+
+		
+		Object[][] scoreElements = new Object[scores.size()][2];
+		for(int i = scores.size() - 1; i >= 0 ; i--)
+		{
+			scoreElements[scoreElements.length - 1 - i][0] = scores.get(i).getKey();
+			scoreElements[scoreElements.length - 1 - i][1] = scores.get(i).getValue();
+		}
+		
+
+		JTable table = new JTable(scoreElements, columnNames);
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		
+		GridBagConstraints gc = new GridBagConstraints();
+		
+		gc.gridy = 1;
+		gc.ipadx = 100;
+		page.add(scrollPane, gc);
 	}
 	
 	public void closePage()
 	{
+	}
+
+	@Override
+	public boolean canShowPage() {
+		return true;		
 	}
 }

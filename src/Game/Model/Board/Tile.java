@@ -49,7 +49,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		this(number, position, color, displayImage);
 		this.listener = listener;
 	}
-	
+	 	
 	public Tile(int number, Point2D.Double position, Color color)
 	{
 		this.number = number;
@@ -65,16 +65,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 			colorPolygon.addPoint((int) corner.x, (int) corner.y);
 		}
 	}
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        displayImage = ImageIO.read(in);
-    }
-    
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        ImageIO.write(displayImage, ResourceImages.ACCEPTED_EXTENSION, out);
-    }
 
 	public BufferedImage getDisplayImage() {
 		return displayImage;
@@ -167,5 +157,15 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	@Override
 	public Double getPosition() {
 		return this.position;
+	}
+
+	public static BufferedImage getTileImage()
+	{
+		return displayImage;
+	}
+	
+	public static void setTileImage(BufferedImage image)
+	{
+		displayImage = image;
 	}
 }
