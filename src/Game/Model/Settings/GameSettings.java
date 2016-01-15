@@ -20,7 +20,7 @@ public class GameSettings implements Serializable{
 	public static final int SOUND_MIN = 0;
 	public static final int DIFF_MIN = 0;
 	public static final int DIFF_MAX = 3;
-	public static final int SIZE_MIN = 4;
+	public static final int SIZE_MIN = 3;
 	public static final int SIZE_MAX = 100;
 	
 	private boolean isPaused;
