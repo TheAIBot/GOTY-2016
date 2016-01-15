@@ -183,16 +183,18 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		graphics.render();
 	}
 	
-	public void startGameAsync()
+	public Thread startGameAsync()
 	{
-		new Thread(new Runnable() {
+		Thread startGameThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 			createGame();
 			unpause();
 			setControls();
 			}
-		}).start();
+		});
+		startGameThread.start();
+		return startGameThread;
 	}
 	
 	public void resetGame()
