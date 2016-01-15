@@ -12,10 +12,11 @@ import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener, PlaySoundListener, Serializable {
+public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener, PlaySoundListener, Serializable, BoardChangedListener {
 	private static final long serialVersionUID = 1474947852904108736L;
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
+	private final ArrayList<BoardChangedListener> boardChangedListeners = new ArrayList<BoardChangedListener>();
 	private final SinglePlayerBoard[] boards;
 	private ScoreChangedListener scoreListener;
 	private GameSettings settings;
@@ -65,12 +66,15 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 					direction = Directions.DOWN;
 					break;
 				default:
-					Log.writeln("Random generator in makeRandom game a number that was higher than the number of directions");
+					Log.writeln("Random generator in makeRandom game returned a number that was higher than the number of directions");
 					direction = Directions.LEFT;
 				}
 				for (int j = 0; j < boards.length; j++) {
 					boards[j].moveVoidTile(direction);
 				}
+			}
+			for (int i = 0; i < boards.length; i++) {
+				boardChanged(i);
 			}
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(boards[0].getTiles(0), settings.getGameSize()) ||
 				   DifficultyCalculator.getDfficulty(boards[0].getTiles(0), settings.getGameSize()) == 0);
@@ -107,8 +111,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 
 	@Override
 	public void addBoardChangedListener(BoardChangedListener listener) {
+		boardChangedListeners.add(listener);
 		for (int i = 0; i < boards.length; i++) {
-			boards[i].addBoardChangedListener(listener);
+			boards[i].addBoardChangedListener(this);
 		}
 	}
 
@@ -156,19 +161,11 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		}
 	}
 
-	
 	@Override
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		if (newGameState == GameState.WON) {
-			boolean anyoneAlreadyWon = false;
-			for (int i = 0; i < boards.length; i++) {
-				if (i != playerIndex && boards[i].getGameState(i) == GameState.WON) {
-					anyoneAlreadyWon = true;
-					break;
-				}
-			}
-			if (!anyoneAlreadyWon) {
-				pause();
+			if (!didAnyoneAlreadyWin(playerIndex)) {
+				//pause();
 				Highscore.newScore(settings.getPlayers()[playerIndex].getName(), boards[playerIndex].getScore());
 				for (int i = 0; i < boards.length; i++) {
 					if (i != playerIndex) {
@@ -182,7 +179,18 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				}
 			}
 		}
-
+	}
+	
+	private boolean didAnyoneAlreadyWin(int playerIndexThatWon)
+	{
+		boolean anyoneAlreadyWon = false;
+		for (int i = 0; i < boards.length; i++) {
+			if (i != playerIndexThatWon && boards[i].getGameState(i) == GameState.WON) {
+				anyoneAlreadyWon = true;
+				break;
+			}
+		}
+		return anyoneAlreadyWon;
 	}
 
 	@Override
@@ -212,6 +220,14 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		playSoundListeners.add(listener);
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].addPlaySoundListener(listener);
+		}
+	}
+
+	
+	@Override
+	public void boardChanged(int playerIndex) {
+		for (BoardChangedListener boardChangedListener : boardChangedListeners) {
+			boardChangedListener.boardChanged(playerIndex);
 		}
 	}
 }

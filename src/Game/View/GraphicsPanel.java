@@ -28,11 +28,6 @@ public class GraphicsPanel extends JPanel {
 		this.renderInfo = renderInfo;
 	}
 
-	//public void setRenderInfo(Displayable[] tiles, RenderInfo renderInfo) {
-	//	this.tiles = tiles;
-	//	this.renderInfo = renderInfo;
-	//}
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -146,6 +141,10 @@ public class GraphicsPanel extends JPanel {
 		return false;		
 	}
 	
+	public void render()
+	{
+		repaint();
+	}
 	
 	public Point2D.Double getPosition(int number, int size) {
 		int row = number / size;

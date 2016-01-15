@@ -44,8 +44,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		this.game.addGameStateChangedListener(this);
 		this.game.addScoreChangedListener(this);
 		this.game.addPlaySoundListener(this);
-		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(),settings);
-		this.graphics.repaint();
+		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(), settings);
 	}
 	
 	private void setControls()
@@ -165,14 +164,14 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		game.createGame();
 		gameStarted();
-		graphics.repaint();
+		graphics.render();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			Log.writeError(e);
 		}
-		graphics.repaint();
 		game.makeRandom();
+		graphics.render();
 	}
 	
 	public void startGame()
@@ -196,8 +195,8 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void boardChanged(int playerIndex) {
 		render(playerIndex);		
 	}
-
-	public void render(int playerIndex) {
+	
+	private void render(int playerIndex) {
 		graphics.renderTiles(game.getRenderInfo(playerIndex), playerIndex);
 	}
 	

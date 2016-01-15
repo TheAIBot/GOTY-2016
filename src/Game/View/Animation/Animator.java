@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.Lock;
 
 import javax.swing.Timer;
 
@@ -28,8 +29,10 @@ public class Animator  {
 	public void startAnimation(ConcurrentLinkedQueue<AnimationInfo> animators)
 	{
 		AnimationInfo aniInfo;
-		while ((aniInfo = animators.poll()) != null) {
-			toAnimate.add(aniInfo);
+		synchronized (toAnimate) {
+			while ((aniInfo = animators.poll()) != null) {
+				toAnimate.add(aniInfo);
+			}
 		}
 		if (toAnimate.size() > 0) {
 			animationTimer.start();
@@ -39,26 +42,27 @@ public class Animator  {
 	private void updateAnimators()
 	{
 		maxMovementPerFrame = new Point2D.Double(0.05 + toAnimate.size() * 0.00002, 0.05 + toAnimate.size() * 0.00002);
-		//maxMovementPerFrame = new Point2D.Double(0.03, 0.03);
 		HashSet<AnimationInfo> toKeep = new HashSet<AnimationInfo>();
-		for (AnimationInfo animationInfo : toAnimate) {
-			Point2D.Double position = animationInfo.getPosition();
-			Point2D.Double previousPosition = animationInfo.getPreviousPosition();
-			if (Math.abs(position.x - previousPosition.x) < maxMovementPerFrame.x + EPSILON &&
-				Math.abs(position.y - previousPosition.y) < maxMovementPerFrame.y + EPSILON) {
-				previousPosition.setLocation(Math.round(position.x), Math.round(position.y));
-				animationInfo.finishedMoving();
+		synchronized (toAnimate) {
+			for (AnimationInfo animationInfo : toAnimate) {
+				Point2D.Double position = animationInfo.getPosition();
+				Point2D.Double previousPosition = animationInfo.getPreviousPosition();
+				if (Math.abs(position.x - previousPosition.x) < maxMovementPerFrame.x + EPSILON &&
+					Math.abs(position.y - previousPosition.y) < maxMovementPerFrame.y + EPSILON) {
+					previousPosition.setLocation(Math.round(position.x), Math.round(position.y));
+					animationInfo.finishedMoving();
+				}
+				else {
+					Point2D.Double moveVector = getMoveVector(previousPosition, position);
+					previousPosition.setLocation(previousPosition.x + moveVector.x, previousPosition.y + moveVector.y);
+					toKeep.add(animationInfo);
+				}
 			}
-			else {
-				Point2D.Double moveVector = getMoveVector(previousPosition, position);
-				previousPosition.setLocation(previousPosition.x + moveVector.x, previousPosition.y + moveVector.y);
-				toKeep.add(animationInfo);
+			toAnimate = toKeep;
+			if (toAnimate.size() == 0) {
+				animationTimer.stop();
+				System.out.println("animation stopped");
 			}
-		}
-		toAnimate = toKeep;
-		if (toAnimate.size() == 0) {
-			animationTimer.stop();
-			System.out.println("animation stopped");
 		}
 		listener.animateUpdate();
 	}
