@@ -68,15 +68,18 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 
 	@Override
 	public void hideWindow() {
+		hideScreen();
 	}
 
 	@Override
 	public void showWindow() {
+		showScreen();
 	}
 
 	@Override
 	public void closeGame() {
 		settings = null;
+		showScreen();
 		backPage();
 	}
 

@@ -111,11 +111,19 @@ public class GraphicsManager implements AnimateUpdateListener {
 
 	public void setScoreAndTime(int score, int time, int screenIndex)
 	{
-		gamePanelCreater.setTimeAndScore(score, time, screenIndex);
+		if (!settings.isConsoleMode()) {
+			gamePanelCreater.setTimeAndScore(score, time, screenIndex);
+		} else {
+			consoleDisplay.setScoreAndTime(score, time);
+		}
 	}
 
 	public void setGameState(GameState newGameState, int screenIndex)
 	{
-		gamePanelCreater.setGameState(newGameState, screenIndex);
+		if (!settings.isConsoleMode()) {
+			gamePanelCreater.setGameState(newGameState, screenIndex);
+		} else {
+			consoleDisplay.gameStateChanged(newGameState);
+		}
 	}
 }

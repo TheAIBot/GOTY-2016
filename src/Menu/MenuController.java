@@ -52,7 +52,6 @@ public class MenuController implements PageRequestsListener {
 		else {
 			Log.writeln("Tried to go back a page when there is no previous page to go back to");
 		}
-		
 	}
 	
 	@Override
@@ -93,5 +92,15 @@ public class MenuController implements PageRequestsListener {
 	@Override
 	public void setFullScreen() {
 		mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH); 		
+	}
+
+	@Override
+	public void hideScreen() {
+		mainMenu.setVisible(false);
+	}
+
+	@Override
+	public void showScreen() {
+		mainMenu.setVisible(true);
 	}
 }

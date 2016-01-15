@@ -68,4 +68,12 @@ public abstract class SuperPage {
 	{
 		listener.canResize(canResize);
 	}
+	
+	protected void hideScreen() {
+		listener.hideScreen();
+	}
+
+	protected void showScreen() {
+		listener.showScreen();
+	}
 }
