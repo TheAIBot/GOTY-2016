@@ -24,7 +24,7 @@ public class GOTYHighscore extends SuperPage {
 	
 	public JPanel createPage()
 	{
-		
+		page = new JPanel();
 		page.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.gridx = 0;
@@ -45,14 +45,13 @@ public class GOTYHighscore extends SuperPage {
 		gc.ipadx = 0;
 		gc.gridy = 2;
 		page.add(backButton, gc);
-		
 		showHighScores(Highscore.getHighscores());
 		return page;
 	}
 	
 	public void startPage()
 	{
-		
+		createPage();
 	}
 	
 	private void showHighScores(ArrayList<Pair<String, Integer>> scores)

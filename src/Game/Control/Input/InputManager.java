@@ -24,6 +24,12 @@ public class InputManager implements java.io.Serializable {
 		});
 	}
 	
+	public void RemoveAllListeners(JComponent component)
+	{
+		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).clear();
+		listeners.clear();
+	}
+	
 	private void performEvent(String KeyPressed)
 	{
 		for (KeyPressListener keyPressListener : listeners) {

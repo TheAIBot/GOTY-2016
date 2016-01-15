@@ -28,7 +28,7 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 
 	@Override
 	public void closePage() {
-		if (game != null && game.getGameState() == GameState.NOT_DECIDED_YET) {
+		if (game != null && game.getGameState(0) == GameState.NOT_DECIDED_YET) {
 			game.save();
 		}
 	}
@@ -45,6 +45,7 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 			game = GameEngine.load();
 			game.addGameEventListener(this);
 			page = game.getScreen();
+			setFullScreen();
 			if (game == null) {
 				return false;
 			}
@@ -52,12 +53,7 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 			game = new GameEngine(settings);
 			game.addGameEventListener(this);
 			page = game.getScreen();
-			new Thread(new Runnable() {
-				public void run() {
-					game.createGame();
-					game.startGame();
-				}
-			}).start();
+			game.startGameAsync();
 		}
 		return true;
 	}
@@ -68,15 +64,18 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 
 	@Override
 	public void hideWindow() {
+		hideScreen();
 	}
 
 	@Override
 	public void showWindow() {
+		showScreen();
 	}
 
 	@Override
 	public void closeGame() {
 		settings = null;
+		showScreen();
 		backPage();
 	}
 

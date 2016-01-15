@@ -1,9 +1,6 @@
 package Game.Model.Resources;
 
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +14,7 @@ import Game.Control.GameEngine.Log;
 
 public class ResourceImages {
 	private static final String DIRECTORY_PATH = "res" + File.separator + "images";
-	public static final String ACCEPTED_EXTENSION = "png";
+	public static final String ACCEPTED_EXTENSION = "jpg";
 	
 	public static final String DEFAULT_IMAGE_DIRECTORY_NAME = "default";
 	public static final String ANIME_DIRECTORY_PATH = "res" + File.separator + "images" + File.separator + "special";
@@ -51,6 +48,7 @@ public class ResourceImages {
 		}
 		if (allImages.size() == 0) {
 			Log.writeln("Found no images at: " + path);
+			return null;
 		}
 		return allImages;
 	}
@@ -65,7 +63,7 @@ public class ResourceImages {
 	
 	private static BufferedImage loadImage(File imageFile) {
 		try {
-			return toCompatibleImage(ImageIO.read(imageFile));
+			return ImageIO.read(imageFile);
 		} catch (IOException e) {
 			Log.writeln("Something went wrong with the image loading process");
 			Log.writeError(e);
@@ -115,39 +113,5 @@ public class ResourceImages {
 	public static void releaseImageResource(BufferedImage image)
 	{
 		image.flush();
-	}
-	
-	/**
-	 * http://stackoverflow.com/questions/196890/java2d-performance-issues
-	 * @param image
-	 * @return
-	 */
-	private static BufferedImage toCompatibleImage(BufferedImage image)
-	{
-		// obtain the current system graphical settings
-		GraphicsConfiguration gfx_config = GraphicsEnvironment.
-			getLocalGraphicsEnvironment().getDefaultScreenDevice().
-			getDefaultConfiguration();
-
-		/*
-		 * if image is already compatible and optimized for current system 
-		 * settings, simply return it
-		 */
-		if (image.getColorModel().equals(gfx_config.getColorModel()))
-			return image;
-
-		// image is not optimized, so create a new image that is
-		BufferedImage new_image = gfx_config.createCompatibleImage(
-				image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
-
-		// get the graphics context of the new image to draw the old image on
-		Graphics2D g2d = (Graphics2D) new_image.getGraphics();
-
-		// actually draw the image and dispose of context no longer needed
-		g2d.drawImage(image, 0, 0, null);
-		g2d.dispose();
-
-		// return the new optimized image
-		return new_image; 
 	}
 }

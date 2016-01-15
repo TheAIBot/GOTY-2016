@@ -6,35 +6,37 @@ import Game.View.RenderInfo;
 
 public interface GameBoardMode {
 
-	public abstract void createGame();
+	public void createGame();
 
-	public abstract void makeRandom();
+	public void makeRandom();
 
-	public abstract void resetGame();
+	public void resetGame();
 
-	public abstract Tile[] getTiles(int playerIndex);
+	public Tile[] getTiles(int playerIndex);
 
-	public abstract int getSize();
+	public int getSize();
 
-	public abstract GameState getGameState(int playerIndex);
+	public GameState getGameState(int playerIndex);
 
-	public abstract void addBoardChangedListener(BoardChangedListener listener);
+	public void addBoardChangedListener(BoardChangedListener listener);
 	
-	public abstract void addGameStateChangedListener(GameStateChangedListener listener);
+	public void addGameStateChangedListener(GameStateChangedListener listener);
 	
-	public abstract void addScoreChangedListener(ScoreChangedListener listener);
+	public void addScoreChangedListener(ScoreChangedListener listener);
 	
-	public abstract void addPlaySoundListener(PlaySoundListener listener);
+	public void addPlaySoundListener(PlaySoundListener listener);
 	
-	public abstract void keyPressed(String key);
+	public void keyPressed(String key);
 	
-	public abstract void pause();
+	public void pause();
 	
-	public abstract void unpause();
+	public void unpause();
 	
-	public abstract String[] getKeysToSubscribeTo(int playerIndex);
+	public void Stop();
 	
-	public abstract RenderInfo getRenderInfo(int playerIndex);
+	public String[] getKeysToSubscribeTo(int playerIndex);
 	
-	public abstract int getNumberOfPlayers();
+	public RenderInfo getRenderInfo(int playerIndex);
+	
+	public int getNumberOfPlayers();
 }
