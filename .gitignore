@@ -64,5 +64,7 @@ $RECYCLE.BIN/
 /bin/
 *.ser
 *.ser
+*.uml
+*.umlcd
 saveFiles/save_test1.ser
 src/Menu/Pages/testpages.java
