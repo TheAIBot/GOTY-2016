@@ -1,13 +1,7 @@
 package Game.Control.GameEngine;
 
-import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import com.sun.prism.paint.Stop;
 
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
@@ -234,10 +228,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private void releaseAllResources()
 	{
 		audio.close();
-		BufferedImage image = Tile.getTileImage();
-		if (image != null) {
-			image.flush();
-		}
 	}
 	
 	public void save()
