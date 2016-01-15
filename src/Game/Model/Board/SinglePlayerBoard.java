@@ -247,7 +247,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
-		if (!settings.isPaused()) {
+		if (!settings.isPaused() && isRunning) {
 			switch (direction) {
 			case RIGHT:
 				return voidTilePosition.getX() < settings.getGameSize() - 1;
