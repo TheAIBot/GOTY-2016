@@ -47,19 +47,25 @@ public class MenuController implements PageRequestsListener {
 	@Override
 	public void back() {
 		if (!previousPages.isEmpty()) {
-			switchPage(previousPages.pop());
+			switchPage(previousPages.pop(), false);
 		}
 		else {
 			Log.writeln("Tried to go back a page when there is no previous page to go back to");
 		}
-		
 	}
 	
 	@Override
 	public void switchPage(SuperPage toSwitchTo)
 	{
+		switchPage(toSwitchTo, true);
+	}
+	
+	private void switchPage(SuperPage toSwitchTo, boolean addPreviousPage)
+	{
 		if (toSwitchTo.canShowPage()) {
-			previousPages.add(currentPage);
+			if (addPreviousPage) {
+				previousPages.add(currentPage);
+			}
 			currentPage.closePage();
 			currentPage = toSwitchTo;
 			
@@ -86,5 +92,15 @@ public class MenuController implements PageRequestsListener {
 	@Override
 	public void setFullScreen() {
 		mainMenu.setExtendedState(JFrame.MAXIMIZED_BOTH); 		
+	}
+
+	@Override
+	public void hideScreen() {
+		mainMenu.setVisible(false);
+	}
+
+	@Override
+	public void showScreen() {
+		mainMenu.setVisible(true);
 	}
 }

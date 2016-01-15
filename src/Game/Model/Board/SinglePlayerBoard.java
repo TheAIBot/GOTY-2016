@@ -30,15 +30,15 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
-	protected Tile[] tilePlacements;
-	protected GameState currentGameState;
-	protected final GameSettings settings;
-	protected RenderInfo renderInfo;
-	protected final int playerIndex;
+	private Tile[] tilePlacements;
+	private GameState currentGameState;
+	private final GameSettings settings;
+	private RenderInfo renderInfo;
+	private final int playerIndex;
 	private Random randomGenerator = new Random();
 	private ScoreChangedListener scoreListener;
 	private ScoreManager scoreManager;
-	private boolean isRunning = false;
+	private boolean isRunning = true;
 	
   	public SinglePlayerBoard(GameSettings settings, int playerindex) {
 		this.playerIndex = playerindex;
@@ -318,6 +318,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		scoreManager.stopClock();
 	}
 
+	@Override
 	public void Stop()
 	{
 		pause();

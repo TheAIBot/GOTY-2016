@@ -12,4 +12,8 @@ public interface PageRequestsListener {
 	public void canResize(boolean canResize);
 	
 	public void setFullScreen();
+	
+	public void hideScreen();
+	
+	public void showScreen();
 }
