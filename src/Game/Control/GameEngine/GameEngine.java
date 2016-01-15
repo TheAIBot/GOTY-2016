@@ -1,13 +1,7 @@
 package Game.Control.GameEngine;
 
-import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import com.sun.prism.paint.Stop;
 
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
