@@ -49,7 +49,12 @@ public class Sound implements LineListener{
 	
 	private FloatControl getVolumeControl()
 	{
-		return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+			return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		} else {
+			Log.writeln("Computer does not support FloatControl.Type.MASTER_GAIN");
+		}
+		return null;
 	}
 	
 	/**
