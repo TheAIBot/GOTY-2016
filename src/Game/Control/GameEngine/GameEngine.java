@@ -234,10 +234,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private void releaseAllResources()
 	{
 		audio.close();
-		BufferedImage image = Tile.getTileImage();
-		if (image != null) {
-			image.flush();
-		}
 	}
 	
 	public void save()
