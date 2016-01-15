@@ -229,4 +229,11 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			boardChangedListener.boardChanged(playerIndex);
 		}
 	}
+
+	@Override
+	public void Stop() {
+		for (int i = 0; i < boards.length; i++) {
+			boards[i].Stop();
+		}		
+	}
 }

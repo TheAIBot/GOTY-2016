@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.sun.prism.paint.Stop;
+
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
 import Game.Control.Input.KeyPressListener;
@@ -268,9 +270,26 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		graphics.setScoreAndTime(score, time, screenIndex);
 	}
 
+	private void stop()
+	{
+		gameEnded();
+		pause();
+		game.Stop();
+	}
+	
 	@Override
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		graphics.setGameState(newGameState, playerIndex);
+		if (newGameState == GameState.WON) {
+			stop();
+		}
+	}
+	
+	private void gameEnded()
+	{
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.gameEnded();
+		}
 	}
 
 	@Override

@@ -318,6 +318,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		scoreManager.stopClock();
 	}
 
+	@Override
 	public void Stop()
 	{
 		pause();
