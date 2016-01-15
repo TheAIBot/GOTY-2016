@@ -17,7 +17,7 @@ import Game.Control.GameEngine.Log;
 
 public class ResourceImages {
 	private static final String DIRECTORY_PATH = "res" + File.separator + "images";
-	public static final String ACCEPTED_EXTENSION = "png";
+	public static final String ACCEPTED_EXTENSION = "jpg";
 	
 	public static final String DEFAULT_IMAGE_DIRECTORY_NAME = "default";
 	public static final String ANIME_DIRECTORY_PATH = "res" + File.separator + "images" + File.separator + "special";
@@ -138,7 +138,7 @@ public class ResourceImages {
 
 		// image is not optimized, so create a new image that is
 		BufferedImage new_image = gfx_config.createCompatibleImage(
-				image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
+				image.getWidth(), image.getHeight(), gfx_config.getColorModel().getTransparency());
 
 		// get the graphics context of the new image to draw the old image on
 		Graphics2D g2d = (Graphics2D) new_image.getGraphics();
