@@ -250,6 +250,8 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		loadedGame.gameEventsListeners = new ArrayList<GameEventsListener>();
 		loadedGame.input = new InputManager();
 		loadedGame.audio = new AudioManager(loadedGame.settings.getSoundVolume());
+		loadedGame.gameStarted();
+		loadedGame.addSpecialKeyboardControls();
 		loadedGame.setControls();
 		loadedGame.pause();
 		return loadedGame;		

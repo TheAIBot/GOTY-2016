@@ -52,7 +52,7 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 			game = new GameEngine(settings);
 			game.addGameEventListener(this);
 			page = game.getScreen();
-			game.startGame();
+			game.startGameAsync();
 		}
 		return true;
 	}
