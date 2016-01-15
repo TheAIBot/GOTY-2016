@@ -169,7 +169,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		return game.getGameState(0);
 	}
 
-	public void createGame()
+	private void createGame()
 	{
 		game.createGame();
 		gameStarted();
@@ -183,10 +183,18 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		graphics.render();
 	}
 	
-	public void startGame()
+	public Thread startGameAsync()
 	{
-		unpause();
-		setControls();
+		Thread startGameThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+			createGame();
+			unpause();
+			setControls();
+			}
+		});
+		startGameThread.start();
+		return startGameThread;
 	}
 	
 	public void resetGame()
