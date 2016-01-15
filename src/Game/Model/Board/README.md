@@ -1,2 +1,0 @@
-# thePuzzle
-Puzzle game 
