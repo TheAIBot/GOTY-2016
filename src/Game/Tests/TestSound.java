@@ -1,6 +1,4 @@
 package Game.Tests;
-import Game.Control.GameEngine.AudioManager;
-import Game.Control.Sound.Sound;
 
 public class TestSound {
 	

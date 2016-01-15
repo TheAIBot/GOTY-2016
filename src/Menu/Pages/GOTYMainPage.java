@@ -96,7 +96,6 @@ public class GOTYMainPage extends SuperPage implements CheatActivatedListener {
 	}
 
 	public void closePage() {
-		AudioManager.closeBackgroundMusic();
 	}
 
 	@Override

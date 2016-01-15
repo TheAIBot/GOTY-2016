@@ -1,22 +1,14 @@
 package Game.Model.Board;
 
 import java.awt.Color;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Transparency;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.SwingUtilities;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
@@ -33,19 +25,19 @@ import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
 public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
+	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
-	protected Tile[] tilePlacements;
-	protected GameState currentGameState;
-	protected final GameSettings settings;
-	protected RenderInfo renderInfo;
-	protected final int playerIndex;
+	private Tile[] tilePlacements;
+	private GameState currentGameState;
+	private final GameSettings settings;
+	private RenderInfo renderInfo;
+	private final int playerIndex;
 	private Random randomGenerator = new Random();
 	private ScoreChangedListener scoreListener;
 	private ScoreManager scoreManager;
-	private boolean isPaused = false;
 	private boolean isRunning = true;
 	
   	public SinglePlayerBoard(GameSettings settings, int playerindex) {
@@ -154,13 +146,30 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void makeRandom() {
-		randomizeGame();
+		if (settings.isRandomized()) {
+			randomizeGame();
+		} else {
+			defaultGame();
+		}
 	}
 
 	@Override
 	public void resetGame() {
 		createGame();
 		randomizeGame();
+	}
+	
+	public void defaultGame()
+	{
+		tilePlacements[0].setNumber(2);
+		tilePlacements[1].setNumber(3);
+		tilePlacements[2].setNumber(1);
+	//	moveWithDirection(tilePlacements[0], Directions.RIGHT);
+	//	moveWithDirection(tilePlacements[1], Directions.LEFT);
+		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		//moveTileIndexes(1, 2);
+	//	moveTileIndexes(0, 1);
 	}
 
 	@Override
@@ -202,9 +211,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
 		} else if (key.equals(playerSettings.getZoomInKeyName())) {
-			renderInfo.addImageScale(0.01);
+			renderInfo.addImageScale(0.02);
 		} else if (key.equals(playerSettings.getZoomOutKeyName())) {
-			renderInfo.addImageScale(-0.01);
+			renderInfo.addImageScale(-0.02);
 		}
 		boardChanged();
 	}
@@ -238,7 +247,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 	
 	private boolean isMoveAllowed(Directions direction) {
-		if (!isPaused) {
+		if (!settings.isPaused()) {
 			switch (direction) {
 			case RIGHT:
 				return voidTilePosition.getX() < settings.getGameSize() - 1;
@@ -307,9 +316,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void pause() {
 		scoreManager.stopClock();
-		isPaused = true;
 	}
 
+	@Override
 	public void Stop()
 	{
 		pause();
@@ -320,7 +329,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void unpause() {
 		if (isRunning) {
 			scoreManager.startClock();
-			isPaused = false;
 		}
 	}
 
@@ -353,7 +361,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);
-		
 	}
 
 	@Override

@@ -1,20 +1,11 @@
 package Game.Control.Sound;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.Line;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.Mixer.Info;
-import javax.swing.SwingUtilities;
 
 import Game.Control.GameEngine.Log;
 
@@ -49,7 +40,7 @@ public class Sound implements LineListener{
 	public Sound(Clip clip, float soundVolume)
 	{
 		this.soundID = globalCurrentSoundID;
-		this.globalCurrentSoundID++;
+		Sound.globalCurrentSoundID++;
 		this.clip = clip;
 		this.volumeControl = getVolumeControl();
 		this.clip.addLineListener(this);
@@ -100,7 +91,9 @@ public class Sound implements LineListener{
 	public void setVolume(float newVolumeInPercents){
 		try {
 			//TODO fix
-			volumeControl.setValue(volumeControl.getMaximum());
+			if (volumeControl != null) {
+				volumeControl.setValue(volumeControl.getMaximum());
+			}			
 		} catch (Exception e) {
 			Log.writeError(e);
 		}
@@ -123,7 +116,6 @@ public class Sound implements LineListener{
 		return false;
 	}
 
-	
 	public void update(LineEvent event) {
 		if (LineEvent.Type.STOP == event.getType() && !isPaused) {
 			for (int i = 0; i < soundFinishedListeners.size(); i++) {

@@ -1,6 +1,6 @@
 package Game.Model.Board;
 
-public interface GameStateChangedListener extends  java.io.Serializable {
+public interface GameStateChangedListener {
 	
 	public void gameStateChanged(GameState newGameState, int playerIndex);
 

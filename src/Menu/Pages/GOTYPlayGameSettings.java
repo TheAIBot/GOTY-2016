@@ -60,8 +60,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 			theGameSettings = new GameSettings();	
 		}
 		
-		resize(new Dimension(920,900));
-		
 		page.setLayout(null);
 		
 		final JToggleButton p1MoveUp = new JToggleButton("Up: " + theGameSettings.getPlayerOne().getUpKeyName());
@@ -559,8 +557,6 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 		
 		addCheats();
 		
-		setResizeable(false);
-		
 		return page;
 	}
 	
@@ -600,6 +596,8 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	
 	@Override
 	public void startPage() {
+		resize(new Dimension(920,900));
+		setResizeable(false);
 	}
 
 	@Override
