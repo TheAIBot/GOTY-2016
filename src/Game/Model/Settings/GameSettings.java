@@ -21,7 +21,7 @@ public class GameSettings implements Serializable{
 	public static final int DIFF_MIN = 0;
 	public static final int DIFF_MAX = 3;
 	public static final int SIZE_MIN = 2;
-	public static final int SIZE_MAX = 300;
+	public static final int SIZE_MAX = 100;
 	
 	private boolean isPaused;
 	private boolean isConsoleMode;

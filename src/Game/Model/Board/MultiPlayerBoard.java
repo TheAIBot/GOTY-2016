@@ -157,7 +157,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
 		gameStateChangedListeners.add(listener);
 		for (int i = 0; i < boards.length; i++) {
-			boards[i].addGameStateChangedListener(listener);
+			boards[i].addGameStateChangedListener(this);
 		}
 	}
 
@@ -165,7 +165,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		if (newGameState == GameState.WON) {
 			if (!didAnyoneAlreadyWin(playerIndex)) {
-				//pause();
 				Highscore.newScore(settings.getPlayers()[playerIndex].getName(), boards[playerIndex].getScore());
 				for (int i = 0; i < boards.length; i++) {
 					if (i != playerIndex) {
