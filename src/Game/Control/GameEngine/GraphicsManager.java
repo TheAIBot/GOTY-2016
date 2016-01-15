@@ -23,7 +23,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	private final CreateGamePanel gamePanelCreater = new CreateGamePanel();
 	private final RenderInfo[] renderInfos;
 	private GameSettings settings;
-	private JPanel gamePanel;	
+	private JPanel gamePanel;
 	
 	public GraphicsManager(GameEngine gEngine, int numberOfScreens, GameSettings settings) {
 		this.gEngine = gEngine;

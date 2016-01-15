@@ -21,8 +21,16 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private ScoreChangedListener scoreListener;
 	private GameSettings settings;
 	
+	/**
+	 * A MultiplayerBoard consists of a number of SinglePlayerBoards.
+	 * Therefor an array of boards is created.
+	 * @param settings
+	 * @param playerCount
+	 */
 	public MultiPlayerBoard(GameSettings settings, int playerCount) {
 		this.settings = settings;
+		
+		//Genereate SinglePlayerBoards
 		this.boards = new SinglePlayerBoard[playerCount];
 		for (int i = 0; i < boards.length; i++) {
 			boards[i] = new SinglePlayerBoard(settings, i);
@@ -45,6 +53,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		}
 	}
 	
+	/**
+	 * Randomizes the game 
+	 */
 	private void randomizeGame()
 	{
 		final int numberOfDirections = 4;
