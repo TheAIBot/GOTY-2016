@@ -28,7 +28,7 @@ public class GOTYPlay extends SuperPage implements GameEventsListener {
 
 	@Override
 	public void closePage() {
-		if (game != null && game.getGameState() == GameState.NOT_DECIDED_YET) {
+		if (game != null && game.getGameState(0) == GameState.NOT_DECIDED_YET) {
 			game.save();
 		}
 	}

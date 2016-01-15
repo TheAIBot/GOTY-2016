@@ -15,11 +15,20 @@ public class ConsoleGraphics {
 		this.graphics = graphics;		
 	}
 	
+	//private void printHelpMessage()
+	//{
+	//	System.out.println("Commands:");
+	//	System.out.println("exit to quit the game");
+	//	System.out.println("screen to return to the GUI");
+	//	System.out.println("pause to pause the game");
+	//	System.out.println("press enter to submit you command");
+	//}
+	
+	
 	/**
 	 * Prints the game board to the console
 	 * @param game The game to print
 	 */
-	
 	public void render()
 	{
 		final String emptyString = "";
@@ -65,6 +74,5 @@ public class ConsoleGraphics {
 	public void setScoreAndTime(int score, int time)
 	{
 		System.out.println("Score: " + score);
-		System.out.println("Time: " + time);
 	}
 }

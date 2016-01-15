@@ -16,6 +16,7 @@ import Game.Control.Input.SpecialKeys;
 import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Board.BoardChangedListener;
 import Game.Model.Board.GameBoardMode;
+import Game.Model.Board.GameModes;
 import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Board.MultiPlayerBoard;
@@ -129,9 +130,13 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		if (settings.isConsoleMode()) {
 			settings.setConsoleMode(false);
 			showScreen();
-			addKeyboardControls();
+			if (getGameState(0) == GameState.NOT_DECIDED_YET) {
+				addKeyboardControls();
+			}
+			gameStateChanged(getGameState(0), 0);
 			
-		} else {
+		} else if (getGameState(0) == GameState.NOT_DECIDED_YET && 
+				   settings.getGameMode() == GameModes.SINGLE_PLAYER) {
 			settings.setConsoleMode(true);
 			hideScreen();
 			removeKeyboardControls();
@@ -164,9 +169,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		return game.getSize();
 	}
 	
-	public GameState getGameState()
+	public GameState getGameState(int playerIndex)
 	{
-		return game.getGameState(0);
+		return game.getGameState(playerIndex);
 	}
 
 	private void createGame()
