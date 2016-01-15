@@ -95,8 +95,8 @@ public class Sound implements LineListener{
 			if (volumeControl != null) {
 				float max = Math.abs(volumeControl.getMinimum()) + Math.abs(volumeControl.getMaximum());
 				float dbReduction = (float)((10 * Math.log(1 / newVolumeInPercents)) / Math.log(2));
-				dbReduction = (dbReduction > max) ?  0: dbReduction;
-				dbReduction = (Float.isNaN(dbReduction)) ?  0: dbReduction;
+				dbReduction = (Float.isInfinite(dbReduction)) ?  max: dbReduction;
+				dbReduction = (dbReduction > max) ?  max: dbReduction;
 				float newSoundVolume = max - dbReduction - Math.abs(volumeControl.getMinimum());
 				volumeControl.setValue(newSoundVolume);
 			}			
