@@ -6,6 +6,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import Game.Control.GameEngine.Log;
 
@@ -92,7 +93,9 @@ public class Sound implements LineListener{
 		try {
 			//TODO fix
 			if (volumeControl != null) {
-				volumeControl.setValue(volumeControl.getMaximum());
+				float max = Math.abs(volumeControl.getMinimum()) + Math.abs(volumeControl.getMaximum());
+				float newSoundVolume = max * newVolumeInPercents - Math.abs(volumeControl.getMinimum());
+				volumeControl.setValue(newSoundVolume);
 			}			
 		} catch (Exception e) {
 			Log.writeError(e);
