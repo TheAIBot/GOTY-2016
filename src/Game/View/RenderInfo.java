@@ -10,8 +10,11 @@ public class RenderInfo implements Serializable {
 	public boolean renderColor;
 	public int xOffset = 0;
 	public int yOffset = 0;
+	//ConcurrentLinkedQueue is used because multiple thread manipulates and reads this queue while 
+	//randomizing and animating the board at the same time
 	public ConcurrentLinkedQueue<AnimationInfo> toAnimate = new ConcurrentLinkedQueue<AnimationInfo>();
 	public double imageScale = 1;
+	//size of the board
 	private final int size;
 	private static final double MIN_ZOOM_LEVEL = 0.05;
 
@@ -35,9 +38,6 @@ public class RenderInfo implements Serializable {
 		renderColor = !renderColor;
 	}
 
-	/**
-	 * @return the size
-	 */
 	public int getSize() {
 		return size;
 	}
