@@ -88,7 +88,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				boardChanged(i);
 			}
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(boards[0].getTiles(0), settings.getGameSize()) ||
-				   DifficultyCalculator.getDfficulty(boards[0].getTiles(0), settings.getGameSize()) == 0);
+				   DifficultyCalculator.getDifficulty(boards[0].getTiles(0), settings.getGameSize()) == 0);
 	}
 
 	private void defaultGame()

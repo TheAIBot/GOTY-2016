@@ -278,7 +278,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 
 	private boolean hasWonGame() {
-		return DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0;
+		return DifficultyCalculator.getDifficulty(tilePlacements, settings.getGameSize()) == 0;
 	}
 
 	/**
@@ -351,7 +351,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 				}
 			}
 			boardChanged();
-		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) || DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
+		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(
+				tilePlacements, settings.getGameSize())
+				|| DifficultyCalculator.getDifficulty(tilePlacements, settings.getGameSize()) == 0);
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
