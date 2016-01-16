@@ -24,13 +24,15 @@ import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener,
-		ScoreChangedListener, PlaySoundListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
 	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
+	
+	//ArrayLists of different listeners
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
+	
 	private Tile[] tilePlacements;
 	private GameState currentGameState;
 	private final GameSettings settings;
@@ -59,8 +61,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 
 	/**
-	 * Move tiles
-	 * 
+	 * Moves the tile the voidTile moved into to the voidTile's previous position
 	 * @param toMove
 	 * @param direction
 	 * @return
@@ -86,8 +87,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 
 	/**
-	 * Move move void tile
-	 * 
+	 * Move the point at which the void tile is located
 	 * @param toMove
 	 * @param direction
 	 * @return
@@ -171,13 +171,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			int red = (int) Math.round(255 / (double) ((tilePlacements.length - 1)) * (i + 1));
-			int green = 255 - (int) Math.round(255 / (double) ((tilePlacements.length - 1))
-					* (i + 1));
-			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0),
-					settings.getTileImage());
+			int green = 255 - (int) Math.round(255 / (double) ((tilePlacements.length - 1)) * (i + 1));
+			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
 		}
-		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1,
-				settings.getGameSize() - 1);
+		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1, settings.getGameSize() - 1);
 	}
 
 	@Override
@@ -202,12 +199,12 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		tilePlacements[0].setNumber(2);
 		tilePlacements[1].setNumber(3);
 		tilePlacements[2].setNumber(1);
-		//moveWithDirection(tilePlacements[0], Directions.RIGHT);
-		//moveWithDirection(tilePlacements[1], Directions.LEFT);
-		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
-		//moveWithDirection(tilePlacements[2], Directions.RIGHT);
-		//moveTileIndexes(1, 2);
-		//moveTileIndexes(0, 1);
+		// moveWithDirection(tilePlacements[0], Directions.RIGHT);
+		// moveWithDirection(tilePlacements[1], Directions.LEFT);
+		// moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		// moveWithDirection(tilePlacements[2], Directions.RIGHT);
+		// moveTileIndexes(1, 2);
+		// moveTileIndexes(0, 1);
 	}
 
 	@Override
@@ -215,10 +212,14 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		return tilePlacements;
 	}
 
+	/**
+	 * Triggered by a key press on the keyboard. Handles the movement of the
+	 * voidTile and camera
+	 */
 	@Override
 	public void keyPressed(String key) {
 		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
-		//--- Movement controls
+		// --- Movement controls
 		if (key.equals(playerSettings.getDownKeyName())) {
 			if (moveVoidTile(Directions.DOWN)) {
 				updateBoardStateAfterMove();
@@ -235,7 +236,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			if (moveVoidTile(Directions.UP)) {
 				updateBoardStateAfterMove();
 			}
-			//--- Camera controls
+			// --- Camera controls
 		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
 		} else if (key.equals(playerSettings.getCameraUpKeyName())) {
@@ -282,7 +283,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	/**
 	 * Checks if the move is going outside the borad
-	 * 
 	 * @param direction
 	 * @return
 	 */
@@ -307,20 +307,17 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	/**
 	 * Swaps the position of the void tile with the tile it moves into
-	 * 
 	 * @param direction
 	 */
 	private void swapVoidTile(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
 		final Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
-		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()),
-				getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()), getIndexFromPoint(voidTilePosition));
 	}
 
 	/**
 	 * Updates the tile indexes in the array
-	 * 
 	 * @param tileAIndex
 	 * @param tileBIndex
 	 */
@@ -354,13 +351,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 				}
 			}
 			boardChanged();
-		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(
-				tilePlacements, settings.getGameSize())
-				|| DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
+		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(tilePlacements, settings.getGameSize()) || DifficultyCalculator.getDfficulty(tilePlacements, settings.getGameSize()) == 0);
 	}
 
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException,
-			NotFound {
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		voidTilePosition = recreateTilePositions();
 		Tile.setTileImage(ImageIO.read(in));
@@ -389,15 +383,16 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		}
 	}
 
+	/**
+	 * Subscribe to the keys specified in the settings so that the gameBoard can
+	 * get input from KeyEvents from these keys
+	 */
 	@Override
 	public String[] getKeysToSubscribeTo(int playerIndex) {
 		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
-		return new String[] { playerSettings.getUpKeyName(), playerSettings.getDownKeyName(),
-				playerSettings.getLeftKeyName(), playerSettings.getRightKeyName(),
-				playerSettings.getToggleColorKeyName(),
+		return new String[] { playerSettings.getUpKeyName(), playerSettings.getDownKeyName(), playerSettings.getLeftKeyName(), playerSettings.getRightKeyName(), playerSettings.getToggleColorKeyName(),
 
-				playerSettings.getCameraUpKeyName(), playerSettings.getCameraDownKeyName(),
-				playerSettings.getCameraLeftKeyName(), playerSettings.getCameraRightKeyName(),
+				playerSettings.getCameraUpKeyName(), playerSettings.getCameraDownKeyName(), playerSettings.getCameraLeftKeyName(), playerSettings.getCameraRightKeyName(),
 
 				playerSettings.getZoomInKeyName(), playerSettings.getZoomOutKeyName() };
 	}
@@ -406,7 +401,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public RenderInfo getRenderInfo(int playerIndex) {
 		return renderInfo;
 	}
-	
+
 	@Override
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);

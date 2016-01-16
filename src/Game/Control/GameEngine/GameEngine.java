@@ -32,7 +32,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private  transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
 	private GameBoardMode game;
 
-	public GameEngine(GameSettings settings) {	
+	public GameEngine(GameSettings settings) {
 		this.settings = settings;		
 		this.audio = new AudioManager(settings.getSoundVolume());
 		this.consoleControl = new ConsoleControl(this, settings);
