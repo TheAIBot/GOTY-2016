@@ -35,11 +35,6 @@ public class Sound implements LineListener {
 		this.volumeControl = getVolumeControl();
 		this.clip.addLineListener(this);
 	}
-<<<<<<< HEAD
-
-	private FloatControl getVolumeControl() {
-		return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-=======
 	
 	private FloatControl getVolumeControl()
 	{
@@ -49,7 +44,6 @@ public class Sound implements LineListener {
 			Log.writeln("Computer does not support FloatControl.Type.MASTER_GAIN");
 		}
 		return null;
->>>>>>> refs/remotes/origin/Andreas
 	}
 
 	/**

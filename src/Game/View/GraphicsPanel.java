@@ -64,10 +64,12 @@ public class GraphicsPanel extends JPanel {
 					//If not, it dosen't render it (to increase performance), else it does.
 					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
 						
+						//Move and scale the displayable to the corresponding position on the screen
 						Rectangle destRect = new Rectangle((int) Math.ceil((imagePosition.x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
 		  						   						   (int) Math.ceil((imagePosition.y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
 		  						   						   (int) Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale), 
 		  						   						   (int) Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale));						
+						//Get the corresponding part of the source image to draw
 						Rectangle srcRect = new Rectangle((int) Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize())), 
 		  						  						  (int) Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize())), 
 		  						  						  (int) Math.ceil(currentImage.getWidth() / renderInfo.getSize()),
@@ -93,11 +95,13 @@ public class GraphicsPanel extends JPanel {
 		if (numreables != null && renderInfo.renderColor) {
 			for (Numreable numreable : numreables) {
 				if (numreable != null) {
+					//Only Point2D.Double arrays can be used as parameter in the isInsedDisplay method
 					Point2D.Double[] point = new Point2D.Double[]{numreable.getNumberPosition()};
 					if (isInsideDisplay(point, new Point2D.Double(0, 0), 
 							DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
 						gDisplay.setColor(Color.WHITE);
 						gDisplay.setFont(new Font("Verdana", 0, (int) (20 * renderInfo.imageScale)));
+						//Finally draw the string contained in the numreable from the center of the tile
 						gDisplay.drawString(String.valueOf(numreable.getNumber()), 
 								(int) Math.ceil(((numreable.getNumberPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale),
 								(int) Math.ceil(((numreable.getNumberPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale));
@@ -114,7 +118,7 @@ public class GraphicsPanel extends JPanel {
 					gDisplay.setColor(colorfull.getColor());
 					int[] xPoints = new int[colorfull.getColorPolygon().npoints];
 					int[] yPoints = new int[colorfull.getColorPolygon().npoints];
-					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) { //Kan værer en fejl her, med skiftet frem og tilbage imellem int og double (*)
+					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) { 
 						
 						xPoints[i] = (int) Math.ceil((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
 						yPoints[i] = (int) Math.ceil((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
@@ -127,7 +131,8 @@ public class GraphicsPanel extends JPanel {
 		
 	public boolean isInsideDisplay(Point2D.Double[] corners, Point2D.Double startingPosition, double scallingX, double scallingY){
 		if (corners != null) {
-			for (Point2D.Double corner : corners) { //Mulighed for fejl ved store eller drejede billeder(*)
+			for (Point2D.Double corner : corners) { 
+				//Check after scaling and offset positioning, if the final position is contained in the window.
 				if (corner != null &&
 					renderInfo != null &&
 					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale < getWidth() &&
@@ -146,6 +151,12 @@ public class GraphicsPanel extends JPanel {
 		repaint();
 	}
 	
+	/**
+	 * 
+	 * @param number
+	 * @param size
+	 * @return the corresponding position in the grid
+	 */
 	public Point2D.Double getPosition(int number, int size) {
 		int row = number / size;
 		int col = number % size;
