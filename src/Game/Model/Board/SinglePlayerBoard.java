@@ -28,7 +28,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
 	
-	//ArrayLists of different listeners
+	//ArrayLists for different listeners
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();

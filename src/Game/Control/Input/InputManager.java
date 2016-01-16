@@ -19,7 +19,6 @@ public class InputManager implements java.io.Serializable {
 	 * reacts on key presses). Further, the key is bound to the InputMap of the
 	 * JComponent passed as a parameter and the associated action to fire is set
 	 * to forward the key press to the keyPressListeners
-	 * 
 	 * @param component
 	 * @param listener
 	 * @param key
