@@ -19,7 +19,7 @@ public class Animator  {
 	private Timer animationTimer = new Timer(16, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			updateAnimators();	
+			updateAnimators();
 		}
 	});
 	
