@@ -11,14 +11,17 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 import Game.Control.GameEngine.Log;
 
 /**
- * Class is based on the following sources: Notch ludom dare. Oracles sound
- * artikler: https://docs.oracle.com/javase/tutorial/sound/ Herunder specielt
- * disse artikler: https://docs.oracle.com/javase/tutorial/sound/controls.html
- * https://docs.oracle.com/javase/tutorial/sound/playing.html (*)
- * http://stackoverflow.com/questions/8425481/play-wav-file-from-jar-as-resource
- * -using-java http://www.erpgreat.com/java/coding-for-playing-a-wav-file.htm
- * http://stackoverflow.com/questions/4560291/what-clip-and-dataline-info-
- * represents
+ * Class is based on the following sources: 
+ * 					Oracles sound artikler: 
+ * 					https://docs.oracle.com/javase/tutorial/sound/
+ *  				https://docs.oracle.com/javase/tutorial/sound/controls.html
+ * 				   	https://docs.oracle.com/javase/tutorial/sound/playing.html
+ * 				  	
+ * 					http://stackoverflow.com/questions/8425481/play-wav-file-from
+ * 					-jar-as-resource-using-java 
+ * 				   	http://www.erpgreat.com/java/coding-for-playing-a-wav-file.htm
+ * 					http://stackoverflow.com/questions/4560291/what-clip-and-dataline
+ * 					-info-represents
  */
 public class Sound implements LineListener {
 	private static int globalCurrentSoundID = 0;
@@ -42,8 +45,8 @@ public class Sound implements LineListener {
 			return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		} else {
 			Log.writeln("Computer does not support FloatControl.Type.MASTER_GAIN");
+			return null;
 		}
-		return null;
 	}
 
 	/**

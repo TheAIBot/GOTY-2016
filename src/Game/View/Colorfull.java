@@ -17,8 +17,4 @@ public interface Colorfull {
 
 	public Color getColor();
 	
-	public double getColorPolygonScallingX();
-	
-	public double getColorPolygonScallingY();
-	
 }

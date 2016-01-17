@@ -12,8 +12,4 @@ public interface Numreable {
 	
 	public int getNumber();
 	
-	public double getNumberDisplayScallingX();
-	
-	public double getNumberDisplayScallingY();
-	
 }
