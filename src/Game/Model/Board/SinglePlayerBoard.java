@@ -14,6 +14,7 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Difficulty.DifficultyCalculator;
+import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceAudio;
 import Game.Model.Resources.ResourceImages;
 import Game.Model.Score.ScoreChangedListener;
@@ -24,16 +25,15 @@ import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener,
-		ScoreChangedListener, PlaySoundListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
 	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
-
+	
 	//ArrayLists for different listeners
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
-
+	
 	private Tile[] tilePlacements;
 	private GameState currentGameState;
 	private final GameSettings settings;
@@ -43,6 +43,8 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	private ScoreChangedListener scoreListener;
 	private ScoreManager scoreManager;
 	private boolean isRunning = true;
+	
+	private final double ZOOM_INCREMENTATION = 0.02; //The constant for how much the image scaling should change, when one zooms in or out.
 
 	/**
 	 * @param settings
@@ -56,7 +58,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		scoreManager = new ScoreManager(1, 2, true, this);
 	}
 
-	@Override
 	public GameState getGameState(int playerIndex) {
 		return currentGameState;
 	}
@@ -89,7 +90,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	/**
 	 * Move the point at which the void tile is located
-	 * 
 	 * @param toMove
 	 * @param direction
 	 * @return
@@ -140,14 +140,10 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		}
 	}
 
-	@Override
 	public void addBoardChangedListener(BoardChangedListener listener) {
 		listeners.add(listener);
 	}
 
-	/**
-	 * Notifies the classes listening (e.g. GameEngine) for the board to change
-	 */
 	public void boardChanged() {
 		for (BoardChangedListener listener : listeners) {
 			listener.boardChanged(playerIndex);
@@ -171,21 +167,18 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	 * with solved layout) and assigning the relevant variables (Tile array,
 	 * colors and BufferedImage)
 	 */
-	@Override
 	public void createGame() {
 		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			int red = (int) Math.round(255 / (double) ((tilePlacements.length - 1)) * (i + 1));
-			int green = 255 - (int) Math.round(255 / (double) ((tilePlacements.length - 1))
-					* (i + 1));
-			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0),
-					settings.getTileImage());
+			int green = 255 - (int) Math.round(255 / (double) ((tilePlacements.length - 1)) * (i + 1));
+			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
 		}
-		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1,
-				settings.getGameSize() - 1);
+		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1, settings.getGameSize() - 1);
 	}
 
-	@Override
+	/**	Makes the board randomized, if it is not already randomized. 	
+	 */
 	public void makeRandom() {
 		if (settings.isRandomized()) {
 			randomizeGame();
@@ -194,36 +187,30 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		}
 	}
 
-	@Override
+	/**	Resets the game.
+	 */
 	public void resetGame() {
 		createGame();
 		randomizeGame();
 	}
 
-	/**
-	 * Sets up the default board layout as described in the basic part of the
-	 * assignment
+	/** Sets up the default board layout as described in the basis assignment
 	 */
 	public void defaultGame() {
 		tilePlacements[0].setNumber(2);
 		tilePlacements[1].setNumber(3);
 		tilePlacements[2].setNumber(1);
-		// moveWithDirection(tilePlacements[0], Directions.RIGHT);
-		// moveWithDirection(tilePlacements[1], Directions.LEFT);
-		// moveWithDirection(tilePlacements[2], Directions.RIGHT);
-		// moveWithDirection(tilePlacements[2], Directions.RIGHT);
-		// moveTileIndexes(1, 2);
-		// moveTileIndexes(0, 1);
 	}
 
-	@Override
+	/** Gets all the tiles of the board.
+	 */
 	public Tile[] getTiles(int playerIndex) {
 		return tilePlacements;
 	}
 
 	/**
-	 * Triggered by a key press on the keyboard. Handles the movement of the
-	 * voidTile and camera
+	 * Triggered by a key press on the keyboard. 
+	 * Handles the movement of the voidTile and camera, as well as the zooming action of the camera.
 	 */
 	@Override
 	public void keyPressed(String key) {
@@ -245,9 +232,11 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			if (moveVoidTile(Directions.UP)) {
 				updateBoardStateAfterMove();
 			}
-			// --- Camera controls
 		} else if (key.equals(playerSettings.getToggleColorKeyName())) {
 			renderInfo.toggleRenderColor();
+			//The camera controls.
+			//The movement of the camera. Add an offset to the display in renderInfo,
+			//equal to a tile movement in a given direction.
 		} else if (key.equals(playerSettings.getCameraUpKeyName())) {
 			renderInfo.addOffset(0, -1);
 		} else if (key.equals(playerSettings.getCameraDownKeyName())) {
@@ -256,30 +245,24 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			renderInfo.addOffset(1, 0);
 		} else if (key.equals(playerSettings.getCameraRightKeyName())) {
 			renderInfo.addOffset(-1, 0);
+			//The zoom control. Works by adding the constant zoom Incrementation value to the scaling in the graphical display.
 		} else if (key.equals(playerSettings.getZoomInKeyName())) {
-			renderInfo.addImageScale(0.02);
+			renderInfo.addImageScale(ZOOM_INCREMENTATION);
 		} else if (key.equals(playerSettings.getZoomOutKeyName())) {
-			renderInfo.addImageScale(-0.02);
+			renderInfo.addImageScale(-ZOOM_INCREMENTATION);
 		}
 		boardChanged();
 	}
 
 	private void updateBoardStateAfterMove() {
 		scoreManager.incrementNumMoves();
-		playSound(ResourceAudio.TILE_MOVED_SOUND);
+		playSound(ResourceAudio.TILE_MOVED_SOUND); //TODO check - Jepser (*)
 
 		if (hasWonGame()) {
 			gameStateChanged(GameState.WON);
 		}
 	}
 
-	/**
-	 * Moves the void tile by swapping positions with tile where it is to move
-	 * to
-	 * 
-	 * @param direction
-	 * @return true if the void tile is allowed to move
-	 */
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			swapVoidTile(direction);
@@ -290,15 +273,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public int getSize() {
-		return settings.getGameSize(); //size in tiles
+		return settings.getGameSize();
 	}
 
-	/**
-	 * Checks if the game is won by checking if the difficulty given the current
-	 * tilePlacements is 0 meaning no tiles are at incorrect places.
-	 * 
-	 * @return true if the game is won.
-	 */
 	private boolean hasWonGame() {
 		return DifficultyCalculator.getDifficulty(tilePlacements, settings.getGameSize()) == 0;
 	}
@@ -329,20 +306,17 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	/**
 	 * Swaps the position of the void tile with the tile it moves into
-	 * 
 	 * @param direction
 	 */
 	private void swapVoidTile(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
 		final Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
-		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()),
-				getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()), getIndexFromPoint(voidTilePosition));
 	}
 
 	/**
 	 * Updates the tile indexes in the array
-	 * 
 	 * @param tileAIndex
 	 * @param tileBIndex
 	 */
@@ -353,60 +327,49 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 
 	/**
-	 * Randomizes the game by moving the voidTile in random directions a number
-	 * of times determined by the difficulty
+	 * Randomizes the game by moving the voidTile in random directions, 
+	 * until a certain difficulty level specified by the player is attained.
 	 */
 	private void randomizeGame() {
+		//The max difficulty of a board the same size as this board.
+		final double maxDifficulty = DifficultyCalculator.getMaxDifficulty(settings.getGameSize()); 
 		final int NumberOfDirections = 4;
+		double difficultyInPercent; //The difficulty of the board in percents
 		do {
+			//It moves the void tile in a random direction 100 times the game board size
+			//before it checks if the difficulty level is attained.
+			//This is not done for every move, as it requrires to many calculations per time it is done, 
+			//and would make the randomization process take to long.
+			//It is at the same time not checked a 1000  times the game board size, 
+			//as it makes it almost imposible to attain a board of a lower difficulty.	
 			for (int i = 0; i < settings.getGameSize() * 100; i++) {
 				switch (randomGenerator.nextInt(NumberOfDirections)) {
-				case 0:
-					moveVoidTile(Directions.LEFT);
-					break;
-				case 1:
-					moveVoidTile(Directions.RIGHT);
-					break;
-				case 2:
-					moveVoidTile(Directions.UP);
-					break;
-				case 3:
-					moveVoidTile(Directions.DOWN);
-					break;
+					case 0:
+						moveVoidTile(Directions.LEFT);
+						break;
+					case 1:
+						moveVoidTile(Directions.RIGHT);
+						break;
+					case 2:
+						moveVoidTile(Directions.UP);
+						break;
+					case 3:
+						moveVoidTile(Directions.DOWN);
+						break;
 				}
 			}
+			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(tilePlacements, settings.getGameSize(), maxDifficulty);
 			boardChanged();
-		//Run as long as the gameboard is not randomized enough for the difficulty level
-		//to match the specified difficulty setting.
-		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(
-				tilePlacements, settings.getGameSize())
-				|| DifficultyCalculator.getDifficulty(tilePlacements, settings.getGameSize()) == 0);
+		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(difficultyInPercent)
+				|| difficultyInPercent == 0); 
 	}
 
-	/**
-	 * Recreates the saved game.
-	 * Method is used by the native Java Serializable process 
-	 * @param in
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws NotFound
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException,
-			NotFound {
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
-		
-		//Recreate the tile point position manually because it is not recreated using
-		//the native Java Serializable process
 		voidTilePosition = recreateTilePositions();
-		
 		Tile.setTileImage(ImageIO.read(in));
 	}
 
-	/**
-	 * Saves the game using Serializable
-	 * @param out
-	 * @throws IOException
-	 */
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 		ImageIO.write(Tile.getTileImage(), ResourceImages.ACCEPTED_EXTENSION, out);
@@ -432,19 +395,17 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	/**
 	 * Subscribe to the keys specified in the settings so that the gameBoard can
-	 * get input from KeyEvents from these keys
+	 * get input from KeyEvents from these keys.
 	 */
 	@Override
 	public String[] getKeysToSubscribeTo(int playerIndex) {
 		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
 		return new String[] { playerSettings.getUpKeyName(), playerSettings.getDownKeyName(),
-				playerSettings.getLeftKeyName(), playerSettings.getRightKeyName(),
-				playerSettings.getToggleColorKeyName(),
-
-				playerSettings.getCameraUpKeyName(), playerSettings.getCameraDownKeyName(),
-				playerSettings.getCameraLeftKeyName(), playerSettings.getCameraRightKeyName(),
-
-				playerSettings.getZoomInKeyName(), playerSettings.getZoomOutKeyName() };
+							playerSettings.getLeftKeyName(), playerSettings.getRightKeyName(), 
+							playerSettings.getToggleColorKeyName(), playerSettings.getCameraUpKeyName(),
+							playerSettings.getCameraDownKeyName(), playerSettings.getCameraLeftKeyName(),
+							playerSettings.getCameraRightKeyName(), playerSettings.getZoomInKeyName(), 
+							playerSettings.getZoomOutKeyName() };
 	}
 
 	@Override
@@ -462,7 +423,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		switch (settings.getGameMode()) {
 		case SINGLE_PLAYER:
 			return 1;
-		case MULTI_PLAYER: //as of the current game version multiplayer only consists of two players
+		case MULTI_PLAYER:
 			return 2;
 		default:
 			throw new IllegalArgumentException();
@@ -473,13 +434,18 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		randomGenerator = random;
 	}
 
+	public void addGameStateChangedListener(GameStateChangedListener listener) {
+		gameStateChangedListeners.add(listener);
+	}
 
 	public void setGameState(GameState newGameState) {
 		currentGameState = newGameState;
 	}
 
+	public void addScoreChangedListener(ScoreChangedListener listener) {
+		scoreListener = listener;
+	}
 
-	@Override
 	public void scoreChanged(int score, int seconds, int screenIndex) {
 		scoreListener.scoreChanged(score, seconds, playerIndex);
 
@@ -488,28 +454,14 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public int getScore() {
 		return scoreManager.getTotalScore();
 	}
-
-	@Override
+	
 	public void playSound(String name) {
 		for (PlaySoundListener playSoundListener : playSoundListeners) {
 			playSoundListener.playSound(name);
 		}
 	}
 	
-	// --- Add the different listeners to arraylists
-	
-	@Override
 	public void addPlaySoundListener(PlaySoundListener listener) {
 		playSoundListeners.add(listener);
-	}
-	
-	@Override
-	public void addGameStateChangedListener(GameStateChangedListener listener) {
-		gameStateChangedListeners.add(listener);
-	}
-	
-	@Override
-	public void addScoreChangedListener(ScoreChangedListener listener) {
-		scoreListener = listener;
 	}
 }

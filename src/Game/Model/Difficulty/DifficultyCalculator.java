@@ -10,20 +10,22 @@ public class DifficultyCalculator {
 	 *  tiles on the board, and the size of it.
 	 * @param tiles The array of tile representing the layout of the game board.
 	 * @param size The size of the game board.
-	 * @return
+	 * @return The difficulty level of the board
 	 */
 	public static DifficultyLevel getDifficultyLevel(Tile[] tiles, int size) {
-		double difficultyPercentage = getDifficulty(tiles, size) / getMaxDifficulty(size);
-		return DifficultyLevel.getDifficultylevelFromPercentDifficult(difficultyPercentage);
-	}
-	
-	public static DifficultyLevel getDifficultyLevel(double maxDifficulty, double difficulty)
-	{
-		return DifficultyLevel.getDifficultylevelFromPercentDifficult(difficulty / maxDifficulty);
+		return DifficultyLevel.getDifficultylevelFromPercentDifficult(getDifficultyPercentage(tiles, size));
 	}
 
-	/**
-	 * Finds the difficulty of a board.
+	
+	/** Gets the difficulty level of a gameboard from it's difficulty in percents.
+	 * @difficultyInPercent The difficulty of the board in percents.
+	 * @return The difficulty level of the board.
+	 */
+	public static DifficultyLevel getDifficultyLevel(double difficultyInPercent) {
+		return DifficultyLevel.getDifficultylevelFromPercentDifficult(difficultyInPercent);
+	}
+	
+	/** Finds the difficulty of a board.
 	 *  This is calculated as the total amount of distance 
 	 *  (not in pythagorian distance, but as the sum of the difference in x and y coordinates between two points) 
 	 *  all tiles on the board are away from the position they should have, for the board to be solved. 
@@ -42,6 +44,28 @@ public class DifficultyCalculator {
 			}
 		}
 		return difficulty;
+	}
+	
+	/** Finds the difficulty in percents of a given board with a given size.
+	 * 	The is done by dividing the difficulty of the given board with the max difficulty of a board of the given size.
+	 * @param tiles The board (as an array of tiles)
+	 * @param size The size of the board
+	 * @return The difficulty of the given board in percents.
+	 */
+	public static double getDifficultyPercentage(Tile[] tiles, int size){
+		return getDifficulty(tiles, size) / getMaxDifficulty(size);
+	}
+	
+	/** Gets the difficulty of a game board,
+	 *  based on the max difficulty of a game board of the size of the given game board, 
+	 *  and the difficulty of the board.
+	 * @param tiles The game board (as a tile array).
+	 * @param size The size of the game board.
+	 * @param maxDifficulty The maximum difficulty of a board of the size of the given game board.
+	 * @return
+	 */
+	public static double getDifficultyPercentage(Tile[] tiles, int size, double maxDifficulty){
+		return getDifficulty(tiles, size) / maxDifficulty;
 	}
 	
 	/** Calculates the distance between two points a and b, and returns it. 
