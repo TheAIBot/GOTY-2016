@@ -32,9 +32,10 @@ public class GameSettings implements Serializable{
 	private PlayerSettings[] players;
 	private transient BufferedImage tileImage;
 	private boolean isRandomized;
+	private boolean hasGUI;
 	private static transient SaveFileManager<GameSettings> gameSettingsSaver = new SaveFileManager<GameSettings>("Game_settings");
 	
-	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings[] players, boolean isRandom, boolean isConsoleMode)
+	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings[] players, boolean isRandom, boolean isConsoleMode, boolean hasGUI)
 	{
 		this.soundVolume = vol;
 		this.gameSize = size;
@@ -44,6 +45,7 @@ public class GameSettings implements Serializable{
 		this.players = players;
 		this.isRandomized = isRandom;
 		this.isConsoleMode = isConsoleMode;
+		this.hasGUI = hasGUI;
 	}
 	
 	public GameSettings()
@@ -80,7 +82,8 @@ public class GameSettings implements Serializable{
 									   "Player 2"),
 		},
 				false,
-				false); //Assumes it shouldn't start in console mode(*)
+				false, //Assumes it doesn't start in console mode as default
+				true);
 	}
 	
 	/**
@@ -224,5 +227,19 @@ public class GameSettings implements Serializable{
 
 	public void setPaused(boolean isPaused) {
 		this.isPaused = isPaused;
+	}
+
+	/**
+	 * @return the hasGUI
+	 */
+	public boolean hasGUI() {
+		return hasGUI;
+	}
+
+	/**
+	 * @param hasGUI the hasGUI to set
+	 */
+	public void setHasGUI(boolean hasGUI) {
+		this.hasGUI = hasGUI;
 	}
 }
