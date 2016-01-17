@@ -12,7 +12,13 @@ import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener, ScoreChangedListener, PlaySoundListener, Serializable, BoardChangedListener {
+/**
+ * Class used to maintain and manage multiple player boards. This class uses
+ * most of the same principles as the SinglePlayerBoard class. For more
+ * information about specific methods see the description in SinglePlayerBoard.
+ */
+public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener,
+		ScoreChangedListener, PlaySoundListener, Serializable, BoardChangedListener {
 	private static final long serialVersionUID = 1474947852904108736L;
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
@@ -20,7 +26,13 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private final SinglePlayerBoard[] boards;
 	private ScoreChangedListener scoreListener;
 	private GameSettings settings;
-	
+
+	/**
+	 * Creates the multiplayerboard by adding new instances of SinglePlayerBoard
+	 * equal to the specified player count
+	 * @param settings
+	 * @param playerCount
+	 */
 	public MultiPlayerBoard(GameSettings settings, int playerCount) {
 		this.settings = settings;
 		this.boards = new SinglePlayerBoard[playerCount];
@@ -28,7 +40,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			boards[i] = new SinglePlayerBoard(settings, i);
 		}
 	}
-	
+
 	@Override
 	public void createGame() {
 		for (int i = 0; i < boards.length; i++) {
@@ -44,9 +56,11 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			defaultGame();
 		}
 	}
-	
-	private void randomizeGame()
-	{
+
+	/**
+	 * Randomizes the game equally for all player boards
+	 */
+	private void randomizeGame() {
 		final int numberOfDirections = 4;
 		final double maxDifficulty = DifficultyCalculator.getMaxDifficulty(settings.getGameSize());
 		double difficulty;
@@ -78,23 +92,23 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			for (int i = 0; i < boards.length; i++) {
 				boardChanged(i);
 			}
-			difficulty = DifficultyCalculator.getDifficulty(boards[0].getTiles(0), settings.getGameSize());
-		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(maxDifficulty, difficulty) ||
-				 difficulty == 0);
+			difficulty = DifficultyCalculator.getDifficulty(boards[0].getTiles(0),
+					settings.getGameSize());
+		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(
+				maxDifficulty, difficulty) || difficulty == 0);
 	}
 
-	private void defaultGame()
-	{
+	private void defaultGame() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].makeRandom();
 		}
 	}
-	
+
 	@Override
 	public void resetGame() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].resetGame();
-		}	
+		}
 	}
 
 	@Override
@@ -112,6 +126,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		return boards[playerIndex].getGameState(playerIndex);
 	}
 
+	/**
+	 * Makes the SinglePlayerBoards able to listen for the board to change
+	 */
 	@Override
 	public void addBoardChangedListener(BoardChangedListener listener) {
 		boardChangedListeners.add(listener);
@@ -120,6 +137,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		}
 	}
 
+	/**
+	 * Forwards the key press to the SinglePlayerBoards
+	 */
 	@Override
 	public void keyPressed(String key) {
 		for (int i = 0; i < boards.length; i++) {
@@ -155,7 +175,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	public int getNumberOfPlayers() {
 		return boards.length;
 	}
-	
+
 	@Override
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
 		gameStateChangedListeners.add(listener);
@@ -168,7 +188,8 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		if (newGameState == GameState.WON) {
 			if (!didAnyoneAlreadyWin(playerIndex)) {
-				Highscore.newScore(settings.getPlayers()[playerIndex].getName(), boards[playerIndex].getScore());
+				Highscore.newScore(settings.getPlayers()[playerIndex].getName(),
+						boards[playerIndex].getScore());
 				for (int i = 0; i < boards.length; i++) {
 					if (i != playerIndex) {
 						boards[i].setGameState(GameState.LOST);
@@ -176,15 +197,15 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				}
 				for (int j = 0; j < gameStateChangedListeners.size(); j++) {
 					for (int playerIndex2 = 0; playerIndex2 < boards.length; playerIndex2++) {
-						gameStateChangedListeners.get(j).gameStateChanged(boards[playerIndex2].getGameState(playerIndex2), playerIndex2);
+						gameStateChangedListeners.get(j).gameStateChanged(
+								boards[playerIndex2].getGameState(playerIndex2), playerIndex2);
 					}
 				}
 			}
 		}
 	}
-	
-	private boolean didAnyoneAlreadyWin(int playerIndexThatWon)
-	{
+
+	private boolean didAnyoneAlreadyWin(int playerIndexThatWon) {
 		boolean anyoneAlreadyWon = false;
 		for (int i = 0; i < boards.length; i++) {
 			if (i != playerIndexThatWon && boards[i].getGameState(i) == GameState.WON) {
@@ -198,7 +219,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	@Override
 	public void scoreChanged(int score, int seconds, int screenIndex) {
 		scoreListener.scoreChanged(score, seconds, screenIndex);
-		
+
 	}
 
 	@Override
@@ -207,7 +228,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].addScoreChangedListener(this);
 		}
-		
+
 	}
 
 	@Override
@@ -225,7 +246,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		}
 	}
 
-	
 	@Override
 	public void boardChanged(int playerIndex) {
 		for (BoardChangedListener boardChangedListener : boardChangedListeners) {
@@ -237,6 +257,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	public void Stop() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].Stop();
-		}		
+		}
 	}
 }
