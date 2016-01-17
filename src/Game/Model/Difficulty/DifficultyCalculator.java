@@ -13,10 +13,13 @@ public class DifficultyCalculator {
 	 * @return
 	 */
 	public static DifficultyLevel getDifficultyLevel(Tile[] tiles, int size) {
-		double difficultyPercentage = getDifficulty(tiles, size)
-				/ getMaxDifficulty(size);
-		return DifficultyLevel
-				.getDifficultylevelFromPercentDifficult(difficultyPercentage);
+		double difficultyPercentage = getDifficulty(tiles, size) / getMaxDifficulty(size);
+		return DifficultyLevel.getDifficultylevelFromPercentDifficult(difficultyPercentage);
+	}
+	
+	public static DifficultyLevel getDifficultyLevel(double maxDifficulty, double difficulty)
+	{
+		return DifficultyLevel.getDifficultylevelFromPercentDifficult(difficulty / maxDifficulty);
 	}
 
 	/**
