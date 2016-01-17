@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.locks.Lock;
 
 import javax.swing.Timer;
 
 public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
-	private Point2D.Double maxMovementPerFrame = new Point2D.Double(0.06,0.06);
+	private static Point2D.Double MIN_MOVEMENT_PER_FRAME = new Point2D.Double(0.03, 0.03);
+	private Point2D.Double movementovementPerFrame = new Point2D.Double(MIN_MOVEMENT_PER_FRAME.x, MIN_MOVEMENT_PER_FRAME.y);
 	//EPSILON is used to handle rounding errors checking the positioning of the tiles
 	private static final double EPSILON = 0.02;
 	private AnimateUpdateListener listener;
@@ -46,7 +46,9 @@ public class Animator  {
 	{
 		//adjust maxMovementPerFrame according to the number of tiles that needs to be animated. 
 		//Many tiles = faster movement. Fewer tiles = slower movement. 
-		maxMovementPerFrame = new Point2D.Double(0.05 + toAnimate.size() * 0.00002, 0.05 + toAnimate.size() * 0.00002);
+		final double extraMovementPerAnimation = 0.00002;
+		movementovementPerFrame = new Point2D.Double(MIN_MOVEMENT_PER_FRAME.x + toAnimate.size() * extraMovementPerAnimation, 
+													 MIN_MOVEMENT_PER_FRAME.y + toAnimate.size() * extraMovementPerAnimation);
 		HashSet<AnimationInfo> toKeep = new HashSet<AnimationInfo>();
 		synchronized (toAnimate) {
 			for (AnimationInfo animationInfo : toAnimate) {
@@ -54,8 +56,8 @@ public class Animator  {
 				//ELse move the animationInfo and add it to toKeep
 				Point2D.Double position = animationInfo.getPosition();
 				Point2D.Double previousPosition = animationInfo.getPreviousPosition();
-				if (Math.abs(position.x - previousPosition.x) < maxMovementPerFrame.x + EPSILON &&
-					Math.abs(position.y - previousPosition.y) < maxMovementPerFrame.y + EPSILON) {
+				if (Math.abs(position.x - previousPosition.x) < movementovementPerFrame.x + EPSILON &&
+					Math.abs(position.y - previousPosition.y) < movementovementPerFrame.y + EPSILON) {
 					previousPosition.setLocation(Math.round(position.x), Math.round(position.y));
 					animationInfo.finishedMoving();
 				}
@@ -81,10 +83,10 @@ public class Animator  {
 		Point2D.Double abDistance = new Point2D.Double(nowPos.x - prevPos.x, nowPos.y - prevPos.y);
 		
 		//Check if the difference of x- and y-values is big enough to be animated
-		if (Math.abs(abDistance.x) < maxMovementPerFrame.x) {
+		if (Math.abs(abDistance.x) < movementovementPerFrame.x) {
 			abDistance.x = 0;
 		}
-		if (Math.abs(abDistance.y) < maxMovementPerFrame.y) {
+		if (Math.abs(abDistance.y) < movementovementPerFrame.y) {
 			abDistance.y = 0;
 		}
 		double xyDifference = Math.abs(abDistance.x / abDistance.y);
@@ -95,8 +97,8 @@ public class Animator  {
 		Point2D.Double signVector = getSignVector(abDistance);
 		
 		//Return the vector for moving the tile animation
-		return new Point2D.Double(maxMovementPerFrame.x * xyDifference * signVector.x, 
-								  maxMovementPerFrame.y * signVector.y);
+		return new Point2D.Double(movementovementPerFrame.x * xyDifference * signVector.x, 
+								  movementovementPerFrame.y * signVector.y);
 	}
 	
 	/**
