@@ -37,10 +37,8 @@ public class DifficultyCalculator {
 		double difficulty = 0;
 		for (int i = 0; i < tiles.length; i++) {
 			if (tiles[i] != null) {
-				Point expectedPositionForThatNumber = convertIndexToPoint(
-						tiles[i].getNumber() - 1, size);
-				difficulty += calculateDistance(expectedPositionForThatNumber,
-						convertIndexToPoint(i, size));
+				Point expectedPositionForThatNumber = convertIndexToPoint(tiles[i].getNumber() - 1, size);
+				difficulty += calculateDistance(expectedPositionForThatNumber,convertIndexToPoint(i, size));
 			}
 		}
 		return difficulty;

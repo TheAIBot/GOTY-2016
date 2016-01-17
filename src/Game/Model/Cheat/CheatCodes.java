@@ -113,7 +113,10 @@ public class CheatCodes implements KeyPressListener {
 		 */
 		public boolean keyPressed(String key) {
 			if (keySequence[index].equals(key)) {
+				// if the expected key is pressed then go on to check the next keypress
 				index++;
+				//if all keypresses have been correct then return true as
+				// the cheatcode has been activated
 				if (index == keySequence.length) {
 					index = 0;
 					return true;

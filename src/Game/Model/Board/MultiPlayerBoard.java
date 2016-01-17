@@ -26,17 +26,10 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private final SinglePlayerBoard[] boards;
 	private ScoreChangedListener scoreListener;
 	private GameSettings settings;
-<<<<<<< HEAD
-
-	/**
-	 * Creates the multiplayerboard by adding new instances of SinglePlayerBoard
-	 * equal to the specified player count
-=======
 	
 	/**
 	 * A MultiplayerBoard consists of a number of SinglePlayerBoards.
 	 * Therefor create an array of SinglePlayerBoards.
->>>>>>> refs/remotes/origin/jesper-fix
 	 * @param settings
 	 * @param playerCount
 	 */
@@ -63,13 +56,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			defaultGame();
 		}
 	}
-<<<<<<< HEAD
-
-	/**
-	 * Randomizes the game equally for all player boards
-	 */
-	private void randomizeGame() {
-=======
 	
 	/**
 	 * Randomizes the game using the same algorithm as in the SinglePlayerBoard class.
@@ -79,8 +65,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private void randomizeGame()
 	{		
 		//The max difficulty of a board the same size as this board.
-		final double maxDifficulty = DifficultyCalculator.getMaxDifficulty(settings.getGameSize()); 
->>>>>>> refs/remotes/origin/jesper-fix
+		final double maxDifficulty = DifficultyCalculator.getMaxDifficulty(settings.getGameSize());
 		final int numberOfDirections = 4;
 		double difficultyInPercent; //The difficulty of the board in percents.
 		Random randomGenerator = new Random();
@@ -117,19 +102,12 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 					boards[j].moveVoidTile(direction);
 				}
 			}
-			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(getTiles(0), settings.getGameSize(), maxDifficulty);
 			for (int i = 0; i < boards.length; i++) {
 				boardChanged(i);
 			}
-<<<<<<< HEAD
-			difficulty = DifficultyCalculator.getDifficulty(boards[0].getTiles(0),
-					settings.getGameSize());
-		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(
-				maxDifficulty, difficulty) || difficulty == 0);
-=======
+			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(getTiles(0), settings.getGameSize(), maxDifficulty);
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(difficultyInPercent)
 				 || difficultyInPercent == 0);
->>>>>>> refs/remotes/origin/jesper-fix
 	}
 
 	private void defaultGame() {

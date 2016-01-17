@@ -7,7 +7,6 @@ import javafx.util.Pair;
 
 public class Highscore {
 
-	//Global constants for the highscore system:
 	private static final String SCORE_FILE_NAME = "highscore"; 
 	private static final String SCORE_FOLDER_NAME = "Highscore";
 	private static final SaveFileManager<ArrayList<Pair<String, Integer>>> SAVE_MANAGER =
@@ -15,7 +14,7 @@ public class Highscore {
 
 	/** Returns the ArrayList of highscores, by loading it from the high score file. 
 	 *  If no such file exists,	a clean list of highscores are returned.
-	 * @return The ArrayList of highscores.
+	 * @return The ArrayList of highscores
 	 */
  	public static ArrayList<Pair<String, Integer>> getHighscores() {
  		ArrayList<Pair<String, Integer>> scores = SAVE_MANAGER.load(SCORE_FILE_NAME);
@@ -37,16 +36,19 @@ public class Highscore {
 		}
 		
 		ArrayList<Pair<String, Integer>> scores = getHighscores();
-		if (scores.size() == 0) { //If there are no other scores in the list, it is simply added to it.
+		//If there are no other scores in the list, it is simply added to it.
+		if (scores.size() == 0) {
 			scores.add(new Pair<String, Integer>(name, newScore));
 			save(scores);
 			return true;
-		} else if (scores.get(0).getValue() < newScore) { //If the score is a new highscore, it is added as the new highscore.
+		//If the score is a new highscore, it is added as the new highscore.
+		} else if (scores.get(0).getValue() < newScore) {
 			scores.add(0, new Pair<String, Integer>(name, newScore));
 			save(scores);
 			return true;
+		//Finds the place amongst the highscores, where, if the new score is placed there, 
+		//the list is still ordered, and places it there.
 		} else {
-			//Finds the place amongst the highscores, where, if the new score is placed there, the list is still ordered, and places it there.
 			for (int i = 0; i < scores.size(); i++) {
 				Pair<String, Integer> score = scores.get(i);
 				if (score.getValue() < newScore) {

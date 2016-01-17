@@ -13,13 +13,13 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 /** A score manager, used by objects for keeping and manipulating a score associated with it.
  */
 public class ScoreManager implements Serializable{
-	//Nessecary for assuring no crashes while saving the object
 	private static final long serialVersionUID = 6046970807246670554L; 
 
 	private ScoreChangedListener scoreChangedListener;
 	
 	//Timer and timer delay used by the score manager managing time-associated scores. Updates every second.
 	private final int delay = 1000; //1000 = 1 s
+	//Timer responsible for updating the time since the game started
 	private transient Timer clock = new Timer(delay, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -121,6 +121,7 @@ public class ScoreManager implements Serializable{
 	 */
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
+		//Timer can't be saved so when the class is loaded a new Timer has to be created
 		clock = new Timer(delay, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
