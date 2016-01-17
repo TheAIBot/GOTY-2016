@@ -51,7 +51,6 @@ public class GOTYHighscore extends SuperPage {
 	
 	public void startPage()
 	{
-		createPage();
 	}
 	
 	private void showHighScores(ArrayList<Pair<String, Integer>> scores)
@@ -85,6 +84,7 @@ public class GOTYHighscore extends SuperPage {
 
 	@Override
 	public boolean canShowPage() {
+		createPage();
 		return true;		
 	}
 }
