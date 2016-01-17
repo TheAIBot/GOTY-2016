@@ -24,6 +24,10 @@ public class ResourceImages {
 			+ File.separator + "special";
 	public static final int THUMBNAIL_SIZE = 100;
 
+	/**
+	 * get the images from the default image directory
+	 * @return all images from the default image directory
+	 */
 	public static ArrayList<BufferedImage> getDefaultImages() {
 		return getAllImagesFromDirectory(DIRECTORY_PATH + File.separator
 				+ DEFAULT_IMAGE_DIRECTORY_NAME);
@@ -103,12 +107,19 @@ public class ResourceImages {
 	 */
 	private static String getFileExtension(String filePath) {
 		int index = filePath.lastIndexOf(".");
+		//lastIndexOf returns -1 if the String is not found
+		//which also means that there is no extension
 		if (index == -1) {
 			return "";
 		}
 		return filePath.substring(index + 1);
 	}
 
+	/**
+	 * converts images to 100*100 pixel images by scaling them
+	 * @param images the images to convert into thumbnails
+	 * @return returns the inputted images as 100*100 pixel thumbnails
+	 */
 	public static ArrayList<BufferedImage> convertToThumbNails(ArrayList<BufferedImage> images) {
 		ArrayList<BufferedImage> thumbnails = new ArrayList<BufferedImage>();
 		for (BufferedImage image : images) {
@@ -127,19 +138,11 @@ public class ResourceImages {
 	public static BufferedImage convertToThumbnail(BufferedImage image) {
 		BufferedImage thumbNail = new BufferedImage(THUMBNAIL_SIZE, THUMBNAIL_SIZE, image.getType());
 		Graphics2D g = thumbNail.createGraphics();
+		//draws the image onto to thumbnail sized image where drawImage handles scaling the image to fit the
+		//thumbnail image size
 		g.drawImage(image, 0, 0, THUMBNAIL_SIZE, THUMBNAIL_SIZE, 0, 0, image.getWidth(),
 				image.getHeight(), null);
-		g.dispose();
+		g.dispose(); // release the object as it's not needed anymore
 		return thumbNail;
-	}
-
-	public static void releaseImagesResources(ArrayList<BufferedImage> images) {
-		for (BufferedImage image : images) {
-			releaseImageResource(image);
-		}
-	}
-
-	public static void releaseImageResource(BufferedImage image) {
-		image.flush();
 	}
 }

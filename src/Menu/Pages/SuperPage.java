@@ -1,10 +1,8 @@
 package Menu.Pages;
+
 import java.awt.Dimension;
-
 import javax.swing.JPanel;
-
 import Game.Control.GameEngine.Log;
-
 
 public abstract class SuperPage {
 	protected JPanel page;

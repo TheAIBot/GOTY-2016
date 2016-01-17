@@ -20,10 +20,10 @@ public class GameSettings implements Serializable{
 	//Constants defining the minimal og maximal value for sound, difficulty and size of the board.
 	public static final int SOUND_MAX = 100;
 	public static final int SOUND_MIN = 0;
-	public static final int DIFF_MIN = 0;
-	public static final int DIFF_MAX = 3;
-	public static final int SIZE_MIN = 3;
-	public static final int SIZE_MAX = 100;
+	public static final int DIFF_MIN = 0; // min difficulty level
+	public static final int DIFF_MAX = 3; // max difficulty level
+	public static final int SIZE_MIN = 3; // min size of the board
+	public static final int SIZE_MAX = 100; // max size of the board
 	
 	private boolean isPaused;
 	private boolean isConsoleMode;
@@ -35,28 +35,40 @@ public class GameSettings implements Serializable{
 	private transient BufferedImage tileImage;
 	private boolean isRandomized;
 	private boolean hasGUI;
+	// used to save and load gamesettings
 	private static transient SaveFileManager<GameSettings> gameSettingsSaver = new SaveFileManager<GameSettings>("Game_settings");
 	
-	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, boolean randomize, PlayerSettings[] players, boolean isRandom, boolean isConsoleMode, boolean hasGUI)
+	/**
+	 * @param vol sound volume
+	 * @param size board size
+	 * @param mode game mode
+	 * @param difficulty board difficulty
+	 * @param players an array of the different players settings
+	 * @param isRandom make a random board or use the default one
+	 * @param isConsoleMode show the game in the console or in a GUI
+	 * @param hasGUI can the game also show  the game in a GUI
+	 */
+	public GameSettings(float vol, int size, GameModes mode, DifficultyLevel difficulty, PlayerSettings[] players, boolean isRandom, boolean isConsoleMode, boolean hasGUI)
 	{
 		this.soundVolume = vol;
 		this.gameSize = size;
 		this.gameMode = mode;
 		this.difficultyLevel = difficulty;
-		this.isRandomized = randomize;
 		this.players = players;
 		this.isRandomized = isRandom;
 		this.isConsoleMode = isConsoleMode;
 		this.hasGUI = hasGUI;
 	}
 	
+	/**
+	 * initializes GameSettings with default values
+	 */
 	public GameSettings()
 	{
 		this(0.5f,
 				4,
 				GameModes.SINGLE_PLAYER, 
-				DifficultyLevel.NORMAL, 
-				true,
+				DifficultyLevel.NORMAL,
 				new PlayerSettings[] {
 					new PlayerSettings(KeyEvent.VK_W, 
 									   KeyEvent.VK_S, 

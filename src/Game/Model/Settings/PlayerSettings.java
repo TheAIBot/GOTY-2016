@@ -20,11 +20,18 @@ public class PlayerSettings implements Serializable {
 	
 	/**
 	 * 
-	 * @param up
-	 * @param down
-	 * @param left
-	 * @param right
-	 * @param playerName
+	 * @param up move key up
+	 * @param down move key down
+	 * @param left move key left
+	 * @param right mov key right
+	 * @param viewUp move view up
+	 * @param viewDown move view down
+	 * @param viewLeft move view left
+	 * @param viewRight move view right
+	 * @param toggleColor render color mode or image mode
+	 * @param zoomIn zoom in
+	 * @param zoomOut zoom out
+	 * @param playerName the players name
 	 */
 	public PlayerSettings(int up, int down, int left, int right, int viewUp, int viewDown, int viewLeft, int viewRight, int toggleColor, int zoomIn, int zoomOut, String playerName)
 	{
@@ -318,11 +325,6 @@ public class PlayerSettings implements Serializable {
 		name = playerName;
 	}
 	
-	/**
-	 * 
-	 * @param key
-	 * @return true if the key is already mapped and false otherwise
-	 */
 	public boolean hasKeyCode(int key)
 	{
 		return (key == upKey || 
