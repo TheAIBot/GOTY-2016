@@ -9,4 +9,4 @@ Har computeren et indbygget grafikkort kan OpenGL bruges til at forbedre ydelsen
 java -Dsun.java2d.opengl=true -jar GOTY-2016.jar
 
 --- Spilstyring ---
-Som standard bruges W, A, S og D til at bevæge void tilen rundt på brættet. Q bruges til at skifte til color mode og E og R bruges til at zoome ind og ud. Spillet kan udover at bevæge void tilen og cameraet også sætte spillet på pause med mellemrum og man kan gå ud af spillet med escape.
+Som standard bruges W, A, S og D til at bevæge void tilen rundt på brættet. Q bruges til at skifte til color mode. E og R bruges til at zoome ind og ud og T, F, G og H bruges til at bevæge kameraet rundt på brættet. Spillet derudover sættes på pause med mellemrum og man kan gå ud af spillet med escape.
