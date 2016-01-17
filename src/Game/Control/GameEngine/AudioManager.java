@@ -39,6 +39,9 @@ public class AudioManager implements SoundFinishedListener {
 	 */
 	private void loadSound(String name, int amount) {
 		Sound[] sounds = ResourceAudio.loadSounds(name, amount, currentVolumeInPercents);
+		if (sounds == null) {
+			return;
+		}
 		for (int i = 0; i < sounds.length; i++) {
 			sounds[i].addSoundFinishedListener(this);
 		}

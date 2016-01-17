@@ -2,6 +2,8 @@ package Game.Control.GameEngine;
 
 import javax.swing.JPanel;
 
+import Game.Model.Animation.AnimateUpdateListener;
+import Game.Model.Animation.Animator;
 import Game.Model.Board.GameState;
 import Game.Model.Settings.GameSettings;
 import Game.View.Colorfull;
@@ -11,7 +13,6 @@ import Game.View.Displayable;
 import Game.View.GraphicsPanel;
 import Game.View.Numreable;
 import Game.View.RenderInfo;
-import Game.Model.Animation.*;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	

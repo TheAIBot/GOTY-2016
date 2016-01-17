@@ -28,27 +28,35 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private GameSettings settings;
 	
 	/**
-	 * A MultiplayerBoard consists of a number of SinglePlayerBoards.
+	 * Creates a multiplayerBoard that allows multiple players to play the game
 	 * Therefor create an array of SinglePlayerBoards.
-	 * @param settings
-	 * @param playerCount
+	 * @param settings the settings the board should use
+	 * @param playerCount the amount of playerss
 	 */
 	public MultiPlayerBoard(GameSettings settings, int playerCount) {
 		this.settings = settings;
 		this.boards = new SinglePlayerBoard[playerCount];
+		// a multiplayerboard consists of multiple SinglePlayerBoards
+		// so there are initialised here in the constructor with the same settings
+		// as all boards should start out the same or else it wouldn't be fair
 		for (int i = 0; i < boards.length; i++) {
 			boards[i] = new SinglePlayerBoard(settings, i);
 		}
 	}
 
-	@Override
+	/**
+	 * creates the board
+	 * @Override
+	 */
 	public void createGame() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].createGame();
 		}
 	}
 
-	@Override
+	/** randomizes the board according to the GameStettings
+	 * @Override
+	 */
 	public void makeRandom() {
 		if (settings.isRandomized()) {
 			randomizeGame();
@@ -106,29 +114,42 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				boardChanged(i);
 			}
 			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(getTiles(0), settings.getGameSize(), maxDifficulty);
+		
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(difficultyInPercent)
 				 || difficultyInPercent == 0);
 	}
 
+	/**
+	 * Creates a default game as specified in the basic game requirements
+	 */
 	private void defaultGame() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].makeRandom();
 		}
 	}
 
-	@Override
+	/**
+	 * resets the board
+	 * @Override
+	 */
 	public void resetGame() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].resetGame();
 		}
 	}
 
-	@Override
+	/**
+	 * get tiles from the specified board
+	 * @Override
+	 */
 	public Tile[] getTiles(int playerIndex) {
 		return boards[playerIndex].getTiles(playerIndex);
 	}
 
-	@Override
+	/**
+	 * gets the size of the board
+	 * @Override
+	 */
 	public int getSize() {
 		return boards[0].getSize();
 	}
@@ -150,23 +171,29 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	}
 
 	/**
-	 * Forwards the key press to the SinglePlayerBoards
+	 * Handles keypresses to all boards
+	 * @Override
 	 */
-	@Override
 	public void keyPressed(String key) {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].keyPressed(key);
 		}
 	}
 
-	@Override
+	/**
+	 * pauses the game
+	 * @Override
+	 */
 	public void pause() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].pause();
 		}
 	}
 
-	@Override
+	/**
+	 * unpauses the game
+	 * @Override
+	 */
 	public void unpause() {
 		for (int i = 0; i < boards.length; i++) {
 			boards[i].unpause();
@@ -183,11 +210,14 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		return boards[playerIndex].getRenderInfo(playerIndex);
 	}
 
-	@Override
+	/**
+	 * returns the number of players that board is handling
+	 * @Override
+	 */
 	public int getNumberOfPlayers() {
 		return boards.length;
 	}
-
+	
 	@Override
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
 		gameStateChangedListeners.add(listener);
@@ -201,6 +231,8 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	 */
 	@Override
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
+		//if the game state changed to WON, then that means a player won and when
+		//the first player wins all other players lose.
 		if (newGameState == GameState.WON) {
 			if (!didAnyoneAlreadyWin(playerIndex)) {
 				Highscore.newScore(settings.getPlayers()[playerIndex].getName(),

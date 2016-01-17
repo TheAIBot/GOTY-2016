@@ -42,6 +42,9 @@ public class ResourceAudio {
 	public static Sound[] loadSounds(String name, int amount, float soundVolume) {
 		Sound[] sounds = new Sound[amount];
 		Clip[] clips = getSoundCopys(name, amount);
+		if (clips == null) {
+			return null;
+		}
 		for (int i = 0; i < sounds.length; i++) {
 			sounds[i] = new Sound(clips[i], soundVolume);
 			sounds[i].setVolume(soundVolume);

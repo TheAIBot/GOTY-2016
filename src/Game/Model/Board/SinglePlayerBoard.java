@@ -16,7 +16,6 @@ import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Animation.AnimationInfo;
 import Game.Model.Animation.ToAnimateListener;
 import Game.Model.Difficulty.DifficultyCalculator;
-import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceAudio;
 import Game.Model.Resources.ResourceImages;
 import Game.Model.Score.ScoreChangedListener;
@@ -418,8 +417,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			}
 			
 			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(tilePlacements, settings.getGameSize(), maxDifficulty);
-			//casts a boardChanged event so the randomization process can be drawn
-			boardChanged();
 			//Continiue making the board random until the specific difficultyLevel has been reached
 			//A gameDifficulty of easy can be attained by hacing a difficulty of 0 which
 			//is not randomized so a check for that has to be made
@@ -497,12 +494,18 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		return renderInfo;
 	}
 
-	@Override
+	/**
+	 * Adds the specified tile to an animation
+	 * @Override
+	 */
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);
 	}
 
-	@Override
+	/**
+	 * return the number of players playing the game
+	 * @Override
+	 */
 	public int getNumberOfPlayers() {
 		switch (settings.getGameMode()) {
 		case SINGLE_PLAYER:
@@ -544,6 +547,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			playSoundListener.playSound(name);
 		}
 	}
+	
 	
 	public void addPlaySoundListener(PlaySoundListener listener) {
 		playSoundListeners.add(listener);
