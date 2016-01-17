@@ -60,6 +60,9 @@ public class AudioManager implements SoundFinishedListener {
 		}
 	}
 
+	/**
+	 * Pauses the sounds
+	 */
 	public void pause() {
 		if (!paused) {
 			for (Sound sound : playingSounds) {
@@ -70,6 +73,9 @@ public class AudioManager implements SoundFinishedListener {
 		paused = true;
 	}
 
+	/**
+	 * Unpauses the sounds by continueing to play the queued sounds and background music
+	 */
 	public void unPause() {
 		if (paused) {
 			for (Sound sound : playingSounds) {
@@ -107,6 +113,9 @@ public class AudioManager implements SoundFinishedListener {
 		}
 	}
 
+	/**
+	 * Removes the sound from the queue of sounds to play if it is contained in the list
+	 */
 	public void soundFinished(Sound sound) {
 		Sound soundInList;
 		for (int i = 0; i < playingSounds.size(); i++) {
@@ -129,6 +138,9 @@ public class AudioManager implements SoundFinishedListener {
 		backgroundMusic = sound;
 	}
 
+	/**
+	 * Closes the sound clips making them unavailable for further use until reinvoked.
+	 */
 	public void close() {
 		for (CirculairList<Sound> sounds : soundMap.values()) {
 			for (Sound sound : sounds.getArray()) {
