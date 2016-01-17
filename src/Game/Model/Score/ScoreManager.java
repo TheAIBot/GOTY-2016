@@ -10,12 +10,15 @@ import javax.swing.Timer;
 
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+/** A score manager, used by objects for keeping and manipulating a score associated with it.
+ */
 public class ScoreManager implements Serializable{
-	
-	private static final long serialVersionUID = 6046970807246670554L;
+	//Nessecary for assuring no crashes while saving the object
+	private static final long serialVersionUID = 6046970807246670554L; 
 
 	private ScoreChangedListener scoreChangedListener;
-		
+	
+	//Timer and timer delay used by the score manager managing time-associated scores. Updates every second.
 	private final int delay = 1000; //1000 = 1 s
 	private transient Timer clock = new Timer(delay, new ActionListener() {
 		@Override
@@ -29,12 +32,16 @@ public class ScoreManager implements Serializable{
 	private int scorePerMove;
 	private int timeElapsedInSeconds = 0;
 	private int numMoves = 0;
-	//Wether or not to update the number of moves and the corresponding addition to the score.
+	//Whether or not to update the number of moves and the corresponding addition to the score.
 	private final boolean detectMoves;
 	
-	/**
-	 * @param scoreSecond
-	 * @param scoreMove
+	/** Creates a new score manager. Depending on the given parameters, it changes the score faster or slower, 
+	 * and add to the score when something moves. Announces a change in score to the given score changed listener.
+	 * 
+	 * @param scoreSecond The score to add to the total score every second passed.
+	 * @param scoreMove The score to add to the total score every time something moves.
+	 * @param detectMoves True/false value for if the moves should be detected.
+	 * @param scoreListener A listener for listening to a change in the total score.
 	 */
 	public ScoreManager(int scoreSecond, int scoreMove, boolean detectMoves, ScoreChangedListener scoreListener)
 	{
@@ -45,27 +52,21 @@ public class ScoreManager implements Serializable{
 		
 	}
 	
-	/**
-	 * Starts the manager. Can also be used after calling stop().
-	 * @param scoreSecond
-	 * @param scoreMove
+	/** Starts the score manager. Can also be used after calling stop().	
 	 */
 	public void startClock()
 	{
 		clock.start();
 	}
 	
-	/**
-	 * Stops the ScoreManager from adding to the score when time passes and incrementMoves() or addNumMoves() are called.
+	/** Stops the ScoreManager from adding to the score when time passes and incrementMoves() or addNumMoves() are called.
 	 */
 	public void stopClock()
 	{
 		clock.stop();
 	}
-	
-	
-	/**
-	 * Updates the score and increments the time count in seconds.
+		
+	/** Updates the score and increments the time count in seconds.
 	 */
 	private void updateTimeScore()
 	{
@@ -74,9 +75,8 @@ public class ScoreManager implements Serializable{
 		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
-	/**
-	 * Adds some value to the total score.
-	 * @param score
+	/** Adds a given value to the total score, and announces the change to the score changed listeners.
+	 * @param score The value to be added to the score.
 	 */
 	public void addToScore(int score)
 	{
@@ -84,12 +84,16 @@ public class ScoreManager implements Serializable{
 		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
+	/** Increments the total score by 1, and announces the change to the score changed listeners.
+	 */
 	public void incrementScore()
 	{
 		totalScore += 1;
 		scoreChangedListener.scoreChanged(totalScore,timeElapsedInSeconds,0);
 	}
 	
+	/** Increments the number of moves by 1 and increases the score by the value associated with a move, if a move is detected. 
+	 */
 	public void incrementNumMoves()
 	{
 		if (detectMoves) {
@@ -98,8 +102,7 @@ public class ScoreManager implements Serializable{
 		}
 	}
 	
-	/**
-	 * Adds the specified number of moves to the total number of moves.
+	/** Adds the specified number of moves to the total number of moves.
 	 * @param moves
 	 */
 	public void addNumMoves(int moves)
@@ -110,6 +113,12 @@ public class ScoreManager implements Serializable{
 		}
 	}
 	
+	/**	Method for loading the score manager from a serialized file, for loading a saved game.
+	 * @param in The inputstream of (loaded) data. 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws NotFound
+	 */
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		clock = new Timer(delay, new ActionListener() {
@@ -138,6 +147,10 @@ public class ScoreManager implements Serializable{
 		return scorePerSecond;
 	}
 	
+	/** Returns the time elapsed in seconds since the start of the score manager. 
+	 * 	This does not include time while the score manager has been stopped.
+	 * @return The time elapsed in secons.
+	 */
 	public int getTimeElapsedSeconds()
 	{
 		return timeElapsedInSeconds;
@@ -158,7 +171,6 @@ public class ScoreManager implements Serializable{
 	{
 		return scorePerMove;
 	}
-	
 	
 	//set-methods
 	

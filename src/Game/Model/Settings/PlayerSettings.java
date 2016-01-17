@@ -318,11 +318,6 @@ public class PlayerSettings implements Serializable {
 		name = playerName;
 	}
 	
-	/**
-	 * 
-	 * @param key
-	 * @return true if the key is already mapped and false otherwise
-	 */
 	public boolean hasKeyCode(int key)
 	{
 		return (key == upKey || 
