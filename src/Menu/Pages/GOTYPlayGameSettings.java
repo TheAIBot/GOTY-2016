@@ -25,6 +25,8 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.sun.scenario.Settings;
+
 import Game.Control.Input.SpecialKeys;
 import Game.Model.Board.GameModes;
 import Game.Model.Cheat.CheatActivatedListener;
@@ -598,6 +600,7 @@ public class GOTYPlayGameSettings extends SuperPage implements CheatActivatedLis
 	public void startPage() {
 		resize(new Dimension(920,900));
 		setResizeable(false);
+		theGameSettings.setPaused(false);
 	}
 
 	@Override

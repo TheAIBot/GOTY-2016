@@ -234,6 +234,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		//if the game state changed to WON, then that means a player won and when
 		//the first player wins all other players lose.
 		if (newGameState == GameState.WON) {
+			//if another player already won then the player that changed
 			if (!didAnyoneAlreadyWin(playerIndex)) {
 				Highscore.newScore(settings.getPlayers()[playerIndex].getName(),
 						boards[playerIndex].getScore());
