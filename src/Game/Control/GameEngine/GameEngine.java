@@ -121,7 +121,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	private void toggleConsoleMode()
 	{
-		if (settings.isConsoleMode()) {
+		if (settings.isConsoleMode() && settings.hasGUI()) {
 			settings.setConsoleMode(false);
 			showScreen();
 			if (getGameState(0) == GameState.NOT_DECIDED_YET) {
@@ -172,7 +172,9 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		game.createGame();
 		gameStarted();
-		graphics.render();
+		if (settings.hasGUI()) {
+			graphics.render();
+		}
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

@@ -21,12 +21,6 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 	private ScoreChangedListener scoreListener;
 	private GameSettings settings;
 	
-	/**
-	 * A MultiplayerBoard consists of a number of SinglePlayerBoards.
-	 * Therefor create an array of SinglePlayerBoards.
-	 * @param settings
-	 * @param playerCount
-	 */
 	public MultiPlayerBoard(GameSettings settings, int playerCount) {
 		this.settings = settings;
 		this.boards = new SinglePlayerBoard[playerCount];
@@ -51,14 +45,11 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		}
 	}
 	
-	/**
-	 * Randomizes the game using the same algorithm as in the SinglePlayerBoard class.
-	 * The difference below is that the multiple player boards are taken into  account.
-	 * The game is randomized the same way for both players.
-	 */
 	private void randomizeGame()
 	{
 		final int numberOfDirections = 4;
+		final double maxDifficulty = DifficultyCalculator.getMaxDifficulty(settings.getGameSize());
+		double difficulty;
 		Random randomGenerator = new Random();
 		do {
 			for (int i = 0; i < settings.getGameSize() * 100; i++) {
@@ -87,8 +78,9 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			for (int i = 0; i < boards.length; i++) {
 				boardChanged(i);
 			}
-		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(boards[0].getTiles(0), settings.getGameSize()) ||
-				   DifficultyCalculator.getDifficulty(boards[0].getTiles(0), settings.getGameSize()) == 0);
+			difficulty = DifficultyCalculator.getDifficulty(boards[0].getTiles(0), settings.getGameSize());
+		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(maxDifficulty, difficulty) ||
+				 difficulty == 0);
 	}
 
 	private void defaultGame()
@@ -171,10 +163,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 			boards[i].addGameStateChangedListener(this);
 		}
 	}
-	
-	/**
-	 * Updates the game state for each player and adds the score of the winning player to the highscore list
-	 */
+
 	@Override
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		if (newGameState == GameState.WON) {

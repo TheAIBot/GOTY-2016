@@ -1,8 +1,10 @@
 package Game.Model.Difficulty;
 
 public enum DifficultyLevel {
-	EASY(0) //The easy difficulty level
+	EASY(0)
 	{
+		//These values are used to check wether a specific difficulty percentage
+		//is equal to this difficultyLevel
 		private static final double MIN_PERCENT = 0.00;
 		private static final double MAX_PERCENT = 0.50;
 		
@@ -12,8 +14,10 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	NORMAL(1) //The normal difficulty level
+	NORMAL(1)
 	{
+		//These values are used to check wether a specific difficulty percentage
+		//is equal to this difficultyLevel
 		private static final double MIN_PERCENT = 0.50;
 		private static final double MAX_PERCENT = 0.55;
 		
@@ -23,8 +27,10 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	INTERMEDIATE(2) //The intermediate difficulty level
+	INTERMEDIATE(2)
 	{
+		//These values are used to check wether a specific difficulty percentage
+		//is equal to this difficultyLevel
 		private static final double MIN_PERCENT = 0.55;
 		private static final double MAX_PERCENT = 0.60;
 		
@@ -34,19 +40,28 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	HARD(3) //The hard difficulty level
+	HARD(3)
 	{
+		//These values are used to check wether a specific difficulty percentage
+		//is equal to this difficultyLevel
 		private static final double MIN_PERCENT = 0.60;
 		private static final double MAX_PERCENT = 1.00;
 		
 		@Override
 		protected boolean isPercentageEqualToThisDifficulty(double percent) {
 			return percent >= MIN_PERCENT && 
-				   percent <  MAX_PERCENT;
+				   percent <=  MAX_PERCENT;
 		}
 	};
 	
+	//This value indicates the difficulty as a number where 0 is easy and
+	//3 is hard. This feature is often usefull when showing an enum in a GUI
 	private final int value;
+
+	private DifficultyLevel(int value)
+	{
+		this.value = value;
+	}
 	
 	/**	Calculates if a given difficulty percentage answers to a given difficulty level
 	 * @param percent The percentage of difficulty
@@ -69,11 +84,6 @@ public enum DifficultyLevel {
 		} else {
 			return EASY;
 		}
-	}
-
-	private DifficultyLevel(int value)
-	{
-		this.value = value;
 	}
 	
 	public int getValue()
