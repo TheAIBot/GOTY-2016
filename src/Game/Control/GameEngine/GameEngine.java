@@ -1,11 +1,7 @@
 package Game.Control.GameEngine;
 
-import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import Game.Control.Input.ConsoleControl;
 import Game.Control.Input.InputManager;
@@ -14,6 +10,7 @@ import Game.Control.Input.SpecialKeys;
 import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Board.BoardChangedListener;
 import Game.Model.Board.GameBoardMode;
+import Game.Model.Board.GameModes;
 import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Board.MultiPlayerBoard;
@@ -35,18 +32,17 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private  transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
 	private GameBoardMode game;
 
-	public GameEngine(GameSettings settings) {	
+	public GameEngine(GameSettings settings) {
 		this.settings = settings;		
 		this.audio = new AudioManager(settings.getSoundVolume());
 		this.consoleControl = new ConsoleControl(this, settings);
-		//initGame(settings);
-		game = createGameType(settings);
-		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(),settings);
-		game.addBoardChangedListener(this);
-		game.addGameStateChangedListener(this);
-		game.addScoreChangedListener(this);
-		game.addPlaySoundListener(this);
-		graphics.repaint();
+		this.game = createGameType(settings);
+		this.game.addBoardChangedListener(this);
+		this.game.addGameStateChangedListener(this);
+		this.game.addScoreChangedListener(this);
+		this.game.addPlaySoundListener(this);
+		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(), settings);
+		addSpecialKeyboardControls();
 	}
 	
 	private void setControls()
@@ -78,8 +74,18 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 				input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
 			}
 		}
+	}
+	
+	private void addSpecialKeyboardControls()
+	{
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.EXIT_GAME);
 		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_PAUSE);
+		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_CONSOLE_MODE);
+	}
+	
+	private void removeKeyboardControls()
+	{
+		input.RemoveAllListeners(graphics.getGraphicsPanel());
 	}
 	
 	public RenderInfo getRenderInfo(int playerIndex)
@@ -89,12 +95,10 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	@Override
 	public void keyPressed(String keyPressed) {
-		if (!settings.isPaused()) {
-			if (!SpecialKeys.isSpecialKey(keyPressed)) {
-				game.keyPressed(keyPressed);
-			} else {
-				handleSpecialKeyPress(keyPressed);
-			}
+		if (!settings.isPaused() && !SpecialKeys.isSpecialKey(keyPressed)) {
+			game.keyPressed(keyPressed);
+		} else if (SpecialKeys.isSpecialKey(keyPressed)) {
+			handleSpecialKeyPress(keyPressed);
 		}
 	}
 		
@@ -103,10 +107,50 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		switch (key) {
 		case SpecialKeys.EXIT_GAME:
 			shutdown();
+			break;
 		case SpecialKeys.TOGGLE_PAUSE:
 			togglePause();
-		default:
 			break;
+		case SpecialKeys.TOGGLE_CONSOLE_MODE:
+			toggleConsoleMode();
+			break;
+		default:
+			Log.writeln("special key pressed without any action taken: " + key);
+		}
+	}
+	
+	private void toggleConsoleMode()
+	{
+		if (settings.isConsoleMode() && settings.hasGUI()) {
+			settings.setConsoleMode(false);
+			showScreen();
+			if (getGameState(0) == GameState.NOT_DECIDED_YET) {
+				addKeyboardControls();
+			}
+			gameStateChanged(getGameState(0), 0);
+			
+		} else if (getGameState(0) == GameState.NOT_DECIDED_YET && 
+				   settings.getGameMode() == GameModes.SINGLE_PLAYER) {
+			settings.setConsoleMode(true);
+			hideScreen();
+			removeKeyboardControls();
+			addSpecialKeyboardControls();
+			graphics.render();
+			consoleControl.startGameInConsole();
+		}
+	}
+	
+	private void hideScreen()
+	{
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.hideWindow();
+		}
+	}
+	
+	private void showScreen()
+	{
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.showWindow();
 		}
 	}
 	
@@ -119,28 +163,39 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		return game.getSize();
 	}
 	
-	public GameState getGameState()
+	public GameState getGameState(int playerIndex)
 	{
-		return game.getGameState(0);
+		return game.getGameState(playerIndex);
 	}
 
-	public void createGame()
+	private void createGame()
 	{
 		game.createGame();
 		gameStarted();
-		graphics.repaint();
+		if (settings.hasGUI()) {
+			graphics.render();
+		}
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			Log.writeError(e);
 		}
-		graphics.repaint();
 		game.makeRandom();
+		graphics.render();
 	}
 	
-	public void startGame()
+	public Thread startGameAsync()
 	{
-		setControls();
+		Thread startGameThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				createGame();
+				unpause();
+				setControls();
+			}
+		});
+		startGameThread.start();
+		return startGameThread;
 	}
 	
 	public void resetGame()
@@ -158,13 +213,14 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	public void boardChanged(int playerIndex) {
 		render(playerIndex);		
 	}
-
-	public void render(int playerIndex) {
+	
+	private void render(int playerIndex) {
 		graphics.renderTiles(game.getRenderInfo(playerIndex), playerIndex);
 	}
 	
 	public void shutdown()
 	{
+		settings.setConsoleMode(false);
 		releaseAllResources();
 		for (GameEventsListener gameEventsListener : gameEventsListeners) {
 			gameEventsListener.closeGame();
@@ -174,11 +230,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private void releaseAllResources()
 	{
 		audio.close();
-		BufferedImage image = Tile.getTileImage();
-		if (image != null) {
-
-			image.flush();
-		}
 	}
 	
 	public void save()
@@ -196,6 +247,8 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		loadedGame.gameEventsListeners = new ArrayList<GameEventsListener>();
 		loadedGame.input = new InputManager();
 		loadedGame.audio = new AudioManager(loadedGame.settings.getSoundVolume());
+		loadedGame.gameStarted();
+		loadedGame.addSpecialKeyboardControls();
 		loadedGame.setControls();
 		loadedGame.pause();
 		return loadedGame;		
@@ -232,9 +285,26 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		graphics.setScoreAndTime(score, time, screenIndex);
 	}
 
+	private void stop()
+	{
+		gameEnded();
+		pause();
+		game.Stop();
+	}
+	
 	@Override
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
 		graphics.setGameState(newGameState, playerIndex);
+		if (newGameState == GameState.WON) {
+			stop();
+		}
+	}
+	
+	private void gameEnded()
+	{
+		for (GameEventsListener gameEventsListener : gameEventsListeners) {
+			gameEventsListener.gameEnded();
+		}
 	}
 
 	@Override
@@ -249,6 +319,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	
 	@Override
 	public void playSound(String name) {
-		audio.playSound(name);		
+		audio.playSound(name);	
 	}
 }

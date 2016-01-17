@@ -12,6 +12,7 @@ public class ConsoleControl implements GameStateChangedListener {
 	private boolean run = true;
 	private GameEngine game;
 	private GameSettings settings;
+	private static Scanner scan = new Scanner(System.in);
 	
 	public ConsoleControl(GameEngine game, GameSettings settings) {
 		this.game = game;
@@ -25,27 +26,25 @@ public class ConsoleControl implements GameStateChangedListener {
 	 */
 	public void startGameInConsole() {
 		run = true;
-		try (Scanner scan = new Scanner(System.in)) {
-			while (run) { //settings.isConsoleMode()
-				do {
-					//Prints the game to the console every time a command is passed
-					// and at the start of the game so the user can see the games initial position
-					String command = scan.nextLine();
-					//Commands of the size 1 char is allowed, as this is the length of the move commands.
-					//Other than that, the speciel pause and escape command is allowed.
-					command = command.toUpperCase();
-					if (command.length() == 1) {
-						game.keyPressed(command);
-					} else if (command.equals("EXIT")) {
-						game.keyPressed("ESCAPE");
-					} else if (command.equals("PAUSE")) {
-						game.keyPressed("SPACE");
-					}
-					//The game will run until it is finished (no shit) - meaning until the player has solved the puzzle
-				} while (run);
-				game.resetGame();
-			}
-		}
+		do {
+			//Prints the game to the console every time a command is passed
+			// and at the start of the game so the user can see the games initial position
+				String command = scan.nextLine();
+				//Commands of the size 1 char is allowed, as this is the length of the move commands.
+				//Other than that, the speciel pause and escape command is allowed.
+				command = command.toUpperCase();
+				if (command.length() == 1) {
+					game.keyPressed(command);
+				} else if (command.equals("EXIT")) {
+					game.keyPressed(SpecialKeys.EXIT_GAME);
+				} else if (command.equals("PAUSE")) {
+					game.keyPressed(SpecialKeys.TOGGLE_PAUSE);
+				} else if (command.equals("SCREEN")) {
+					game.keyPressed(SpecialKeys.TOGGLE_CONSOLE_MODE);
+				}
+			//}
+			//The game will run until it is finished (no shit) - meaning until the player has solved the puzzle
+		} while (settings.isConsoleMode());
 	}
 
 	@Override

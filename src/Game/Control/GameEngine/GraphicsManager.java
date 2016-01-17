@@ -16,7 +16,6 @@ import Game.View.Animation.Animator;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	
-	//private ConsoleGraphics console;
 	private final GameEngine gEngine;
 	private final GraphicsPanel[] gPanels;
 	private final ConsoleGraphics consoleDisplay;
@@ -24,11 +23,11 @@ public class GraphicsManager implements AnimateUpdateListener {
 	private final CreateGamePanel gamePanelCreater = new CreateGamePanel();
 	private final RenderInfo[] renderInfos;
 	private GameSettings settings;
-	private JPanel gamePanel;	
+	private JPanel gamePanel;
 	
 	public GraphicsManager(GameEngine gEngine, int numberOfScreens, GameSettings settings) {
 		this.gEngine = gEngine;
-		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);		
+		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);
 		this.settings = settings;
 		this.gPanels = new GraphicsPanel[numberOfScreens];
 		this.renderInfos = new RenderInfo[numberOfScreens];
@@ -38,12 +37,12 @@ public class GraphicsManager implements AnimateUpdateListener {
 		}
 	}
 	
-	public void renderTiles(RenderInfo renderInfo, int screenIndex){	
-		if (settings.isConsoleMode()) {//settings.isConsoleMode(
+	public void renderTiles(RenderInfo renderInfo, int screenIndex){
+		if (settings.isConsoleMode()) {
 			consoleDisplay.render();			
 		} else {
 			checkForNewAnimations(renderInfo);
-			gPanels[screenIndex].repaint();;
+			gPanels[screenIndex].repaint();
 		}
 	}
 	
@@ -61,7 +60,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 	}
 	
 	private void animate(int screenIndex){
-		animator.startAnimation(renderInfos[screenIndex].toAnimate);
+		checkForNewAnimations(renderInfos[screenIndex]);
 	}
 	
 	public Displayable[] getDisplayablesToRender(int screenIndex){
@@ -83,41 +82,48 @@ public class GraphicsManager implements AnimateUpdateListener {
 			animate(screenIndex);
 			animator.startAnimation(renderInfos[screenIndex].toAnimate);
 			return gEngine.getTiles(screenIndex);
-		} else return null;
+		} else {
+			return null;
+		}
 	}
 	
-	public void repaint()
+	public void render()
 	{
 		if (settings.isConsoleMode()) {
 			consoleDisplay.render();
-		} else{
+		} else {
 			for (int i = 0; i < gPanels.length; i++) {
-				gPanels[i].repaint();
+				gPanels[i].render();
 			}			
 		}
 	}
 
 	public void checkForNewAnimations(RenderInfo renderInfo) {
 		if (!settings.isConsoleMode()) {
-			if (renderInfo.toAnimate.size() > 0) {
-				animator.startAnimation(renderInfo.toAnimate);
-				renderInfo.toAnimate.clear();
-			}
+			animator.startAnimation(renderInfo.toAnimate);
 		}
 	}
 
 	@Override
 	public void animateUpdate() {
-		repaint();
+		render();
 	}
 
 	public void setScoreAndTime(int score, int time, int screenIndex)
 	{
-		gamePanelCreater.setTimeAndScore(score, time, screenIndex);
+		if (!settings.isConsoleMode()) {
+			gamePanelCreater.setTimeAndScore(score, time, screenIndex);
+		} else {
+			consoleDisplay.setScoreAndTime(score, time);
+		}
 	}
 
 	public void setGameState(GameState newGameState, int screenIndex)
 	{
-		gamePanelCreater.setGameState(newGameState, screenIndex);
+		if (!settings.isConsoleMode()) {
+			gamePanelCreater.setGameState(newGameState, screenIndex);
+		} else {
+			consoleDisplay.gameStateChanged(newGameState);
+		}
 	}
 }

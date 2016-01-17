@@ -1,6 +1,7 @@
 package Game.View;
 
 import Game.Control.GameEngine.GraphicsManager;
+import Game.Model.Board.GameState;
 
 public class ConsoleGraphics {
 
@@ -14,24 +15,32 @@ public class ConsoleGraphics {
 		this.graphics = graphics;		
 	}
 	
+	//private void printHelpMessage()
+	//{
+	//	System.out.println("Commands:");
+	//	System.out.println("exit to quit the game");
+	//	System.out.println("screen to return to the GUI");
+	//	System.out.println("pause to pause the game");
+	//	System.out.println("press enter to submit you command");
+	//}
+	
+	
 	/**
 	 * Prints the game board to the console
 	 * @param game The game to print
 	 */
-	
 	public void render()
 	{
 		final String emptyString = "";
 		//Since the size of the game can differ, the size of the individual tile numbers (in digits) differ from game to game.
 		//Therefore, the length of the biggest tile number is always found and the space between tiles is added
-		//here, so that two tile numbers will always have space inbetween them. This is because the tileLength is 
+		//here, so that two tile numbers will always have space in between them. This is because the tileLength is 
 		//always bigger than the max tile number length.
 		
-		//Log 10 since the display is in base 10.
 		int tileLength = (int)Math.log10((boardSize * boardSize) - 1) + 1 + SPACES_BETWEEN_TILE_NUMBERS; 
 		String sTileLength = String.valueOf(tileLength);
-		Numreable[] numreables = graphics.getNumreablesToRender(0); //The screenindex is always zero, 
-		//as console mode is not compatible with multiplayer mode
+		 //The screenindex is always zero, as console mode is not compatible with multiplayer mode
+		Numreable[] numreables = graphics.getNumreablesToRender(0);
 		
 		//The game consists of rows and columns, with a size equal the the game board size,
 		//so two loops goes through each row and their columns ,and prints the tile number to the console:
@@ -55,5 +64,15 @@ public class ConsoleGraphics {
 		}
 		System.out.println(emptyString);
 		System.out.println(emptyString);
+	}
+	
+	public void gameStateChanged(GameState newGameState)
+	{
+		System.out.println(newGameState.getText());
+	}
+	
+	public void setScoreAndTime(int score, int time)
+	{
+		System.out.println("Score: " + score);
 	}
 }

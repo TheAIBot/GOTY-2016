@@ -34,6 +34,8 @@ public class CreateGamePanel {
 		JPanel gPanelContainer = new JPanel();
 		gPanelContainer.setLayout(new GridLayout(1, gPanels.length));
 		
+		//The length of gPanels corresponds to the number of players. So each
+		//player gets a gPanel with score and time informations.
 		for (int i = 0; i < gPanels.length; i++) {
 			gPanelContainer.add(createSingleGamePanel(gPanels[i], i));
 		}
@@ -49,12 +51,14 @@ public class CreateGamePanel {
 		
 		panelGame.add(gPanel, createConstraint(0, 1, 5, 1, GridBagConstraints.CENTER, true, GridBagConstraints.BOTH));
 		
+		//Creation of the label describing the state of the game
 		JLabel gameStateLabel = new JLabel("", SwingConstants.CENTER);
 		Font currentGameStateFont = gameStateLabel.getFont();
 		gameStateLabel.setFont(new Font(currentGameStateFont.getName(), currentGameStateFont.getStyle(), 50));
 		gPanel.add(gameStateLabel);
 		gameStateLabels[index] = gameStateLabel;
 		
+		//The labels for showing the score
 		JLabel scoreTextLabel = new JLabel("Score: ");
 		panelGame.add(scoreTextLabel, createConstraint(1, 0, 1, 1, GridBagConstraints.NORTHEAST, false, GridBagConstraints.NONE));
 		
@@ -62,6 +66,7 @@ public class CreateGamePanel {
 		panelGame.add(scoreLabel, createConstraint(2, 0, 1, 1, GridBagConstraints.NORTHWEST, false, GridBagConstraints.NONE));
 		scoreLabels[index] = scoreLabel;
 		
+		//The labels for displaying the time elapsed
 		JLabel timeTextLabel = new JLabel("Time: ");
 		panelGame.add(timeTextLabel, createConstraint(3, 0, 1, 1, GridBagConstraints.NORTHEAST, false, GridBagConstraints.NONE));
 		
@@ -72,6 +77,17 @@ public class CreateGamePanel {
 		return panelGame;
 	}
 	
+	/**
+	 * Method for creating a GridBagConstraints object in one line.
+	 * @param gridX
+	 * @param gridY
+	 * @param gridWidth
+	 * @param gridHeight
+	 * @param anchor
+	 * @param extraSpace
+	 * @param fill
+	 * @return GridBagConstraints object with specified fields.
+	 */
 	private GridBagConstraints createConstraint(int gridX, int gridY, int gridWidth, int gridHeight, int anchor, boolean extraSpace, int fill)
 	{
 		GridBagConstraints contraint = new GridBagConstraints();
@@ -91,7 +107,13 @@ public class CreateGamePanel {
 		contraint.anchor = anchor;
 		return contraint;
 	}
-
+	
+	/**
+	 * Displays the time and score to the player with the corresponding screen index.
+	 * @param score
+	 * @param time
+	 * @param screenIndex
+	 */
 	public void setTimeAndScore(int score, int time, int screenIndex)
 	{
 		if (scoreLabels != null) {
