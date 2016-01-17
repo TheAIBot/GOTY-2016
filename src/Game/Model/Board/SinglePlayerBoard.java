@@ -388,7 +388,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public void unpause() {
-		if (isRunning) {
+		if (isRunning && settings.hasGUI()) {
 			scoreManager.startClock();
 		}
 	}
