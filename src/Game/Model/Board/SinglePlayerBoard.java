@@ -24,15 +24,16 @@ import Game.View.RenderInfo;
 import Game.View.Animation.AnimationInfo;
 import Game.View.Animation.ToAnimateListener;
 
-public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
+public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener,
+		ScoreChangedListener, PlaySoundListener {
 	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
-	
+
 	//ArrayLists for different listeners
 	private final ArrayList<BoardChangedListener> listeners = new ArrayList<BoardChangedListener>();
 	private final ArrayList<GameStateChangedListener> gameStateChangedListeners = new ArrayList<GameStateChangedListener>();
 	private final ArrayList<PlaySoundListener> playSoundListeners = new ArrayList<PlaySoundListener>();
-	
+
 	private Tile[] tilePlacements;
 	private GameState currentGameState;
 	private final GameSettings settings;
@@ -88,6 +89,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	/**
 	 * Move the point at which the void tile is located
+	 * 
 	 * @param toMove
 	 * @param direction
 	 * @return
@@ -143,6 +145,9 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		listeners.add(listener);
 	}
 
+	/**
+	 * Notifies the classes listening (e.g. GameEngine) for the board to change
+	 */
 	public void boardChanged() {
 		for (BoardChangedListener listener : listeners) {
 			listener.boardChanged(playerIndex);
@@ -171,10 +176,13 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		tilePlacements = new Tile[settings.getGameSize() * settings.getGameSize()];
 		for (int i = 0; i < tilePlacements.length - 1; i++) {
 			int red = (int) Math.round(255 / (double) ((tilePlacements.length - 1)) * (i + 1));
-			int green = 255 - (int) Math.round(255 / (double) ((tilePlacements.length - 1)) * (i + 1));
-			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0), settings.getTileImage());
+			int green = 255 - (int) Math.round(255 / (double) ((tilePlacements.length - 1))
+					* (i + 1));
+			tilePlacements[i] = new Tile(this, i + 1, getPosition(i), new Color(red, green, 0),
+					settings.getTileImage());
 		}
-		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1, settings.getGameSize() - 1);
+		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1,
+				settings.getGameSize() - 1);
 	}
 
 	@Override
@@ -193,7 +201,8 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	}
 
 	/**
-	 * Sets up the default board layout as described in the basis assignment
+	 * Sets up the default board layout as described in the basic part of the
+	 * assignment
 	 */
 	public void defaultGame() {
 		tilePlacements[0].setNumber(2);
@@ -264,6 +273,13 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		}
 	}
 
+	/**
+	 * Moves the void tile by swapping positions with tile where it is to move
+	 * to
+	 * 
+	 * @param direction
+	 * @return true if the void tile is allowed to move
+	 */
 	public boolean moveVoidTile(Directions direction) {
 		if (isMoveAllowed(direction)) {
 			swapVoidTile(direction);
@@ -274,9 +290,15 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	@Override
 	public int getSize() {
-		return settings.getGameSize();
+		return settings.getGameSize(); //size in tiles
 	}
 
+	/**
+	 * Checks if the game is won by checking if the difficulty given the current
+	 * tilePlacements is 0 meaning no tiles are at incorrect places.
+	 * 
+	 * @return true if the game is won.
+	 */
 	private boolean hasWonGame() {
 		return DifficultyCalculator.getDifficulty(tilePlacements, settings.getGameSize()) == 0;
 	}
@@ -307,17 +329,20 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 
 	/**
 	 * Swaps the position of the void tile with the tile it moves into
+	 * 
 	 * @param direction
 	 */
 	private void swapVoidTile(Directions direction) {
 		moveWithDirection(voidTilePosition, direction);
 		final Tile tileToMove = tilePlacements[getIndexFromPoint(voidTilePosition)];
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
-		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()), getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()),
+				getIndexFromPoint(voidTilePosition));
 	}
 
 	/**
 	 * Updates the tile indexes in the array
+	 * 
 	 * @param tileAIndex
 	 * @param tileBIndex
 	 */
@@ -351,17 +376,37 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 				}
 			}
 			boardChanged();
+		//Run as long as the gameboard is not randomized enough for the difficulty level
+		//to match the specified difficulty setting.
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(
 				tilePlacements, settings.getGameSize())
 				|| DifficultyCalculator.getDifficulty(tilePlacements, settings.getGameSize()) == 0);
 	}
 
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
+	/**
+	 * Recreates the saved game.
+	 * Method is used by the native Java Serializable process 
+	 * @param in
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws NotFound
+	 */
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException,
+			NotFound {
 		in.defaultReadObject();
+		
+		//Recreate the tile point position manually because it is not recreated using
+		//the native Java Serializable process
 		voidTilePosition = recreateTilePositions();
+		
 		Tile.setTileImage(ImageIO.read(in));
 	}
 
+	/**
+	 * Saves the game using Serializable
+	 * @param out
+	 * @throws IOException
+	 */
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
 		ImageIO.write(Tile.getTileImage(), ResourceImages.ACCEPTED_EXTENSION, out);
@@ -392,9 +437,12 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	@Override
 	public String[] getKeysToSubscribeTo(int playerIndex) {
 		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
-		return new String[] { playerSettings.getUpKeyName(), playerSettings.getDownKeyName(), playerSettings.getLeftKeyName(), playerSettings.getRightKeyName(), playerSettings.getToggleColorKeyName(),
+		return new String[] { playerSettings.getUpKeyName(), playerSettings.getDownKeyName(),
+				playerSettings.getLeftKeyName(), playerSettings.getRightKeyName(),
+				playerSettings.getToggleColorKeyName(),
 
-				playerSettings.getCameraUpKeyName(), playerSettings.getCameraDownKeyName(), playerSettings.getCameraLeftKeyName(), playerSettings.getCameraRightKeyName(),
+				playerSettings.getCameraUpKeyName(), playerSettings.getCameraDownKeyName(),
+				playerSettings.getCameraLeftKeyName(), playerSettings.getCameraRightKeyName(),
 
 				playerSettings.getZoomInKeyName(), playerSettings.getZoomOutKeyName() };
 	}
@@ -414,7 +462,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		switch (settings.getGameMode()) {
 		case SINGLE_PLAYER:
 			return 1;
-		case MULTI_PLAYER:
+		case MULTI_PLAYER: //as of the current game version multiplayer only consists of two players
 			return 2;
 		default:
 			throw new IllegalArgumentException();
@@ -425,19 +473,11 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		randomGenerator = random;
 	}
 
-	@Override
-	public void addGameStateChangedListener(GameStateChangedListener listener) {
-		gameStateChangedListeners.add(listener);
-	}
 
 	public void setGameState(GameState newGameState) {
 		currentGameState = newGameState;
 	}
 
-	@Override
-	public void addScoreChangedListener(ScoreChangedListener listener) {
-		scoreListener = listener;
-	}
 
 	@Override
 	public void scoreChanged(int score, int seconds, int screenIndex) {
@@ -455,9 +495,21 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 			playSoundListener.playSound(name);
 		}
 	}
-
+	
+	// --- Add the different listeners to arraylists
+	
 	@Override
 	public void addPlaySoundListener(PlaySoundListener listener) {
 		playSoundListeners.add(listener);
+	}
+	
+	@Override
+	public void addGameStateChangedListener(GameStateChangedListener listener) {
+		gameStateChangedListeners.add(listener);
+	}
+	
+	@Override
+	public void addScoreChangedListener(ScoreChangedListener listener) {
+		scoreListener = listener;
 	}
 }
