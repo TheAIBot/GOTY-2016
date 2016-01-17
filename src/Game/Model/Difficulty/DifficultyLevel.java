@@ -1,7 +1,7 @@
 package Game.Model.Difficulty;
 
 public enum DifficultyLevel {
-	EASY(0)
+	EASY(0) //The easy difficulty level
 	{
 		private static final double MIN_PERCENT = 0.00;
 		private static final double MAX_PERCENT = 0.50;
@@ -12,7 +12,7 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	NORMAL(1)
+	NORMAL(1) //The normal difficulty level
 	{
 		private static final double MIN_PERCENT = 0.50;
 		private static final double MAX_PERCENT = 0.55;
@@ -23,7 +23,7 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	INTERMEDIATE(2)
+	INTERMEDIATE(2) //The intermediate difficulty level
 	{
 		private static final double MIN_PERCENT = 0.55;
 		private static final double MAX_PERCENT = 0.60;
@@ -34,7 +34,7 @@ public enum DifficultyLevel {
 				   percent <  MAX_PERCENT;
 		}
 	}, 
-	HARD(3)
+	HARD(3) //The hard difficulty level
 	{
 		private static final double MIN_PERCENT = 0.60;
 		private static final double MAX_PERCENT = 1.00;
@@ -48,8 +48,16 @@ public enum DifficultyLevel {
 	
 	private final int value;
 	
+	/**	Calculates if a given difficulty percentage answers to a given difficulty level
+	 * @param percent The percentage of difficulty
+	 * @return True/false
+	 */
 	protected abstract boolean isPercentageEqualToThisDifficulty(double percent);
 	
+	/** Returns the difficulty level 
+	 * @param percent The difficulty percentage. It must be in the spectre 0 <= percent <= 100.
+	 * @return
+	 */
 	public static DifficultyLevel getDifficultylevelFromPercentDifficult(double percent)
 	{
 		if (HARD.isPercentageEqualToThisDifficulty(percent)) {

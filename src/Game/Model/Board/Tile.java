@@ -77,6 +77,10 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		setPosition(new Point2D.Double(position.x + x, position.y + y));
 	}
 	
+	/**
+	 * Sets the position of the tile and adds it to the queue of objects to be animated 
+	 * @param newPosition
+	 */
 	public void setPosition(Point2D.Double newPosition)
 	{
 		if (finishedMoving) {

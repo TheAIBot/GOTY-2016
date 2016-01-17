@@ -8,29 +8,36 @@ import Game.Control.Sound.SoundFinishedListener;
 import Game.Model.CirculairList;
 import Game.Model.Resources.ResourceAudio;
 
-/** Unlimited sounds works!
+/**
+ * Unlimited sounds works!
  */
 public class AudioManager implements SoundFinishedListener {
-	
-	private static int MAX_PARALLEL_SOUNDS = 10; //-1 means that as many sounds as one wants can be played at the same time.
+
+	private static int MAX_PARALLEL_SOUNDS = 10; // -1 means that as many sounds
+													// as one wants can be
+													// played at the same time.
 	private boolean paused = false;
 	private float currentVolumeInPercents;
 	private ArrayList<Sound> playingSounds = new ArrayList<Sound>();
-	private HashMap<String, CirculairList<Sound>> soundMap = new  HashMap<String, CirculairList<Sound>>();
+	private HashMap<String, CirculairList<Sound>> soundMap = new HashMap<String, CirculairList<Sound>>();
 	private static Sound backgroundMusic;
-	
+
 	public AudioManager(float volumeInPercent) {
 		this.currentVolumeInPercents = volumeInPercent;
 		loadSounds();
 	}
-	
-	private void loadSounds()
-	{
+
+	private void loadSounds() {
 		loadSound(ResourceAudio.TILE_MOVED_SOUND, MAX_PARALLEL_SOUNDS);
 	}
-	
-	private void loadSound(String name, int amount)
-	{
+
+	/**
+	 * Loads the sound by adding it to the SoundFinishedListeners, which ensures it can be stopped once it is finished.
+	 * Further, by adding it to the soundMap
+	 * @param name
+	 * @param amount
+	 */
+	private void loadSound(String name, int amount) {
 		Sound[] sounds = ResourceAudio.loadSounds(name, amount, currentVolumeInPercents);
 		for (int i = 0; i < sounds.length; i++) {
 			sounds[i].addSoundFinishedListener(this);
@@ -39,8 +46,8 @@ public class AudioManager implements SoundFinishedListener {
 			soundMap.put(name, new CirculairList<Sound>(sounds));
 		}
 	}
-	
-	public void playSound(String name){
+
+	public void playSound(String name) {
 		if (soundMap.containsKey(name)) {
 			Sound sound = soundMap.get(name).getNext();
 			playingSounds.add(sound);
@@ -52,8 +59,11 @@ public class AudioManager implements SoundFinishedListener {
 			}
 		}
 	}
-	
-	public void pause(){
+
+	/**
+	 * Pauses the sounds
+	 */
+	public void pause() {
 		if (!paused) {
 			for (Sound sound : playingSounds) {
 				sound.pauseSound();
@@ -62,7 +72,10 @@ public class AudioManager implements SoundFinishedListener {
 		pauseBackgroundMusic();
 		paused = true;
 	}
-	
+
+	/**
+	 * Unpauses the sounds by continueing to play the queued sounds and background music
+	 */
 	public void unPause() {
 		if (paused) {
 			for (Sound sound : playingSounds) {
@@ -72,29 +85,26 @@ public class AudioManager implements SoundFinishedListener {
 		playBackgroundMusic();
 		paused = false;
 	}
-	
-	public void playBackgroundMusic()
-	{
+
+	public void playBackgroundMusic() {
 		if (backgroundMusic != null) {
 			backgroundMusic.playSound();
 		}
 	}
-	
-	public void pauseBackgroundMusic()
-	{
+
+	public void pauseBackgroundMusic() {
 		if (backgroundMusic != null) {
 			backgroundMusic.pauseSound();
 		}
 	}
-	
-	public void setBackgroundVolumeInPercents(float newVolumeInPercent)
-	{
+
+	public void setBackgroundVolumeInPercents(float newVolumeInPercent) {
 		if (backgroundMusic != null) {
 			backgroundMusic.setVolume(newVolumeInPercent);
 		}
 	}
-	
-	public void setVolumeInPercents(float newVolumeInPercent){
+
+	public void setVolumeInPercents(float newVolumeInPercent) {
 		currentVolumeInPercents = newVolumeInPercent;
 		for (CirculairList<Sound> sounds : soundMap.values()) {
 			for (Sound sound : sounds.getArray()) {
@@ -102,34 +112,36 @@ public class AudioManager implements SoundFinishedListener {
 			}
 		}
 	}
-		
+
+	/**
+	 * Removes the sound from the queue of sounds to play if it is contained in the list
+	 */
 	public void soundFinished(Sound sound) {
 		Sound soundInList;
 		for (int i = 0; i < playingSounds.size(); i++) {
 			soundInList = playingSounds.get(i);
 			if (soundInList.equals(sound)) {
 				playingSounds.remove(i);
-				return; //assumes the sound is not found in the list twice;
+				return; // assumes the sound is not found in the list twice;
 			}
 		}
 	}
-	
-	public static void setbackgroundMusic(Sound sound)
-	{
+
+	public static void setbackgroundMusic(Sound sound) {
 		setbackgroundMusic(sound, true);
 		backgroundMusic = sound;
 	}
-	
-	public static void setbackgroundMusic(Sound sound, boolean overrideBackgrundMusic)
-	{
-		if (backgroundMusic == null ||
-			overrideBackgrundMusic) {
+
+	public static void setbackgroundMusic(Sound sound, boolean overrideBackgrundMusic) {
+		if (backgroundMusic == null || overrideBackgrundMusic) { //TODO ?????????????????
 		}
 		backgroundMusic = sound;
 	}
 
-	public void close()
-	{
+	/**
+	 * Closes the sound clips making them unavailable for further use until reinvoked.
+	 */
+	public void close() {
 		for (CirculairList<Sound> sounds : soundMap.values()) {
 			for (Sound sound : sounds.getArray()) {
 				sound.closeClip();
@@ -137,9 +149,8 @@ public class AudioManager implements SoundFinishedListener {
 		}
 		closeBackgroundMusic();
 	}
-	
-	public static void closeBackgroundMusic()
-	{
+
+	public static void closeBackgroundMusic() {
 		if (backgroundMusic != null) {
 			backgroundMusic.closeClip();
 			backgroundMusic = null;

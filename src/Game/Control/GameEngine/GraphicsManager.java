@@ -23,11 +23,11 @@ public class GraphicsManager implements AnimateUpdateListener {
 	private final CreateGamePanel gamePanelCreater = new CreateGamePanel();
 	private final RenderInfo[] renderInfos;
 	private GameSettings settings;
-	private JPanel gamePanel;	
+	private JPanel gamePanel;
 	
 	public GraphicsManager(GameEngine gEngine, int numberOfScreens, GameSettings settings) {
 		this.gEngine = gEngine;
-		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);		
+		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);
 		this.settings = settings;
 		this.gPanels = new GraphicsPanel[numberOfScreens];
 		this.renderInfos = new RenderInfo[numberOfScreens];
@@ -37,7 +37,7 @@ public class GraphicsManager implements AnimateUpdateListener {
 		}
 	}
 	
-	public void renderTiles(RenderInfo renderInfo, int screenIndex){	
+	public void renderTiles(RenderInfo renderInfo, int screenIndex){
 		if (settings.isConsoleMode()) {
 			consoleDisplay.render();			
 		} else {
