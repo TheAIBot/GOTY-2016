@@ -1,4 +1,4 @@
-package Game.View.Animation;
+package Game.Model.Animation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
-	private static Point2D.Double MIN_MOVEMENT_PER_FRAME = new Point2D.Double(0.03, 0.03);
+	private static Point2D.Double MIN_MOVEMENT_PER_FRAME = new Point2D.Double(0.04, 0.04);
 	private Point2D.Double movementovementPerFrame = new Point2D.Double(MIN_MOVEMENT_PER_FRAME.x, MIN_MOVEMENT_PER_FRAME.y);
 	//EPSILON is used to handle rounding errors checking the positioning of the tiles
 	private static final double EPSILON = 0.02;

@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import Game.Control.Sound.PlaySoundListener;
+import Game.Model.Animation.AnimationInfo;
+import Game.Model.Animation.ToAnimateListener;
 import Game.Model.Difficulty.DifficultyCalculator;
 import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceAudio;
@@ -22,8 +24,6 @@ import Game.Model.Score.ScoreManager;
 import Game.Model.Settings.GameSettings;
 import Game.Model.Settings.PlayerSettings;
 import Game.View.RenderInfo;
-import Game.View.Animation.AnimationInfo;
-import Game.View.Animation.ToAnimateListener;
 
 public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
 	private static final long serialVersionUID = 8970617298465598945L;

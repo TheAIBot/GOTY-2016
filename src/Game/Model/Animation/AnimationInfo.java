@@ -1,4 +1,4 @@
-package Game.View.Animation;
+package Game.Model.Animation;
 
 import java.awt.geom.Point2D;
 

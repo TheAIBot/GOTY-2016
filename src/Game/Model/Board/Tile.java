@@ -7,11 +7,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
+import Game.Model.Animation.AnimationInfo;
+import Game.Model.Animation.ToAnimateListener;
 import Game.View.Colorfull;
 import Game.View.Displayable;
 import Game.View.Numreable;
-import Game.View.Animation.AnimationInfo;
-import Game.View.Animation.ToAnimateListener;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
 	private static final long serialVersionUID = -3423525350188897586L;

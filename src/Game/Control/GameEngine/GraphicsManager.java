@@ -11,8 +11,7 @@ import Game.View.Displayable;
 import Game.View.GraphicsPanel;
 import Game.View.Numreable;
 import Game.View.RenderInfo;
-import Game.View.Animation.AnimateUpdateListener;
-import Game.View.Animation.Animator;
+import Game.Model.Animation.*;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	

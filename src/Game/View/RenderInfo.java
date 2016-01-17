@@ -1,10 +1,9 @@
 package Game.View;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import Game.View.Animation.AnimationInfo;
+import Game.Model.Animation.AnimationInfo;
 
 /**
  * Class used to organize relevant information used in the rendering process.

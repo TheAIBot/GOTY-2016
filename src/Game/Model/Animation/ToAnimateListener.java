@@ -1,4 +1,4 @@
-package Game.View.Animation;
+package Game.Model.Animation;
 
 /**
  * Interface implementet by classes, which need to animate themselves (among others Tile) 

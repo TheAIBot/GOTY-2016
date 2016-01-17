@@ -1,4 +1,4 @@
-package Game.View.Animation;
+package Game.Model.Animation;
 
 /**
  * Interface implemented by classes, which need to do tell other classes to
