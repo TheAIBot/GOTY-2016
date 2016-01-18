@@ -10,4 +10,10 @@ public interface PageRequestsListener {
 	public void resize(Dimension dim);
 	
 	public void canResize(boolean canResize);
+	
+	public void setFullScreen();
+	
+	public void hideScreen();
+	
+	public void showScreen();
 }

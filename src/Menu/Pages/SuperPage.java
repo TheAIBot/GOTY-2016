@@ -1,10 +1,8 @@
 package Menu.Pages;
+
 import java.awt.Dimension;
-
 import javax.swing.JPanel;
-
 import Game.Control.GameEngine.Log;
-
 
 public abstract class SuperPage {
 	protected JPanel page;
@@ -59,8 +57,21 @@ public abstract class SuperPage {
 		listener.resize(dim);
 	}
 	
+	protected void setFullScreen()
+	{
+		listener.setFullScreen();
+	}
+	
 	protected void setResizeable(boolean canResize)
 	{
 		listener.canResize(canResize);
+	}
+	
+	protected void hideScreen() {
+		listener.hideScreen();
+	}
+
+	protected void showScreen() {
+		listener.showScreen();
 	}
 }

@@ -1,37 +1,42 @@
 package Game.Model.Board;
 
+import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Score.ScoreChangedListener;
 import Game.View.RenderInfo;
 
 public interface GameBoardMode {
 
-	public abstract void createGame();
+	public void createGame();
 
-	public abstract void makeRandom();
+	public void makeRandom();
 
-	public abstract void resetGame();
+	public void resetGame();
 
-	public abstract Tile[] getTiles(int playerIndex);
+	public Tile[] getTiles(int playerIndex);
 
-	public abstract int getSize();
+	public int getSize();
 
-	public abstract GameState getGameState(int playerIndex);
+	public GameState getGameState(int playerIndex);
 
-	public abstract void addBoardChangedListener(BoardChangedListener listener);
+	public void addBoardChangedListener(BoardChangedListener listener);
 	
-	public abstract void addGameStateChangedListener(GameStateChangedListener listener);
+	public void addGameStateChangedListener(GameStateChangedListener listener);
 	
-	public abstract void addScoreChangedListener(ScoreChangedListener listener);
+	public void addScoreChangedListener(ScoreChangedListener listener);
 	
-	public abstract void keyPressed(String key);
+	public void addPlaySoundListener(PlaySoundListener listener);
 	
-	public abstract void pause();
+	public void keyPressed(String key);
 	
-	public abstract void unpause();
+	public void pause();
 	
-	public abstract String[] getKeysToSubscribeTo(int playerIndex);
+	public void unpause();
 	
-	public abstract RenderInfo getRenderInfo(int playerIndex);
+	public void Stop();
 	
-	public abstract int getNumberOfPlayers();
+	public String[] getKeysToSubscribeTo(int playerIndex);
+	
+	public RenderInfo getRenderInfo(int playerIndex);
+	
+	public int getNumberOfPlayers();
 }
