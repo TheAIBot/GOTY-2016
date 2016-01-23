@@ -1,6 +1,7 @@
 package Game.Model.Path;
 
 import java.awt.geom.Point2D;
+import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -89,17 +90,42 @@ public class PathFinder {
 		return map;
 	}
 
-	private static Directions[] getPath(ArrayList<Point2D.Double> lockedTiles, Point2D.Double start, Point2D.Double end, int size)
+	public static Point2D.Double[] getPath(ArrayList<Point2D.Double> lockedTiles, Point2D.Double start, Point2D.Double end, int size)
 	{
 		int[][] map = getdistanceMap(lockedTiles, start, end, size);
-		Directions[] path = new Directions[map[(int)end.x][(int)end.y]];
+		Point2D.Double[] path = new Point2D.Double[map[(int)end.x][(int)end.y]];
 		int distance = map[(int)end.x][(int)end.y];
 		Point2D.Double currentPosition = end;
 		for (int i = 1; i < path.length; i++) {
-			if (map) {
-				
+			try {
+				path[i] = getBestDirectionPoint(map, currentPosition, distance);
+			} catch (UnexpectedException e) {
+				return null;
 			}
+			distance--;
+			currentPosition = path[i];
 		}
 		return path;
+	}
+	
+	private static Point2D.Double getBestDirectionPoint(int[][] map, Point2D.Double currentPosition, int expectedNumber) throws UnexpectedException
+	{
+		if (map[(int)currentPosition.x + 1][(int)currentPosition.y] == expectedNumber) 
+		{
+			return new Point2D.Double(currentPosition.x + 1, currentPosition.y);
+		} 
+		else if (map[(int)currentPosition.x - 1][(int)currentPosition.y] == expectedNumber) 
+		{
+			return new Point2D.Double(currentPosition.x - 1, currentPosition.y);
+		} 
+		else if (map[(int)currentPosition.x][(int)currentPosition.y + 1] == expectedNumber) 
+		{
+			return new Point2D.Double(currentPosition.x, currentPosition.y + 1);
+		} 
+		else if (map[(int)currentPosition.x][(int)currentPosition.y - 1] == expectedNumber) 
+		{
+			return new Point2D.Double(currentPosition.x, currentPosition.y - 1);
+		}
+		throw new UnexpectedException("expected number in distance map not found");
 	}
 }
