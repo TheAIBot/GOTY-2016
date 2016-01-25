@@ -18,14 +18,13 @@ public class CheatCodes implements InputListener {
 	private final ArrayList<CheatCode> cheatCodes = new ArrayList<CheatCode>();
 	private CheatActivatedListener listener;
 	private InputManager input = new InputManager();
-	private JComponent listenerComponent;
 
 	public static final String KONAMI_CODE = "Konami Code";
 
 	public CheatCodes(CheatActivatedListener cheatListener, JComponent cheatComponent) {
 		listener = cheatListener;
-		listenerComponent = cheatComponent;
 		input.addInputListener(this);
+		input.setKeyboardComponent(cheatComponent);
 	}
 
 	/**
