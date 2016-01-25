@@ -1,9 +1,13 @@
 package Game.Control.Input.InputMethods;
 
-import Game.Model.Board.PlayerMode;
+import Game.Control.Input.InputListener;
 
 public interface InputMethod {
-	public void subscribeToPlayerKeys(String[] keys, PlayerMode mode);
+	public void subscribeToPlayerKeys(String[] keys);
+	
+	public void addInputListener(InputListener listener);
+	
+	public void unSubscribeToAllPlayerKeys();
 	
 	public void pause();
 	

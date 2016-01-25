@@ -3,10 +3,10 @@ package Game.Control.GameEngine;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
-import Game.Control.Input.ConsoleControl;
+import Game.Control.Input.InputListener;
 import Game.Control.Input.InputManager;
-import Game.Control.Input.KeyPressListener;
 import Game.Control.Input.SpecialKeys;
+import Game.Control.Input.InputMethods.ConsoleControl;
 import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Board.BoardChangedListener;
 import Game.Model.Board.GameBoardMode;
@@ -14,12 +14,13 @@ import Game.Model.Board.GameModes;
 import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Board.MultiPlayerBoard;
+import Game.Model.Board.PlayerMode;
 import Game.Model.Board.Tile;
 import Game.Model.Score.ScoreChangedListener;
 import Game.Model.Settings.GameSettings;
 import Game.View.RenderInfo;
 
-public class GameEngine implements BoardChangedListener, KeyPressListener, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
+public class GameEngine implements BoardChangedListener, InputListener, GameStateChangedListener, ScoreChangedListener, PlaySoundListener {
 	private static final long serialVersionUID = 2299668499178280826L;
 	private static final String SAVE_FILE_NAME = "game";
 	private static final String SAVE_FILE_DIRECTORY = "savefiles";
@@ -70,22 +71,22 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	{
 		for (int playerIndex = 0; playerIndex < game.getNumberOfPlayers(); playerIndex++) {
 			String[] subscribeKeys = game.getKeysToSubscribeTo(playerIndex);
-			for (String subKey : subscribeKeys) {
-				input.AttachListenerToKey(graphics.getGraphicsPanel(), this, subKey);
-			}
+			input.subscribeToPlayerKeys(subscribeKeys, settings.getPlayers()[playerIndex].getPlayerMode());
 		}
 	}
 	
 	private void addSpecialKeyboardControls()
 	{
-		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.EXIT_GAME);
-		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_PAUSE);
-		input.AttachListenerToKey(graphics.getGraphicsPanel(), this, SpecialKeys.TOGGLE_CONSOLE_MODE);
+		input.subscribeToPlayerKeys(new String[] {
+				SpecialKeys.EXIT_GAME,
+				SpecialKeys.TOGGLE_PAUSE,
+				SpecialKeys.TOGGLE_CONSOLE_MODE
+		}, PlayerMode.HUMAN);
 	}
 	
 	private void removeKeyboardControls()
 	{
-		input.RemoveAllListeners(graphics.getGraphicsPanel());
+		input.removeAllInputs();
 	}
 	
 	public RenderInfo getRenderInfo(int playerIndex)

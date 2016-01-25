@@ -1,6 +1,7 @@
 package Game.Control.Input.InputMethods;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.swing.AbstractAction;
@@ -8,19 +9,33 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 import Game.Control.Input.InputListener;
-import Game.Control.Input.InputManager;
-import Game.Model.Board.PlayerMode;
 
 /**
  * Keyboard input is handled using this class
  */
 public class KeyboardInput implements InputMethod {
-	private final HashSet<InputListener> listeners = new HashSet<InputListener>();
+	private final ArrayList<InputListener> listeners = new ArrayList<InputListener>();
+	private final JComponent component;
+	
+	public KeyboardInput(JComponent component) {
+		this.component = component;
+	}
 
 	@Override
-	public void subscribeToPlayerKeys(String[] keys, PlayerMode mode) {
-		// TODO Auto-generated method stub
-		
+	public void subscribeToPlayerKeys(String[] keys) {
+		for (int i = 0; i < keys.length; i++) {
+			AttachListenerToKey(keys[i]);
+		}
+	}	
+
+	@Override
+	public void addInputListener(InputListener listener) {
+		listeners.add(listener);
+	}
+	
+	@Override
+	public void unSubscribeToAllPlayerKeys() {
+		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).clear();
 	}
 
 	@Override
@@ -40,8 +55,7 @@ public class KeyboardInput implements InputMethod {
 	 * @param listener
 	 * @param key
 	 */
-	public void AttachListenerToKey(JComponent component, InputListener listener, final String key) {
-		listeners.add(listener);
+	private void AttachListenerToKey(final String key) {
 		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(key), key);
 		component.getActionMap().put(key, new AbstractAction() {
 			private static final long serialVersionUID = 6529023994874939582L;
@@ -50,16 +64,6 @@ public class KeyboardInput implements InputMethod {
 				performEvent(key);
 			}
 		});
-	}
-
-	/**
-	 * Removes all Listeners associated with the component.
-	 * This method is used when the game is switching to the console game mode
-	 * @param component
-	 */
-	public void RemoveAllListeners(JComponent component) {
-		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).clear();
-		listeners.clear();
 	}
 
 	/**

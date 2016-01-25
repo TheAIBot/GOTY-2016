@@ -3,6 +3,8 @@ package Game.Model.Settings;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
+import Game.Model.Board.PlayerMode;
+
 public class PlayerSettings implements Serializable {
 	private static final long serialVersionUID = -1316711227064851660L;
 	private int upKey;
@@ -17,6 +19,7 @@ public class PlayerSettings implements Serializable {
 	private int zoomInKey;
 	private int zoomOutKey;
 	private String name;
+	private PlayerMode playerMode;
 	
 	/**
 	 * 
@@ -33,7 +36,7 @@ public class PlayerSettings implements Serializable {
 	 * @param zoomOut zoom out
 	 * @param playerName the players name
 	 */
-	public PlayerSettings(int up, int down, int left, int right, int viewUp, int viewDown, int viewLeft, int viewRight, int toggleColor, int zoomIn, int zoomOut, String playerName)
+	public PlayerSettings(int up, int down, int left, int right, int viewUp, int viewDown, int viewLeft, int viewRight, int toggleColor, int zoomIn, int zoomOut, String playerName, PlayerMode mode)
 	{
 		upKey = up;
 		downKey = down;
@@ -47,6 +50,7 @@ public class PlayerSettings implements Serializable {
 		zoomInKey = zoomIn;
 		zoomOutKey = zoomOut;
 		name = playerName;
+		playerMode = mode;
 	}
 
 	/**
@@ -343,5 +347,19 @@ public class PlayerSettings implements Serializable {
 	private String getKeyName(int keyCode)
 	{
 		return KeyEvent.getKeyText(keyCode).toUpperCase();
+	}
+
+	/**
+	 * @return the playerMode
+	 */
+	public PlayerMode getPlayerMode() {
+		return playerMode;
+	}
+
+	/**
+	 * @param playerMode the playerMode to set
+	 */
+	public void setPlayerMode(PlayerMode playerMode) {
+		this.playerMode = playerMode;
 	}
 }

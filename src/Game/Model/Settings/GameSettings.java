@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import Game.Control.GameEngine.SaveFileManager;
 import Game.Model.Board.GameModes;
+import Game.Model.Board.PlayerMode;
 import Game.Model.Difficulty.DifficultyLevel;
 import Game.Model.Resources.ResourceImages;
 
@@ -81,7 +82,8 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_Q,
 									   KeyEvent.VK_E,
 									   KeyEvent.VK_R,
-									   "Player 1"),
+									   "Player 1",
+									   PlayerMode.HUMAN),
 					new PlayerSettings(KeyEvent.VK_UP, 
 									   KeyEvent.VK_DOWN, 
 									   KeyEvent.VK_LEFT, 
@@ -93,7 +95,8 @@ public class GameSettings implements Serializable{
 									   KeyEvent.VK_U,
 									   KeyEvent.VK_O,
 									   KeyEvent.VK_P,
-									   "Player 2"),
+									   "Player 2",
+									   PlayerMode.HUMAN),
 		},
 				false,
 				false, //Assumes it doesn't start in console mode as default

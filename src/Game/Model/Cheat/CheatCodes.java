@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 import Game.Control.GameEngine.Log;
+import Game.Control.Input.InputListener;
 import Game.Control.Input.InputManager;
-import Game.Control.Input.KeyPressListener;
+import Game.Model.Board.PlayerMode;
 
 /**
  * @author ELL
  *
  */
-public class CheatCodes implements KeyPressListener {
+public class CheatCodes implements InputListener {
 
 	private final ArrayList<CheatCode> cheatCodes = new ArrayList<CheatCode>();
 	private CheatActivatedListener listener;
@@ -24,6 +25,7 @@ public class CheatCodes implements KeyPressListener {
 	public CheatCodes(CheatActivatedListener cheatListener, JComponent cheatComponent) {
 		listener = cheatListener;
 		listenerComponent = cheatComponent;
+		input.addInputListener(this);
 	}
 
 	/**
@@ -38,9 +40,7 @@ public class CheatCodes implements KeyPressListener {
 	public void addNewCheatCode(String[] sequence, String cheatName, boolean isRepeatCheat) {
 		CheatCode newCheatCode = new CheatCode(sequence, cheatName, isRepeatCheat);
 		cheatCodes.add(newCheatCode);
-		for (String cheatCodePart : sequence) {
-			input.AttachListenerToKey(listenerComponent, this, cheatCodePart);
-		}
+		input.subscribeToPlayerKeys(sequence, PlayerMode.HUMAN);
 	}
 
 	/**
