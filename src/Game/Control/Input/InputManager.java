@@ -1,57 +1,37 @@
 package Game.Control.Input;
 
-import java.awt.event.ActionEvent;
-import java.util.HashSet;
+import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
+import Game.Control.Input.InputMethods.KeyboardInput;
+import Game.Model.Board.PlayerMode;
 
-/**
- * Keyboard input is handled using this class
- */
-public class InputManager implements java.io.Serializable {
-	private static final long serialVersionUID = 2930449295015622601L;
-	private final HashSet<KeyPressListener> listeners = new HashSet<KeyPressListener>();
-
-	/**
-	 * Adds the key to the set of KeyPressListeners (i.e. the classes which
-	 * reacts on key presses). Further, the key is bound to the InputMap of the
-	 * JComponent passed as a parameter and the associated action to fire is set
-	 * to forward the key press to the keyPressListeners
-	 * @param component
-	 * @param listener
-	 * @param key
-	 */
-	public void AttachListenerToKey(JComponent component, KeyPressListener listener, final String key) {
-		listeners.add(listener);
-		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(key), key);
-		component.getActionMap().put(key, new AbstractAction() {
-			private static final long serialVersionUID = 6529023994874939582L;
-
-			public void actionPerformed(ActionEvent e) {
-				performEvent(key);
-			}
-		});
+public class InputManager implements InputListener {
+	private ArrayList<InputListener> inputListeners = new ArrayList<InputListener>();
+	private ArrayList<InputManager> inputs = new ArrayList<InputManager>();
+	
+	public void subscribeToPlayerKeys(String[] keys, PlayerMode mode)
+	{
+		
+	}
+	
+	public void addInputListener(InputListener listener)
+	{
+		inputListeners.add(listener);
 	}
 
-	/**
-	 * Removes all Listeners associated with the component.
-	 * This method is used when the game is switching to the console game mode
-	 * @param component
-	 */
-	public void RemoveAllListeners(JComponent component) {
-		component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).clear();
-		listeners.clear();
+	@Override
+	public void keyPressed(String KeyPressed) {
+		// TODO Auto-generated method stub
+		
 	}
-
-	/**
-	 * Forwards the keyEvent to all listeners
-	 * @param KeyPressed
-	 */
-	private void performEvent(String KeyPressed) {
-		for (KeyPressListener keyPressListener : listeners) {
-			keyPressListener.keyPressed(KeyPressed);
+	
+	private InputManager getInputManagerFromPlayerMode(PlayerMode mode)
+	{
+		switch (mode) {
+		case HUMAN:
+			return new KeyboardInput();
+		default:
+			break;
 		}
 	}
 }

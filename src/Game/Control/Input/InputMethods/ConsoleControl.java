@@ -1,9 +1,10 @@
-package Game.Control.Input;
+package Game.Control.Input.InputMethods;
 
 import java.util.Scanner;
 import org.omg.CORBA.COMM_FAILURE;
 
 import Game.Control.GameEngine.GameEngine;
+import Game.Control.Input.SpecialKeys;
 import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Settings.GameSettings;
