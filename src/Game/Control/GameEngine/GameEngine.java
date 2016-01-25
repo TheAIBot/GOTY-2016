@@ -43,7 +43,8 @@ public class GameEngine implements BoardChangedListener, InputListener, GameStat
 		this.game.addScoreChangedListener(this);
 		this.game.addPlaySoundListener(this);
 		this.graphics = new GraphicsManager(this, game.getNumberOfPlayers(), settings);
-		input.setKeyboardComponent(graphics.getGraphicsPanel());
+		this.input.setKeyboardComponent(graphics.getGraphicsPanel());
+		this.input.addInputListener(this);
 		addSpecialKeyboardControls();
 	}
 	
@@ -249,6 +250,7 @@ public class GameEngine implements BoardChangedListener, InputListener, GameStat
 		loadedGame.gameEventsListeners = new ArrayList<GameEventsListener>();
 		loadedGame.input = new InputManager();
 		loadedGame.input.setKeyboardComponent(loadedGame.getScreen());
+		loadedGame.input.addInputListener(loadedGame);
 		loadedGame.audio = new AudioManager(loadedGame.settings.getSoundVolume());
 		loadedGame.gameStarted();
 		loadedGame.addSpecialKeyboardControls();
