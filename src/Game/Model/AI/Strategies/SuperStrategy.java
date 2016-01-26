@@ -8,5 +8,5 @@ import Game.Model.Board.Tile;
 
 public abstract class SuperStrategy {
 	
-	public abstract Directions[] getStrategyDirections(Tile[] tiles, Point2D.Double voidPosition, ArrayList<Point2D.Double> lockedTilePositions);
+	public abstract Directions[] getStrategyDirections(Tile[] tiles, Point2D.Double start, Point2D.Double end, ArrayList<Point2D.Double> lockedTilePositions);
 }
