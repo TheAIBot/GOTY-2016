@@ -30,10 +30,11 @@ public class AIBrain {
 		if (tileToFix.getNumber() % (size + 1) < size - 1) {
 			Tile toFix = findTileFromNumber(tileToFix.getNumber(), tiles);
 			Point2D.Double voidPos = getVoidTilePos(tiles, size);
-			if () {
+			if (true) {
 				
 			}
 		}
+		return null;
 	}
 	
 	private int getNumberFromPosition(Point2D.Double pos, int size) {
@@ -53,7 +54,7 @@ public class AIBrain {
 	private Point2D.Double getVoidTilePos(Tile[] tiles, int size)
 	{
 		for (Tile tile : tiles) {
-			if (tile == null) {
+			if (tile != null) {
 				return getPosition(tile.getNumber() - 1, size);
 			}
 		}
@@ -66,3 +67,4 @@ public class AIBrain {
 		return new Point2D.Double(col, row);
 	}
 }
+

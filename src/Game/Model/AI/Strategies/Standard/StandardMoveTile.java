@@ -17,6 +17,7 @@ public class StandardMoveTile extends SuperStrategy {
 		for (int i = tiles.length -  2; i < tiles.length; i++) {
 			
 		}
+		return null;
 	}
 
 }

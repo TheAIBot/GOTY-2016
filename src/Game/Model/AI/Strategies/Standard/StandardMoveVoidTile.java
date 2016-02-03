@@ -11,7 +11,7 @@ public class StandardMoveVoidTile extends SuperStrategy {
 
 	@Override
 	public Directions[] getStrategyDirections(Tile[] tiles, Double start, Double end, ArrayList<Double> lockedTilePositions) {
-		
+		return null;
 	}
 
 }
