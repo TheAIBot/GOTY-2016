@@ -12,12 +12,12 @@ import javax.xml.parsers.DocumentBuilder;
 public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 	private static Point2D.Double MIN_MOVEMENT_PER_FRAME = new Point2D.Double(0.04, 0.04);
-	private Point2D.Double movementovementPerFrame = new Point2D.Double(MIN_MOVEMENT_PER_FRAME.x, MIN_MOVEMENT_PER_FRAME.y);
+	private Point2D.Double movementovementPerFrame;
 	//EPSILON is used to handle rounding errors checking the positioning of the tiles
 	private static final double EPSILON = 0.02;
 	private AnimateUpdateListener listener;
 	//animationTimer makes sure to animate every 16 ms
-	private Timer animationTimer = new Timer(16, x -> updateAnimators());
+	private final Timer animationTimer = new Timer(16, x -> updateAnimators());
 	
 	public Animator(AnimateUpdateListener listener)
 	{
@@ -26,8 +26,8 @@ public class Animator  {
 		
 	public void startAnimation(ConcurrentLinkedQueue<AnimationInfo> animators)
 	{
-		AnimationInfo aniInfo;
 		synchronized (toAnimate) {
+			AnimationInfo aniInfo;
 			while ((aniInfo = animators.poll()) != null) {
 				toAnimate.add(aniInfo);
 			}
