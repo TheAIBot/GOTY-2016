@@ -1,10 +1,9 @@
 package Game.View;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import Game.View.Animation.AnimationInfo;
+import Game.Model.Animation.AnimationInfo;
 
 /**
  * Class used to organize relevant information used in the rendering process.
@@ -17,7 +16,7 @@ public class RenderInfo implements Serializable {
 	//randomizing and animating the board at the same time
 	public ConcurrentLinkedQueue<AnimationInfo> toAnimate = new ConcurrentLinkedQueue<AnimationInfo>();
 	public double imageScale = 1;
-	private final int size; //size of the board in tile precision
+	private final int size; //size of the board in tiles
 	private static final double MIN_ZOOM_LEVEL = 0.05;
 
 	public RenderInfo(boolean renderColor, int size) {
@@ -58,7 +57,7 @@ public class RenderInfo implements Serializable {
 	}
 
 	/**
-	 * @return the size of the gameboard in pixel precision
+	 * @return the size of the gameboard in pixels
 	 */
 	public int getSize() {
 		return size;

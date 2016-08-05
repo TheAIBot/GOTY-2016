@@ -130,8 +130,10 @@ public class GOTYMainPage extends SuperPage implements CheatActivatedListener {
 	public void cheatActivated(String cheatName) {
 		if (cheatName.equals(ResourceAudio.DEATH_METAL_SONG)) {
 			Sound sound = ResourceAudio.loadSound(ResourceAudio.DEATH_METAL_SONG, 1);
-			AudioManager.setbackgroundMusic(sound);
-			sound.loopSound();
+			if (sound != null) {
+				AudioManager.setbackgroundMusic(sound);
+				sound.loopSound();
+			}
 		}		
 	}
 }

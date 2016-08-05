@@ -2,6 +2,8 @@ package Game.Control.GameEngine;
 
 import javax.swing.JPanel;
 
+import Game.Model.Animation.AnimateUpdateListener;
+import Game.Model.Animation.Animator;
 import Game.Model.Board.GameState;
 import Game.Model.Settings.GameSettings;
 import Game.View.Colorfull;
@@ -11,8 +13,6 @@ import Game.View.Displayable;
 import Game.View.GraphicsPanel;
 import Game.View.Numreable;
 import Game.View.RenderInfo;
-import Game.View.Animation.AnimateUpdateListener;
-import Game.View.Animation.Animator;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	
@@ -25,6 +25,12 @@ public class GraphicsManager implements AnimateUpdateListener {
 	private GameSettings settings;
 	private JPanel gamePanel;
 	
+	/**
+	 * 
+	 * @param gEngine
+	 * @param numberOfScreens
+	 * @param settings
+	 */
 	public GraphicsManager(GameEngine gEngine, int numberOfScreens, GameSettings settings) {
 		this.gEngine = gEngine;
 		this.consoleDisplay = new ConsoleGraphics(gEngine.getBoardSize(), this);
@@ -37,6 +43,13 @@ public class GraphicsManager implements AnimateUpdateListener {
 		}
 	}
 	
+	/**
+	 * Renders the tiles on the screen corresponding to the screen index and checks for animation
+	 * with the given RenderInfo.
+	 * Works with console mode and GUI mode.
+	 * @param renderInfo
+	 * @param screenIndex
+	 */
 	public void renderTiles(RenderInfo renderInfo, int screenIndex){
 		if (settings.isConsoleMode()) {
 			consoleDisplay.render();			
@@ -46,12 +59,19 @@ public class GraphicsManager implements AnimateUpdateListener {
 		}
 	}
 	
+	/**
+	 * Render the screen corresponding to the screen index. Does not check for animation.
+	 * @param screenIndex
+	 */
 	public void renderScreen(int screenIndex){
 		if (settings.isConsoleMode()) {
 			consoleDisplay.render();
 		} else gPanels[screenIndex].repaint();
 	}
 	
+	/**
+	 * @return gamePanel
+	 */
 	public JPanel getGraphicsPanel(){
 		if (gamePanel == null) {
 			gamePanel = gamePanelCreater.getGamePanel(gPanels);
@@ -59,10 +79,19 @@ public class GraphicsManager implements AnimateUpdateListener {
 		return gamePanel;
 	}
 	
+	/**
+	 * Animates the screen corresponding to the screen index if needed. 
+	 * @param screenIndex
+	 */
 	private void animate(int screenIndex){
 		checkForNewAnimations(renderInfos[screenIndex]);
 	}
 	
+	/**
+	 * The Displayables are animated if GUI mode is activated with renderColor set to false.
+	 * @param screenIndex
+	 * @return Displayables (tiles) corresponding to the screen index.
+	 */
 	public Displayable[] getDisplayablesToRender(int screenIndex){
 		if (renderInfos[screenIndex] != null && !renderInfos[screenIndex].renderColor) {
 			//It does not animate anything, if it is in console mode.
@@ -73,10 +102,20 @@ public class GraphicsManager implements AnimateUpdateListener {
 		} else return null;
 	}
 	
+	/**
+	 * 
+	 * @param screenIndex
+	 * @return All the Numreable's to be rendered.
+	 */
 	public Numreable[] getNumreablesToRender(int screenIndex){
 		return gEngine.getTiles(screenIndex);
 	}
 	
+	/**
+	 *
+	 * @param screenIndex
+	 * @return All the numreables to be rendered.
+	 */
 	public Colorfull[] getColorfullsToRender(int screenIndex){
 		if (renderInfos[screenIndex] != null && renderInfos[screenIndex].renderColor) {
 			animate(screenIndex);
@@ -87,6 +126,9 @@ public class GraphicsManager implements AnimateUpdateListener {
 		}
 	}
 	
+	/**
+	 * Activates rendering while checking for console mode og GUI mode
+	 */
 	public void render()
 	{
 		if (settings.isConsoleMode()) {
@@ -97,18 +139,30 @@ public class GraphicsManager implements AnimateUpdateListener {
 			}			
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param renderInfo
+	 */
 	public void checkForNewAnimations(RenderInfo renderInfo) {
 		if (!settings.isConsoleMode()) {
 			animator.startAnimation(renderInfo.toAnimate);
 		}
 	}
 
-	@Override
+	/**
+	 * Redo rendering 
+	 */
 	public void animateUpdate() {
 		render();
 	}
-
+	
+	/**
+	 * Makes the gamePanelCreater or consoleDisplay show the score and time
+	 * @param score
+	 * @param time
+	 * @param screenIndex
+	 */
 	public void setScoreAndTime(int score, int time, int screenIndex)
 	{
 		if (!settings.isConsoleMode()) {
@@ -117,7 +171,12 @@ public class GraphicsManager implements AnimateUpdateListener {
 			consoleDisplay.setScoreAndTime(score, time);
 		}
 	}
-
+	
+	/**
+	 * Sets the state of the game.
+	 * @param newGameState
+	 * @param screenIndex
+	 */
 	public void setGameState(GameState newGameState, int screenIndex)
 	{
 		if (!settings.isConsoleMode()) {

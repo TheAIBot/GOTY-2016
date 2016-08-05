@@ -13,7 +13,7 @@ import Game.Model.Resources.ResourceAudio;
  */
 public class AudioManager implements SoundFinishedListener {
 
-	private static int MAX_PARALLEL_SOUNDS = 10; // -1 means that as many sounds
+	private static int MAX_PARALLEL_SOUNDS = 20; // -1 means that as many sounds
 													// as one wants can be
 													// played at the same time.
 	private boolean paused = false;
@@ -39,6 +39,9 @@ public class AudioManager implements SoundFinishedListener {
 	 */
 	private void loadSound(String name, int amount) {
 		Sound[] sounds = ResourceAudio.loadSounds(name, amount, currentVolumeInPercents);
+		if (sounds == null) {
+			return;
+		}
 		for (int i = 0; i < sounds.length; i++) {
 			sounds[i].addSoundFinishedListener(this);
 		}
