@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.Timer;
+import javax.xml.parsers.DocumentBuilder;
 
 public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
@@ -80,21 +81,22 @@ public class Animator  {
 	
 	private Point2D.Double getMoveVector(Point2D.Double prevPos, Point2D.Double nowPos)
 	{
-		Point2D.Double abDistance = new Point2D.Double(nowPos.x - prevPos.x, nowPos.y - prevPos.y);
+		double abX = nowPos.x - prevPos.x;
+		double abY = nowPos.y - prevPos.y;
 		
 		//Check if the difference of x- and y-values is big enough to be animated
-		if (Math.abs(abDistance.x) < movementovementPerFrame.x) {
-			abDistance.x = 0;
+		if (Math.abs(abX) < movementovementPerFrame.x) {
+			abX = 0;
 		}
-		if (Math.abs(abDistance.y) < movementovementPerFrame.y) {
-			abDistance.y = 0;
+		if (Math.abs(abY) < movementovementPerFrame.y) {
+			abY = 0;
 		}
-		double xyDifference = Math.abs(abDistance.x / abDistance.y);
+		double xyDifference = Math.abs(abX / abY);
 		xyDifference = (Double.isInfinite(xyDifference)) ? 1 : xyDifference;
 		xyDifference = (Double.isNaN(xyDifference)) ? 0 : xyDifference;
 		
 		//Get the correct operational sign for the coordinates
-		Point2D.Double signVector = getSignVector(abDistance);
+		Point2D.Double signVector = getSignVector(abX ,abY);
 		
 		//Return the vector for moving the tile animation
 		return new Point2D.Double(movementovementPerFrame.x * xyDifference * signVector.x, 
@@ -106,19 +108,19 @@ public class Animator  {
 	 * @param abDistance
 	 * @return a Point2D.Double with the correct operational sign for coordinates
 	 */
-	private Point2D.Double getSignVector(Point2D.Double abDistance)
+	private Point2D.Double getSignVector(double x, double y)
 	{
 		Point2D.Double signVector = new Point2D.Double();
-		if (abDistance.x == 0) {
+		if (x == 0) {
 			signVector.x = 0;
-		} else if (abDistance.x < 0) {
+		} else if (x < 0) {
 			signVector.x = -1;
 		} else {
 			signVector.x = 1;
 		}
-		if (abDistance.y == 0) {
+		if (y == 0) {
 			signVector.y = 0;
-		} else if (abDistance.y < 0) {
+		} else if (y < 0) {
 			signVector.y = -1;
 		} else {
 			signVector.y = 1;
