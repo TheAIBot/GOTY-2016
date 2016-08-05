@@ -17,12 +17,7 @@ public class Animator  {
 	private static final double EPSILON = 0.02;
 	private AnimateUpdateListener listener;
 	//animationTimer makes sure to animate every 16 ms
-	private Timer animationTimer = new Timer(16, new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			updateAnimators();
-		}
-	});
+	private Timer animationTimer = new Timer(16, x -> updateAnimators());
 	
 	public Animator(AnimateUpdateListener listener)
 	{
