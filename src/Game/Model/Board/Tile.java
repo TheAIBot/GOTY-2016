@@ -2,6 +2,7 @@ package Game.Model.Board;
 
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
@@ -16,19 +17,19 @@ import Game.View.Numreable;
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
 	private static final long serialVersionUID = -3423525350188897586L;
 	// contains all the corners of the polygon that has to be shown
-	//used to detect wether the tile should be shown on the screen or not
-	private final Point2D.Double[] corners;
+	//used to detect whether the tile should be shown on the screen or not
+	private final Point[] corners;
 	private int number;
 	//This is the position that the want to move to
 	Point2D.Double position;	
+	//contains the position the tile is at
+	private Point2D.Double previousPosition;
 	// is the color of the tile as it's shown on the screen when there is a GUI
 	private final Color color;
 	//contains the shape of the tile when drawing the color ofthe tile
 	private final Polygon colorPolygon;
 	//contains the image all the tiles will be a part of
 	private static transient BufferedImage displayImage;
-	//contains the position the tile is at
-	private Point2D.Double previousPosition;
 	private ToAnimateListener listener;
 	// is true when the tile is not animating and false when it's animating
 	private boolean finishedMoving = true;
@@ -71,13 +72,14 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		this.position = position;
 		this.previousPosition = position;
 		this.color = color;	
-		this.corners = new Point2D.Double[]{new Point2D.Double(0, 0),
-				  			  				new Point2D.Double(1, 0),
-				  			  				new Point2D.Double(1, 1),
-				  			  				new Point2D.Double(0, 1)};
+		this.corners = new Point[]{new Point(0, 0),
+								   new Point(0, 1),
+								   new Point(1, 1),
+				  			  	   new Point(1, 0)
+				  			  	   };
 		this.colorPolygon = new Polygon();
-		for (Point2D.Double corner : corners) {
-			colorPolygon.addPoint((int) corner.x, (int) corner.y);
+		for (Point corner : corners) {
+			colorPolygon.addPoint(corner.x, corner.y);
 		}
 	}
 
@@ -112,23 +114,23 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		//set position requires a new point as to prevent previsouPoisition
 		//and Position from pointing the the same object as that would 
 		//make it unable to animate the tiles movement
-		setPosition(new Point2D.Double(position.x + x, position.y + y));
+		setPosition(position.x + x, position.y + y);
 	}
 	
 	/**
 	 * Sets the position of the tile and adds it to the queue of objects to be animated 
 	 * @param newPosition a new point to set the position.
-	 * This point must not bea refrence of a tiles position as that
+	 * This point must not be a refrence of a tiles position as that
 	 * will make the animation unable to animate this tiles movement correctly 
 	 */
-	public void setPosition(Point2D.Double newPosition)
+	private void setPosition(double x, double y)
 	{
 		if (finishedMoving) {
 			previousPosition = position;
 			finishedMoving = false;
 			listener.toAnimate(this);
 		}
-		position = new Point2D.Double(newPosition.x, newPosition.y);
+		position = new Point2D.Double(x, y);
 	}
 	
 	/**
@@ -157,7 +159,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 * Returns the corners of the tiles. This is from the top left corner of the rectangle/square that holds the tile,
 	 * and is in percents (as in a corner being in the middle of the square has the x coordinate 0.5, and the y coordinate 0.5 ).
 	 */
-	public Point2D.Double[] getCorners() {
+	public Point[] getCorners() {
 		return corners;
 	}
 
@@ -171,7 +173,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	/**
 	 * returns the corners of the tile
 	 */
-	public Point2D.Double[] getColorCorners() {
+	public Point[] getColorCorners() {
 		return corners;
 	}
 	

@@ -1,6 +1,7 @@
 package Game.View;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 
@@ -13,7 +14,7 @@ public interface Colorfull {
 	
 	public Polygon getColorPolygon();
 	
-	public Point2D.Double[] getColorCorners();
+	public Point[] getColorCorners();
 
 	public Color getColor();
 	
