@@ -2,6 +2,8 @@ package Game.Model.Difficulty;
 
 import java.awt.Point;
 
+import com.sun.xml.internal.ws.api.model.wsdl.editable.EditableWSDLBoundFault;
+
 import Game.Model.Board.Tile;
 
 public class DifficultyCalculator {
@@ -35,10 +37,13 @@ public class DifficultyCalculator {
 	 */
 	public static double getDifficulty(Tile[] tiles, int size) {
 		double difficulty = 0;
+		Point numberPositionA = new Point(0, 0);
+		Point numberPositionB = new Point(0, 0);
 		for (int i = 0; i < tiles.length; i++) {
 			if (tiles[i] != null) {
-				Point expectedPositionForThatNumber = convertIndexToPoint(tiles[i].getNumber() - 1, size);
-				difficulty += calculateDistance(expectedPositionForThatNumber,convertIndexToPoint(i, size));
+				numberPositionA = convertIndexToPoint(tiles[i].getNumber() - 1, size, numberPositionA);
+				numberPositionB = convertIndexToPoint(i, size, numberPositionB);
+				difficulty += calculateDistance(numberPositionA, numberPositionB);
 			}
 		}
 		return difficulty;
@@ -51,7 +56,7 @@ public class DifficultyCalculator {
 	 * @return The difficulty of the given board in percents.
 	 */
 	public static double getDifficultyPercentage(Tile[] tiles, int size){
-		return getDifficulty(tiles, size) / getMaxDifficulty(size);
+		return getDifficultyPercentage(tiles, size, getMaxDifficulty(size));
 	}
 	
 	/** Gets the difficulty of a game board,
@@ -74,8 +79,8 @@ public class DifficultyCalculator {
 	 * @return The sum of the difference in the two points x and y coordinates added together.
 	 */
 	private static double calculateDistance(Point a, Point b) {
-		return ((int) Math.abs(a.x - b.x)) + ((int) Math.abs(a.y
-				- b.y));
+		return ((int) Math.abs(a.x - b.x)) + 
+			   ((int) Math.abs(a.y - b.y));
 	}
 
 	/** Returns a point which coordinates are equivalent to that of the tile on solved game board of a given size,
@@ -88,6 +93,15 @@ public class DifficultyCalculator {
 		int row = index / size;
 		int col = index % size;
 		return new Point(col, row);
+	}
+	
+	private static Point convertIndexToPoint(int index, int size, Point position)
+	{
+		int row = index / size;
+		int col = index % size;
+		position.x = row;
+		position.y = col;
+		return position;
 	}
 	
 	/** Returns the max difficulty a game board of a given size can have. 

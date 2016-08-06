@@ -29,7 +29,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private final GameSettings settings;
 	private transient ConsoleControl consoleControl;
 	private transient AudioManager audio;
-	private  transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
+	private transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
 	private GameBoardMode game;
 
 	public GameEngine(GameSettings settings) {
