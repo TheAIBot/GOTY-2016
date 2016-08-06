@@ -3,10 +3,13 @@ package Game.View;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import javax.print.attribute.DateTimeSyntax;
 import javax.swing.JPanel;
 
 import Game.Control.GameEngine.GraphicsManager;
@@ -25,6 +28,7 @@ public class GraphicsPanel extends JPanel {
 		this.setBackground(Color.WHITE);
 		this.screenIndex = screenIndex;
 		this.renderInfo = renderInfo;
+		setFont(new Font("Verdana", 0, 12));
 	}
 
 	@Override
@@ -61,35 +65,30 @@ public class GraphicsPanel extends JPanel {
 				}
 				BufferedImage currentImage = d.getDisplayImage();
 				Point2D.Double imagePosition = d.getDisplayPosition();
-				if (currentImage == null || imagePosition == null) {
-					throw new NullPointerException();
-				} else {
-					//Checks if the displayable is in a position, so that the image can be displayed on the screen. 
-					//If not, it dosen't render it (to increase performance), else it does.
-					if (isInsideDisplay(d.getCorners(), d.getDisplayPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
-						
-						//Move and scale the displayable to the corresponding position on the screen
-						Rectangle destRect = new Rectangle((int) Math.ceil((imagePosition.x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
-		  						   						   (int) Math.ceil((imagePosition.y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale), 
-		  						   						   (int) Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale), 
-		  						   						   (int) Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale));						
-						//Get the corresponding part of the source image to draw
-						Rectangle srcRect = new Rectangle((int) Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize())), 
-		  						  						  (int) Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize())), 
-		  						  						  (int) Math.ceil(currentImage.getWidth() / renderInfo.getSize()),
-		  						  						  (int) Math.ceil(currentImage.getHeight() / renderInfo.getSize()));
-						gDisplay.drawImage(currentImage, 
-									   	   destRect.x, 
-									   	   destRect.y,
-									   	   destRect.x + destRect.width, 
-									   	   destRect.y + destRect.height,
-									   	   srcRect.x, 
-									   	   srcRect.y,
-									   	   srcRect.x + srcRect.width, 
-									   	   srcRect.y + srcRect.height,
-									   	   null);
-									
-					}
+				if (AnyCornerInsideDisplay(d.getCorners(), d.getDisplayPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
+					
+					//Move and scale the displayable to the corresponding position on the screen
+					int destStartX = (int)Math.ceil((imagePosition.x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					int destStartY = (int)Math.ceil((imagePosition.y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					int destEndX = destStartX + (int)Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					int destEndY = destStartY + (int)Math.ceil(DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					
+					int srcStartX = (int)Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize()));
+					int srcStartY = (int)Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize()));
+					int srcEndX = srcStartX + (int)Math.ceil(currentImage.getWidth() / renderInfo.getSize());
+					int srcEndY = srcStartY + (int) Math.ceil(currentImage.getHeight() / renderInfo.getSize());
+					
+					gDisplay.drawImage(currentImage, 
+									   destStartX, 
+									   destStartY,
+									   destEndX, 
+									   destEndY,
+									   srcStartX, 
+									   srcStartY,
+									   srcEndX, 
+									   srcEndY,
+									   null);
+								
 				}
 			}
 		}
@@ -102,18 +101,23 @@ public class GraphicsPanel extends JPanel {
 	 */
 	private void renderNumreable(Numreable[] numreables, Graphics gDisplay){
 		if (numreables != null && renderInfo.renderColor) {
-			for (Numreable numreable : numreables) {
-				if (numreable != null) {
-					//Only Point2D.Double arrays can be used as parameter in the isInsedDisplay method
-					Point2D.Double[] point = new Point2D.Double[]{numreable.getNumberPosition()};
-					if (isInsideDisplay(point, new Point2D.Double(0, 0), 
-							DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
-						gDisplay.setColor(Color.WHITE);
-						gDisplay.setFont(new Font("Verdana", 0, (int) (20 * renderInfo.imageScale)));
-						//Finally draw the string contained in the numreable from the center of the tile
-						gDisplay.drawString(String.valueOf(numreable.getNumber()), 
-								(int) Math.ceil(((numreable.getNumberPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale),
-								(int) Math.ceil(((numreable.getNumberPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale));
+			gDisplay.setColor(Color.WHITE);
+			int fontSize = (int) (20 * renderInfo.imageScale);
+			final int MIN_FONT_SIZE = 4;
+			if (fontSize >= MIN_FONT_SIZE) {
+				gDisplay.setFont(gDisplay.getFont().deriveFont(0, fontSize));
+				Point2D.Double zero = new Point2D.Double(0, 0);
+				for (Numreable numreable : numreables) {
+					if (numreable != null) {
+						Point2D.Double point = numreable.getNumberPosition();
+						if (isInsideDisplay(point.x, point.y, zero, 
+								DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
+							int x = (int) Math.ceil(((numreable.getNumberPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale);
+							int y = (int) Math.ceil(((numreable.getNumberPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale);
+							//Finally draw the string contained in the numreable from the center of the tile
+							String toDraw = String.valueOf(numreable.getNumber());
+							gDisplay.drawString(toDraw, x, y);
+						}
 					}
 				}
 			}
@@ -127,37 +131,49 @@ public class GraphicsPanel extends JPanel {
 	 */
 	private void renderColorfull(Colorfull[] colored, Graphics gDisplay){
 		if (colored != null) {
+			int[] xPoints = null;
+			int[] yPoints = null;
 			for (Colorfull colorfull : colored) {
-				if (colorfull != null && isInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {	
-					gDisplay.setColor(colorfull.getColor());
-					int[] xPoints = new int[colorfull.getColorPolygon().npoints];
-					int[] yPoints = new int[colorfull.getColorPolygon().npoints];
-					for (int i = 0; i < colorfull.getColorPolygon().npoints; i++) { 
-						
-						xPoints[i] = (int) Math.ceil((colorfull.getColorPolygon().xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
-						yPoints[i] = (int) Math.ceil((colorfull.getColorPolygon().ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
+				if (colorfull != null && 
+					AnyCornerInsideDisplay(colorfull.getColorCorners(),colorfull.getColorPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {	
+					
+					Polygon poly = colorfull.getColorPolygon();
+					
+					if (xPoints == null) {
+						xPoints = new int[poly.npoints];
+						yPoints = new int[poly.npoints];
 					}
-					gDisplay.fillPolygon(xPoints, yPoints, colorfull.getColorPolygon().npoints);
+					
+					gDisplay.setColor(colorfull.getColor());
+					for (int i = 0; i < poly.npoints; i++) { 
+						xPoints[i] = (int) Math.ceil((poly.xpoints[i] + colorfull.getColorPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
+						yPoints[i] = (int) Math.ceil((poly.ypoints[i] + colorfull.getColorPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
+					}
+					gDisplay.fillPolygon(xPoints, yPoints, poly.npoints);
 				}
 			}
 		}		
 	}
 		
-	public boolean isInsideDisplay(Point2D.Double[] corners, Point2D.Double startingPosition, double scallingX, double scallingY){
+	public boolean AnyCornerInsideDisplay(Point[] corners, Point2D.Double startingPosition, double scallingX, double scallingY){
 		if (corners != null) {
-			for (Point2D.Double corner : corners) { 
+			for (Point corner : corners) { 
 				//Check after scaling and offset positioning, if the final position is contained in the window.
-				if (corner != null &&
-					renderInfo != null &&
-					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale < getWidth() &&
-					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY * renderInfo.imageScale < getHeight() &&
-					(corner.x + startingPosition.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale >= 0 &&
-					(corner.y + startingPosition.y + renderInfo.yOffset) * scallingY * renderInfo.imageScale >= 0) {
+				if (isInsideDisplay(corner.x, corner.y, startingPosition, scallingX, scallingY)) {
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+	
+	public boolean isInsideDisplay(double cornerX, double cornerY, Point2D.Double startingPosition, double scallingX, double scallingY){
+		double x = (cornerX + startingPosition.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale;
+		double y = (cornerY + startingPosition.y + renderInfo.yOffset) * scallingY * renderInfo.imageScale;
+		return (x < getWidth() &&
+				y < getHeight() &&
+				x >= 0 &&
+				y >= 0);
 	}
 	
 	public void render()
@@ -171,9 +187,9 @@ public class GraphicsPanel extends JPanel {
 	 * @param size
 	 * @return the corresponding position in the grid
 	 */
-	public Point2D.Double getPosition(int number, int size) {
+	public Point getPosition(int number, int size) {
 		int row = number / size;
 		int col = number % size;
-		return new Point2D.Double(col, row);
+		return new Point(col, row);
 	}
 }
