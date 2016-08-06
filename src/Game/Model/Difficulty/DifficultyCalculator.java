@@ -119,12 +119,14 @@ public class DifficultyCalculator {
 		final int maxNumber = size * size; //The max number a tile can have associated with it.
 		//This is practely the tile number of the void tile.
 		int expectedNumber = maxNumber; 
+		Point numberPositionA = new Point(0, 0);
+		Point numberPositionB = new Point(0, 0);
 		double difficulty = 0;
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {				
-				//
-				difficulty += calculateDistance(convertIndexToPoint(maxNumber - expectedNumber, size),
-												convertIndexToPoint(expectedNumber - 1, size)); 
+				numberPositionA = convertIndexToPoint(maxNumber - expectedNumber, size, numberPositionA);
+				numberPositionB = convertIndexToPoint(expectedNumber - 1, size, numberPositionB);
+				difficulty += calculateDistance(numberPositionA, numberPositionB); 
 				//Removes 1 from expected number, so it goes from index 1 to index 0. 
 				//This is not needed with maxNumber - expectedNumber, as this is index 0.
 				expectedNumber--;

@@ -70,7 +70,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	{
 		this.number = number;
 		this.position = position;
-		this.previousPosition = position;
+		this.previousPosition = new Point2D.Double(position.x, position.y);
 		this.color = color;	
 		this.corners = new Point[]{new Point(0, 0),
 								   new Point(0, 1),
@@ -126,11 +126,13 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private void setPosition(double x, double y)
 	{
 		if (finishedMoving) {
-			previousPosition = position;
+			previousPosition.x = position.x;
+			previousPosition.y = position.y;
 			finishedMoving = false;
 			listener.toAnimate(this);
 		}
-		position = new Point2D.Double(x, y);
+		position.x = x;
+		position.y = y;
 	}
 	
 	/**

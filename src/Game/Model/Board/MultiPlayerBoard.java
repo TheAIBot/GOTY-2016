@@ -77,6 +77,7 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 		final int numberOfDirections = 4;
 		double difficultyInPercent; //The difficulty of the board in percents.
 		Random randomGenerator = new Random();
+		boolean firstRender = true;
 		do {
 			Directions direction; //The direction that the void tile should move.
 			
@@ -108,11 +109,18 @@ public class MultiPlayerBoard implements GameBoardMode, GameStateChangedListener
 				//when the randomization is finished.
 				for (int j = 0; j < boards.length; j++) {
 					boards[j].moveVoidTile(direction);
+				}				
+			}
+			//only needed to ask for render once as the animation will
+			//update the display until there is nothing to animate
+			//which is when this method is done running
+			if (firstRender) {
+				for (int i = 0; i < boards.length; i++) {
+					boardChanged(i);
 				}
+				firstRender = false;
 			}
-			for (int i = 0; i < boards.length; i++) {
-				boardChanged(i);
-			}
+			
 			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(getTiles(0), settings.getGameSize(), maxDifficulty);
 		
 		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(difficultyInPercent)
