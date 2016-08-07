@@ -9,7 +9,7 @@ public interface AnimationInfo {
 	
 	public Point2D.Double getCurrentPosition();
 	
-	public Point2D.Double getGoingTowrdsPosition();
+	public Point2D.Double getGoingTowardsPosition();
 	
 	public void finishedMoving();
 }

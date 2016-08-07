@@ -76,13 +76,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 				  			  	   new Point(1, 0)
 				  			  	   };
 	}
-
-	/**
-	 * return the image to be displayed on the screen
-	 */
-	public BufferedImage getDisplayImage() {
-		return displayImage;
-	}
 	
 	/**
 	 * returns the number this tile contains
@@ -152,7 +145,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 * returns the position this tile wants to go to.
 	 * @Override
 	 */
-	public Point2D.Double getGoingTowrdsPosition() {
+	public Point2D.Double getGoingTowardsPosition() {
 		return this.goingTowardsPosition;
 	}
 
@@ -161,6 +154,11 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 * @return til image
 	 */
 	public static BufferedImage getTileImage()
+	{
+		return displayImage;
+	}
+	
+	public BufferedImage getImage()
 	{
 		return displayImage;
 	}

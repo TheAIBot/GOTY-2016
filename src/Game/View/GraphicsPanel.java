@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import Game.Control.GameEngine.GraphicsManager;
+import Game.Model.Board.Tile;
 import Game.View.ViewTypes.Colorfull;
 import Game.View.ViewTypes.Displayable;
 import Game.View.ViewTypes.Numreable;
@@ -59,12 +60,12 @@ public class GraphicsPanel extends JPanel {
 	 */
 	private void renderDisplayables(Displayable[] displayables, Graphics gDisplay){
 		if (displayables != null) {
+			BufferedImage currentImage = Tile.getTileImage();
 			for (Displayable d : displayables) {
 				//Checks if the displayable has the neccesary information required for displaying it on the screen.
 				if (d == null) {
 					continue;
 				}
-				BufferedImage currentImage = d.getDisplayImage();
 				Point2D.Double imagePosition = d.getCurrentPosition();
 				if (AnyCornerInsideDisplay(d.getCorners(), d.getCurrentPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
 					

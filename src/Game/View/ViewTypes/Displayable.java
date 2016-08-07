@@ -10,9 +10,9 @@ import java.awt.image.BufferedImage;
  */
 public interface Displayable {
 	
-	public BufferedImage getDisplayImage();
+	public BufferedImage getImage();
 	
-	public Point2D.Double getGoingTowrdsPosition();
+	public Point2D.Double getGoingTowardsPosition();
 	
 	public Point2D.Double getCurrentPosition();
 	

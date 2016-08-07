@@ -88,7 +88,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		default:
 			throw new IllegalArgumentException();
 		}
-		return toMove.getGoingTowrdsPosition();
+		return toMove.getGoingTowardsPosition();
 	}
 
 	/**
@@ -373,7 +373,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		//move the position of the tile that the void tile in on top of
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
 		//move the void tiles and the tiles positions in the tilePlacements array so they are still sorted
-		moveTileIndexes(getIndexFromPoint(tileToMove.getGoingTowrdsPosition()), getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getGoingTowardsPosition()), getIndexFromPoint(voidTilePosition));
 	}
 
 	/**

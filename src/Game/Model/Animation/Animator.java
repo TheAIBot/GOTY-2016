@@ -52,7 +52,7 @@ public class Animator  {
 			for (AnimationInfo animationInfo : toAnimate) {
 				//If the current animationInfo is close enough to the final position, then stop the animation.
 				//ELse move the animationInfo and add it to toKeep
-				Point2D.Double position = animationInfo.getGoingTowrdsPosition();
+				Point2D.Double position = animationInfo.getGoingTowardsPosition();
 				Point2D.Double previousPosition = animationInfo.getCurrentPosition();
 				if (Math.abs(position.x - previousPosition.x) < movementovementPerFrame.x + EPSILON &&
 					Math.abs(position.y - previousPosition.y) < movementovementPerFrame.y + EPSILON) {
