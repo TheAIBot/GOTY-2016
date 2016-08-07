@@ -7,9 +7,9 @@ import java.awt.geom.Point2D;
  */
 public interface AnimationInfo {
 	
-	public Point2D.Double getPosition();
+	public Point2D.Double getCurrentPosition();
 	
-	public Point2D.Double getPreviousPosition();
+	public Point2D.Double getGoingTowardsPosition();
 	
 	public void finishedMoving();
 }

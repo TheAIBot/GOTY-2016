@@ -51,7 +51,7 @@ public class DifficultyCalculatorTest {
 		int number = size * size;
 		for (int i = 0; i < tiles.length; i++) {
 			if (tiles[i] != null) {
-				tiles[i] = new Tile(number, tiles[i].getPosition(), Color.BLACK);
+				tiles[i] = new Tile(number, tiles[i].getGoingTowardsPosition(), Color.BLACK);
 			}
 			
 			number--;

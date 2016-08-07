@@ -1,5 +1,6 @@
-package Game.View;
+package Game.View.ViewTypes;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -9,13 +10,13 @@ import java.awt.image.BufferedImage;
  */
 public interface Displayable {
 	
-	public BufferedImage getDisplayImage();
+	public BufferedImage getImage();
 	
-	public Point2D.Double getPosition();
+	public Point2D.Double getGoingTowardsPosition();
 	
-	public Point2D.Double getDisplayPosition();
+	public Point2D.Double getCurrentPosition();
 	
-	public Point2D.Double[] getCorners();
+	public Point[] getCorners();
 	
 	public int getNumber();
 	

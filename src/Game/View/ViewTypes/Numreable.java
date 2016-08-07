@@ -1,4 +1,4 @@
-package Game.View;
+package Game.View.ViewTypes;
 
 import java.awt.geom.Point2D;
 
@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
  */
 public interface Numreable {	
 
-	public Point2D.Double getNumberPosition();
+	public Point2D.Double getCurrentPosition();
 	
 	public int getNumber();
 	

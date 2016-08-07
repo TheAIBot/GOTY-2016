@@ -2,6 +2,7 @@ package Game.View;
 
 import Game.Control.GameEngine.GraphicsManager;
 import Game.Model.Board.GameState;
+import Game.View.ViewTypes.Numreable;
 
 public class ConsoleGraphics {
 

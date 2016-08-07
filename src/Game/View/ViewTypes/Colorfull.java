@@ -1,6 +1,7 @@
-package Game.View;
+package Game.View.ViewTypes;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 
@@ -9,11 +10,9 @@ import java.awt.geom.Point2D;
  */
 public interface Colorfull {
 	
-	public Point2D.Double getColorPosition();
+	public Point2D.Double getCurrentPosition();
 	
-	public Polygon getColorPolygon();
-	
-	public Point2D.Double[] getColorCorners();
+	public Point[] getCorners();
 
 	public Color getColor();
 	

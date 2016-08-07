@@ -88,7 +88,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		default:
 			throw new IllegalArgumentException();
 		}
-		return toMove.getPosition();
+		return toMove.getGoingTowardsPosition();
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		Point2D.Double voidPos = null;
 		for (int i = 0; i < tilePlacements.length; i++) {
 			if (tilePlacements[i] != null) {
-				tilePlacements[i].position = getPosition(i);
+				tilePlacements[i].goingTowardsPosition = getPosition(i);
 			} else {
 				voidPos = getPosition(i);
 			}
@@ -373,7 +373,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		//move the position of the tile that the void tile in on top of
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
 		//move the void tiles and the tiles positions in the tilePlacements array so they are still sorted
-		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()), getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getGoingTowardsPosition()), getIndexFromPoint(voidTilePosition));
 	}
 
 	/**
@@ -393,14 +393,14 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	 */
 	private void randomizeGame() {
 		//The max difficulty possible with a board his size
-		final double maxDifficulty = DifficultyCalculator.getMaxDifficulty(settings.getGameSize()); 
-		final int NumberOfDirections = 4;
+		final double MAX_DIFFICULTY = DifficultyCalculator.getMaxDifficulty(settings.getGameSize()); 
+		final int NUMBER_OF_DIRECTIONS = 4;
 		double difficultyInPercent; //The difficulty of the board in percents
 		do {
 			//It moves the void tile in a random direction 100 times the game board size
 			//because it's more time consuming to calculate the boards difficulty level than it's to move the void tile
 			for (int i = 0; i < settings.getGameSize() * 100; i++) {
-				switch (randomGenerator.nextInt(NumberOfDirections)) {
+				switch (randomGenerator.nextInt(NUMBER_OF_DIRECTIONS)) {
 					case 0:
 						moveVoidTile(Directions.LEFT);
 						break;
@@ -416,7 +416,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 				}
 			}
 			
-			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(tilePlacements, settings.getGameSize(), maxDifficulty);
+			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(tilePlacements, settings.getGameSize(), MAX_DIFFICULTY);
 			//Continiue making the board random until the specific difficultyLevel has been reached
 			//A gameDifficulty of easy can be attained by hacing a difficulty of 0 which
 			//is not randomized so a check for that has to be made
