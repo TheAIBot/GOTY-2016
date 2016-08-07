@@ -12,9 +12,9 @@ public interface Displayable {
 	
 	public BufferedImage getDisplayImage();
 	
-	public Point2D.Double getPosition();
+	public Point2D.Double getGoingTowrdsPosition();
 	
-	public Point2D.Double getDisplayPosition();
+	public Point2D.Double getCurrentPosition();
 	
 	public Point[] getCorners();
 	

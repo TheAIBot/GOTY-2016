@@ -65,8 +65,8 @@ public class GraphicsPanel extends JPanel {
 					continue;
 				}
 				BufferedImage currentImage = d.getDisplayImage();
-				Point2D.Double imagePosition = d.getDisplayPosition();
-				if (AnyCornerInsideDisplay(d.getCorners(), d.getDisplayPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
+				Point2D.Double imagePosition = d.getCurrentPosition();
+				if (AnyCornerInsideDisplay(d.getCorners(), d.getCurrentPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
 					
 					//Move and scale the displayable to the corresponding position on the screen
 					int destStartX = (int)Math.ceil((imagePosition.x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
@@ -107,7 +107,7 @@ public class GraphicsPanel extends JPanel {
 				final Point2D.Double zero = new Point2D.Double(0, 0);
 				for (Numreable numreable : numreables) {
 					if (numreable != null) {
-						Point2D.Double point = numreable.getNumberPosition();
+						Point2D.Double point = numreable.getCurrentPosition();
 						if (isInsideDisplay(point.x, point.y, zero, 
 								DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {
 							final int x = (int) Math.ceil(((point.x + renderInfo.xOffset) * DEFAULT_TILE_SIZE + (DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale);
@@ -142,7 +142,7 @@ public class GraphicsPanel extends JPanel {
 			int[] yPoints = null;
 			for (Colorfull colorfull : colored) {
 				if (colorfull != null && 
-					AnyCornerInsideDisplay(colorfull.getCorners(),colorfull.getColorPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {	
+					AnyCornerInsideDisplay(colorfull.getCorners(),colorfull.getCurrentPosition(), DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE)) {	
 					
 					Point[] corners = colorfull.getCorners();
 					
@@ -154,8 +154,8 @@ public class GraphicsPanel extends JPanel {
 					
 					gDisplay.setColor(colorfull.getColor());
 					for (int i = 0; i < corners.length; i++) { 
-						xPoints[i] = (int) Math.ceil((corners[i].x + colorfull.getColorPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
-						yPoints[i] = (int) Math.ceil((corners[i].y + colorfull.getColorPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
+						xPoints[i] = (int) Math.ceil((corners[i].x + colorfull.getCurrentPosition().x + renderInfo.xOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);
+						yPoints[i] = (int) Math.ceil((corners[i].y + colorfull.getCurrentPosition().y + renderInfo.yOffset) * DEFAULT_TILE_SIZE * renderInfo.imageScale);						
 					}
 					gDisplay.fillPolygon(xPoints, yPoints, corners.length);
 				}

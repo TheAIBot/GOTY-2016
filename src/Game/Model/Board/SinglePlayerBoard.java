@@ -88,7 +88,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		default:
 			throw new IllegalArgumentException();
 		}
-		return toMove.getPosition();
+		return toMove.getGoingTowrdsPosition();
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		Point2D.Double voidPos = null;
 		for (int i = 0; i < tilePlacements.length; i++) {
 			if (tilePlacements[i] != null) {
-				tilePlacements[i].position = getPosition(i);
+				tilePlacements[i].goingTowardsPosition = getPosition(i);
 			} else {
 				voidPos = getPosition(i);
 			}
@@ -373,7 +373,7 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		//move the position of the tile that the void tile in on top of
 		moveWithDirection(tileToMove, direction.getOppositeDirection());
 		//move the void tiles and the tiles positions in the tilePlacements array so they are still sorted
-		moveTileIndexes(getIndexFromPoint(tileToMove.getPosition()), getIndexFromPoint(voidTilePosition));
+		moveTileIndexes(getIndexFromPoint(tileToMove.getGoingTowrdsPosition()), getIndexFromPoint(voidTilePosition));
 	}
 
 	/**

@@ -21,9 +21,9 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private final Point[] corners;
 	private int number;
 	//This is the position that the want to move to
-	Point2D.Double position;	
+	Point2D.Double goingTowardsPosition;	
 	//contains the position the tile is at
-	private Point2D.Double previousPosition;
+	private Point2D.Double currentPosition;
 	// is the color of the tile as it's shown on the screen when there is a GUI
 	private final Color color;
 	//contains the image all the tiles will be a part of
@@ -67,8 +67,8 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	public Tile(int number, Point2D.Double position, Color color)
 	{
 		this.number = number;
-		this.position = position;
-		this.previousPosition = new Point2D.Double(position.x, position.y);
+		this.goingTowardsPosition = position;
+		this.currentPosition = new Point2D.Double(position.x, position.y);
 		this.color = color;	
 		this.corners = new Point[]{new Point(0, 0),
 								   new Point(0, 1),
@@ -105,10 +105,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 */
 	public void translatePosition(int x, int y)
 	{
-		//set position requires a new point as to prevent previsouPoisition
-		//and Position from pointing the the same object as that would 
-		//make it unable to animate the tiles movement
-		setPosition(position.x + x, position.y + y);
+		setPosition(goingTowardsPosition.x + x, goingTowardsPosition.y + y);
 	}
 	
 	/**
@@ -120,35 +117,18 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private void setPosition(double x, double y)
 	{
 		if (finishedMoving) {
-			previousPosition.x = position.x;
-			previousPosition.y = position.y;
+			currentPosition.x = goingTowardsPosition.x;
+			currentPosition.y = goingTowardsPosition.y;
 			finishedMoving = false;
 			listener.toAnimate(this);
 		}
-		position.x = x;
-		position.y = y;
+		goingTowardsPosition.x = x;
+		goingTowardsPosition.y = y;
 	}
 	
-	/**
-	 * returns the current position of the time
-	 */
-	public Point2D.Double getDisplayPosition()
+	public Point2D.Double getCurrentPosition()
 	{
-		return previousPosition;
-	}
-	
-	/**
-	 * returns the current position of the time
-	 */
-	public Point2D.Double getColorPosition() {
-		return this.previousPosition;
-	}
-	
-	/**
-	 * returns the current position of the time
-	 */
-	public Point2D.Double getNumberPosition() {
-		return this.previousPosition;
+		return this.currentPosition;
 	}
 	
 	/**
@@ -157,21 +137,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 */
 	public Point[] getCorners() {
 		return corners;
-	}
-
-	/**
-	 * returns the corners of the tile
-	 */
-	public Point[] getColorCorners() {
-		return corners;
-	}
-	
-	/**
-	 * returns this tiles current position
-	 * @Override
-	 */
-	public Point2D.Double getPreviousPosition() {
-		return previousPosition;
 	}
 
 	/**
@@ -187,8 +152,8 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 * returns the position this tile wants to go to.
 	 * @Override
 	 */
-	public Double getPosition() {
-		return this.position;
+	public Point2D.Double getGoingTowrdsPosition() {
+		return this.goingTowardsPosition;
 	}
 
 	/**

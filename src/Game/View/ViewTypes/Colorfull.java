@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  */
 public interface Colorfull {
 	
-	public Point2D.Double getColorPosition();
+	public Point2D.Double getCurrentPosition();
 	
 	public Point[] getCorners();
 
