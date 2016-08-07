@@ -10,9 +10,9 @@ import java.awt.image.BufferedImage;
 
 import Game.Model.Animation.AnimationInfo;
 import Game.Model.Animation.ToAnimateListener;
-import Game.View.Colorfull;
-import Game.View.Displayable;
-import Game.View.Numreable;
+import Game.View.ViewTypes.Colorfull;
+import Game.View.ViewTypes.Displayable;
+import Game.View.ViewTypes.Numreable;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
 	private static final long serialVersionUID = -3423525350188897586L;
@@ -26,8 +26,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private Point2D.Double previousPosition;
 	// is the color of the tile as it's shown on the screen when there is a GUI
 	private final Color color;
-	//contains the shape of the tile when drawing the color ofthe tile
-	private final Polygon colorPolygon;
 	//contains the image all the tiles will be a part of
 	private static transient BufferedImage displayImage;
 	private ToAnimateListener listener;
@@ -77,10 +75,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 								   new Point(1, 1),
 				  			  	   new Point(1, 0)
 				  			  	   };
-		this.colorPolygon = new Polygon();
-		for (Point corner : corners) {
-			colorPolygon.addPoint(corner.x, corner.y);
-		}
 	}
 
 	/**
@@ -163,13 +157,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 */
 	public Point[] getCorners() {
 		return corners;
-	}
-
-	/**
-	 * returns the polygon of this tile
-	 */
-	public Polygon getColorPolygon(){
-		return colorPolygon;
 	}
 
 	/**

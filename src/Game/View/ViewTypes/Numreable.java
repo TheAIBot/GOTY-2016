@@ -1,4 +1,4 @@
-package Game.View;
+package Game.View.ViewTypes;
 
 import java.awt.geom.Point2D;
 

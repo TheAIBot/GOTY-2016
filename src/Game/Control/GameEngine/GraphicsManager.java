@@ -6,13 +6,13 @@ import Game.Model.Animation.AnimateUpdateListener;
 import Game.Model.Animation.Animator;
 import Game.Model.Board.GameState;
 import Game.Model.Settings.GameSettings;
-import Game.View.Colorfull;
 import Game.View.ConsoleGraphics;
 import Game.View.CreateGamePanel;
-import Game.View.Displayable;
 import Game.View.GraphicsPanel;
-import Game.View.Numreable;
 import Game.View.RenderInfo;
+import Game.View.ViewTypes.Colorfull;
+import Game.View.ViewTypes.Displayable;
+import Game.View.ViewTypes.Numreable;
 
 public class GraphicsManager implements AnimateUpdateListener {
 	
