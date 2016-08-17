@@ -6,5 +6,6 @@ package Game.View;
  */
 public interface Display {
 	public void render();
-
+	
+	public void renderBoard(int boardIndex);
 }

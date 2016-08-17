@@ -13,10 +13,8 @@ import Game.Model.Resources.ResourceAudio;
  */
 public class AudioManager implements SoundFinishedListener {
 
-	private static int MAX_PARALLEL_SOUNDS = 20; // -1 means that as many sounds
-													// as one wants can be
-													// played at the same time.
-	private boolean paused = false;
+	private static int MAX_PARALLEL_SOUNDS = 10;
+	private boolean pauseAllSound = false;
 	private float currentVolumeInPercents;
 	private ArrayList<Sound> playingSounds = new ArrayList<Sound>();
 	private HashMap<String, CirculairList<Sound>> soundMap = new HashMap<String, CirculairList<Sound>>();
@@ -40,6 +38,7 @@ public class AudioManager implements SoundFinishedListener {
 	private void loadSound(String name, int amount) {
 		Sound[] sounds = ResourceAudio.loadSounds(name, amount, currentVolumeInPercents);
 		if (sounds == null) {
+			Log.writeln(("wasn't able to load sound: " + name));
 			return;
 		}
 		for (int i = 0; i < sounds.length; i++) {
@@ -55,11 +54,13 @@ public class AudioManager implements SoundFinishedListener {
 			Sound sound = soundMap.get(name).getNext();
 			playingSounds.add(sound);
 			sound.resetSound();
-			if (paused) {
+			if (pauseAllSound) {
 				sound.pauseSound();
 			} else {
 				sound.playSound();
 			}
+		} else {
+			Log.writeln("tried to play sound that doesn't exist: " + name);
 		}
 	}
 
@@ -67,26 +68,26 @@ public class AudioManager implements SoundFinishedListener {
 	 * Pauses the sounds
 	 */
 	public void pause() {
-		if (!paused) {
+		if (!pauseAllSound) {
 			for (Sound sound : playingSounds) {
 				sound.pauseSound();
 			}
 		}
 		pauseBackgroundMusic();
-		paused = true;
+		pauseAllSound = true;
 	}
 
 	/**
 	 * Unpauses the sounds by continueing to play the queued sounds and background music
 	 */
 	public void unPause() {
-		if (paused) {
+		if (pauseAllSound) {
 			for (Sound sound : playingSounds) {
 				sound.playSound();
 			}
 		}
 		playBackgroundMusic();
-		paused = false;
+		pauseAllSound = false;
 	}
 
 	public void playBackgroundMusic() {
@@ -120,14 +121,7 @@ public class AudioManager implements SoundFinishedListener {
 	 * Removes the sound from the queue of sounds to play if it is contained in the list
 	 */
 	public void soundFinished(Sound sound) {
-		Sound soundInList;
-		for (int i = 0; i < playingSounds.size(); i++) {
-			soundInList = playingSounds.get(i);
-			if (soundInList.equals(sound)) {
-				playingSounds.remove(i);
-				return; // assumes the sound is not found in the list twice;
-			}
-		}
+		playingSounds.remove(sound);
 	}
 
 	public static void setbackgroundMusic(Sound sound) {

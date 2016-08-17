@@ -90,7 +90,7 @@ public class CheatCodes implements KeyPressListener {
 	 */
 	private class CheatCode {
 		private final String cheatName;
-		public final boolean isRepeatCheat;
+		public  final boolean isRepeatCheat;
 		private final String[] keySequence;
 		private int index = 0;
 
