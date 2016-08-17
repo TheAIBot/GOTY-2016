@@ -245,27 +245,21 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	public void keyPressed(String key) {
 		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
 		// --- Movement controls
+		//if the move is possible then the boards state has to be updated
+		//because it can have changed
 		if (key.equals(playerSettings.getDownKeyName())) {
-			//if the move is possible then the boards state has to be updated
-			//because it can have changed
 			if (moveVoidTile(Directions.DOWN)) {
 				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getLeftKeyName())) {
-			//if the move is possible then the boards state has to be updated
-			//because it can have changed
 			if (moveVoidTile(Directions.LEFT)) {
 				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getRightKeyName())) {
-			//if the move is possible then the boards state has to be updated
-			//because it can have changed
 			if (moveVoidTile(Directions.RIGHT)) {
 				updateBoardStateAfterMove();
 			}
 		} else if (key.equals(playerSettings.getUpKeyName())) {
-			//if the move is possible then the boards state has to be updated
-			//because it can have changed
 			if (moveVoidTile(Directions.UP)) {
 				updateBoardStateAfterMove();
 			}

@@ -38,6 +38,7 @@ public class CirculairList<T> {
 	private void moveIndex()
 	{
 		index++;
+		//index % items.length
 		if (index == items.length) {
 			index = 0;
 		}
