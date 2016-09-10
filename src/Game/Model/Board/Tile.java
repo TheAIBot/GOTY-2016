@@ -2,6 +2,7 @@ package Game.Model.Board;
 
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
@@ -16,6 +17,8 @@ import Game.View.ViewTypes.Numreable;
 
 public class Tile implements java.io.Serializable, Displayable, Numreable, Colorfull, AnimationInfo {
 	private static final long serialVersionUID = -3423525350188897586L;
+	
+	public static final int DEFAULT_TILE_SIZE = 100; //the size of a tile in pixels
 	// contains all the corners of the polygon that has to be shown
 	//used to detect whether the tile should be shown on the screen or not
 	private final Point[] corners;
@@ -31,6 +34,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private ToAnimateListener listener;
 	// is true when the tile is not animating and false when it's animating
 	private boolean finishedMoving = true;
+	private BufferedImage colorImage;
 	
 	/**
 	 * this constructor is only used in tests
@@ -75,6 +79,15 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 								   new Point(1, 1),
 				  			  	   new Point(1, 0)
 				  			  	   };
+		colorImage = new BufferedImage(DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, BufferedImage.TYPE_3BYTE_BGR);
+		Graphics fisk = colorImage.getGraphics();
+		fisk.setColor(color);
+		fisk.fillRect(0, 0, DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE);
+		fisk.setColor(Color.BLACK);
+		fisk.setFont(fisk.getFont().deriveFont(0, 30));
+		String numberAsString = String.valueOf(this.number);
+		fisk.drawString(numberAsString, DEFAULT_TILE_SIZE / 2 - numberAsString.length() * 10, DEFAULT_TILE_SIZE / 2);
+		fisk.dispose();
 	}
 	
 	/**
@@ -161,6 +174,11 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	public BufferedImage getImage()
 	{
 		return displayImage;
+	}
+	
+	public BufferedImage getColorImage()
+	{
+		return colorImage;
 	}
 	
 	/**
