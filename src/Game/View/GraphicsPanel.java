@@ -40,7 +40,6 @@ public class GraphicsPanel extends JPanel {
 		}
 		renderDisplayables(gManager.getDisplayablesToRender(screenIndex), g);
 		renderColorfull(gManager.getColorfullsToRender(screenIndex), g);
-		//renderNumreable(gManager.getNumreablesToRender(screenIndex), g);
 	}
 	
 	private void setImageScale()
@@ -93,42 +92,6 @@ public class GraphicsPanel extends JPanel {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * Renders tile numbers in the middle of the relavent tile 
-	 * @param numreables
-	 * @param gDisplay
-	 */
-	private void renderNumreable(Numreable[] numreables, Graphics gDisplay){
-		if (numreables != null && renderInfo.renderColor) {
-			gDisplay.setColor(Color.WHITE);
-			if (setFontSize(gDisplay) >= MIN_FONT_SIZE) {
-				final Point2D.Double zero = new Point2D.Double(0, 0);
-				for (Numreable numreable : numreables) {
-					if (numreable != null) {
-						Point2D.Double point = numreable.getCurrentPosition();
-						if (isInsideDisplay(point.x, point.y, zero, 
-								Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {
-							final int x = (int) Math.ceil(((point.x + renderInfo.xOffset) * Tile.DEFAULT_TILE_SIZE + (Tile.DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale);
-							final int y = (int) Math.ceil(((point.y + renderInfo.yOffset) * Tile.DEFAULT_TILE_SIZE + (Tile.DEFAULT_TILE_SIZE / 2)) * renderInfo.imageScale);
-							//Finally draw the string contained in the numreable from the center of the tile
-							final String toDraw = String.valueOf(numreable.getNumber());
-							gDisplay.drawString(toDraw, x, y);
-						}
-					}
-				}
-			}
-		}		
-	}
-	
-	private int setFontSize(Graphics gDisplay)
-	{
-		int fontSize = (int) (20 * renderInfo.imageScale);
-		if (gDisplay.getFont().getSize() != fontSize) {
-			gDisplay.setFont(gDisplay.getFont().deriveFont(0, fontSize));
-		}
-		return fontSize;
 	}
 	
 	/**
