@@ -32,39 +32,32 @@ public class ConsoleGraphics {
 	 */
 	public void render()
 	{
-		final String emptyString = "";
 		//Since the size of the game can differ, the size of the individual tile numbers (in digits) differ from game to game.
 		//Therefore, the length of the biggest tile number is always found and the space between tiles is added
 		//here, so that two tile numbers will always have space in between them. This is because the tileLength is 
 		//always bigger than the max tile number length.
 		
-		int tileLength = (int)Math.log10((boardSize * boardSize) - 1) + 1 + SPACES_BETWEEN_TILE_NUMBERS; 
-		String sTileLength = String.valueOf(tileLength);
-		 //The screenindex is always zero, as console mode is not compatible with multiplayer mode
-		Numreable[] numreables = graphics.getNumreablesToRender(0);
+		final int tileLength = (int)Math.log10((boardSize * boardSize) - 1) + 1 + SPACES_BETWEEN_TILE_NUMBERS; 
+		final String sTileLength = String.valueOf(tileLength);
+		//The screenindex is always zero, as console mode is not compatible with multiplayer mode
+		final Numreable[] numreables = graphics.getNumreablesToRender(0);
+		final StringBuilder boardString = new StringBuilder();
 		
 		//The game consists of rows and columns, with a size equal the the game board size,
-		//so two loops goes through each row and their columns ,and prints the tile number to the console:
-		int tileNumber;
+		//so two loops goes through each row and their columns, and prints the tile number to the console
 		for (int y = 0; y < boardSize; y++) {
 			for (int x = 0; x < boardSize; x++) {
-				Numreable currentNumreable = numreables[x + y * boardSize];
+				final Numreable num = numreables[x + y * boardSize];
 				//the void tile is represented by the value null in the array 
-				//and String.format throws an error when null is passed
-				if (currentNumreable == null) {
-					System.out.print(String.format("%" + sTileLength + "s", emptyString));
-				}
-				else {
-					tileNumber = currentNumreable.getNumber();
-					//String-format makes sure each number uses the same amount of chars 
-					//so every number is aligned by column
-					System.out.print(String.format("%" + sTileLength + "d", tileNumber));
-				}
+				//and String.format throws an error when null is passed so
+				//empty string is used instead
+				final String tileNumber = (num == null) ? "" : String.valueOf(num.getNumber());
+				boardString.append(String.format("%" + sTileLength + "s", tileNumber));
 			}
-			System.out.println(emptyString);			
+			boardString.append('\n');		
 		}
-		System.out.println(emptyString);
-		System.out.println(emptyString);
+		boardString.append('\n');
+		System.out.println(boardString.toString());
 	}
 	
 	public void gameStateChanged(GameState newGameState)
