@@ -7,5 +7,5 @@ public interface Strategy {
 	
 	public void calculatePath(Tile[] tiles);
 	
-	public String/*No type specified!*/ getStep();
+	public String getStep();
 }
