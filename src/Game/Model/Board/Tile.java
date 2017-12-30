@@ -4,9 +4,7 @@ package Game.Model.Board;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
 import Game.Model.Animation.AnimationInfo;

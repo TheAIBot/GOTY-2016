@@ -45,7 +45,6 @@ public class DifficultyCalculatorTest {
 	}
 
 	private static Tile[] reverse(Tile[] tiles, int size){
-		Tile a = tiles[0];
 		tiles[0] = null;
 		tiles[tiles.length - 1] = new Tile(1, new Point2D.Double(size - 1, size - 1), Color.BLACK);
 		int number = size * size;

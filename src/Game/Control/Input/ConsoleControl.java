@@ -1,7 +1,6 @@
 package Game.Control.Input;
 
 import java.util.Scanner;
-import org.omg.CORBA.COMM_FAILURE;
 
 import Game.Control.GameEngine.GameEngine;
 import Game.Model.Board.GameState;
@@ -9,7 +8,6 @@ import Game.Model.Board.GameStateChangedListener;
 import Game.Model.Settings.GameSettings;
 
 public class ConsoleControl implements GameStateChangedListener {
-	private boolean run = true;
 	private GameEngine game;
 	private GameSettings settings;
 	private static Scanner scan = new Scanner(System.in);
@@ -25,7 +23,6 @@ public class ConsoleControl implements GameStateChangedListener {
 	 * @param size The size of the game board
 	 */
 	public void startGameInConsole() {
-		run = true;
 		do {
 			//Prints the game to the console every time a command is passed
 			// and at the start of the game so the user can see the games initial position
@@ -49,8 +46,5 @@ public class ConsoleControl implements GameStateChangedListener {
 
 	@Override
 	public void gameStateChanged(GameState newGameState, int playerIndex) {
-		if (newGameState != GameState.NOT_DECIDED_YET) {
-			run = false;
-		}
 	}
 }

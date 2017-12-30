@@ -9,7 +9,6 @@ import Game.Control.Input.KeyPressListener;
 import Game.Control.Input.SpecialKeys;
 import Game.Control.Sound.PlaySoundListener;
 import Game.Model.Board.BoardChangedListener;
-import Game.Model.Board.GameBoardMode;
 import Game.Model.Board.GameModes;
 import Game.Model.Board.GameState;
 import Game.Model.Board.GameStateChangedListener;
@@ -30,7 +29,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 	private transient ConsoleControl consoleControl;
 	private transient AudioManager audio;
 	private transient ArrayList<GameEventsListener> gameEventsListeners = new ArrayList<GameEventsListener>();
-	private GameBoardMode game;
+	private MultiPlayerBoard game;
 
 	public GameEngine(GameSettings settings) {
 		this.settings = settings;		
@@ -55,7 +54,7 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		}
 	}
 	
-	private GameBoardMode createGameType(GameSettings settings){
+	private MultiPlayerBoard createGameType(GameSettings settings){
 		switch (settings.getGameMode()) {
 		case SINGLE_PLAYER:
 			return new MultiPlayerBoard(settings, 1);

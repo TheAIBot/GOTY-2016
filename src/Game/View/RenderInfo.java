@@ -9,6 +9,7 @@ import Game.Model.Animation.AnimationInfo;
  * Class used to organize relevant information used in the rendering process.
  */
 public class RenderInfo implements Serializable {
+	private static final long serialVersionUID = 2299668499175280826L;
 	public boolean renderColor;
 	public int xOffset = 0;
 	public int yOffset = 0;

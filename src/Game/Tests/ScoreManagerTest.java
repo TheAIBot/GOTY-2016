@@ -1,15 +1,11 @@
 package Game.Tests;
 
-
-import Game.Control.GameEngine.SaveFileManager;
-import Game.Model.Score.ScoreManager;
-
 public class ScoreManagerTest {
 	
 	public static void TestScoreMangerSaveability(){
 		
-		SaveFileManager<ScoreManager> sfm = new SaveFileManager<ScoreManager>("sm_test");
-		ScoreManager sm = sfm.load("my_sm");
+		//SaveFileManager<ScoreManager> sfm = new SaveFileManager<ScoreManager>("sm_test");
+		//ScoreManager sm = sfm.load("my_sm");
 		
 		
 		/*

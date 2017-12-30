@@ -11,8 +11,8 @@ public class SaveFileTest {
 		GameEngine ge = new GameEngine(settings);
 		ge.save();
 		
-		ge.load();
-		assert(ge.getBoardSize() == ge.getBoardSize()) : "størrelserne på de to gameEngines er ikke ens";
+		GameEngine loaded = GameEngine.load();
+		assert(loaded.getBoardSize() == ge.getBoardSize()) : "stï¿½rrelserne pï¿½ de to gameEngines er ikke ens";
 		
 		System.out.println("SaveFileTest finished testing");
 	}

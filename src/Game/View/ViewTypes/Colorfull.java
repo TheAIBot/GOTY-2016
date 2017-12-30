@@ -1,8 +1,6 @@
 package Game.View.ViewTypes;
 
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 

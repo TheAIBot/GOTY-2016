@@ -25,8 +25,6 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.sun.scenario.Settings;
-
 import Game.Control.Input.SpecialKeys;
 import Game.Model.Board.GameModes;
 import Game.Model.Cheat.CheatActivatedListener;

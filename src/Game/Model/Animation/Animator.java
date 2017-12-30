@@ -6,8 +6,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.Timer;
 
-import Game.Control.GameEngine.Log;
-
 public class Animator  {
 	private HashSet<AnimationInfo> toAnimate = new HashSet<AnimationInfo>();
 	private static final Point2D.Double MIN_MOVEMENT_PER_FRAME = new Point2D.Double(0.04, 0.04);

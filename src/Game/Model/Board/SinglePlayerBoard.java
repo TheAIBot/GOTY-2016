@@ -24,7 +24,7 @@ import Game.Model.Settings.GameSettings;
 import Game.Model.Settings.PlayerSettings;
 import Game.View.RenderInfo;
 
-public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
+public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListener, ScoreChangedListener, PlaySoundListener {
 	private static final long serialVersionUID = 8970617298465598945L;
 	private transient Point2D.Double voidTilePosition;
 	
@@ -241,7 +241,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 	 * Triggered by a key press on the keyboard. 
 	 * Handles the movement of the voidTile and camera, as well as the zooming action of the camera.
 	 */
-	@Override
 	public void keyPressed(String key) {
 		PlayerSettings playerSettings = settings.getPlayers()[playerIndex];
 		// --- Movement controls
@@ -311,7 +310,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 		return false;
 	}
 
-	@Override
 	/**
 	 * gets the size of the board
 	 */
@@ -483,7 +481,6 @@ public class SinglePlayerBoard implements GameBoardMode, java.io.Serializable, T
 							};
 	}
 
-	@Override
 	public RenderInfo getRenderInfo(int playerIndex) {
 		return renderInfo;
 	}
