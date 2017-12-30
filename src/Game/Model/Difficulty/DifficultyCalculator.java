@@ -2,8 +2,6 @@ package Game.Model.Difficulty;
 
 import java.awt.Point;
 
-import com.sun.xml.internal.ws.api.model.wsdl.editable.EditableWSDLBoundFault;
-
 import Game.Model.Board.Tile;
 
 public class DifficultyCalculator {
@@ -78,21 +76,9 @@ public class DifficultyCalculator {
 	 * @param b Point b
 	 * @return The sum of the difference in the two points x and y coordinates added together.
 	 */
-	private static double calculateDistance(Point a, Point b) {
-		return ((int) Math.abs(a.x - b.x)) + 
-			   ((int) Math.abs(a.y - b.y));
-	}
-
-	/** Returns a point which coordinates are equivalent to that of the tile on solved game board of a given size,
-	 *  which associated index/number is equivalent to that of the given index.
-	 * @param index The index of the the tiles which position should be found.
-	 * @param size The size of the board.
-	 * @return
-	 */
-	private static Point convertIndexToPoint(int index, int size) {
-		int row = index / size;
-		int col = index % size;
-		return new Point(col, row);
+	private static int calculateDistance(Point a, Point b) {
+		return Math.abs(a.x - b.x) + 
+			   Math.abs(a.y - b.y);
 	}
 	
 	private static Point convertIndexToPoint(int index, int size, Point position)
@@ -111,7 +97,7 @@ public class DifficultyCalculator {
 	 * @param size
 	 * @return
 	 */
-	public static double getMaxDifficulty(int size) {
+	public static int getMaxDifficulty(int size) {
 		//To find the max difficulty of the board, the difficulty of a completely inverted board is found.
 		//This is the board setup where tile 1 has changed place with the nullTile (the empty place on the board),
 		//tile 2 with tile size^2 - 1, tile 3 with tile size^2 - 2 and so on.
@@ -121,7 +107,7 @@ public class DifficultyCalculator {
 		int expectedNumber = maxNumber; 
 		Point numberPositionA = new Point(0, 0);
 		Point numberPositionB = new Point(0, 0);
-		double difficulty = 0;
+		int difficulty = 0;
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {				
 				numberPositionA = convertIndexToPoint(maxNumber - expectedNumber, size, numberPositionA);
@@ -134,6 +120,6 @@ public class DifficultyCalculator {
 		}
 		//The difficulty of the nullTile is removed from the result, 
 		//as it is not included in the calculation of the difficulty of the "real" board.
-		return (double) difficulty - nullTileDifficulty; 
+		return difficulty - nullTileDifficulty; 
 	}
 }
