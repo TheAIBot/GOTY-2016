@@ -3,7 +3,9 @@ package Game.Model.Board;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -84,6 +86,8 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		fisk.setColor(Color.BLACK);
 		fisk.setFont(fisk.getFont().deriveFont(0, 30));
 		String numberAsString = String.valueOf(this.number);
+		Graphics2D g2 = (Graphics2D)fisk;
+		g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
 		fisk.drawString(numberAsString, DEFAULT_TILE_SIZE / 2 - numberAsString.length() * 10, DEFAULT_TILE_SIZE / 2);
 		fisk.dispose();
 	}
