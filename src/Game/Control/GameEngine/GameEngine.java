@@ -193,11 +193,6 @@ public class GameEngine implements BoardChangedListener, KeyPressListener, GameS
 		startGameThread.start();
 		return startGameThread;
 	}
-	
-	public void resetGame()
-	{
-		game.resetGame();
-	}
 
 	private void gameStarted() {
 		for (GameEventsListener gameEventsListener : gameEventsListeners) {

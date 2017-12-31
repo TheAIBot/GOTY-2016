@@ -132,16 +132,7 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 	 */
 	private void defaultGame() {
 		for (int i = 0; i < boards.length; i++) {
-			boards[i].makeRandom();
-		}
-	}
-
-	/**
-	 * resets the board
-	 */
-	public void resetGame() {
-		for (int i = 0; i < boards.length; i++) {
-			boards[i].resetGame();
+			boards[i].defaultGame();
 		}
 	}
 

@@ -206,23 +206,6 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 		voidTilePosition = new Point2D.Double(settings.getGameSize() - 1, settings.getGameSize() - 1);
 	}
 
-	/**	Randomizes the board according to the boards GameSettings	
-	 */
-	public void makeRandom() {
-		if (settings.isRandomized()) {
-			randomizeGame();
-		} else {
-			defaultGame();
-		}
-	}
-
-	/**	Resets the game.
-	 */
-	public void resetGame() {
-		createGame();
-		randomizeGame();
-	}
-
 	/** Sets up the default board layout as described in the basic assignment
 	 */
 	public void defaultGame() {
@@ -379,43 +362,6 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 		tilePlacements[tileBIndex] = tileA;
 	}
 
-	/**
-	 * Randomizes the game by moving the voidTile in random directions, 
-	 * until a certain difficulty level specified by the GameSettings is attained.
-	 */
-	private void randomizeGame() {
-		//The max difficulty possible with a board his size
-		final double MAX_DIFFICULTY = DifficultyCalculator.getMaxDifficulty(settings.getGameSize()); 
-		final int NUMBER_OF_DIRECTIONS = 4;
-		double difficultyInPercent; //The difficulty of the board in percents
-		do {
-			//It moves the void tile in a random direction 100 times the game board size
-			//because it's more time consuming to calculate the boards difficulty level than it's to move the void tile
-			for (int i = 0; i < settings.getGameSize() * 100; i++) {
-				switch (randomGenerator.nextInt(NUMBER_OF_DIRECTIONS)) {
-					case 0:
-						moveVoidTile(Directions.LEFT);
-						break;
-					case 1:
-						moveVoidTile(Directions.RIGHT);
-						break;
-					case 2:
-						moveVoidTile(Directions.UP);
-						break;
-					case 3:
-						moveVoidTile(Directions.DOWN);
-						break;
-				}
-			}
-			
-			difficultyInPercent = DifficultyCalculator.getDifficultyPercentage(tilePlacements, settings.getGameSize(), MAX_DIFFICULTY);
-			//Continiue making the board random until the specific difficultyLevel has been reached
-			//A gameDifficulty of easy can be attained by hacing a difficulty of 0 which
-			//is not randomized so a check for that has to be made
-		} while (settings.getDifficultyLevel() != DifficultyCalculator.getDifficultyLevel(difficultyInPercent)
-				|| difficultyInPercent == 0); 
-	}
-
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, NotFound {
 		in.defaultReadObject();
 		//Point can't be serialized so when the class is remade the points also has to be ramde
@@ -491,25 +437,6 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 	 */
 	public void toAnimate(AnimationInfo tile) {
 		renderInfo.toAnimate.add(tile);
-	}
-
-	/**
-	 * return the number of players playing the game
-	 * @Override
-	 */
-	public int getNumberOfPlayers() {
-		switch (settings.getGameMode()) {
-		case SINGLE_PLAYER:
-			return 1;
-		case MULTI_PLAYER:
-			return 2;
-		default:
-			throw new IllegalArgumentException();
-		}
-	}
-
-	public void setRandom(Random random) {
-		randomGenerator = random;
 	}
 
 	public void addGameStateChangedListener(GameStateChangedListener listener) {
