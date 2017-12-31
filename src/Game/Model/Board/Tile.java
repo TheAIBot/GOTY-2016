@@ -25,8 +25,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	Point2D.Double goingTowardsPosition;	
 	//contains the position the tile is at
 	private Point2D.Double currentPosition;
-	// is the color of the tile as it's shown on the screen when there is a GUI
-	private final Color color;
 	private ToAnimateListener listener;
 	// is true when the tile is not animating and false when it's animating
 	private boolean finishedMoving = true;
@@ -69,16 +67,15 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		this.number = number;
 		this.goingTowardsPosition = position;
 		this.currentPosition = new Point2D.Double(position.x, position.y);
-		this.color = color;
 		colorImage = new BufferedImage(DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, BufferedImage.TYPE_3BYTE_BGR);
 		Graphics fisk = colorImage.getGraphics();
 		fisk.setColor(color);
 		fisk.fillRect(0, 0, DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE);
 		fisk.setColor(Color.BLACK);
 		fisk.setFont(fisk.getFont().deriveFont(0, 30));
-		String numberAsString = String.valueOf(this.number);
 		Graphics2D g2 = (Graphics2D)fisk;
 		g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
+		String numberAsString = String.valueOf(this.number);
 		fisk.drawString(numberAsString, DEFAULT_TILE_SIZE / 2 - numberAsString.length() * 10, DEFAULT_TILE_SIZE / 2);
 		fisk.dispose();
 	}
@@ -88,13 +85,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	 */
 	public int getNumber(){
 		return number;
-	}
-	
-	/**
-	 * returns the color this tile contains
-	 */
-	public Color getColor() {
-		return color;
 	}
 	
 	/**
