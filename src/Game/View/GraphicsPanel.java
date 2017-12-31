@@ -56,25 +56,24 @@ public class GraphicsPanel extends JPanel {
 	 */
 	private void renderDisplayables(Displayable[] displayables, Graphics gDisplay){
 		if (displayables != null) {
-			BufferedImage currentImage = Tile.getTileImage();
+			final BufferedImage currentImage = Tile.getTileImage();
 			for (Displayable d : displayables) {
-				//Checks if the displayable has the neccesary information required for displaying it on the screen.
+				//the empty tile is null and shouldn't be displayed
 				if (d == null) {
 					continue;
 				}
-				Point2D.Double imagePosition = d.getCurrentPosition();
-				if (AnyCornerInsideDisplay(d.getCorners(), d.getCurrentPosition(), Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {
-					
+				if (AnyCornerInsideDisplay(d.getCorners(), d.getCurrentPosition(), Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {	
 					//Move and scale the displayable to the corresponding position on the screen
-					int destStartX = (int)Math.ceil((imagePosition.x + renderInfo.xOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
-					int destStartY = (int)Math.ceil((imagePosition.y + renderInfo.yOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
-					int destEndX = destStartX + (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
-					int destEndY = destStartY + (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					final Point2D.Double imagePosition = d.getCurrentPosition();
+					final int destStartX = (int)Math.ceil((imagePosition.x + renderInfo.xOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					final int destStartY = (int)Math.ceil((imagePosition.y + renderInfo.yOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					final int destEndX = destStartX + (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					final int destEndY = destStartY + (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
 					
-					int srcStartX = (int)Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize()));
-					int srcStartY = (int)Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize()));
-					int srcEndX = srcStartX + (int)Math.ceil(currentImage.getWidth() / renderInfo.getSize());
-					int srcEndY = srcStartY + (int) Math.ceil(currentImage.getHeight() / renderInfo.getSize());
+					final int srcStartX = (int)Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).x) * (currentImage.getWidth() / renderInfo.getSize()));
+					final int srcStartY = (int)Math.ceil((getPosition(d.getNumber() - 1, renderInfo.getSize()).y ) * (currentImage.getHeight() / renderInfo.getSize()));
+					final int srcEndX = srcStartX + (int)Math.ceil(currentImage.getWidth() / renderInfo.getSize());
+					final int srcEndY = srcStartY + (int) Math.ceil(currentImage.getHeight() / renderInfo.getSize());
 					
 					gDisplay.drawImage(currentImage, 
 									   destStartX, 
@@ -103,9 +102,11 @@ public class GraphicsPanel extends JPanel {
 				if (colorfull != null && 
 					AnyCornerInsideDisplay(colorfull.getCorners(),colorfull.getCurrentPosition(), Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {	
 					
-					int x = (int)Math.ceil((colorfull.getCurrentPosition().x + renderInfo.xOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
-					int y = (int)Math.ceil((colorfull.getCurrentPosition().y + renderInfo.yOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);						
-					gDisplay.drawImage(colorfull.getColorImage(), x, y, (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale), (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale), null);
+					final int x = (int)Math.ceil((colorfull.getCurrentPosition().x + renderInfo.xOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					final int y = (int)Math.ceil((colorfull.getCurrentPosition().y + renderInfo.yOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);		
+					final int width = (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					final int height = (int)Math.ceil(Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
+					gDisplay.drawImage(colorfull.getColorImage(), x, y, width, height, null);
 				}
 			}
 		}		
