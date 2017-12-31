@@ -112,16 +112,16 @@ public class GraphicsPanel extends JPanel {
 		}		
 	}
 		
-	public boolean AnyCornerInsideDisplay(Point2D.Double startingPosition, double scallingX, double scallingY){
-		return isInsideDisplay(0, 0, startingPosition, scallingX, scallingY) ||
-			   isInsideDisplay(0, 1, startingPosition, scallingX, scallingY) ||
-			   isInsideDisplay(1, 0, startingPosition, scallingX, scallingY) ||
-			   isInsideDisplay(1, 1, startingPosition, scallingX, scallingY);
+	public boolean AnyCornerInsideDisplay(Point2D.Double topLeftTileCorner, double scallingX, double scallingY){
+		return isInsideDisplay(0, 0, topLeftTileCorner, scallingX, scallingY) ||
+			   isInsideDisplay(0, 1, topLeftTileCorner, scallingX, scallingY) ||
+			   isInsideDisplay(1, 0, topLeftTileCorner, scallingX, scallingY) ||
+			   isInsideDisplay(1, 1, topLeftTileCorner, scallingX, scallingY);
 	}
 	
-	public boolean isInsideDisplay(double cornerX, double cornerY, Point2D.Double startingPosition, double scallingX, double scallingY){
-		double x = (cornerX + startingPosition.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale;
-		double y = (cornerY + startingPosition.y + renderInfo.yOffset) * scallingY * renderInfo.imageScale;
+	public boolean isInsideDisplay(double cornerX, double cornerY, Point2D.Double topLeftTileCorner, double scallingX, double scallingY){
+		double x = (cornerX + topLeftTileCorner.x + renderInfo.xOffset) * scallingX * renderInfo.imageScale;
+		double y = (cornerY + topLeftTileCorner.y + renderInfo.yOffset) * scallingY * renderInfo.imageScale;
 		return (x < getWidth() &&
 				y < getHeight() &&
 				x >= 0 &&
