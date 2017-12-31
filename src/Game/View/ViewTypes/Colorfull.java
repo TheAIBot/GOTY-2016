@@ -11,8 +11,6 @@ public interface Colorfull {
 	
 	public Point2D.Double getCurrentPosition();
 	
-	public Point[] getCorners();
-	
 	public BufferedImage getColorImage();
 	
 }

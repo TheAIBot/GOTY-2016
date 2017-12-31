@@ -16,8 +16,6 @@ public interface Displayable {
 	
 	public Point2D.Double getCurrentPosition();
 	
-	public Point[] getCorners();
-	
 	public int getNumber();
 	
 	

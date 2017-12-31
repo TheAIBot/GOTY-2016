@@ -19,18 +19,15 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	private static final long serialVersionUID = -3423525350188897586L;
 	
 	public static final int DEFAULT_TILE_SIZE = 100; //the size of a tile in pixels
-	// contains all the corners of the polygon that has to be shown
-	//used to detect whether the tile should be shown on the screen or not
-	private final Point[] corners;
+	//contains the image all the tiles will be a part of
+	private static transient BufferedImage displayImage;
 	private int number;
-	//This is the position that the want to move to
+	//This is the position that the tile want to move to
 	Point2D.Double goingTowardsPosition;	
 	//contains the position the tile is at
 	private Point2D.Double currentPosition;
 	// is the color of the tile as it's shown on the screen when there is a GUI
 	private final Color color;
-	//contains the image all the tiles will be a part of
-	private static transient BufferedImage displayImage;
 	private ToAnimateListener listener;
 	// is true when the tile is not animating and false when it's animating
 	private boolean finishedMoving = true;
@@ -73,12 +70,7 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 		this.number = number;
 		this.goingTowardsPosition = position;
 		this.currentPosition = new Point2D.Double(position.x, position.y);
-		this.color = color;	
-		this.corners = new Point[]{new Point(0, 0),
-								   new Point(0, 1),
-								   new Point(1, 1),
-				  			  	   new Point(1, 0)
-				  			  	   };
+		this.color = color;
 		colorImage = new BufferedImage(DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE, BufferedImage.TYPE_3BYTE_BGR);
 		Graphics fisk = colorImage.getGraphics();
 		fisk.setColor(color);
@@ -137,14 +129,6 @@ public class Tile implements java.io.Serializable, Displayable, Numreable, Color
 	public Point2D.Double getCurrentPosition()
 	{
 		return this.currentPosition;
-	}
-	
-	/**
-	 * Returns the corners of the tiles. This is from the top left corner of the rectangle/square that holds the tile,
-	 * and is in percents (as in a corner being in the middle of the square has the x coordinate 0.5, and the y coordinate 0.5 ).
-	 */
-	public Point[] getCorners() {
-		return corners;
 	}
 
 	/**

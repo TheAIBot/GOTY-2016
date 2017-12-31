@@ -62,7 +62,7 @@ public class GraphicsPanel extends JPanel {
 				if (d == null) {
 					continue;
 				}
-				if (AnyCornerInsideDisplay(d.getCorners(), d.getCurrentPosition(), Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {	
+				if (AnyCornerInsideDisplay(d.getCurrentPosition(), Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {	
 					//Move and scale the displayable to the corresponding position on the screen
 					final Point2D.Double imagePosition = d.getCurrentPosition();
 					final int destStartX = (int)Math.ceil((imagePosition.x + renderInfo.xOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
@@ -100,7 +100,7 @@ public class GraphicsPanel extends JPanel {
 		if (colored != null) {
 			for (Colorfull colorfull : colored) {
 				if (colorfull != null && 
-					AnyCornerInsideDisplay(colorfull.getCorners(),colorfull.getCurrentPosition(), Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {	
+					AnyCornerInsideDisplay(colorfull.getCurrentPosition(), Tile.DEFAULT_TILE_SIZE, Tile.DEFAULT_TILE_SIZE)) {	
 					
 					final int x = (int)Math.ceil((colorfull.getCurrentPosition().x + renderInfo.xOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);
 					final int y = (int)Math.ceil((colorfull.getCurrentPosition().y + renderInfo.yOffset) * Tile.DEFAULT_TILE_SIZE * renderInfo.imageScale);		
@@ -112,16 +112,11 @@ public class GraphicsPanel extends JPanel {
 		}		
 	}
 		
-	public boolean AnyCornerInsideDisplay(Point[] corners, Point2D.Double startingPosition, double scallingX, double scallingY){
-		if (corners != null) {
-			for (Point corner : corners) { 
-				//Check after scaling and offset positioning, if the final position is contained in the window.
-				if (isInsideDisplay(corner.x, corner.y, startingPosition, scallingX, scallingY)) {
-					return true;
-				}
-			}
-		}
-		return false;
+	public boolean AnyCornerInsideDisplay(Point2D.Double startingPosition, double scallingX, double scallingY){
+		return isInsideDisplay(0, 0, startingPosition, scallingX, scallingY) ||
+			   isInsideDisplay(0, 1, startingPosition, scallingX, scallingY) ||
+			   isInsideDisplay(1, 0, startingPosition, scallingX, scallingY) ||
+			   isInsideDisplay(1, 1, startingPosition, scallingX, scallingY);
 	}
 	
 	public boolean isInsideDisplay(double cornerX, double cornerY, Point2D.Double startingPosition, double scallingX, double scallingY){
