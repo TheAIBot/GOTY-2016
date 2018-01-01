@@ -1,25 +1,25 @@
 package Game.Model.Board;
 
 public enum Directions {
-	LEFT {
+	LEFT(-1, 0) {
 		@Override
 		public Directions getOppositeDirection() {
 			return Directions.RIGHT;
 		}
 	},
-	RIGHT {
+	RIGHT(1, 0) {
 		@Override
 		public Directions getOppositeDirection() {
 			return Directions.LEFT;
 		}
 	},
-	UP {
+	UP(0, -1) {
 		@Override
 		public Directions getOppositeDirection() {
 			return Directions.DOWN;
 		}
 	},
-	DOWN {
+	DOWN(0, 1) {
 		@Override
 		public Directions getOppositeDirection() {
 			return Directions.UP;
@@ -27,4 +27,12 @@ public enum Directions {
 	};
 	
 	public abstract Directions getOppositeDirection();
+	public final int translateX;
+	public final int translateY;
+
+	private Directions(int x, int y)
+	{
+		translateX = x;
+		translateY = y;
+	}
 }

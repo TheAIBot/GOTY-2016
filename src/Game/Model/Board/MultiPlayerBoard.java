@@ -74,10 +74,10 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 	{		
 		//The max difficulty of a board the same size as this board.
 		final double maxDifficulty = DifficultyCalculator.getMaxDifficulty(settings.getGameSize());
-		final int numberOfDirections = 4;
 		double difficultyInPercent; //The difficulty of the board in percents.
 		Random randomGenerator = new Random();
 		boolean firstRender = true;
+		final Directions[] directions = new Directions[] {Directions.LEFT, Directions.RIGHT, Directions.UP, Directions.DOWN};
 		do {
 			Directions direction; //The direction that the void tile should move.
 			
@@ -88,23 +88,7 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 			//It is at the same time not checked every a 1000 times the game board size, 
 			//as it makes it almost impossible to attain a board of a lower difficulty.	
 			for (int i = 0; i < settings.getGameSize() * 100; i++) {
-				switch (randomGenerator.nextInt(numberOfDirections)) {
-				case 0:
-					direction = Directions.LEFT;
-					break;
-				case 1:
-					direction = Directions.RIGHT;
-					break;
-				case 2:
-					direction = Directions.UP;
-					break;
-				case 3:
-					direction = Directions.DOWN;
-					break;
-				default:
-					Log.writeln("Random generator in makeRandom game returned a number that was higher than the number of directions");
-					direction = Directions.LEFT;
-				}
+				direction = directions[randomGenerator.nextInt(directions.length)];
 				//It moves the nullTile on every board in the same direction, so the same board layout is attained on every board, 
 				//when the randomization is finished.
 				for (int j = 0; j < boards.length; j++) {

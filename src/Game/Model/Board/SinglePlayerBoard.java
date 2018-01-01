@@ -72,22 +72,7 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 	 * @return returns the new position
 	 */
 	public Point2D.Double moveWithDirection(Tile toMove, Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			toMove.translatePosition(1, 0);
-			break;
-		case LEFT:
-			toMove.translatePosition(-1, 0);
-			break;
-		case UP:
-			toMove.translatePosition(0, -1);
-			break;
-		case DOWN:
-			toMove.translatePosition(0, 1);
-			break;
-		default:
-			throw new IllegalArgumentException();
-		}
+		toMove.translatePosition(direction.translateX, direction.translateY);
 		return toMove.getGoingTowardsPosition();
 	}
 
@@ -97,24 +82,8 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 	 * @param direction the direction to move the point in
 	 * @return the new translated position
 	 */
-	public Point2D.Double moveWithDirection(Point2D.Double toMove, Directions direction) {
-		switch (direction) {
-		case RIGHT:
-			toMove.setLocation(toMove.x + 1, toMove.y);
-			break;
-		case LEFT:
-			toMove.setLocation(toMove.x - 1, toMove.y);
-			break;
-		case UP:
-			toMove.setLocation(toMove.x, toMove.y - 1);
-			break;
-		case DOWN:
-			toMove.setLocation(toMove.x, toMove.y + 1);
-			break;
-		default:
-			throw new IllegalArgumentException();
-		}
-		return toMove;
+	public void moveWithDirection(Point2D.Double toMove, Directions direction) {
+		toMove.setLocation(toMove.x + direction.translateX, toMove.y + direction.translateY);
 	}
 
 	/**converts a point into a number by using the formula x + y * boardSize
