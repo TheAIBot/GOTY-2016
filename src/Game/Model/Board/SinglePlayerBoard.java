@@ -61,7 +61,7 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 	/**
 	 * returns the current game state
 	 */
-	public GameState getGameState(int playerIndex) {
+	public GameState getGameState() {
 		return currentGameState;
 	}
 
@@ -185,7 +185,7 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 
 	/** Gets all the tiles of the board.
 	 */
-	public Tile[] getTiles(int playerIndex) {
+	public Tile[] getTiles() {
 		return tilePlacements;
 	}
 
@@ -396,7 +396,7 @@ public class SinglePlayerBoard implements java.io.Serializable, ToAnimateListene
 							};
 	}
 
-	public RenderInfo getRenderInfo(int playerIndex) {
+	public RenderInfo getRenderInfo() {
 		return renderInfo;
 	}
 

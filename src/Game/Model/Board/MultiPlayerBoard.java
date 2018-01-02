@@ -124,7 +124,7 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 	 * get tiles from the specified board
 	 */
 	public Tile[] getTiles(int playerIndex) {
-		return boards[playerIndex].getTiles(playerIndex);
+		return boards[playerIndex].getTiles();
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 	}
 
 	public GameState getGameState(int playerIndex) {
-		return boards[playerIndex].getGameState(playerIndex);
+		return boards[playerIndex].getGameState();
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 	}
 
 	public RenderInfo getRenderInfo(int playerIndex) {
-		return boards[playerIndex].getRenderInfo(playerIndex);
+		return boards[playerIndex].getRenderInfo();
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 				for (int j = 0; j < gameStateChangedListeners.size(); j++) {
 					for (int playerIndex2 = 0; playerIndex2 < boards.length; playerIndex2++) {
 						gameStateChangedListeners.get(j).gameStateChanged(
-								boards[playerIndex2].getGameState(playerIndex2), playerIndex2);
+								boards[playerIndex2].getGameState(), playerIndex2);
 					}
 				}
 			}
@@ -227,7 +227,7 @@ public class MultiPlayerBoard implements GameStateChangedListener,
 	private boolean didAnyoneAlreadyWin(int playerIndexThatWon) {
 		boolean anyoneAlreadyWon = false;
 		for (int i = 0; i < boards.length; i++) {
-			if (i != playerIndexThatWon && boards[i].getGameState(i) == GameState.WON) {
+			if (i != playerIndexThatWon && boards[i].getGameState() == GameState.WON) {
 				anyoneAlreadyWon = true;
 				break;
 			}
